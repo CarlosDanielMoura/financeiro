@@ -48,6 +48,7 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp8 = $res[$i]['categoria'];
     $cp9 = $res[$i]['foto'];
     $cp10 = $res[$i]['ativo'];
+    $cp11 = $res[$i]['lucro'];
 
     $valor_compra = number_format($cp5, 2, ',', '.');
     $valor_venda = number_format($cp6, 2, ',', '.');
@@ -100,7 +101,7 @@ for ($i = 0; $i < @count($res); $i++) {
             <a href="#" onclick="excluir('{$id}' , '{$cp2}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
             <a href="#" onclick="mudarStatus('{$id}', '{$ativar}')" title="{$ativo}"><i class="bi {$icone} text-secondary"></i></a>
             <a href="#" class="mx-1" onclick="mostrarDados('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$nome_forn}', '{$nome_cat}', '{$cp9}', '{$cp10}')" title="Ver Dados do Cliente"><i class="bi bi-info-square"></i></a>
-            <a href="#" class="" onclick="comprarProduto('{$id}', '{$cp2}')" title="Comprar Produto"><i class="bi bi-cash text-success"></i></a>
+            <a href="#" class="" onclick="comprarProduto('{$id}', '{$cp2}', '{$cp11}')" title="Comprar Produto"><i class="bi bi-cash text-success"></i></a>
             </td>
             </tr>
 HTML;
@@ -179,9 +180,10 @@ HTML;
 
     }
 
-    function comprarProduto(id, nome) {
+    function comprarProduto(id, lucro) {
         $('#id-comprar').val(id);
         $('#nome-comprar').text(nome);
+        $('#<?= $campo11 ?>').val(lucro);
 
         var myModal = new bootstrap.Modal(document.getElementById('modalComp'), {});
         myModal.show();
