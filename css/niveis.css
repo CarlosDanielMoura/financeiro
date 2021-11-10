@@ -1,0 +1,11 @@
+.tableDados{
+    margin-right: 40px; 
+    border:solid 1px black; 
+    padding: 20px; 
+    border-radius:10px;
+}
+
+.tableDados a{
+    text-decoration: none;
+}
+

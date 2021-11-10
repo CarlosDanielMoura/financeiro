@@ -1,0 +1,44 @@
+/* CSS */
+.buttonNivel {
+    align-items: center;
+    background-image: linear-gradient(144deg, #53CED6, #5B42F3 50%, #00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 20px;
+    justify-content: center;
+    line-height: 1em;
+    padding: 19px 24px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    width: 20px;
+    height: 45px;
+}
+
+.buttonNivel:active,
+.buttonNivel:hover {
+    outline: 0;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px)
+}
+
+@media (min-width: 400px) {
+    .buttonNivel {
+        font-size: 15px;
+        width:155px;
+    }
+}
+
+
+
+
+
