@@ -7,7 +7,7 @@ $cp5 = @$_POST[$campo5];
 $cp7 = @$_POST[$campo7];
 
 
-
+$total_estoque = 0;
 //BUSCAR PARA TOTALIZAR PRODUTOS
 $query_con = $pdo->query("SELECT * FROM $pagina   WHERE id = '$id'");
 $res_con = $query_con->fetchAll(PDO::FETCH_ASSOC);

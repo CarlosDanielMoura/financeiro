@@ -11,3 +11,4 @@ $campo7 = 'Fornecedores';
 $campo8 = 'Categoria';
 $campo9 = 'Foto';
 $campo10 = 'Ativo';
+$campo11 = 'Lucro';

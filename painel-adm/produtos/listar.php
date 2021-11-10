@@ -89,11 +89,7 @@ for ($i = 0; $i < @count($res); $i++) {
             <tr class="{$inativa}">
             <td><i class="bi bi-square-fill $classe"></i> {$cp1}</td>	
 	        <td>{$cp2}</td>	
-            <ul>
-                <li>
-                <td>{$cp3}</td>	
-                </li>
-            </ul>	
+            <td>{$cp3}</td>	
 	        <td>{$cp4}</td>	
 	        <td>R$ {$cp6}</td>	
 	        <td>{$nome_forn}</td>	
