@@ -17,7 +17,7 @@ echo <<<HTML
 <table id="example" class="table table-striped table-light table-hover my-4">
 <thead>
 <tr>
-<th>{$campo1}</th>
+<th>{$campo2}</th>
 <th>{$campo2}</th>
 <th>Descrição</th>
 <th>{$campo4}</th>	
@@ -180,19 +180,21 @@ HTML;
 
     }
 
-<<<<<<< Updated upstream
+
+
     function comprarProduto(id, lucro) {
-=======
-    function comprarProduto(id, nome, lucro) {
->>>>>>> Stashed changes
-        $('#id-comprar').val(id);
-        $('#nome-comprar').text(nome);
-        $('#<?= $campo11 ?>').val(lucro);
 
-        var myModal = new bootstrap.Modal(document.getElementById('modalComp'), {});
-        myModal.show();
+        function comprarProduto(id, nome, lucro) {
 
-        $('#mensagem-comprar').text('');
-        limparCampos();
+            $('#id-comprar').val(id);
+            $('#nome-comprar').text(nome);
+            $('#<?= $campo11 ?>').val(lucro);
+
+            var myModal = new bootstrap.Modal(document.getElementById('modalComp'), {});
+            myModal.show();
+
+            $('#mensagem-comprar').text('');
+            limparCampos();
+        }
     }
 </script>
