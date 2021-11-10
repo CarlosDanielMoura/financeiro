@@ -180,7 +180,11 @@ HTML;
 
     }
 
+<<<<<<< Updated upstream
     function comprarProduto(id, lucro) {
+=======
+    function comprarProduto(id, nome, lucro) {
+>>>>>>> Stashed changes
         $('#id-comprar').val(id);
         $('#nome-comprar').text(nome);
         $('#<?= $campo11 ?>').val(lucro);
