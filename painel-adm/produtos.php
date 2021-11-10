@@ -363,7 +363,6 @@ require_once($pagina . "/campos.php");
 <script type="text/javascript">
 	// Ajax de excluir
 	$("#form-comprar").submit(function(event) {
-		console.log('Passou aqui');
 		event.preventDefault();
 		var formData = new FormData(this);
 		$.ajax({
