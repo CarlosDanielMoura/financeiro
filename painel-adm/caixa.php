@@ -32,9 +32,13 @@ require_once($pagina . "/campos.php");
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Valor Abertura</label>
+                        <div class="col-md-12 col-sm-12 d-flex " style="justify-content: center;">
+                            <div>
+                                <strong> <label for="exampleFormControlInput1" class="form-label">Valor Abertura:</label></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="mb-2">
                                 <input type="number" class="form-control" value="0" name="<?php echo $campo2 ?>" id="<?php echo $campo2 ?>" placeholder="Valor da Abertura">
                             </div>
                         </div>
