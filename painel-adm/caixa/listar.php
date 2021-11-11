@@ -15,7 +15,6 @@ echo <<<HTML
 <th>Valor Ab</th>
 <th>Usuário Ab</th>
 <th>Data de Fech</th>
-<th>Valor de Fech</th>
 <th>{$campo7}</th>
 <th>Usuário de fech</th>
 <th>Ações</th>
@@ -35,7 +34,6 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp2 = $res[$i]['valor_ab'];
     $cp3 = $res[$i]['usuario_ab'];
     $cp4 = $res[$i]['data_fec'];
-    $cp5 = $res[$i]['valor_fec'];
     $cp6 = $res[$i]['usuario_fec'];
     $cp7 = $res[$i]['saldo'];
     $cp8 = $res[$i]['status'];
@@ -48,9 +46,14 @@ for ($i = 0; $i < @count($res); $i++) {
         $classe = 'text-danger';
     }
 
-    if ($cp7 > 0) {
+    //TOTALIZAR SALDO
+    $total_saldo = 0;
+    $total_saldo = $total_saldo - $cp2;
+
+
+    if ($total_saldo > 0) {
         $classe_saldo = 'text-success';
-    } else if ($cp7 < 0) {
+    } else if ($total_saldo < 0) {
         $classe_saldo = 'text-danger';
     } else {
         $classe_saldo = 'text-primary';
@@ -82,8 +85,7 @@ for ($i = 0; $i < @count($res); $i++) {
     // Convertendo VALOR FORMATO
 
     $valor_ab = number_format($cp2, 2, ',', '.');
-    $valor_fec = number_format($cp5, 2, ',', '.');
-    $saldo = number_format($cp7, 2, ',', '.');
+    $total_saldo = number_format($total_saldo, 2, ',', '.');
 
     echo <<<HTML
             <tr>
@@ -92,12 +94,11 @@ for ($i = 0; $i < @count($res); $i++) {
             <td>R$ {$valor_ab}</td>
             <td>{$nome_usu_ab}</td>
             <td>{$data_fec}</td>
-            <td>R$ {$valor_fec}</td>
-            <td class="{$classe_saldo}">R$ {$saldo}</td>
+            <td class="{$classe_saldo}">R$ {$total_saldo}</td>
             <td>{$nome_usu_fec}</td>
             <td>
             <a href="#" onclick="editar('{$id}' , '{$cp2}')" title="Editar Registro"> <i class="bi bi-pencil-square text-primary"></i></a>
-            <a href="#" onclick="excluir('{$id}' , '{$cp2}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
+            <a href="#" onclick="excluir('{$id}' , '{$data_ab}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
             <a href="#" onclick="fechar('{$id}' , '{$data_ab}')" title="Fechar Caixa">	<i class="bi bi-x-octagon-fill text-success"></i> </a>
             </td>
             </tr>

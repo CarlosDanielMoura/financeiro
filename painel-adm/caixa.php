@@ -25,7 +25,7 @@ require_once($pagina . "/campos.php");
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Inserir Registro</span></h5>
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Nova Abertura</span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="form" method="post">
@@ -35,7 +35,7 @@ require_once($pagina . "/campos.php");
                         <div class="col-md-6 col-sm-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Valor Abertura</label>
-                                <input type="text" class="form-control" name="<?php echo $campo2 ?>" id="<?php echo $campo2 ?>" placeholder="Valor da Abertura" required>
+                                <input type="number" class="form-control" value="0" name="<?php echo $campo2 ?>" id="<?php echo $campo2 ?>" placeholder="Valor da Abertura">
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@ require_once($pagina . "/campos.php");
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-caixa">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-fechar">Cancelar</button>
                     <button type="submit" class="btn btn-success">Fechar Caixa</button>
                 </div>
             </form>
@@ -131,19 +131,31 @@ require_once($pagina . "/campos.php");
 
 
 <script>
-    $(document).ready(function() {
-        //Funcão do CPF/CNPJ
-        $('#<?= $campo6 ?>').mask('000.000.000-00');
-        $('#<?= $campo6 ?>').attr('placeholder', 'CPF');
+    // Ajax de excluir
+    $("#form-fechar").submit(function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        var pag = "<?= $pagina ?>";
+        $.ajax({
+            url: pag + "/fechar-caixa.php",
+            type: "POST",
+            data: formData,
 
-        $('#<?= $campo5 ?>').change(function() {
-            if ($(this).val() == 'Física') {
-                $('#<?= $campo6 ?>').mask('000.000.000-00');
-                $('#<?= $campo6 ?>').attr('placeholder', 'CPF');
-            } else {
-                $('#<?= $campo6 ?>').mask('00.000.000/0000-00');
-                $('#<?= $campo6 ?>').attr('placeholder', 'CNPJ');
-            }
+            success: function(mensagem) {
+                $("#mensagem-fechar").text("");
+                $("#mensagem-fechar").removeClass();
+                if (mensagem.trim() == "Fechado com Sucesso!") {
+                    $("#btn-fechar-fechar").click();
+                    listar();
+                } else {
+                    $("#mensagem-fechar").addClass("text-danger");
+                    $("#mensagem-fechar").text(mensagem);
+                }
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
         });
     });
 </script>
