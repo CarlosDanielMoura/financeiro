@@ -26,6 +26,7 @@ $menu10 = 'formas_pgtos';
 $menu11 = 'produtos';
 $menu12 = 'cat_produtos';
 $menu13 = 'fornecedores';
+$menu14 = 'caixa';
 
 
 if (@$_GET['pag'] == "") {
@@ -119,6 +120,18 @@ if (@$_GET['pag'] == "") {
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu13 ?>">Fornecedores</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu12 ?>">Categorias Produtos</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu11 ?>&estoque=sim">Estoque Baixo</a></li>
+
+                        </ul>
+                    </li>
+                    <!-- ABERTURA/ FECHAMENTO DE CAIXA-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Movimentações
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa</a></li>
+
+
 
                         </ul>
                     </li>
