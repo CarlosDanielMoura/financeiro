@@ -27,6 +27,7 @@ $menu11 = 'produtos';
 $menu12 = 'cat_produtos';
 $menu13 = 'fornecedores';
 $menu14 = 'caixa';
+$menu15 = 'contas_pagar';
 
 
 if (@$_GET['pag'] == "") {
@@ -130,9 +131,7 @@ if (@$_GET['pag'] == "") {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa</a></li>
-
-
-
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu15 ?>">Contas à Pagar</a></li>
                         </ul>
                     </li>
                 </ul>
