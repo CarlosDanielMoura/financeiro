@@ -123,12 +123,11 @@ HTML;
             "ordering": false
         });
 
-        // $('#total_itens').text('R$ <?= $total_valorF ?>');
+
     });
 
 
     function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, nome) {
-
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
         //$('#<?= $campo2 ?>').val(cp2);
@@ -143,16 +142,19 @@ HTML;
         $('#nome-cliente').val(nome);
         $('#id-cliente').val(cp2);
 
+
+        var plano = cp5.split("-");
+
+        //$('#<?= $campo5 ?>').val(plano[0].trim());
+        $('#cat_despesas').val(plano[1].trim());
+        listarDespesas(plano[1].trim(), plano[0].trim());
+
+
         /*   var usuario = "<?= $nivel_usu ?>";
            if (usuario != 'Administrador') {
                document.getElementById("<?= $campo9 ?>").readOnly = true;
            }
-
-           var plano = cp5.split("-");
-
-           $('#cat_despesas').val(plano[1].trim());
-           listarDespesas(plano[1].trim(), plano[0].trim())
-           //$('#<?= $campo5 ?>').val(plano[0].trim());*/
+        */
 
 
         $('#tituloModal').text('Editar Registro');
@@ -171,10 +173,11 @@ HTML;
         $('#id-cliente').val('');
         $('#nome-cliente').val('');
         $('#mensagem').text('');
-
-        /* $('#usuario_adm').val('');
-         $('#senha_adm').val('');*/
         document.getElementById("<?= $campo9 ?>").readOnly = false;
+        //LIMPANDO OS CAMPOS DE EXCLUSÃO
+        $('#usuario_adm').val('');
+        $('#senha_adm').val('');
+
     }
 
 

@@ -251,9 +251,11 @@ require_once($pagina . "/campos.php");
          <form id="form-excluir" method="post">
             <div class="modal-body">
 
-               Deseja Realmente excluir este Registro: <span id="nome-excluido"></span>?
+               Deseja Realmente excluir este Registro: <strong><span id="nome-excluido"></span></strong>?
+               <hr>
+               <?php require_once("verificar_adm.php"); ?>
 
-               <hr><small>
+               <small>
                   <div id="mensagem-excluir" align="center"></div>
                </small>
 
@@ -386,13 +388,14 @@ require_once($pagina . "/campos.php");
 
 
 
-   function listarDespesas(cat) {
+   function listarDespesas(cat, despesa) {
       var pag = "<?= $pagina ?>";
       $.ajax({
          url: pag + "/listar-despesas.php",
          method: 'POST',
          data: {
-            cat
+            cat,
+            despesa
          },
          dataType: "text",
 

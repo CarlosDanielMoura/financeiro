@@ -84,6 +84,7 @@ $("#form-excluir").submit(function (event) {
       if (mensagem.trim() == "Excluído com Sucesso!") {
         $("#btn-fechar-excluir").click();
         listar();
+        limparCampos();
       } else {
         $("#mensagem-excluir").addClass("text-danger");
         $("#mensagem-excluir").text(mensagem);

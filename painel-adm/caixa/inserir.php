@@ -7,6 +7,8 @@ $cp2 = $_POST[$campo2];
 $cp2 = str_replace(',', '.', $cp2);
 $cp3 = $_SESSION['id_usuario'];
 
+$nivel_usu = $_SESSION['nivel_usuario'];
+
 if ($cp2 == "") {
     $cp2 = 0;
 }
@@ -40,7 +42,7 @@ if ($id == "") {
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
     $id_usu = $res2[0]['usuario_ab'];
 
-    if ($id_usu == $cp3) {
+    if ($id_usu == $cp3 || $nivel_usu == 'Administrador') {
         $query = $pdo->prepare("UPDATE $pagina set valor_ab = :campo2, saldo = :campo7 WHERE id = '$id'");
         $query->bindValue(":campo2", "$cp2");
         $query->bindValue(":campo7", "$saldo");

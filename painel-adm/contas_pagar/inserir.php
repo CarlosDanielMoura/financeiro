@@ -41,7 +41,6 @@ if ($id == "") {
     $query = $pdo->prepare("INSERT INTO $pagina set descricao = :campo1, cliente = :campo2, saida = :campo3, documento = :campo4, plano_conta = :campo5, data_emissao = :campo6, vencimento = :campo7, frequencia = :campo8, valor = :campo9, usuario_lanc = :campo10, status = 'Pendente'");
 } else {
 
-
     $query = $pdo->prepare("UPDATE $pagina set descricao = :campo1, cliente = :campo2, saida = :campo3, documento = :campo4, plano_conta = :campo5, data_emissao = :campo6, vencimento = :campo7, frequencia = :campo8, valor = :campo9, usuario_lanc = :campo10 WHERE id = '$id'");
 }
 
