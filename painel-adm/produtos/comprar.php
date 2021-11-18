@@ -1,6 +1,10 @@
 <?php
 require_once('../../conexao.php');
 require_once('campos.php');
+@session_start();
+$id_usuario = $_SESSION['id_usuario'];
+
+
 $id = @$_POST['id-comprar'];
 $quantidade = @$_POST['quantidade'];
 $cp5 = @$_POST[$campo5];
@@ -37,4 +41,19 @@ $query->bindValue(":fornecedores", "$cp7");
 $query->bindValue(":valor_venda", "$novo_vlr_venda");
 $query->bindValue(":lucro", "$cp11");
 $query->execute();
+
+//PEGANDO NOME DO FORNECEDOR
+$query_con = $pdo->query("SELECT * FROM fornecedores WHERE id = '$cp7'");
+$res_con = $query_con->fetchAll(PDO::FETCH_ASSOC);
+$nome_forn = $res_con[0]['nome'];
+
+//LANÇAR NAS CONTA A PAGAR
+
+$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn', plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario', status = 'Pendente'");
+
+
+$query->bindValue(":valor_compra", "$cp5");
+$query->execute();
+
+
 echo 'Comprado com Sucesso!';

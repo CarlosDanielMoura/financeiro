@@ -242,31 +242,80 @@ require_once($pagina . "/campos.php");
             <div class="modal-body">
                 <small>
 
+                    <!--LINHA 1-->
+                    <div class="row">
+                        <!--CAMPO NOME-->
+                        <div class="col-6">
+                            <span><b><?php echo $campo1 ?>:</b> <span id="campo1"></span></span>
+                        </div>
+                        <!--CAMPO ATIVO-->
+                        <div class="col-6">
+                            <span><b><?php echo $campo6 ?>:</b> <span id="campo6"></span></span>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
+                    <!--LINHA 2-->
+                    <div class="row">
+                        <div class="col-6">
+                            <!--CAMPO PESSOA-->
+                            <span><b><?php echo $campo2 ?>:</b> <span id="campo2"></span></span>
+                        </div>
+                        <div class="col-6">
+                            <!--CAMPO CPF/CNPJ-->
+                            <span><b>CPF / CNPJ:</b> <span id="campo3"></span></span>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
 
-                    <span><b><?php echo $campo2 ?>:</b> <span id="campo2"></span></span>
-                    <span class="mx-3"><b>CPF / CNPJ:</b> <span id="campo3"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                    <!--LINHA 3-->
+                    <div class="row">
+                        <div class="col-6">
+                            <!--CAMPO TELEFONE-->
+                            <span><b><?php echo $campo4 ?>:</b> <span id="campo4"></span></span>
+                        </div>
 
-                    <span><b><?php echo $campo4 ?>:</b> <span id="campo4"></span></span>
-                    <span class="mx-3"><b><?php echo $campo11 ?>:</b> <span id="campo11"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                        <div class="col-6">
+                            <!--CAMPO EMAIL-->
+                            <span><b><?php echo $campo11 ?>:</b> <span id="campo11"></span></span>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
 
-                    <span><b><?php echo $campo5 ?>:</b> <span id="campo5"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                    <!--LINHA 4-->
+                    <div class="row">
+                        <div class="col-12">
+                            <!--CAMPO ENDEREÇO-->
+                            <span><b><?php echo $campo5 ?>:</b> <span id="campo5"></span></span>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
 
-                    <span><b><?php echo $campo6 ?>:</b> <span id="campo6"></span></span>
-                    <span class="mx-4"><b><?php echo $campo7 ?>:</b> <span id="campo7"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                    <!--LINHA 5-->
+                    <div class="row">
+                        <div class="col-12">
+                            <!--CAMPO OBSERVAÇÃO-->
+                            <span><b>Observação: </b><span id="campo7"></span></span>
+                        </div>
+                        <hr class="mt-2">
+                    </div>
 
-                    <span><b><?php echo $campo8 ?>:</b> <span id="campo8"></span></span>
-                    <span class="mx-4"><b><?php echo $campo9 ?>:</b> <span id="campo9"></span>
-                    </span>
-                    <span class="mx-4"><b><?php echo $campo10 ?>:</b> <span id="campo10"></span></span>
-                    <hr style="margin:6px;">
+                    <!--LINHA 6-->
+                    <div class="row">
+                        <div class="col-4">
+                            <!--CAMPO BANCO-->
+                            <span><b><?php echo $campo8 ?>:</b> <span id="campo8"></span></span>
+                        </div>
+
+                        <div class="col-4">
+                            <!--CAMPO AGENCIA-->
+                            <span><b><?php echo $campo9 ?>:</b> <span id="campo9"></span></span>
+                        </div>
+
+                        <div class="col-4">
+                            <!--CAMPO CONTA-->
+                            <span><b><?php echo $campo10 ?>:</b> <span id="campo10"></span></span>
+                        </div>
+                    </div>
                 </small>
 
             </div>

@@ -232,29 +232,49 @@ require_once($pagina . "/campos.php");
 			</div>
 			<div class="modal-body" style="justify-content: center;">
 				<small>
-					<div class="row " style="justify-content: space-around;">
-						<div class="col-md-12 col-sm-12">
+					<!--LINHA 1-->
+					<div class="row ">
+
+						<!--CÓDIGO-->
+						<div class="col-md-6 col-sm-12">
 							<span><b><?php echo $campo1 ?>:</b> <span id="campo1"></span></span>
+						</div>
+
+						<!--NOME-->
+						<div class="col-md-6 col-sm-12">
 							<span class="mx-4"><b><?php echo $campo2 ?>:</b> <span id="campo2"></span></span>
+						</div>
+
+						<hr class="mt-2">
+					</div>
+
+					<div class="row">
+
+						<!--ESTOQUE-->
+						<div class="col-md-6 col-sm-12">
 							<span><b><?php echo $campo4 ?>:</b> <span id="campo4"></span>
+						</div>
+
+						<!--VALOR PRODUTO-->
+						<div class="col-md-6 col-sm-12">
+							<span class=""><b>Valor do Produto: R$</b> <span id="campo6"></span></span>
+						</div>
+						<hr class="mt-2">
+					</div>
+
+					<!--LINHA 2-->
+
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<!-- FORNECEDORES-->
+							<span><b><?php echo $campo7 ?>: </b><span id="campo7"></span></span>
 						</div>
 
 					</div>
 
 
 
-					<hr style="margin:6px;">
-
-
-					<span class=""><b>Valor do Produto: R$</b> <span id="campo6"></span></span>
-					<span class="mx-2">
-						<b><?php echo $campo7 ?>:
-						</b>
-						<span id="campo7">
-
-						</span>
-					</span>
-					<hr style="margin:6px;">
+					<hr class="mt-2">
 					<div align="center">
 						<strong>
 							<p>Imagem do produto:</p>

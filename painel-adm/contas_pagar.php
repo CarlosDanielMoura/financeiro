@@ -11,9 +11,23 @@ require_once($pagina . "/campos.php");
 
 
 
-<div class="col-md-12 my-4">
-   <a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Nova Conta</a>
+
+
+
+<div class="row  center-line">
+   <!--BOTÃO DE ADICIONAR-->
+   <div class="col-md-4 my-3">
+      <a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Nova Conta</a>
+   </div>
+
+
+   <div class="col-md-7 my-2" align="right">
+      <i class="bi bi-coin text-danger"></i>
+      <span class="text-dark ml-5">Total: <span id="total_itens" class="text-danger"></span></span>
+   </div>
+
 </div>
+
 
 <small>
    <div class="tableDados" id="listar">
@@ -273,92 +287,112 @@ require_once($pagina . "/campos.php");
 </div>
 
 
-<!--Modal Ver Dados Clientes-->
+<!--Modal Ver Dados COMPRA A PAGAR-->
 
 <div class="modal fade" id="modalDadosContaPagar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg">
+   <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Dados da Conta</span></h5>
+            <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Dados da Conta </span></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
             <small>
 
-               <!--lINHA 1-->
+               <!--LINHA 1-->
                <div class="row">
 
-                  <!--CAMPO DESCRIÇÃO -->
-                  <div class="col-4">
-                     <span><b>Descrição:</b> <span id="campo1"></span></span>
-                  </div>
-
                   <!--CAMPO CLIENTE -->
-                  <div class="col-4">
+                  <div class="col-6">
                      <span><b>Cliente:</b> <span id="campo2"></span></span>
                   </div>
 
                   <!--CAMPO VALOR -->
-                  <div class="col-4">
+                  <div class="col-6">
                      <span><b>Valor:</b> R$ <span id="campo9"></span></span>
                   </div>
-
+                  <hr class="mt-2">
                </div>
-               <hr>
+
+
                <!--lINHA 2-->
                <div class="row">
 
+                  <!--CAMPO DESCRIÇÃO -->
+                  <div class="col-12">
+                     <span><b>Descrição:</b> <span id="campo1"></span></span>
+                  </div>
+                  <hr class="mt-2">
+               </div>
+
+
+
+               <!--lINHA 3-->
+               <div class="row">
+
                   <!--CAMPO DATA EMISSÃO -->
-                  <div class="col-4">
+                  <div class="col-6">
                      <span><b>Emissão:</b> <span id="campo6"></span></span>
                   </div>
 
                   <!--CAMPO DATA VENCIMENTO -->
-                  <div class="col-5">
+                  <div class="col-6">
                      <span><b>Vencimento:</b> <span id="campo7"></span></span>
                   </div>
+                  <hr class="mt-2">
+               </div>
 
+               <!--LINHA 4-->
+               <div class="row">
                   <!--CAMPO STATUS -->
-                  <div class="col-3">
+                  <div class="col-6">
                      <span><b>Status:</b> <span id="campo13"></span></span>
                   </div>
 
-               </div>
-               <hr>
-               <!--lINHA 3-->
-               <div class="row">
-
                   <!--CAMPO SAÍDA-->
-                  <div class="col-3">
+                  <div class="col-6">
                      <span><b>Saída:</b> <span id="campo3"></span></span>
                   </div>
+                  <hr class="mt-2">
+               </div>
 
+
+               <!--lINHA 5-->
+               <div class="row">
                   <!--CAMPO FORMA DE PAGAMENTO / DOCUMENTO-->
-                  <div class="col-4">
+                  <div class="col-6">
                      <span><b>Forma PGTO:</b> <span id="campo4"></span></span>
                   </div>
+
+                  <!-- CAMPO FREQUÊNCIA-->
+                  <div class="col-6">
+                     <span><b>Frequência:</b> <span id="campo8"></span></span>
+                  </div>
+                  <hr class="mt-2">
+               </div>
+
+               <!--lINHA 6-->
+               <div class="row">
                   <!-- CAMPO  PLANO CONTA-->
-                  <div class="col-4">
+                  <div class="col-12">
                      <span><b>Plano Conta:</b> <span id="campo5"></span></span>
                   </div>
+                  <hr class="mt-2">
                </div>
-               <hr>
-               <!--lINHA 4-->
-               <div class="row">
 
+
+               <!--lINHA 7-->
+               <div class="row">
                   <!--CAMPO USUÁRIO LANÇAMENTO-->
-                  <div class="col-5">
+                  <div class="col-6">
                      <span><b>Usuário lanc:</b> <span id="campo10"></span></span>
                   </div>
 
                   <!--CAMPO USUÁRIO BAIXA-->
-                  <div class="col-4">
+                  <div class="col-6">
                      <span><b>Usuário Baixa:</b> <span id="campo11"></span></span>
                   </div>
-                  <!-- CAMPO FREQUÊNCIA-->
-                  <div class="col-3">
-                     <span><b>Frequência:</b> <span id="campo8"></span></span>
-                  </div>
+
                </div>
 
 

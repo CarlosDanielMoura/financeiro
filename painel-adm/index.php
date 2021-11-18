@@ -67,6 +67,7 @@ if (@$_GET['pag'] == "") {
     <link rel="stylesheet" type="text/css" href="../DataTables/datatables.min.css" />
     <link rel="stylesheet" href="../css/btn.css">
     <link rel="stylesheet" href="../css/niveis.css">
+    <link rel="stylesheet" href="../css/contas_pagar.css">
 
 
 

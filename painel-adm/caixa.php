@@ -74,7 +74,8 @@ require_once($pagina . "/campos.php");
             <form id="form-excluir" method="post">
                 <div class="modal-body">
 
-                    Deseja Realmente excluir este Registro: <span id="nome-excluido"></span>?
+                    Deseja Realmente excluir este Registro: <span id="nome-excluido"></span>?<br><br>
+                    <?php require_once("verificar_adm.php") ?>
 
                     <hr><small>
                         <div id="mensagem-excluir" align="center"></div>

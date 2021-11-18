@@ -13,7 +13,7 @@ echo <<<HTML
 <th>Plano de Conta</th>	
 <th>Emissão</th>	
 <th>Vencimento</th>	
-<th>Frequência</th>	
+<th>Documento</th>	
 <th>Valor</th>
 <th>Ações</th>
 </tr>
@@ -96,7 +96,7 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td>{$cp5}</td>	
 	<td>{$data_emissao}</td>	
 	<td>{$data_venc}</td>	
-	<td>{$cp8}</td>	
+	<td>{$cp4}</td>	
 	<td>R$ {$valor}</td>	
 								
 	<td>
@@ -105,7 +105,6 @@ for ($i = 0; $i < @count($res); $i++) {
 
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}')" title="Ver Dados da Conta">
 	<i class="bi bi-exclamation-square"></i></a>
-	
 	</td>
 	</tr>
 HTML;
@@ -123,6 +122,7 @@ HTML;
             "ordering": false
         });
 
+        $('#total_itens').text(' R$ <?= $total_valorF ?>');
 
     });
 
@@ -145,16 +145,17 @@ HTML;
 
         var plano = cp5.split("-");
 
-        //$('#<?= $campo5 ?>').val(plano[0].trim());
+        $('#<?= $campo5 ?>').val(plano[0].trim());
         $('#cat_despesas').val(plano[1].trim());
         listarDespesas(plano[1].trim(), plano[0].trim());
 
 
-        /*   var usuario = "<?= $nivel_usu ?>";
-           if (usuario != 'Administrador') {
-               document.getElementById("<?= $campo9 ?>").readOnly = true;
-           }
-        */
+        //VERIFICANDO NIVEL USUARIO PARA CAMPO FICAM TRUE OU FALSO
+        var usuario = "<?= $nivel_usu ?>";
+        if (usuario != 'Administrador') {
+            document.getElementById("<?= $campo9 ?>").readOnly = true;
+        }
+
 
 
         $('#tituloModal').text('Editar Registro');
