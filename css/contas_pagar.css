@@ -1,3 +1,37 @@
 .center-line {
   align-items: center;
 }
+
+.filter {
+  float: left;
+  display: flex;
+  align-items: center;
+}
+
+.filter input[type="date"] {
+  margin-left: 5px;
+}
+
+.filter a[type="button"] {
+  margin-right: 45px;
+}
+
+.filter select {
+  margin-top: 10px;
+}
+
+.checkIcon {
+  margin-left: 20px;
+  margin-top: 7px;
+}
+
+div .bi-search {
+  margin-right: 5px;
+}
+
+#data-inicial,
+#data-final {
+  height: 30px;
+  width: 141px;
+  margin-top: 10px;
+}

@@ -140,3 +140,54 @@ function carregarImg() {
     target.src = "";
   }
 }
+
+
+//AJAX DE PARCELAR COMPRAS / VENDAS
+
+function parcelar(id, descricao, valor){
+  $('#id-parcelar').val(id);
+  $('#descricao-parcelar').text(descricao);
+  $('#valor-parcelar').val(valor);
+  $('#qtd-parcelar').val('');
+
+  
+  var myModal = new bootstrap.Modal(document.getElementById('modalParcelar'), {       });
+  myModal.show();
+  $('#mensagem-parcelar').text('');
+}
+
+
+
+
+$("#form-parcelar").submit(function (event) {
+  event.preventDefault();
+  var formData = new FormData(this);
+  
+  $.ajax({
+      url: pag + "/parcelar.php",
+      type: 'POST',
+      data: formData,
+
+      success: function (mensagem) {
+          $('#mensagem-parcelar').text('');
+          $('#mensagem-parcelar').removeClass()
+          if (mensagem.trim() == "Parcelado com Sucesso!") {
+              $('#btn-fechar-parcelar').click();
+              listar();
+              limparCampos();
+          } else {
+
+              $('#mensagem-parcelar').addClass('text-danger')
+              $('#mensagem-parcelar').text(mensagem)
+          }
+
+
+      },
+
+      cache: false,
+      contentType: false,
+      processData: false,
+
+  });
+
+});

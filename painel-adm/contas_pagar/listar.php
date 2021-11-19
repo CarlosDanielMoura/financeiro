@@ -4,6 +4,25 @@ require_once("campos.php");
 @session_start();
 $nivel_usu = $_SESSION['nivel_usuario'];
 
+$dataInicial = @$_POST['dataInicial'];
+
+$dataFinal = @$_POST['dataFinal'];
+
+$status = '%' . @$_POST['status'] . '%';
+
+
+
+
+
+//CONDIÇÃO PARA FAZER A FILTRAGEM DE DATAS
+if ($dataInicial != "" || $dataFinal != "") {
+    $query = $pdo->query("SELECT * from $pagina where (vencimento >= '$dataInicial' 
+    and vencimento <= '$dataFinal') and status LIKE '$status' order by id desc ");
+} else {
+    $query = $pdo->query("SELECT * from $pagina order by id desc ");
+}
+
+
 echo <<<HTML
 <table id="example2" class="table table-striped table-light table-hover my-4">
 <thead>
@@ -22,7 +41,8 @@ echo <<<HTML
 HTML;
 
 $total_valor = 0;
-$query = $pdo->query("SELECT * from $pagina order by id desc ");
+$total_valorF = 0;
+
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 for ($i = 0; $i < @count($res); $i++) {
     foreach ($res[$i] as $key => $value) {
@@ -102,10 +122,10 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td>
 	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
-
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}')" title="Ver Dados da Conta">
-	<i class="bi bi-exclamation-square"></i></a>
-	</td>
+    <i class="bi bi-exclamation-square text-success"></i></a>
+    <a href="#" onclick="parcelar('{$id}' ,'{$cp1}' ,'{$cp9}')" title="Parcelar Conta">	<i class="bi bi-calendar-week text-dark"></i> </a>	
+    </td>
 	</tr>
 HTML;
 }
@@ -203,4 +223,26 @@ HTML;
         myModal.show();
 
     }
+
+
+
+    /* function mostrarResiduos(id) {
+
+         $.ajax({
+             url: pag + "/listar-residuos.php",
+             method: 'POST',
+             data: {
+                 id
+             },
+             dataType: "html",
+
+             success: function(result) {
+                 $("#listar-residuos").html(result);
+             }
+         });
+
+         var myModal = new bootstrap.Modal(document.getElementById('modalResiduos'), {});
+         myModal.show();
+         $('#mensagem').text('');
+     }*/
 </script>

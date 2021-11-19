@@ -1,12 +1,89 @@
 <?php
-
 require_once("../conexao.php");
 require_once("verificar.php");
-
-//Variveis do inputs
-
 $pagina = 'contas_pagar';
+
 require_once($pagina . "/campos.php");
+
+
+//ROTINA PARA VERIFICAR COBRANÇAS RECORRENTES
+$data_atual = date('Y-m-d');
+$dia = date('d');
+$mes = date('m');
+$ano = date('Y');
+
+$query = $pdo->query("SELECT * from $pagina order by id desc ");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+for ($i = 0; $i < @count($res); $i++) {
+   foreach ($res[$i] as $key => $value) {
+   }
+
+   $id = $res[$i]['id'];
+   $cp1 = $res[$i]['descricao'];
+   $cp2 = $res[$i]['cliente'];
+   $cp3 = $res[$i]['saida'];
+   $cp4 = $res[$i]['documento'];
+   $cp5 = $res[$i]['plano_conta'];
+   $cp6 = $res[$i]['data_emissao'];
+   $cp7 = $res[$i]['vencimento'];
+   $cp8 = $res[$i]['frequencia'];
+   $cp9 = $res[$i]['valor'];
+   $cp10 = $res[$i]['usuario_lanc'];
+   $cp11 = $res[$i]['usuario_baixa'];
+
+   $cp13 = $res[$i]['status'];
+   $cp14 = $res[$i]['data_recor'];
+
+   $recor_str = explode("-", $cp14);
+
+   $dia_recor = @$recor_str[2];
+
+
+   $frequencia = $res[$i]['frequencia'];
+   $query1 = $pdo->query("SELECT * from frequencias where nome = '$frequencia' ");
+   $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
+   $dias_frequencia = $res1[0]['dias'];
+
+   if ($dias_frequencia == 30 || $dias_frequencia == 31) {
+
+      $data_recor = date('Y/m/d', strtotime("+1 month", strtotime($data_atual)));
+      $nova_data_vencimento = date('Y/m/d', strtotime("+1 month", strtotime($cp7)));
+   } else if ($dias_frequencia == 90) {
+
+      $data_recor = date('Y/m/d', strtotime("+3 month", strtotime($data_atual)));
+      $nova_data_vencimento = date('Y/m/d', strtotime("+3 month", strtotime($cp7)));
+   } else if ($dias_frequencia == 180) {
+
+      $data_recor = date('Y/m/d', strtotime("+6 month", strtotime($data_atual)));
+      $nova_data_vencimento = date('Y/m/d', strtotime("+6 month", strtotime($cp7)));
+   } else if ($dias_frequencia == 360) {
+
+      $data_recor = date('Y/m/d', strtotime("+1 year", strtotime($data_atual)));
+      $nova_data_vencimento = date('Y/m/d', strtotime("+1 year", strtotime($cp7)));
+   } else {
+      $data_recor = date('Y/m/d', strtotime("+$dias_frequencia days", strtotime($data_atual)));
+      $nova_data_vencimento = date('Y/m/d', strtotime("+$dias_frequencia days", strtotime($cp7)));
+   }
+
+
+   if ($dias_frequencia > 0) {
+      if ($dia_recor == $dia) {
+
+
+         $pdo->query("INSERT INTO $pagina set descricao = '$cp1', cliente = '$cp2', saida = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), vencimento = '$nova_data_vencimento', frequencia = '$cp8', valor = '$cp9', usuario_lanc = '$cp10', status = 'Pendente', data_recor = '$data_recor'");
+         $id_ult_registro = $pdo->lastInsertId();
+
+         $pdo->query("UPDATE $pagina set data_recor = '' where id= '$id'");
+
+
+
+         if ($data_atual == $cp6) {
+            $pdo->query("DELETE FROM $pagina where id='$id_ult_registro'");
+            $pdo->query("UPDATE $pagina SET data_recor = '$data_recor' where id='$id'");
+         }
+      }
+   }
+}
 ?>
 
 
@@ -14,19 +91,58 @@ require_once($pagina . "/campos.php");
 
 
 
-<div class="row  center-line">
-   <!--BOTÃO DE ADICIONAR-->
-   <div class="col-md-4 my-3">
-      <a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Nova Conta</a>
+<div class="row  center-line  my-3">
+
+   <div class="col-md-9">
+
+
+      <!--BOTÃO DE ADICIONAR-->
+      <div class="filter">
+         <a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Nova Conta</a>
+      </div>
+      <small>
+
+
+         <!--FILTRO POR DATAS-->
+         <div class="filter">
+            <span class="checkIcon"><i class="bi bi-calendar-date" title="Data de Vencimento Inicial"></i> </span>
+            <input type="date" class="form-control form-control-sm" name="data-inicial" id="data-inicial" value="<?php echo date('Y-m-d') ?>" required>
+         </div>
+
+         <div class="filter">
+            <span class="checkIcon"><i class="bi bi-calendar-date" title="Data de Vencimento Final"></i></span>
+            <input type="date" class="form-control form-control-sm" name="data-final" id="data-final" value="<?php echo date('Y-m-d') ?>" required>
+         </div>
+
+         <div class="filter">
+            <span class="checkIcon"><small><i class="bi bi-search"></i></small></span>
+            <div class="">
+               <select class="form-select form-select-sm" aria-label="Default select example" name="status-busca" id="status-busca">
+                  <option value="">Todas</option>
+                  <option value="Pendente">Pendente</option>
+                  <option value="Paga">Pagas</option>
+                  <option value="Parcial">Parcialmente Pagas</option>
+               </select>
+            </div>
+         </div>
+      </small>
+
    </div>
 
-
-   <div class="col-md-7 my-2" align="right">
+   <!---CAMPO DE TOTAL CONTAS-->
+   <div class="col-md-2 my-2" align="right">
       <i class="bi bi-coin text-danger"></i>
       <span class="text-dark ml-5">Total: <span id="total_itens" class="text-danger"></span></span>
+
    </div>
 
+
+
 </div>
+
+
+
+
 
 
 <small>
@@ -52,7 +168,7 @@ require_once($pagina . "/campos.php");
                      <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Conta</a>
                   </li>
                   <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Cliente</a>
+                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Fornecedor</a>
                   </li>
 
                </ul>
@@ -402,6 +518,80 @@ require_once($pagina . "/campos.php");
 </div>
 
 
+<!-- MODAL DE PARCELAMENTO-->
+<div class="modal fade" id="modalParcelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Parcelar Conta</span> - <span id="descricao-parcelar"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <form id="form-parcelar" method="post">
+            <div class="modal-body">
+
+               <div class="row">
+                  <div class="col-md-3">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Valor</label>
+                        <input type="text" class="form-control" name="valor-parcelar" id="valor-parcelar" readonly>
+                     </div>
+                  </div>
+
+                  <div class="col-md-3">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Parcelas</label>
+                        <input type="number" class="form-control" name="qtd-parcelar" id="qtd-parcelar" required>
+                     </div>
+                  </div>
+
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Frequência das Parcelas</label>
+                        <select class="form-select" aria-label="Default select example" name="frequencia-parcelar" id="frequencia-parcelar">
+
+                           <?php
+                           $query = $pdo->query("SELECT * FROM frequencias order by id asc");
+                           $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                           for ($i = 0; $i < @count($res); $i++) {
+                              foreach ($res[$i] as $key => $value) {
+                              }
+                              $id_item = $res[$i]['id'];
+                              $nome_item = $res[$i]['nome'];
+
+                              if ($nome_item != 'Uma Vez' and $nome_item != 'Única') {
+
+                           ?>
+                                 <option <?php if ($nome_item == 'Mensal') { ?> selected <?php } ?> value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                           <?php }
+                           } ?>
+
+
+                        </select>
+                     </div>
+                  </div>
+               </div>
+
+
+               <small>
+                  <div id="mensagem-parcelar" align="center"></div>
+               </small>
+
+               <input type="hidden" class="form-control" name="id-parcelar" id="id-parcelar">
+
+
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-parcelar">Fechar</button>
+               <button type="submit" class="btn btn-primary">Parcelar</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+
 
 <script type="text/javascript">
    var pag = "<?= $pagina ?>"
@@ -410,6 +600,7 @@ require_once($pagina . "/campos.php");
 
 
 <script>
+   //FUNÇÃO AOS DOCUMENTOS A SEREM CARREGADOS
    $(document).ready(function() {
       var cat = $('#cat_despesas').val();
       listarDespesas(cat);
@@ -418,10 +609,34 @@ require_once($pagina . "/campos.php");
          var cat = $(this).val();
          listarDespesas(cat);
       });
+
+      $('#data-inicial').change(function() {
+         var dataInicial = $('#data-inicial').val();
+         var dataFinal = $('#data-final').val();
+         var status = $('#status-busca').val();
+         listarBusca(dataInicial, dataFinal, status);
+      });
+
+      $('#data-final').change(function() {
+         var dataInicial = $('#data-inicial').val();
+         var dataFinal = $('#data-final').val();
+         var status = $('#status-busca').val();
+         listarBusca(dataInicial, dataFinal, status);
+      });
+
+      $('#status-busca').change(function() {
+         var dataInicial = $('#data-inicial').val();
+         var dataFinal = $('#data-final').val();
+         var status = $('#status-busca').val();
+         listarBusca(dataInicial, dataFinal, status);
+      });
+
    });
 
 
 
+
+   //LISTANDO DESPESAS
    function listarDespesas(cat, despesa) {
       var pag = "<?= $pagina ?>";
       $.ajax({
@@ -440,6 +655,7 @@ require_once($pagina . "/campos.php");
       });
    }
 
+   //LISTAR CLIENTES
    function listarClientes() {
       var pag = "<?= $pagina ?>";
       $.ajax({
@@ -452,6 +668,26 @@ require_once($pagina . "/campos.php");
             $("#listar-clientes").html(result);
          }
 
+      });
+
+   }
+
+
+   //LISTA DADOS DA DATA INICIAL
+   function listarBusca(dataInicial, dataFinal, status) {
+      $.ajax({
+         url: pag + "/listar.php",
+         method: "POST",
+         data: {
+            dataInicial,
+            dataFinal,
+            status
+         },
+         dataType: "html",
+
+         success: function(result) {
+            $("#listar").html(result);
+         },
       });
    }
 </script>
