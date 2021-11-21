@@ -6,6 +6,7 @@ $id = $_POST['id-parcelar'];
 $qtd_parcelas = $_POST['qtd-parcelar'];
 $frequencia = $_POST['frequencia-parcelar'];
 
+//SELECIONANDO A PAGINA
 $query = $pdo->query("SELECT * from $pagina where id = '$id' ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -25,6 +26,7 @@ $cp11 = $res[0]['usuario_baixa'];
 $cp13 = $res[0]['status'];
 
 
+//CORRENDO A TABELA FREQUENCIAS
 $query1 = $pdo->query("SELECT * from frequencias where nome = '$frequencia' ");
 $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
 $dias_frequencia = $res1[0]['dias'];
@@ -33,7 +35,7 @@ $dias_frequencia = $res1[0]['dias'];
 for ($i = 1; $i <= $qtd_parcelas; $i++) {
 
     $nova_descricao = $cp1 . ' - Parcela ' . $i;
-    $novo_valor = $cp9 / $qtd_parcelas;
+    $novo_valor = ($cp9 / $qtd_parcelas);
     $dias_parcela = $i - 1;
     $dias_parcela_2 = ($i - 1) * $dias_frequencia;
 
@@ -45,6 +47,7 @@ for ($i = 1; $i <= $qtd_parcelas; $i++) {
 
             $novo_vencimento = date('Y/m/d', strtotime("+$dias_parcela month", strtotime($cp7)));
         } else if ($dias_frequencia == 90) {
+
             $dias_parcela = $dias_parcela * 3;
             $novo_vencimento = date('Y/m/d', strtotime("+$dias_parcela month", strtotime($cp7)));
         } else if ($dias_frequencia == 180) {

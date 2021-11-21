@@ -215,7 +215,7 @@ for ($i = 0; $i < @count($res); $i++) {
                               <label for="exampleFormControlInput1" class="form-label"><?php echo $campo4 ?></label>
                               <select class="form-select" aria-label="Default select example" name="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>">
                                  <option value="Dinheiro">Dinheiro</option>
-                                 <option value="Boleto">Boleto</option>
+                                 <option value="Boleto" selected>Boleto</option>
                                  <option value="Cheque">Cheque</option>
                                  <option value="Conta Corrente">Conta Corrente</option>
                                  <option value="Conta Poupança">Conta Poupança</option>
@@ -557,7 +557,7 @@ for ($i = 0; $i < @count($res); $i++) {
                               }
                               $id_item = $res[$i]['id'];
                               $nome_item = $res[$i]['nome'];
-
+                              //Elinando a opção de Uma Vez ou Única
                               if ($nome_item != 'Uma Vez' and $nome_item != 'Única') {
 
                            ?>

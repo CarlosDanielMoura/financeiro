@@ -2,7 +2,7 @@
 require_once("../../conexao.php");
 require_once("../clientes/campos.php");
 
-$pagina = 'clientes';
+$pagina = 'fornecedores';
 
 
 
@@ -34,9 +34,9 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp5 = $res[$i]['endereco'];
     $cp6 = $res[$i]['ativo'];
     $cp7 = $res[$i]['obs'];
-    $cp8 = $res[$i]['banco'];
-    $cp9 = $res[$i]['agencia'];
-    $cp10 = $res[$i]['conta'];
+    $cp8 = $res[$i]['data'];
+    $cp9 = $res[$i]['banco'];
+    $cp10 = $res[$i]['agencia'];
     $cp11 = $res[$i]['email'];
 
 
