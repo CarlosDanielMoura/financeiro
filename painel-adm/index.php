@@ -59,6 +59,7 @@ if (@$_GET['pag'] == "") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
     <!--Script-->
+    <script src="https://kit.fontawesome.com/d9fe1d4535.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="../DataTables/datatables.min.js"></script>
 
