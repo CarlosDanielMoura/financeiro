@@ -10,18 +10,38 @@ $dataFinal = @$_POST['dataFinal'];
 
 $status = '%' . @$_POST['status'] . '%';
 
+$alterou_data = @$_POST['alterou_data'];
+
+$vencidas = @$_POST['vencidas'];
+$hoje = @$_POST['hoje'];
+$amanha = @$_POST['amanha'];
 
 
+$data_hoje = date('Y-m-d');
+$data_amanha = date('Y/m/d', strtotime("+1 days", strtotime($data_hoje)));
 
+if ($alterou_data == 'Sim') {
+    if ($dataInicial != "" || $dataFinal != "") {
+        $query = $pdo->query("SELECT * from $pagina where (vencimento >= '$dataInicial' and vencimento <= '$dataFinal') and status LIKE '$status'  order by id desc ");
+    }
+} else if ($status != '%%' and $alterou_data == '') {
 
-//CONDIÇÃO PARA FAZER A FILTRAGEM DE DATAS
-if ($dataInicial != "" || $dataFinal != "") {
-    $query = $pdo->query("SELECT * from $pagina where (vencimento >= '$dataInicial' 
-    and vencimento <= '$dataFinal') and status LIKE '$status' order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where status LIKE '$status'  order by id desc ");
+} else if ($vencidas == 'Vencidas') {
+
+    $query = $pdo->query("SELECT * from $pagina where vencimento < curDate() and status = 'Pendente'  order by id desc ");
+} else if ($vencidas == 'Hoje') {
+
+    $query = $pdo->query("SELECT * from $pagina where vencimento = curDate()  order by id desc ");
+} else if ($vencidas == 'Amanha') {
+
+    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha'  order by id desc ");
 } else {
+
     $query = $pdo->query("SELECT * from $pagina where status = 'Pendente' order by id desc ");
 }
 
+//html começa aqui a listar
 
 echo <<<HTML
 <table id="example2" class="table table-striped table-light table-hover my-4">

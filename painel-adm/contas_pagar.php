@@ -118,6 +118,7 @@ for ($i = 0; $i < @count($res); $i++) {
             <span class="checkIcon"><small><i class="bi bi-search"></i></small></span>
             <div class="">
                <select class="form-select form-select-sm" aria-label="Default select example" name="status-busca" id="status-busca">
+                  <option value="">Pendentes / Pagas</option>
                   <option value="Pendente">Pendente</option>
                   <option value="Paga">Pagas</option>
                </select>
@@ -125,9 +126,9 @@ for ($i = 0; $i < @count($res); $i++) {
          </div>
 
          <div class="filter " style=" height: 30px; margin-top: 8px; margin-left: 15px;">
-            <a href="" class="text-dark mr-2 " style="text-decoration: none;" title="Contas à Pagar Vencidas"> <span>Vencidas</span></a> &nbsp/&nbsp
-            <a href="" class="text-dark" style="text-decoration: none;" title="Contas à Pagar Vence Hoje"> <span>Hoje</span> </a>&nbsp/&nbsp
-            <a href="" class=" text-dark " style="text-decoration: none;" title="Contas à Pagar Vence Amanhã"><span>Amanhã</span></a>
+            <a href="#" onclick="listarContasVencidas('Vencidas')" class="text-dark mr-2 " style="text-decoration: none;" title="Contas à Pagar Vencidas"> <span>Vencidas</span></a> &nbsp/&nbsp
+            <a href="#" onclick="listarContasVencidas('Hoje')" class="text-dark" style="text-decoration: none;" title="Contas à Pagar Vence Hoje"> <span>Hoje</span> </a>&nbsp/&nbsp
+            <a href="#" onclick="listarContasVencidas('Amanha')" class=" text-dark " style="text-decoration: none;" title="Contas à Pagar Vence Amanhã"><span>Amanhã</span></a>
          </div>
 
       </small>
@@ -753,14 +754,16 @@ for ($i = 0; $i < @count($res); $i++) {
          var dataInicial = $('#data-inicial').val();
          var dataFinal = $('#data-final').val();
          var status = $('#status-busca').val();
-         listarBusca(dataInicial, dataFinal, status);
+         var alterou_data = 'Sim';
+         listarBusca(dataInicial, dataFinal, status, alterou_data);
       });
 
       $('#data-final').change(function() {
          var dataInicial = $('#data-inicial').val();
          var dataFinal = $('#data-final').val();
          var status = $('#status-busca').val();
-         listarBusca(dataInicial, dataFinal, status);
+         var alterou_data = 'Sim';
+         listarBusca(dataInicial, dataFinal, status, alterou_data);
       });
 
       $('#status-busca').change(function() {
@@ -812,14 +815,15 @@ for ($i = 0; $i < @count($res); $i++) {
 
 
    //LISTA DADOS DA DATA INICIAL
-   function listarBusca(dataInicial, dataFinal, status) {
+   function listarBusca(dataInicial, dataFinal, status, alterou_data) {
       $.ajax({
          url: pag + "/listar.php",
          method: "POST",
          data: {
             dataInicial,
             dataFinal,
-            status
+            status,
+            alterou_data
          },
          dataType: "html",
 
@@ -850,5 +854,55 @@ for ($i = 0; $i < @count($res); $i++) {
 
       $('#subtotal').val(subtotal);
 
+   }
+
+   //LISTAR CONTAS VENCIDAS / HOJE / AMANHÃ
+
+
+   function listarContasVencidas(vencidas) {
+      $.ajax({
+         url: pag + "/listar.php",
+         method: 'POST',
+         data: {
+            vencidas
+         },
+         dataType: "html",
+
+         success: function(result) {
+            $("#listar").html(result);
+         }
+      });
+   }
+
+
+   function listarContasHoje(hoje) {
+      $.ajax({
+         url: pag + "/listar.php",
+         method: 'POST',
+         data: {
+            hoje
+         },
+         dataType: "html",
+
+         success: function(result) {
+            $("#listar").html(result);
+         }
+      });
+   }
+
+
+   function listarContasAmanha(amanha) {
+      $.ajax({
+         url: pag + "/listar.php",
+         method: 'POST',
+         data: {
+            amanha
+         },
+         dataType: "html",
+
+         success: function(result) {
+            $("#listar").html(result);
+         }
+      });
    }
 </script>
