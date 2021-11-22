@@ -40,6 +40,7 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp11 = $res[$i]['email'];
 
 
+
     if ($cp6 == 'Sim') {
         $classe = 'text-success';
         $ativo = 'Desativar Cliente';

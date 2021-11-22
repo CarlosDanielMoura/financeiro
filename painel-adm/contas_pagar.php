@@ -118,19 +118,25 @@ for ($i = 0; $i < @count($res); $i++) {
             <span class="checkIcon"><small><i class="bi bi-search"></i></small></span>
             <div class="">
                <select class="form-select form-select-sm" aria-label="Default select example" name="status-busca" id="status-busca">
-                  <option value="">Todas</option>
                   <option value="Pendente">Pendente</option>
                   <option value="Paga">Pagas</option>
-                  <option value="Parcial">Parcialmente Pagas</option>
                </select>
             </div>
          </div>
+
+         <div class="filter " style=" height: 30px; margin-top: 8px; margin-left: 15px;">
+            <a href="" class="text-dark mr-2 " style="text-decoration: none;" title="Contas à Pagar Vencidas"> <span>Vencidas</span></a> &nbsp/&nbsp
+            <a href="" class="text-dark" style="text-decoration: none;" title="Contas à Pagar Vence Hoje"> <span>Hoje</span> </a>&nbsp/&nbsp
+            <a href="" class=" text-dark " style="text-decoration: none;" title="Contas à Pagar Vence Amanhã"><span>Amanhã</span></a>
+         </div>
+
       </small>
+
 
    </div>
 
    <!---CAMPO DE TOTAL CONTAS-->
-   <div class="col-md-2 my-2" align="right">
+   <div class=" col-md-2 my-2" align="right">
       <i class="bi bi-coin text-danger"></i>
       <span class="text-dark ml-5">Total: <span id="total_itens" class="text-danger"></span></span>
 
@@ -420,7 +426,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
                   <!--CAMPO CLIENTE -->
                   <div class="col-6">
-                     <span><b>Cliente:</b> <span id="campo2"></span></span>
+                     <span><b>Fornecedores:</b> <span id="campo2"></span></span>
                   </div>
 
                   <!--CAMPO VALOR -->
@@ -508,7 +514,14 @@ for ($i = 0; $i < @count($res); $i++) {
                   <div class="col-6">
                      <span><b>Usuário Baixa:</b> <span id="campo11"></span></span>
                   </div>
+                  <hr class="mt-2">
+               </div>
 
+               <div class="row">
+                  <div class="col-6">
+                     <span><b>Data Baixa:</b> <span id="campo19"></span></span>
+                  </div>
+                  <hr class="mt-2">
                </div>
 
 
@@ -592,6 +605,132 @@ for ($i = 0; $i < @count($res); $i++) {
 
 
 
+<!-- MODAL BAIXAR -->
+<div class="modal fade" id="modalBaixar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Baixar Conta</span> - <span id="descricao-baixar"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <form id="form-baixar" method="post">
+            <div class="modal-body">
+
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Valor <small class="text-muted">(Total ou Parcial)</small></label>
+                        <input onkeyup="totalizar()" type="text" class="form-control" name="valor-baixar" id="valor-baixar" required>
+                     </div>
+                  </div>
+
+
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Local Saída</label>
+                        <select class="form-select" aria-label="Default select example" name="saida-baixar" id="saida-baixar">
+                           <option value="Caixa">Caixa (Movimento)</option>
+
+                           <?php
+                           $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                           $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                           for ($i = 0; $i < @count($res); $i++) {
+                              foreach ($res[$i] as $key => $value) {
+                              }
+                              $id_item = $res[$i]['id'];
+                              $nome_item = $res[$i]['nome'];
+                           ?>
+                              <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                           <?php } ?>
+
+
+                        </select>
+                     </div>
+                  </div>
+
+               </div>
+
+
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Desconto em R$</label>
+                        <input onkeyup="totalizar()" type="text" class="form-control" name="valor-desconto" id="valor-desconto" placeholder="Ex 15.00" value="0">
+                     </div>
+                  </div>
+
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Multa em R$</label>
+                        <input onkeyup="totalizar()" type="text" class="form-control" name="valor-multa" id="valor-multa" placeholder="Ex 15.00" value="0">
+                     </div>
+                  </div>
+
+               </div>
+
+
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Juros em R$</label>
+                        <input onkeyup="totalizar()" type="text" class="form-control" name="valor-juros" id="valor-juros" placeholder="Ex 0.15" value="0">
+                     </div>
+                  </div>
+
+                  <div class="col-md-6">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">SubTotal</label>
+                        <input type="text" class="form-control" name="subtotal" id="subtotal" readonly>
+                     </div>
+                  </div>
+               </div>
+
+
+
+
+               <small>
+                  <div id="mensagem-baixar" align="center"></div>
+               </small>
+
+               <input type="hidden" class="form-control" name="id-baixar" id="id-baixar">
+
+
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-baixar">Fechar</button>
+               <button type="submit" class="btn btn-success">Baixar</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+<!-- MODAL RESÍDUOS-->
+<div class="modal fade" id="modalResiduos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Resíduos da Conta</span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+
+         <div class="modal-body">
+
+            <small>
+               <div id="listar-residuos"></div>
+            </small>
+
+         </div>
+
+      </div>
+   </div>
+</div>
+
+
+
+
 
 <script type="text/javascript">
    var pag = "<?= $pagina ?>"
@@ -630,7 +769,6 @@ for ($i = 0; $i < @count($res); $i++) {
          var status = $('#status-busca').val();
          listarBusca(dataInicial, dataFinal, status);
       });
-
    });
 
 
@@ -689,5 +827,28 @@ for ($i = 0; $i < @count($res); $i++) {
             $("#listar").html(result);
          },
       });
+   }
+
+
+   function totalizar() {
+
+
+      valor = $('#valor-baixar').val();
+      desconto = $('#valor-desconto').val();
+      juros = $('#valor-juros').val();
+      multa = $('#valor-multa').val();
+
+
+
+      valor = valor.replace(",", ".");
+      desconto = desconto.replace(",", ".");
+      juros = juros.replace(",", ".");
+      multa = multa.replace(",", ".");
+
+      subtotal = parseFloat(valor) + parseFloat(juros) + parseFloat(multa) - parseFloat(desconto);
+
+
+      $('#subtotal').val(subtotal);
+
    }
 </script>

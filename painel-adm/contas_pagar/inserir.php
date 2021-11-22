@@ -18,14 +18,6 @@ $cp9 = str_replace(',', '.', $cp9);
 
 $cp5 = $cp5 . ' - ' . $_POST['cat_despesas'];
 
-//RECUPERAR O CAIXA QUE ESTÁ ABERTO (CASO TENHA ALGUM)
-$query2 = $pdo->query("SELECT * FROM caixa WHERE status = 'Aberto'");
-$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-if (@count($res2) > 0) {
-    $cp12 = $res2[0]['id'];
-} else {
-    $cp12 = 0;
-}
 
 
 if ($cp9 == "") {

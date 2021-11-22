@@ -191,3 +191,62 @@ $("#form-parcelar").submit(function (event) {
   });
 
 });
+
+
+
+//AJAX Função de Baixar
+function baixar(id, descricao, valor, saida){
+  $('#id-baixar').val(id);
+  $('#descricao-baixar').text(descricao);
+  $('#valor-baixar').val(valor);
+  $('#saida-baixar').val(saida);
+  $('#subtotal').val(valor);
+ 
+
+  //CAMPOS LIMPOS
+  //$('#valor-juros').val('');
+  //$('#valor-desconto').val('');
+ // $('#valor-multa').val('');
+
+
+
+
+  
+  var myModal = new bootstrap.Modal(document.getElementById('modalBaixar'), {       });
+  myModal.show();
+  $('#mensagem-baixar').text('');
+}
+
+
+$("#form-baixar").submit(function (event) {
+  event.preventDefault();
+  var formData = new FormData(this);
+  
+  $.ajax({
+      url: pag + "/baixar.php",
+      type: 'POST',
+      data: formData,
+
+      success: function (mensagem) {
+          $('#mensagem-baixar').text('');
+          $('#mensagem-baixar').removeClass()
+          if (mensagem.trim() == "Baixado com Sucesso!") {
+              $('#btn-fechar-baixar').click();
+              listar();
+              limparCampos();
+          } else {
+
+              $('#mensagem-baixar').addClass('text-danger')
+              $('#mensagem-baixar').text(mensagem)
+          }
+
+
+      },
+
+      cache: false,
+      contentType: false,
+      processData: false,
+
+  });
+
+});

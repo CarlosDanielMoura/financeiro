@@ -65,7 +65,12 @@ for ($i = 1; $i <= $qtd_parcelas; $i++) {
     }
 
 
-    $pdo->query("INSERT INTO $pagina set descricao = '$nova_descricao', cliente = '$cp2', saida = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), vencimento = '$novo_vencimento', frequencia = '$cp8', valor = '$novo_valor', usuario_lanc = '$cp10', status = 'Pendente', data_recor = curDate()");
+    $nova_descricao = str_replace('(Resíduo) -', '', $nova_descricao);
+
+    $pdo->query("INSERT INTO $pagina set descricao = '$nova_descricao', cliente = '$cp2',
+     saida = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), 
+     vencimento = '$novo_vencimento', frequencia = '$cp8', valor = '$novo_valor', 
+     usuario_lanc = '$cp10', status = 'Pendente', data_recor = curDate()");
 }
 
 $pdo->query("DELETE from $pagina where id = '$id'");
