@@ -353,6 +353,13 @@ require_once($pagina . "/campos.php");
 							</div>
 						</div>
 					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="true" id="alterar" name="alterar">
+						<label class="form-check-label" for="flexCheckDefault">
+							Alterar o Valor do Produto comforme o Lucro?
+						</label>
+					</div>
+
 
 					<small>
 						<div id="mensagem-comprar" align="center"></div>

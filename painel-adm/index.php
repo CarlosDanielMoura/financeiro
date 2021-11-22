@@ -28,6 +28,7 @@ $menu12 = 'cat_produtos';
 $menu13 = 'fornecedores';
 $menu14 = 'caixa';
 $menu15 = 'contas_pagar';
+$menu16 = 'contas_receber';
 
 
 if (@$_GET['pag'] == "") {
@@ -110,7 +111,6 @@ if (@$_GET['pag'] == "") {
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu7 ?>">Categorias Depesas</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu9 ?>">Frequências</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu10 ?>">Formas de Pagamentos</a></li>
-
                         </ul>
                     </li>
                     <!--PRODUTOS-->
@@ -123,21 +123,19 @@ if (@$_GET['pag'] == "") {
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu13 ?>">Fornecedores</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu12 ?>">Categorias Produtos</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu11 ?>&estoque=sim">Estoque Baixo</a></li>
-
                         </ul>
                     </li>
                     <!-- ABERTURA/ FECHAMENTO DE CAIXA-->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Movimentações
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Movimentações
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu15 ?>">Contas à Pagar</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu16 ?>">Contas à Receber</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa por Período</a></li>
                         </ul>
                     </li>
                 </ul>
-
                 <div class="d-flex ">
                     <img class="img-profile rounded-circle" src=" ../img/usuario-navbar.png" alt="" width=" 50px" height="50px">
                     <ul class="navbar-nav" style="margin-right: 70px;">

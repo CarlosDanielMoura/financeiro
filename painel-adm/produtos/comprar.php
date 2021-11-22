@@ -12,6 +12,8 @@ $cp6 = str_replace(',', '.', $cp5);
 $cp7 = @$_POST[$campo7];
 $cp11 = @$_POST[$campo11];
 
+$alterar = @$_POST['alterar'];
+
 
 $total_estoque = 0;
 //BUSCAR PARA TOTALIZAR PRODUTOS
@@ -25,7 +27,7 @@ $valor_venda = $res_con[0]['valor_venda'];
     exit();
 }*/
 
-if ($cp11 != "") {
+if ($cp11 != "" and $alterar == 'true') {
     $novo_vlr_venda = $cp5 +  ($cp5 * $cp11 / 100);
 } else {
     $novo_vlr_venda = $valor_venda;

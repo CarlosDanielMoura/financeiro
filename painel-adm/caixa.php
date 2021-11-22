@@ -127,40 +127,153 @@ require_once($pagina . "/campos.php");
 </div>
 
 
+<!-- MODAL TIPOS DE MOVIMENTAÇÕES -->
+<div class="modal fade" id="modalMovimentos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal"><small>Movimentação do Caixa</span> - <span id="titulo-movimento"></span> - Valor Abertura R$<span id="valor-abertura"></span></small></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row my-1">
+                    <div class="col-md-9">
+                        <div style="float:left; margin-right:10px">
+                            <a href="#" onclick="pesquisar('', '')" class="text-dark">
+                                <span><small><i title="Filtrar Movimentações" class="bi bi-search"></i></small></span>
+                            </a>
+                        </div>
+
+                        <small class="mx-4">
+                            <a title="Movimentações de Entradas" class="text-success" href="#" onclick="pesquisar('Entrada', '')"><span>Entradas</span></a> /
+                            <a title="Movimentações de Saídas" class="text-danger" href="#" onclick="pesquisar('Saída', '')"><span>Saídas</span></a>
+
+                        </small>
 
 
-<script type="text/javascript">
-    var pag = "<?= $pagina ?>"
-</script>
-<script src="../js/ajax.js"></script>
+                        <small class="mx-4">
+                            <a title="Contas à Pagar" class="text-muted" href="#" onclick="pesquisar('', 'Conta à Pagar')"><span>Contas Pagas</span></a> /
+                            <a title="Contas à Pagar Hoje" class="text-muted" href="#" onclick="pesquisar('','Conta à Receber')"><span>Contas Recebidas</span></a> /
+                            <a title="Despesas" class="text-muted" href="#" onclick="pesquisar('','Despesa')"><span>Despesas</span></a>
+
+                        </small>
 
 
-<script>
-    // Ajax de excluir
-    $("#form-fechar").submit(function(event) {
-        event.preventDefault();
-        var formData = new FormData(this);
-        var pag = "<?= $pagina ?>";
-        $.ajax({
-            url: pag + "/fechar-caixa.php",
-            type: "POST",
-            data: formData,
+                    </div>
 
-            success: function(mensagem) {
-                $("#mensagem-fechar").text("");
-                $("#mensagem-fechar").removeClass();
-                if (mensagem.trim() == "Fechado com Sucesso!") {
-                    $("#btn-fechar-fechar").click();
-                    listar();
-                } else {
-                    $("#mensagem-fechar").addClass("text-danger");
-                    $("#mensagem-fechar").text(mensagem);
+                    <div align="right" class="col-md-2">
+                        <small><span id="icone_total"><i class="bi bi-cash"></i></span> <span class="text-dark">Total: <span id="total_itens"></span></span></small>
+                    </div>
+                </div>
+
+                <input type="hidden" class="form-control" name="id-caixa" id="id-caixa">
+
+                <small>
+                    <div id="listar-movimentos" class="my-4"></div>
+                </small>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DADOS MOVIMENTAÇÕES -->
+<div class="modal fade" id="modalDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Movimentação <span id="campo3"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <small>
+
+
+                    <span><b>Tipo:</b> <span id="campo1"></span></span>
+                    <span class="mx-4"><b>Movimento</b> <span id="campo2"></span>
+                    </span>
+                    <hr style="margin:6px;">
+
+                    <span><b>Valor:</b> <span id="campo4"></span></span>
+                    <span class="mx-4"><b>Usuário</b> <span id="campo5"></span>
+                    </span>
+                    <hr style="margin:6px;">
+
+
+                    <span><b>Data:</b> <span id="campo6"></span></span>
+                    <span class="mx-4"><b>Lançamento:</b> <span id="campo7"></span>
+                    </span>
+                    <hr style="margin:6px;">
+
+                    <span><b>Plano de Conta</b> <span id="campo8"></span></span>
+                    <hr style="margin:6px;">
+                    <span><b>Documento</b> <span id="campo9"></span></span>
+                    <hr style="margin:6px;">
+
+                </small>
+
+
+            </div>
+
+
+
+            <script type="text/javascript">
+                var pag = "<?= $pagina ?>"
+            </script>
+            <script src="../js/ajax.js"></script>
+
+
+            <script>
+                // Ajax de excluir
+                $("#form-fechar").submit(function(event) {
+                    event.preventDefault();
+                    var formData = new FormData(this);
+                    var pag = "<?= $pagina ?>";
+                    $.ajax({
+                        url: pag + "/fechar-caixa.php",
+                        type: "POST",
+                        data: formData,
+
+                        success: function(mensagem) {
+                            $("#mensagem-fechar").text("");
+                            $("#mensagem-fechar").removeClass();
+                            if (mensagem.trim() == "Fechado com Sucesso!") {
+                                $("#btn-fechar-fechar").click();
+                                listar();
+                            } else {
+                                $("#mensagem-fechar").addClass("text-danger");
+                                $("#mensagem-fechar").text(mensagem);
+                            }
+                        },
+
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                    });
+                });
+
+
+                //PESQUISAR MOVIMENTOS
+                function pesquisar(tipo, movimento) {
+                    var id = $('#id-caixa').val();
+                    $.ajax({
+
+                        url: pag + "/listar-movimentos.php",
+                        method: 'POST',
+                        data: {
+                            id,
+                            tipo,
+                            movimento
+                        },
+                        dataType: "html",
+
+                        success: function(result) {
+                            $("#listar-movimentos").html(result);
+                        }
+                    });
                 }
-            },
-
-            cache: false,
-            contentType: false,
-            processData: false,
-        });
-    });
-</script>
+            </script>

@@ -88,7 +88,7 @@ if ($valor == $cp9) {
             $total_resid += $valor_resid;
         }
     } else {
-        $cp1 = '(Resíduo) - ' . $cp1;
+        $cp1 = '(Resíduo)' . $cp1;
     }
 
     $cp9 = $cp9 - $subtotal;

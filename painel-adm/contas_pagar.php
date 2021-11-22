@@ -172,10 +172,10 @@ for ($i = 0; $i < @count($res); $i++) {
 
                <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Conta</a>
+                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Fornecedor</a>
                   </li>
                   <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Fornecedor</a>
+                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Conta</a>
                   </li>
 
                </ul>
@@ -184,12 +184,32 @@ for ($i = 0; $i < @count($res); $i++) {
 
                <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
+                     <!--TAB FORNECEDORES-->
+                     <div class="row mb-4 " style="justify-content: center;">
+                        <div class="col-md-2">
+                           <input type="text" style="text-align: center;" class="form-control" name="<?php echo $campo2 ?>" id="id-cliente" placeholder="id" readonly>
+                        </div>
+
+                        <div class="col-md-3">
+                           <input type="text" style="text-align: center;" class="form-control" name="nome-cliente" id="nome-cliente" placeholder="Nome do Fornecedor" readonly>
+                        </div>
+                     </div>
+
+                     <small>
+                        <div class="tableDados bg-light" id="listar-clientes">
+
+                        </div>
+                     </small>
+
+                  </div>
+
+                  <div class="tab-pane fade" id="contas" role="tabpanel" aria-labelledby="profile-tab">
 
                      <div class="row">
                         <div class="col-md-4 col-sm-12">
                            <div class="mb-3">
                               <label for="exampleFormControlInput1" class="form-label">Descrição</label>
-                              <input type="text" class="form-control" name="<?php echo $campo1 ?>" placeholder="Descrição" id="<?php echo $campo1 ?>" required>
+                              <input type="text" class="form-control" name="<?php echo $campo1 ?>" placeholder="Descrição" id="<?php echo $campo1 ?>">
                            </div>
                         </div>
 
@@ -222,7 +242,7 @@ for ($i = 0; $i < @count($res); $i++) {
                               <label for="exampleFormControlInput1" class="form-label"><?php echo $campo4 ?></label>
                               <select class="form-select" aria-label="Default select example" name="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>">
                                  <option value="Dinheiro">Dinheiro</option>
-                                 <option value="Boleto" selected>Boleto</option>
+                                 <option value="Boleto">Boleto</option>
                                  <option value="Cheque">Cheque</option>
                                  <option value="Conta Corrente">Conta Corrente</option>
                                  <option value="Conta Poupança">Conta Poupança</option>
@@ -321,7 +341,7 @@ for ($i = 0; $i < @count($res); $i++) {
                         <div class="col-md-4 col-sm-12">
                            <div class="mb-3">
                               <label for="exampleFormControlInput1" class="form-label">Valor da Conta</label>
-                              <input type="text" class="form-control" name="<?php echo $campo9 ?>" id="<?php echo $campo9 ?>" placeholder="Valor da Conta" required>
+                              <input type="text" class="form-control" name="<?php echo $campo9 ?>" id="<?php echo $campo9 ?>" placeholder="Valor da Conta">
 
                            </div>
                         </div>
@@ -332,32 +352,13 @@ for ($i = 0; $i < @count($res); $i++) {
                      </div>
 
 
-                  </div>
-
-                  <div class="tab-pane fade" id="contas" role="tabpanel" aria-labelledby="profile-tab">
-
-                     <div class="row mb-4" style="justify-content: center;">
-                        <div class="col-md-1">
-                           <input type="text" class="form-control" name="<?php echo $campo2 ?>" id="id-cliente" placeholder="Id" readonly>
-                        </div>
-
-                        <div class="col-md-3">
-                           <input type="text" class="form-control" name="nome-cliente" id="nome-cliente" placeholder="Nome do Cliente" readonly>
-                        </div>
-                     </div>
-
-                     <small>
-                        <div class="tableDados bg-light" id="listar-clientes">
-
-                        </div>
-                     </small>
 
                   </div>
 
                </div>
 
 
-
+               <br>
                <small>
                   <div id="mensagem" align="center"></div>
                </small>

@@ -81,7 +81,7 @@ require_once($pagina . "/campos.php");
                                 <div class="col-md-3 col-sm-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">CPF / CNPJ</label>
-                                        <input type="text" class="form-control" name="<?php echo $campo3 ?>" id="<?php echo $campo3 ?>" required>
+                                        <input type="text" class="form-control" name="<?php echo $campo3 ?>" id="<?php echo $campo3 ?>">
                                     </div>
                                 </div>
                                 <!-- CAMPO EMAIL-->
@@ -97,7 +97,7 @@ require_once($pagina . "/campos.php");
                                 <div class="col-md-3 col-sm-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label"><?php echo $campo4 ?></label>
-                                        <input type="text" class="form-control" name="<?php echo $campo4 ?>" placeholder="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>" required>
+                                        <input type="text" class="form-control" name="<?php echo $campo4 ?>" placeholder="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>">
                                     </div>
                                 </div>
 

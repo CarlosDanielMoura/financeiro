@@ -34,7 +34,7 @@ $dias_frequencia = $res1[0]['dias'];
 
 for ($i = 1; $i <= $qtd_parcelas; $i++) {
 
-    $nova_descricao = $cp1 . ' - Parcela ' . $i;
+    $nova_descricao = $cp1  . ' - Parcela ' . $i;
     $novo_valor = ($cp9 / $qtd_parcelas);
     $dias_parcela = $i - 1;
     $dias_parcela_2 = ($i - 1) * $dias_frequencia;

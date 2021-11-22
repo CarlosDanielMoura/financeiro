@@ -5,17 +5,12 @@ require_once("campos.php");
 $nivel_usu = $_SESSION['nivel_usuario'];
 
 $dataInicial = @$_POST['dataInicial'];
-
 $dataFinal = @$_POST['dataFinal'];
-
 $status = '%' . @$_POST['status'] . '%';
-
 $alterou_data = @$_POST['alterou_data'];
-
 $vencidas = @$_POST['vencidas'];
 $hoje = @$_POST['hoje'];
 $amanha = @$_POST['amanha'];
-
 
 $data_hoje = date('Y-m-d');
 $data_amanha = date('Y/m/d', strtotime("+1 days", strtotime($data_hoje)));
@@ -25,23 +20,16 @@ if ($alterou_data == 'Sim') {
         $query = $pdo->query("SELECT * from $pagina where (vencimento >= '$dataInicial' and vencimento <= '$dataFinal') and status LIKE '$status'  order by id desc ");
     }
 } else if ($status != '%%' and $alterou_data == '') {
-
     $query = $pdo->query("SELECT * from $pagina where status LIKE '$status'  order by id desc ");
 } else if ($vencidas == 'Vencidas') {
-
     $query = $pdo->query("SELECT * from $pagina where vencimento < curDate() and status = 'Pendente'  order by id desc ");
 } else if ($vencidas == 'Hoje') {
-
-    $query = $pdo->query("SELECT * from $pagina where vencimento = curDate()  order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where vencimento = curDate() and status = 'Pendente'  order by id desc ");
 } else if ($vencidas == 'Amanha') {
-
-    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha'  order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha' and status = 'Pendente'  order by id desc ");
 } else {
-
     $query = $pdo->query("SELECT * from $pagina where status = 'Pendente' order by id desc ");
 }
-
-//html começa aqui a listar
 
 echo <<<HTML
 <table id="example2" class="table table-striped table-light table-hover my-4">
@@ -50,6 +38,7 @@ echo <<<HTML
 <th>Descrição</th>
 <th>Saída</th>		
 <th>Plano de Conta</th>	
+	
 <th>Vencimento</th>	
 <th>Frequência</th>	
 <th>Valor</th>
@@ -61,7 +50,6 @@ HTML;
 
 $total_valor = 0;
 $total_valorF = 0;
-
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 for ($i = 0; $i < @count($res); $i++) {
     foreach ($res[$i] as $key => $value) {
@@ -79,8 +67,9 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp9 = $res[$i]['valor'];
     $cp10 = $res[$i]['usuario_lanc'];
     $cp11 = $res[$i]['usuario_baixa'];
+
     $cp13 = $res[$i]['status'];
-    $cp19 = $res[$i]['data_baixa'];
+    $cp18 = $res[$i]['data_baixa'];
 
     if ($cp13 == 'Paga') {
         $classe = 'text-success';
@@ -91,9 +80,6 @@ for ($i = 0; $i < @count($res); $i++) {
         $total_valorF = number_format($total_valor, 2, ',', '.');
         $ocutar = '';
     }
-
-
-
 
 
 
@@ -113,31 +99,38 @@ for ($i = 0; $i < @count($res); $i++) {
         $nome_usu_baixa = 'Sem Usuário';
     }
 
+    $descricao = $cp1;
+
     $query1 = $pdo->query("SELECT * from fornecedores where id = '$cp2' ");
     $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
     if (@count($res1) > 0) {
-        $nome_forne = $res1[0]['nome'];
-        $descricao = $cp1 . ' - ' . $nome_forne;
+        $nome_cliente = $res1[0]['nome'];
+        $desc = explode(" - ", $cp1);
+        if (@$desc[1] == "") {
+            $descricao = $nome_cliente;
+        } else {
+            $descricao = $nome_cliente . ' - ' . @$desc[1];
+        }
     } else {
-        $nome_forne = 'Sem Fornecedor';
-        $descricao = $cp1;
+        $nome_cliente = 'Sem Fornecedor';
     }
 
 
     $data_emissao = implode('/', array_reverse(explode('-', $cp6)));
     $data_venc = implode('/', array_reverse(explode('-', $cp7)));
-    $data_baixa = implode('/', array_reverse(explode('-', $cp19)));
+    $cp18 = implode('/', array_reverse(explode('-', $cp18)));
 
     $valor = number_format($cp9, 2, ',', '.');
 
 
-    //PEGANDO RESÍDUOS DA CONTA
-
+    //PEGAR RESIDUOS DA CONTA
     $total_resid = 0;
     $valor_com_residuos = 0;
     $query2 = $pdo->query("SELECT * FROM valor_parcial WHERE id_conta = '$id'");
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
     if (@count($res2) > 0) {
+
+        $descricao = '(Resíduo) - ' . $descricao;
 
         for ($i2 = 0; $i2 < @count($res2); $i2++) {
             foreach ($res2[$i2] as $key => $value) {
@@ -161,8 +154,6 @@ for ($i = 0; $i < @count($res); $i++) {
     }
 
 
-
-
     echo <<<HTML
 	<tr>
 	<td>
@@ -182,13 +173,18 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-danger" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
 								
 	<td>
-	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_forne}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary  {$ocutar}"></i> </a>
+	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Excluir Registro">	<i class="bi bi-trash text-danger {$ocutar}"></i> </a>
-	<a href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_forne}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}', '{$data_baixa}')" title="Ver Dados da Conta">
-    <i class="bi bi-exclamation-square text-success"></i></a>
-    <a href="#" onclick="parcelar('{$id}' ,'{$cp1}' ,'{$cp9}')" title="Parcelar Conta">	<i class="bi bi-calendar-week text-dark mr-1  {$ocutar}"></i> </a>
-    <a href="#" onclick="baixar('{$id}' ,'{$cp1}' ,'{$cp9}', '{$cp3}')" title="Dar Baixa"><i class="bi bi-check-square mr-1  {$ocutar}"></i> </a>	
-    </td>
+
+	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}', '$cp18')" title="Ver Dados da Conta">
+	<i class="bi bi-exclamation-square"></i></a>
+
+
+	<a href="#" onclick="parcelar('{$id}' , '{$cp1}', '{$cp9}')" title="Parcelar Conta">	<i class="bi bi-calendar-week text-secondary {$ocutar}"></i> </a>
+
+	<a href="#" onclick="baixar('{$id}' , '{$cp1}', '{$cp9}', '$cp3')" title="Dar Baixa">	<i class="bi bi-check-square text-success mx-1 {$ocutar}"></i> </a>
+	
+	</td>
 	</tr>
 HTML;
 }
@@ -199,24 +195,18 @@ HTML;
 
 ?>
 
-<style>
-    td a i {
-        margin-left: 1px;
-    }
-</style>
-
 <script>
     $(document).ready(function() {
         $('#example2').DataTable({
             "ordering": false
         });
 
-        $('#total_itens').text(' R$ <?= $total_valorF ?>');
-
+        $('#total_itens').text('R$ <?= $total_valorF ?>');
     });
 
 
     function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, nome) {
+
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
         //$('#<?= $campo2 ?>').val(cp2);
@@ -231,20 +221,16 @@ HTML;
         $('#nome-cliente').val(nome);
         $('#id-cliente').val(cp2);
 
-
-        var plano = cp5.split("-");
-
-        $('#<?= $campo5 ?>').val(plano[0].trim());
-        $('#cat_despesas').val(plano[1].trim());
-        listarDespesas(plano[1].trim(), plano[0].trim());
-
-
-        //VERIFICANDO NIVEL USUARIO PARA CAMPO FICAM TRUE OU FALSO
         var usuario = "<?= $nivel_usu ?>";
         if (usuario != 'Administrador') {
             document.getElementById("<?= $campo9 ?>").readOnly = true;
         }
 
+        var plano = cp5.split("-");
+
+        $('#cat_despesas').val(plano[1].trim());
+        listarDespesas(plano[1].trim(), plano[0].trim())
+        //$('#<?= $campo5 ?>').val(plano[0].trim());
 
 
         $('#tituloModal').text('Editar Registro');
@@ -263,15 +249,21 @@ HTML;
         $('#id-cliente').val('');
         $('#nome-cliente').val('');
         $('#mensagem').text('');
-        document.getElementById("<?= $campo9 ?>").readOnly = false;
-        //LIMPANDO OS CAMPOS DE EXCLUSÃO
+
         $('#usuario_adm').val('');
         $('#senha_adm').val('');
+        document.getElementById("<?= $campo9 ?>").readOnly = false;
 
+        listarClientes();
+
+        //DEFINIR ABA A SER ABERTA
+        var someTabTriggerEl = document.querySelector('#home-tab')
+        var tab = new bootstrap.Tab(someTabTriggerEl);
+        tab.show();
     }
 
 
-    function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11, cp13, cp19) {
+    function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11, cp13, cp18) {
 
         $('#campo1').text(cp1);
         $('#campo2').text(cp2);
@@ -285,11 +277,10 @@ HTML;
         $('#campo10').text(cp10);
         $('#campo11').text(cp11);
         $('#campo13').text(cp13);
-        $('#campo19').text(cp19);
+        $('#campo18').text(cp18);
 
 
-
-        var myModal = new bootstrap.Modal(document.getElementById('modalDadosContaPagar'), {});
+        var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
         myModal.show();
 
     }
@@ -314,5 +305,23 @@ HTML;
         var myModal = new bootstrap.Modal(document.getElementById('modalResiduos'), {});
         myModal.show();
         $('#mensagem').text('');
+    }
+
+
+
+    function baixar(id, descricao, valor, saida) {
+        $('#id-baixar').val(id);
+        $('#descricao-baixar').text(descricao);
+        $('#valor-baixar').val(valor);
+        $('#saida-baixar').val(saida);
+        $('#subtotal').val(valor);
+
+        $('#juros-baixar').val('');
+        $('#desconto-baixar').val('');
+        $('#multa-baixar').val('');
+
+        var myModal = new bootstrap.Modal(document.getElementById('modalBaixar'), {});
+        myModal.show();
+        $('#mensagem-baixar').text('');
     }
 </script>

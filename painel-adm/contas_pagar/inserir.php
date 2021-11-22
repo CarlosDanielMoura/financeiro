@@ -16,12 +16,17 @@ $cp9 = $_POST[$campo9];
 
 $cp9 = str_replace(',', '.', $cp9);
 
+if ($cp2 == "" and $cp1 == "") {
+    echo 'SELECIONE UM FORNECEDOR OU COLOQUE UMA DESCRIÇÃO';
+    exit();
+}
+
 $cp5 = $cp5 . ' - ' . $_POST['cat_despesas'];
 
 
 
 if ($cp9 == "") {
-    echo 'Preencha o Valor';
+    echo 'PREENCHA O VALOR';
     exit();
 }
 
