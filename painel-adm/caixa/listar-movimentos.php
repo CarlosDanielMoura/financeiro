@@ -10,6 +10,7 @@ $id = @$_POST['id'];
 
 $query = $pdo->query("SELECT * from movimentacoes where caixa_periodo = '$id' and tipo LIKE '$tipo' and movimento LIKE '$movimento' order by id desc ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
 if (@count($res) > 0) {
 
     echo <<<HTML

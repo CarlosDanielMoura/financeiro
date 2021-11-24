@@ -26,7 +26,7 @@ if ($alterou_data == 'Sim') {
 } else if ($vencidas == 'Hoje') {
     $query = $pdo->query("SELECT * from $pagina where vencimento = curDate() and status = 'Pendente'  order by id desc ");
 } else if ($vencidas == 'Amanha') {
-    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha' and status = 'Pendente'  order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha' and status = 'Pendente' order by id desc ");
 } else {
     $query = $pdo->query("SELECT * from $pagina where status = 'Pendente' order by id desc ");
 }
@@ -36,9 +36,8 @@ echo <<<HTML
 <thead>
 <tr>
 <th>Descrição</th>
-<th>Saída</th>		
-<th>Plano de Conta</th>	
-	
+<th>Laçamento</th>		
+<th>Cliente</th>	
 <th>Vencimento</th>	
 <th>Frequência</th>	
 <th>Valor</th>
@@ -58,7 +57,7 @@ for ($i = 0; $i < @count($res); $i++) {
     $id = $res[$i]['id'];
     $cp1 = $res[$i]['descricao'];
     $cp2 = $res[$i]['cliente'];
-    $cp3 = $res[$i]['saida'];
+    $cp3 = $res[$i]['entrada'];
     $cp4 = $res[$i]['documento'];
     $cp5 = $res[$i]['plano_conta'];
     $cp6 = $res[$i]['data_emissao'];
@@ -82,6 +81,16 @@ for ($i = 0; $i < @count($res); $i++) {
     }
 
 
+    //RECUPERAR DIAS VENCIDOS
+    $data_venc_carencia = date('Y/m/d', strtotime("-$dias_carencia days", strtotime($data_hoje)));
+
+    if (strtotime($cp7) < strtotime($data_venc_carencia)) {
+        $dif = strtotime($data_venc_carencia) - strtotime($cp7);
+        $dias_vencidos = floor($dif / (60 * 60 * 24));
+    } else {
+        $dias_vencidos = '0';
+    }
+
 
     $query1 = $pdo->query("SELECT * from usuarios where id = '$cp10' ");
     $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
@@ -96,23 +105,23 @@ for ($i = 0; $i < @count($res); $i++) {
     if (@count($res1) > 0) {
         $nome_usu_baixa = $res1[0]['nome'];
     } else {
-        $nome_usu_baixa = 'Sem Usuário';
+        $nome_usu_baixa = '';
     }
 
     $descricao = $cp1;
 
-    $query1 = $pdo->query("SELECT * from fornecedores where id = '$cp2' ");
+    $query1 = $pdo->query("SELECT * from clientes where id = '$cp2' ");
     $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
     if (@count($res1) > 0) {
         $nome_cliente = $res1[0]['nome'];
         $desc = explode(" - ", $cp1);
         if (@$desc[1] == "") {
-            $descricao = $nome_cliente . ' - ' . $cp1;
+            $descricao = $cp1;
         } else {
             $descricao = $nome_cliente . ' - ' . @$desc[1];
         }
     } else {
-        $nome_cliente = 'Sem Fornecedor';
+        $nome_cliente = 'Sem Cliente';
     }
 
 
@@ -166,11 +175,10 @@ for ($i = 0; $i < @count($res); $i++) {
 	</span>
 	</td>		
 	<td>{$cp3}</td>	
-	<td>{$cp5}</td>	
-		
+	<td>{$nome_cliente}</td>		
 	<td>{$data_venc}</td>	
 	<td>{$cp8}</td>	
-	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-danger" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
+	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-success" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
 								
 	<td>
 	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
@@ -182,7 +190,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
 	<a href="#" onclick="parcelar('{$id}' , '{$cp1}', '{$cp9}')" title="Parcelar Conta">	<i class="bi bi-calendar-week text-secondary {$ocutar}"></i> </a>
 
-	<a href="#" onclick="baixar('{$id}' , '{$cp1}', '{$cp9}', '$cp3')" title="Dar Baixa">	<i class="bi bi-check-square text-success mx-1 {$ocutar}"></i> </a>
+	<a href="#" onclick="baixar('{$id}' , '{$cp1}', '{$cp9}', '$cp3', '$dias_vencidos')" title="Dar Baixa">	<i class="bi bi-check-square text-success mx-1 {$ocutar}"></i> </a>
 	
 	</td>
 	</tr>
@@ -226,11 +234,6 @@ HTML;
             document.getElementById("<?= $campo9 ?>").readOnly = true;
         }
 
-        var plano = cp5.split("-");
-
-        $('#cat_despesas').val(plano[1].trim());
-        listarDespesas(plano[1].trim(), plano[0].trim())
-        //$('#<?= $campo5 ?>').val(plano[0].trim());
 
 
         $('#tituloModal').text('Editar Registro');
@@ -253,6 +256,7 @@ HTML;
         $('#usuario_adm').val('');
         $('#senha_adm').val('');
         document.getElementById("<?= $campo9 ?>").readOnly = false;
+
 
         listarClientes();
 
@@ -280,7 +284,7 @@ HTML;
         $('#campo18').text(cp18);
 
 
-        var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
+        var myModal = new bootstrap.Modal(document.getElementById('modalDadosContaPagar'), {});
         myModal.show();
 
     }
@@ -309,16 +313,39 @@ HTML;
 
 
 
-    function baixar(id, descricao, valor, saida) {
+
+    function baixar(id, descricao, valor, saida, dias) {
+
         $('#id-baixar').val(id);
+
+
+
         $('#descricao-baixar').text(descricao);
         $('#valor-baixar').val(valor);
         $('#saida-baixar').val(saida);
-        $('#subtotal').val(valor);
 
-        $('#juros-baixar').val('');
-        $('#desconto-baixar').val('');
-        $('#multa-baixar').val('');
+        $('#valor-desconto').val('0');
+
+
+        if (dias > 0) {
+
+            var valor_multa = '<?= $valor_multa ?>';
+            var valor_multa_calc = valor_multa * valor / 100;
+
+            var valor_juros = '<?= $valor_juros_dia ?>';
+            var valor_juros_calc = (valor_juros * dias) * valor / 100;
+
+            $('#valor-juros').val(valor_juros_calc.toFixed(2));
+            $('#valor-multa').val(valor_multa_calc.toFixed(2));
+            $('#subtotal').val(valor);
+            totalizar();
+
+        } else {
+            $('#juros-baixar').val('0');
+            $('#multa-baixar').val('0');
+            $('#subtotal').val(valor);
+        }
+
 
         var myModal = new bootstrap.Modal(document.getElementById('modalBaixar'), {});
         myModal.show();

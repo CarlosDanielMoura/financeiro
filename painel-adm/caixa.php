@@ -132,7 +132,7 @@ require_once($pagina . "/campos.php");
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal"><small>Movimentação do Caixa</span> - <span id="titulo-movimento"></span> - Valor Abertura R$<span id="valor-abertura"></span></small></h5>
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal"><small>Movimentação do Caixa</span> - <span id="titulo-movimento"></span> - Valor Abertura R$ <span id="valor-abertura"></span></small></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
