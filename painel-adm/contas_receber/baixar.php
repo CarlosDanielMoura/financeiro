@@ -30,13 +30,13 @@ $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $id = $res[0]['id'];
 $cp1 = $res[0]['descricao'];
 $cp2 = $res[0]['cliente'];
-$cp3 = $res[0]['saida'];
+$cp3 = $res[0]['entrada'];
 $cp4 = $res[0]['documento'];
 $cp5 = $res[0]['plano_conta'];
 $cp9 = $res[0]['valor'];
 $cp13 = $res[0]['status'];
 
-$query3 = $pdo->query("SELECT * FROM fornecedores WHERE id = '$cp2'");
+$query3 = $pdo->query("SELECT * FROM clientes WHERE id = '$cp2'");
 $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res3) > 0) {
     $nome_forne = $res3[0]['nome'];

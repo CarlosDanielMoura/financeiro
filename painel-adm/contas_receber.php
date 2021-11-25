@@ -205,6 +205,27 @@ for ($i = 0; $i < @count($res); $i++) {
 
                   <div class="tab-pane fade" id="contas" role="tabpanel" aria-labelledby="profile-tab">
 
+                     <!-- <div class="col-md-4 col-sm-12">
+                        <div class="mb-3">
+                           <label for="exampleFormControlInput1" class="form-label">Clientes</label>
+                           <select class="form-select" aria-label="Default select example" name="<?php echo $campo2 ?>" id="<?php echo $campo2 ?>">
+                              <?php
+                              $query = $pdo->query("SELECT * FROM clientes order by nome asc");
+                              $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                              for ($i = 0; $i < @count($res); $i++) {
+                                 foreach ($res[$i] as $key => $value) {
+                                 }
+                                 $id_item = $res[$i]['id'];
+                                 $nome_item = $res[$i]['nome'];
+                              ?>
+                                 <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                              <?php } ?>
+
+
+                           </select>
+                        </div>
+                     </div>-->
                      <div class="row">
                         <div class="col-md-4 col-sm-12">
                            <div class="mb-3">
