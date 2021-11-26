@@ -104,7 +104,8 @@ HTML;
 </table>
 HTML;
 } else {
-    echo 'Nenhum Registro foi Encontrado!';
+
+    echo '<div class="d-flex justify-content-center"> <strong> Nenhum Registro foi Encontrado!</strong></div>';
 }
 ?>
 

@@ -185,9 +185,9 @@ for ($i = 0; $i < @count($res); $i++) {
                <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
                      <!--TAB CLIENTES-->
-                     <div class="row mb-4 " style="justify-content: center;">
+                     <div class="row mb-4 justify-content-center">
                         <div class="col-md-2">
-                           <input type="text" style="text-align: center;" class="form-control" name="<?php echo $campo2 ?>" id="id-cliente" placeholder="id" readonly>
+                           <input type="text" style="text-align: center;" class="form-control " name="<?php echo $campo2 ?>" id="id-cliente" placeholder="id" readonly>
                         </div>
 
                         <div class="col-md-3">

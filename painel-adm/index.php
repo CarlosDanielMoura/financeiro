@@ -29,6 +29,8 @@ $menu13 = 'fornecedores';
 $menu14 = 'caixa';
 $menu15 = 'contas_pagar';
 $menu16 = 'contas_receber';
+$menu18 = 'contas_despesa';;
+
 
 
 if (@$_GET['pag'] == "") {
@@ -36,9 +38,6 @@ if (@$_GET['pag'] == "") {
 } else {
     $pag = @$_GET['pag'];
 }
-
-
-
 
 ?>
 
@@ -132,6 +131,7 @@ if (@$_GET['pag'] == "") {
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu15 ?>">Contas à Pagar</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu16 ?>">Contas à Receber</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu18 ?>">Lanças Despesas</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa por Período</a></li>
                         </ul>
                     </li>

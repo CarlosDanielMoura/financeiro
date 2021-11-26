@@ -74,6 +74,7 @@ if ($valor == $cp9) {
     $pdo->query("UPDATE  $pagina set saida = '$cp3', usuario_baixa = '$id_usuario', status = 'Paga',
     juros = '$valor_juros' , multa = '$valor_multa' , desconto = '$valor_desconto', subtotal = '$subtotal' , data_baixa = curDate() where id = '$id'");
 } else {
+    $descricao_conta = '(Resíduo) ' . $descricao_conta;
 
     //PEGAR RESIDUOS DA CONTA
     $total_resid = 0;
@@ -87,8 +88,6 @@ if ($valor == $cp9) {
             $valor_resid = $res[$i]['valor'];
             $total_resid += $valor_resid;
         }
-    } else {
-        $cp1 = '(Resíduo)' . $cp1;
     }
 
     $cp9 = $cp9 - $subtotal;

@@ -185,34 +185,69 @@ require_once($pagina . "/campos.php");
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Movimentação <span id="campo3"></span></h5>
+                <h5 class="modal-title " id="exampleModalLabel">Movimentação: <span id="campo3" class="text-success"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
                 <small>
 
+                    <div class="row">
+                        <!--CAMPO TIPO-->
+                        <div class="col-4">
+                            <span><b>Tipo:</b> <span id="campo1"></span></span>
+                        </div>
+                        <!--CAMPO MOVIMENTAÇÃO-->
+                        <div class="col-8">
+                            <span class=""><b>Movimento</b> <span id="campo2"></span></span>
+                        </div>
+                        <hr>
+                    </div>
 
-                    <span><b>Tipo:</b> <span id="campo1"></span></span>
-                    <span class="mx-4"><b>Movimento</b> <span id="campo2"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                    <div class="row">
+                        <!--CAMPO VALOR-->
+                        <div class="col-4">
+                            <span><b>Valor:</b> R$ <span id="campo4"></span></span>
+                        </div>
+                        <!--CAMPO PLANO CONTA-->
+                        <div class="col-8">
+                            <span><b>Plano de Conta</b> <span id="campo8"></span></span>
+                        </div>
+                        <hr>
+                    </div>
 
-                    <span><b>Valor:</b> <span id="campo4"></span></span>
-                    <span class="mx-4"><b>Usuário</b> <span id="campo5"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                    <div class="row">
+                        <!--CAMPO USUÁRIO-->
+                        <div class="col-4">
+                            <span class=""><b>Usuário</b> <span id="campo5"></span></span>
+                        </div>
+                        <!--CAMPO DATA PAGAMENTO-->
+                        <div class="col-8">
+                            <span><b>Data:</b> <span id="campo6"></span></span>
+                        </div>
+                        <hr>
+                    </div>
 
 
-                    <span><b>Data:</b> <span id="campo6"></span></span>
-                    <span class="mx-4"><b>Lançamento:</b> <span id="campo7"></span>
-                    </span>
-                    <hr style="margin:6px;">
+                    <div class="row ">
+                        <!--CAMPO LAÇAMENTO-->
+                        <div class="col-4">
+                            <span class=""><b>Lançamento:</b> <span id="campo7"></span></span>
+                        </div>
+                        <!--CAMPO DOCUMENTO-->
+                        <div class="col-8 ">
+                            <span><b>Documento</b> <span id="campo9"></span></span>
+                        </div>
+                        <hr>
+                    </div>
 
-                    <span><b>Plano de Conta</b> <span id="campo8"></span></span>
-                    <hr style="margin:6px;">
-                    <span><b>Documento</b> <span id="campo9"></span></span>
-                    <hr style="margin:6px;">
+
+
+
+
+
+
+
 
                 </small>
 

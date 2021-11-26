@@ -3,10 +3,12 @@
 require_once("../../conexao.php");
 require_once("campos.php");
 //Variavies dos inputs
+$query = $pdo->query("SELECT * from $pagina order by id desc ");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
 
+if (@count($res) > 0) {
 
-
-echo <<<HTML
+    echo <<<HTML
 <table id="example" class="table table-striped table-light table-hover my-4">
 <thead>
 <tr>
@@ -17,15 +19,14 @@ echo <<<HTML
 <tbody>
 HTML;
 
-$query = $pdo->query("SELECT * from $pagina order by id desc ");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-for ($i = 0; $i < @count($res); $i++) {
-    foreach ($res[$i] as $key => $value) {
-    }
-    $id = $res[$i]['id'];
-    $campoTd1 = $res[$i]['nome'];
-echo <<<HTML
+
+    for ($i = 0; $i < @count($res); $i++) {
+        foreach ($res[$i] as $key => $value) {
+        }
+        $id = $res[$i]['id'];
+        $campoTd1 = $res[$i]['nome'];
+        echo <<<HTML
             <tr>
             <td>{$campoTd1}</td>
             <td>
@@ -34,11 +35,14 @@ echo <<<HTML
             </td>
             </tr>
 HTML;
-}
-echo <<<HTML
+    }
+    echo <<<HTML
 </tbody>
 </table>
 HTML;
+} else {
+    echo '<div class="d-flex justify-content-center"> <strong> Nenhum Registro foi Encontrado!</strong></div>';
+}
 ?>
 
 <script>
