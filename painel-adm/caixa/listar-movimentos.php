@@ -8,7 +8,7 @@ $id = @$_POST['id'];
 
 
 
-$query = $pdo->query("SELECT * from movimentacoes where caixa_periodo = '$id' and tipo LIKE '$tipo' and movimento LIKE '$movimento' order by id desc ");
+$query = $pdo->query("SELECT * from movimentacoes where caixa_periodo = '$id' and tipo LIKE '$tipo' and movimento LIKE '$movimento' order by data asc ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
 if (@count($res) > 0) {
@@ -17,11 +17,11 @@ if (@count($res) > 0) {
 <table id="example2" class="table table-striped table-light table-hover my-4">
 <thead>
 <tr>
-<th>Tipo</th>
-<th>Movimento</th>		
-<th>Valor</th>	
 <th>Data</th>	
-<th>Documento</th>	
+<th>Tipo</th>
+<th>Movimento</th>	
+<th>Documento</th>		
+<th>Valor</th>	
 <th>Saldo</th>	
 <th>Ações</th>
 </tr>
@@ -80,21 +80,15 @@ HTML;
 
         echo <<<HTML
 	<tr>
-	<td>
-	<i class="bi bi-square-fill $classe"></i>
-	{$cp1}
-	</td>		
+    <td><i class="bi bi-square-fill $classe"></i>&nbsp;&nbsp;{$data}</td>	
+	<td>{$cp1}</td>		
 	<td>{$cp2}</td>	
-	<td class="{$classe}">R$ {$valor}</td>	
-	<td>{$data}</td>	
 	<td>{$cp9}</td>	
-	<td class="{$classe_saldo}">R$ {$total_saldoF}</td>	
-								
+    <td class="{$classe}">R$ {$valor}</td>	
+	<td class="{$classe_saldo}">R$ {$total_saldoF}</td>							
 	<td>
-	
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$valor}', '{$nome_usu}', '{$data}', '{$cp7}', '{$cp8}', '{$cp9}')" title="Detalhes da Movimentação">
 	<i class="bi bi-exclamation-square"></i></a>
-	
 	</td>
 	</tr>
 HTML;

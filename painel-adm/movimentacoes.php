@@ -6,6 +6,7 @@ require_once("verificar.php");
 //Variveis do inputs
 
 $pagina = 'movimentacoes';
+$data_atual = date('Y-m-d');
 ?>
 
 
@@ -53,12 +54,12 @@ $pagina = 'movimentacoes';
                 </small>
 
 
-                <div style="float:left; margin-right:10px"><span><small><i title="Data de Vencimento Inicial" class="bi bi-calendar-date"></i></small></span></div>
+                <div style="float:left; margin-right:10px"><span><small><i title="Data Inicial" class="bi bi-calendar-date"></i></small></span></div>
                 <div style="float:left; margin-right:20px">
                     <input type="date" class="form-control form-control-sm" name="data-inicial" id="data-inicial-caixa" value="<?php echo date('Y-m-d') ?>" required>
                 </div>
 
-                <div style="float:left; margin-right:10px"><span><small><i title="Data de Vencimento Final" class="bi bi-calendar-date"></i></small></span></div>
+                <div style="float:left; margin-right:10px"><span><small><i title="Data Final" class="bi bi-calendar-date"></i></small></span></div>
                 <div style="float:left; margin-right:30px">
                     <input type="date" class="form-control form-control-sm" name="data-final" id="data-final-caixa" value="<?php echo date('Y-m-d') ?>" required>
                 </div>
@@ -91,7 +92,9 @@ $pagina = 'movimentacoes';
         </div>
 
         <small>
-            <div class="tableDados bg-light" id="listar-caixa"></div>
+            <div class="tableDados bg-light" id="listar-caixa">
+
+            </div>
         </small>
     </div>
 
@@ -102,7 +105,6 @@ $pagina = 'movimentacoes';
     <div class="tab-pane fade" id="credito" role="tabpanel" aria-labelledby="home-tab">
         cre
     </div>
-
 
 </div>
 
@@ -159,37 +161,32 @@ $pagina = 'movimentacoes';
 
     });
 
+    //FILTRANDO POR DATAS
 
-    // Ajax de excluir
-    $("#form-fechar").submit(function(event) {
-        event.preventDefault();
-        var formData = new FormData(this);
-        var pag = "<?= $pagina ?>";
-        $.ajax({
-            url: pag + "/fechar-caixa.php",
-            type: "POST",
-            data: formData,
+    $('#data-inicial-caixa').change(function() {
+        var dataInicial = $('#data-inicial-caixa').val();
+        var dataFinal = $('#data-final-caixa').val();
+        var status = $('#doc-caixa').val();
+        var alterou_data = 'Sim';
+        listarBuscaCaixa(dataInicial, dataFinal, status, alterou_data);
+    });
 
-            success: function(mensagem) {
-                $("#mensagem-fechar").text("");
-                $("#mensagem-fechar").removeClass();
-                if (mensagem.trim() == "Fechado com Sucesso!") {
-                    $("#btn-fechar-fechar").click();
-                    listar();
-                } else {
-                    $("#mensagem-fechar").addClass("text-danger");
-                    $("#mensagem-fechar").text(mensagem);
-                }
-            },
+    $('#data-final-caixa').change(function() {
+        var dataInicial = $('#data-inicial-caixa').val();
+        var dataFinal = $('#data-final-caixa').val();
+        var status = $('#doc-caixa').val();
+        var alterou_data = 'Sim';
+        listarBuscaCaixa(dataInicial, dataFinal, status, alterou_data);
+    });
 
-            cache: false,
-            contentType: false,
-            processData: false,
-        });
+    $('#doc-caixa').change(function() {
+        var dataInicial = $('#data-inicial-caixa').val();
+        var dataFinal = $('#data-final-caixa').val();
+        var status = $('#doc-caixa').val();
+        listarBuscaCaixa(dataInicial, dataFinal, status);
     });
 
 
-    //PESQUISAR MOVIMENTOS
     function pesquisar(tipo, movimento) {
         var id = $('#id-caixa').val();
         $.ajax({
@@ -209,13 +206,68 @@ $pagina = 'movimentacoes';
         });
     }
 
-    //LISTAR CAIXA
+
+
 
     function listarCaixa() {
         $.ajax({
             url: pag + "/listar-caixa.php",
             method: 'POST',
             data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-caixa").html(result);
+            }
+        });
+    }
+
+
+    function listarBuscaCaixa(dataInicial, dataFinal, status, alterou_data) {
+
+        $.ajax({
+            url: pag + "/listar-caixa.php",
+            method: 'POST',
+            data: {
+                dataInicial,
+                dataFinal,
+                status,
+                alterou_data
+            },
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-caixa").html(result);
+            }
+        });
+    }
+
+
+    function pesquisarCaixa(tipo, movimento) {
+
+        if (tipo != "" || movimento != "") {
+            var dataInicial = $('#data-inicial-caixa').val();
+            var dataFinal = $('#data-final-caixa').val();
+            var status = $('#doc-caixa').val();
+        }
+
+        if (tipo == "" || movimento == "") {
+            $('#data-inicial-caixa').val('<?= $data_atual ?>');
+            $('#data-final-caixa').val('<?= $data_atual ?>');
+        }
+
+
+        $.ajax({
+
+            url: pag + "/listar-caixa.php",
+            method: 'POST',
+            data: {
+                tipo,
+                movimento,
+                dataInicial,
+                dataFinal,
+                status
+            },
             dataType: "html",
 
             success: function(result) {
