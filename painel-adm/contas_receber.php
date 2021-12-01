@@ -239,6 +239,8 @@ for ($i = 0; $i < @count($res); $i++) {
                               <label for="exampleFormControlInput1" class="form-label">Tipo Entrada</label>
                               <select class="form-select" aria-label="Default select example" name="<?php echo $campo3 ?>" id="<?php echo $campo3 ?>">
                                  <option value="Caixa">Caixa (Movimento)</option>
+                                 <option value="Cartão de Débito">Cartão de Débito</option>
+                                 <option value="Cartão de Crédito">Cartão de Crédito</option>
 
                                  <?php
                                  $query = $pdo->query("SELECT * FROM bancos order by nome asc");
@@ -604,6 +606,8 @@ for ($i = 0; $i < @count($res); $i++) {
                         <label for="exampleFormControlInput1" class="form-label">Local Saída</label>
                         <select class="form-select" aria-label="Default select example" name="saida-baixar" id="saida-baixar">
                            <option value="Caixa">Caixa (Movimento)</option>
+                           <option value="Cartão de Débito">Cartão de Débito</option>
+                           <option value="Cartão de Crédito">Cartão de Crédito</option>
 
                            <?php
                            $query = $pdo->query("SELECT * FROM bancos order by nome asc");

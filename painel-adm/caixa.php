@@ -97,7 +97,7 @@ require_once($pagina . "/campos.php");
 
 <!--Modal Fechar Caixa-->
 
-<div class="modal fade" id="modalFecharCaixa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalFechar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
