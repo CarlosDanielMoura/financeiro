@@ -14,13 +14,13 @@ $data_atual = date('Y-m-d');
 <small>
     <ul class="nav nav-tabs my-2" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="caixa-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="home" aria-selected="true">Caixa</a>
+            <a onclick="pesquisarCaixa('','','Caixa')" class="nav-link active" id="caixa-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="home" aria-selected="true">Caixa</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="debito-tab" data-bs-toggle="tab" data-bs-target="#debito" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Débito</a>
+            <a onclick="pesquisarCaixa('','','Cartão de Débito')" class="nav-link" id="debito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Débito</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#credito" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Crédito</a>
+            <a onclick="pesquisarCaixa('','','Cartão de Crédito')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Crédito</a>
         </li>
 
     </ul>
@@ -28,6 +28,7 @@ $data_atual = date('Y-m-d');
 
 <div class="tab-content" id="myTabContent">
 
+    <input type="text" id="nome-busca">
 
     <div class="tab-pane fade show active" id="caixa" role="tabpanel" aria-labelledby="home-tab">
 
@@ -158,6 +159,7 @@ $data_atual = date('Y-m-d');
 <script>
     $(document).ready(function() {
         listarCaixa();
+        $('#nome-busca').val('Caixa');
 
     });
 
@@ -243,7 +245,8 @@ $data_atual = date('Y-m-d');
     }
 
 
-    function pesquisarCaixa(tipo, movimento) {
+    function pesquisarCaixa(tipo, movimento, busca) {
+        $('#nome-busca').val(busca);
 
         if (tipo != "" || movimento != "") {
             var dataInicial = $('#data-inicial-caixa').val();
@@ -266,7 +269,8 @@ $data_atual = date('Y-m-d');
                 movimento,
                 dataInicial,
                 dataFinal,
-                status
+                status,
+                busca
             },
             dataType: "html",
 

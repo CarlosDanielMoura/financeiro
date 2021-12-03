@@ -11,7 +11,7 @@ $total_saldo_geral = 0;
 $total_saldo_geralF = 0;
 
 //TRAZER O  SALDO GERAL
-$query_t = $pdo->query("SELECT * from $pagina  where lancamento = 'Caixa' order by id desc");
+$query_t = $pdo->query("SELECT * from $pagina  where lancamento = '$busca' order by id desc");
 $res_t = $query_t->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res_t) > 0) {
     for ($i_t = 0; $i_t < @count($res_t); $i_t++) {
@@ -48,7 +48,7 @@ if ($dataFinal == "") {
 
 
 $query = $pdo->query("SELECT * from $pagina where (data >= '$dataInicial' and data <= '$dataFinal') 
-and documento LIKE '$doc' and lancamento = 'Caixa' and tipo LIKE '$tipo' and movimento LIKE '$movimento'
+and documento LIKE '$doc' and lancamento = '$busca' and tipo LIKE '$tipo' and movimento LIKE '$movimento'
  order by data asc, id desc ");
 
 

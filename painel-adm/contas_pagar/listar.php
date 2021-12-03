@@ -280,7 +280,7 @@ HTML;
         $('#campo18').text(cp18);
 
 
-        var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
+        var myModal = new bootstrap.Modal(document.getElementById('modalDadosContaPagar'), {});
         myModal.show();
 
     }
