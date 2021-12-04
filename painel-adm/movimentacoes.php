@@ -35,7 +35,7 @@ $data_atual = date('Y-m-d');
         <div class="row my-3">
             <div class="col-md-9">
                 <div style="float:left; margin-right:10px">
-                    <a href="#" onclick="pesquisarCaixa('', '')" class="text-dark">
+                    <a href="#" onclick="pesquisarCaixa('', '','')" class="text-dark">
                         <span><small><i title="Filtrar Todas Movimentações" class="bi bi-search"></i></small></span>
                     </a>
                 </div>
@@ -48,21 +48,21 @@ $data_atual = date('Y-m-d');
 
 
                 <small class="mx-2">
-                    <a title="Contas à Pagar" class="text-muted" href="#" onclick="pesquisarCaixa('', 'Conta à Pagar')"><span>Contas Pagas</span></a> /
-                    <a title="Contas à Pagar Hoje" class="text-muted" href="#" onclick="pesquisarCaixa('','Conta à Receber')"><span>Contas Recebidas</span></a> /
-                    <a title="Despesas" class="text-muted" href="#" onclick="pesquisarCaixa('','Despesa')"><span>Despesas</span></a>
+                    <a title="Contas à Pagar" class="text-muted" href="#" onclick="pesquisarCaixa('', 'Conta à Pagar','')"><span>Contas Pagas</span></a> /
+                    <a title="Contas à Pagar Hoje" class="text-muted" href="#" onclick="pesquisarCaixa('','Conta à Receber','')"><span>Contas Recebidas</span></a> /
+                    <a title="Despesas" class="text-muted" href="#" onclick="pesquisarCaixa('','Despesa','')"><span>Despesas</span></a>
 
                 </small>
 
 
                 <div style="float:left; margin-right:10px"><span><small><i title="Data Inicial" class="bi bi-calendar-date"></i></small></span></div>
                 <div style="float:left; margin-right:20px">
-                    <input type="date" class="form-control form-control-sm" name="data-inicial" id="data-inicial-caixa" value="<?php echo date('Y-m-d') ?>" required>
+                    <input style="width: 141px;" type="date" class="form-control form-control-sm" name="data-inicial" id="data-inicial-caixa" value="<?php echo date('Y-m-d') ?>" required>
                 </div>
 
                 <div style="float:left; margin-right:10px"><span><small><i title="Data Final" class="bi bi-calendar-date"></i></small></span></div>
                 <div style="float:left; margin-right:30px">
-                    <input type="date" class="form-control form-control-sm" name="data-final" id="data-final-caixa" value="<?php echo date('Y-m-d') ?>" required>
+                    <input style="width: 141px;" type="date" class="form-control form-control-sm" name="data-final" id="data-final-caixa" value="<?php echo date('Y-m-d') ?>" required>
                 </div>
 
 
@@ -97,14 +97,6 @@ $data_atual = date('Y-m-d');
 
             </div>
         </small>
-    </div>
-
-    <div class="tab-pane fade" id="debito" role="tabpanel" aria-labelledby="home-tab">
-        deb
-    </div>
-
-    <div class="tab-pane fade" id="credito" role="tabpanel" aria-labelledby="home-tab">
-        cre
     </div>
 
 </div>
@@ -226,6 +218,7 @@ $data_atual = date('Y-m-d');
 
 
     function listarBuscaCaixa(dataInicial, dataFinal, status, alterou_data) {
+        var busca = $('#nome-busca').val();
 
         $.ajax({
             url: pag + "/listar-caixa.php",
@@ -234,7 +227,8 @@ $data_atual = date('Y-m-d');
                 dataInicial,
                 dataFinal,
                 status,
-                alterou_data
+                alterou_data,
+                busca
             },
             dataType: "html",
 

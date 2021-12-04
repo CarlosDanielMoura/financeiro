@@ -131,6 +131,8 @@ HTML;
             $classe_saldo = 'text-success';
         }
 
+
+
         if ($total_saldo_periodo < 0) {
             $classe_saldo_periodo = 'text-danger';
         } else {
