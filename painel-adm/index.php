@@ -159,7 +159,7 @@ if (@$_GET['pag'] == "") {
     </nav>
 
     <!-- Corpo da pagina-->
-    <div class="container-fluid mb-4 mx-4">
+    <div class="container-fluid">
         <?php
 
         require_once($pag . '.php');
