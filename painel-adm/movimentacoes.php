@@ -13,29 +13,58 @@ $data_atual = date('Y-m-d');
 
 
 <ul class="nav nav-tabs my-2" id="myTab" role="tablist">
+    <!-- CAIXA-->
     <li class="nav-item" role="presentation">
         <a onclick="pesquisarCaixa('','','Caixa')" class="nav-link active" id="caixa-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="home" aria-selected="true">Caixa</a>
     </li>
+    <!-- CARTÃO DE DÉBITO-->
     <li class="nav-item" role="presentation">
         <a onclick="pesquisarCaixa('','','Cartão de Débito')" class="nav-link" id="debito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Débito</a>
     </li>
+    <!--CARTÃO DE CRÉDITO-->
     <li class="nav-item" role="presentation">
         <a onclick="pesquisarCaixa('','','Cartão de Crédito')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Crédito</a>
     </li>
 
+    <!--BANCO DO BRASIL-->
+    <li class="nav-item" role="presentation">
+        <a onclick="pesquisarCaixa('','','Banco do Brasil')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Banco do Brasil</a>
+    </li>
+    <!--BANCO DO BRADESCO-->
+    <li class="nav-item" role="presentation">
+        <a onclick="pesquisarCaixa('','','Bradesco')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Bradesco</a>
+    </li>
+    <!--BANCO CAIXA ECONÔMICA-->
+    <li class="nav-item" role="presentation">
+        <a onclick="pesquisarCaixa('','','Caixa Econômica')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Caixa Econômica</a>
+    </li>
+
+    <!--BANCO ITAU-->
+    <li class="nav-item" role="presentation">
+        <a onclick="pesquisarCaixa('','','Itaú')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Itaú</a>
+    </li>
+
+    <!--BANCO SANTANDER-->
+    <li class="nav-item" role="presentation">
+        <a onclick="pesquisarCaixa('','','Santander')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Santander</a>
+    </li>
+    <!--BANCO SICOOB-->
+    <li class="nav-item" role="presentation">
+        <a onclick="pesquisarCaixa('','','Sicoob')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Sicoob</a>
+    </li>
 </ul>
 
 
 <div class="tab-content" id="myTabContent">
 
-    <input type="text" id="nome-busca">
+    <input type="hidden" id="nome-busca">
 
     <div class="tab-pane fade show active" id="caixa" role="tabpanel" aria-labelledby="home-tab">
 
         <div class="row my-3">
             <div class="col-md-9">
                 <div style="float:left; margin-right:10px">
-                    <a href="#" onclick="pesquisarCaixa('', '','')" class="text-dark">
+                    <a href="#" onclick="pesquisarCaixa('', '',$('#nome-busca').val())" class="text-dark">
                         <span><small><i title="Filtrar Todas Movimentações" class="bi bi-search"></i></small></span>
                     </a>
                 </div>
@@ -437,7 +466,8 @@ $data_atual = date('Y-m-d');
     function pesquisarCaixa(tipo, movimento, busca) {
         $('#nome-busca').val(busca);
 
-        if (busca == 'Cartão de Crédito' || busca == 'Cartão de Débito') {
+
+        if (busca != 'Caixa') {
             $('#outras-consultas').addClass('d-none');
         } else {
             $('#outras-consultas').removeClass('d-none');
