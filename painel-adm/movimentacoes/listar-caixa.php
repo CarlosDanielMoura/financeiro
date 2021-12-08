@@ -65,7 +65,8 @@ if (@count($res) > 0) {
 <th>Plano Conta</th>
 <th>Usuário</th>
 <th>Valor</th>		
-<th>Saldo</th>	
+<th>Saldo</th>
+<th>Ações</th>
 
 </tr>
 </thead>
@@ -166,7 +167,11 @@ HTML;
 	<td>{$nome_usu}</td>
     <td class="{$classe}">R$ {$valor}</td>	
 	<td class="{$classe_saldo_periodo}">R$ {$total_saldo_periodoF}</td>	
-	</tr>
+    <td>
+    <a href="#" onclick="editar('{$id}', '{$cp3}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+	<a href="#" onclick="excluir('{$id}' , '{$cp3}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i></a>
+	</td>
+    </tr>
 HTML;
     }
     echo <<<HTML
@@ -196,24 +201,4 @@ HTML;
         $('#icone_total').addClass(classe_saldo_geral);
         $('#total_itens').text('R$ <?= $total_saldo_geralF ?>');
     });
-
-
-
-    function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9) {
-
-        $('#campo1').text(cp1);
-        $('#campo2').text(cp2);
-        $('#campo3').text(cp3);
-        $('#campo4').text(cp4);
-        $('#campo5').text(cp5);
-        $('#campo6').text(cp6);
-        $('#campo7').text(cp7);
-        $('#campo8').text(cp8);
-        $('#campo9').text(cp9);
-
-
-        var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
-        myModal.show();
-
-    }
 </script>

@@ -146,7 +146,7 @@ $data_atual = date('Y-m-d');
                 <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Excluir Registro</span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="form-excluir" method="post">
+            <form id="form-excluir-mov" method="post">
                 <div class="modal-body">
 
                     Deseja Realmente excluir este Registro: <span id="nome-excluido"></span>?
@@ -170,7 +170,7 @@ $data_atual = date('Y-m-d');
     </div>
 </div>
 
-<!-- MODAL DESPESA -->
+<!-- MODAL DESPESA NO LINK -->
 <div class="modal fade" id="modalDespesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -733,5 +733,34 @@ $data_atual = date('Y-m-d');
 
         });
 
+    });
+
+    // Ajax de excluir mov
+    $("#form-excluir-mov").submit(function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url: pag + "/excluir.php",
+            type: "POST",
+            data: formData,
+
+            success: function(mensagem) {
+                $("#mensagem-excluir").text("");
+                $("#mensagem-excluir").removeClass();
+                if (mensagem.trim() == "Excluído com Sucesso!") {
+                    $("#btn-fechar-excluir").click();
+                    var busca = $('#nome-busca').val();
+                    pesquisarCaixa('', '', busca);
+                    limparCampos();
+                } else {
+                    $("#mensagem-excluir").addClass("text-danger");
+                    $("#mensagem-excluir").text(mensagem);
+                }
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
     });
 </script>
