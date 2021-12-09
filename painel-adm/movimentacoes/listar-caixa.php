@@ -1,5 +1,9 @@
 <?php
 require_once("../../conexao.php");
+
+session_start();
+
+$nivel_usu = @$_SESSION['nivel_usuario'];
 $pagina = 'movimentacoes';
 
 $busca = @$_POST['busca'];
@@ -161,14 +165,14 @@ HTML;
 	<tr>
     
 	<td><i class="bi bi-square-fill $classe"></i>&nbsp;&nbsp;{$data}</td>	
-	<td>{$cp2}</td>	
+	<td>{$cp2} <small>({$cp3})</small></td>	
 	<td>{$cp9}</td>	
 	<td>{$cp8}</td>	
 	<td>{$nome_usu}</td>
     <td class="{$classe}">R$ {$valor}</td>	
 	<td class="{$classe_saldo_periodo}">R$ {$total_saldo_periodoF}</td>	
     <td>
-    <a href="#" onclick="editar('{$id}', '{$cp3}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+    <a href="#" onclick="editar('{$id}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
 	<a href="#" onclick="excluir('{$id}' , '{$cp3}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i></a>
 	</td>
     </tr>
@@ -192,13 +196,45 @@ HTML;
             "ordering": false
         });
 
+        var classe_saldo_geral = '<?= $classe_saldo_geral ?>';
+
+
         $('#total_itens').removeClass();
         $('#icone_total').removeClass();
 
-        var classe_saldo_geral = '<?= $classe_saldo_geral ?>';
+
 
         $('#total_itens').addClass(classe_saldo_geral);
         $('#icone_total').addClass(classe_saldo_geral);
         $('#total_itens').text('R$ <?= $total_saldo_geralF ?>');
     });
+
+
+    //EDITANDO OS CAMPOS CAIXA MOVIMENTO
+    function editar(id, cp2, cp3, cp4, cp6, cp7, cp8, cp9) {
+
+        $('#id').val(id);
+
+        $('#movimento-edit').val(cp2);
+        $('#descricao-edit').val(cp3);
+        $('#valor-edit').val(cp4);
+        $('#data-edit').val(cp6);
+        $('#lancamento-edit').val(cp7);
+        $('#plano-conta-edit').val(cp8);
+        $('#documento-edit').val(cp9);
+
+
+        var usuario = "<?= $nivel_usu ?>";
+        if (usuario != 'Administrador') {
+            document.getElementById("valor-edit").readOnly = true;
+            document.getElementById("data-edit").readOnly = true;
+            document.getElementById("lancamento-edit").disabled = true;
+        }
+
+
+        $('#tituloModal').text('Editar Registro');
+        var myModal = new bootstrap.Modal(document.getElementById('modalForm'), {});
+        myModal.show();
+        $('#mensagem').text('');
+    }
 </script>

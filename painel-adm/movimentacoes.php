@@ -26,32 +26,23 @@ $data_atual = date('Y-m-d');
         <a onclick="pesquisarCaixa('','','Cartão de Crédito')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Cartão de Crédito</a>
     </li>
 
-    <!--BANCO DO BRASIL-->
-    <li class="nav-item" role="presentation">
-        <a onclick="pesquisarCaixa('','','Banco do Brasil')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Banco do Brasil</a>
-    </li>
-    <!--BANCO DO BRADESCO-->
-    <li class="nav-item" role="presentation">
-        <a onclick="pesquisarCaixa('','','Bradesco')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Bradesco</a>
-    </li>
-    <!--BANCO CAIXA ECONÔMICA-->
-    <li class="nav-item" role="presentation">
-        <a onclick="pesquisarCaixa('','','Caixa Econômica')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Caixa Econômica</a>
-    </li>
+    <?php
 
-    <!--BANCO ITAU-->
-    <li class="nav-item" role="presentation">
-        <a onclick="pesquisarCaixa('','','Itaú')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Itaú</a>
-    </li>
+    $query = $pdo->query("SELECT * from bancos order by nome asc");
+    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+    if (@count($res) > 0) {
+        for ($i = 0; $i < @count($res); $i++) {
+            foreach ($res[$i] as $key => $value) {
+            } ?>
 
-    <!--BANCO SANTANDER-->
-    <li class="nav-item" role="presentation">
-        <a onclick="pesquisarCaixa('','','Santander')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Santander</a>
-    </li>
-    <!--BANCO SICOOB-->
-    <li class="nav-item" role="presentation">
-        <a onclick="pesquisarCaixa('','','Sicoob')" class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false">Sicoob</a>
-    </li>
+            <li onclick="pesquisarCaixa('', '', '<?php echo $res[$i]['nome'] ?>')" class="nav-item" role="presentation">
+                <a class="nav-link" id="credito-tab" data-bs-toggle="tab" data-bs-target="#caixa" type="button" role="tab" aria-controls="profile" aria-selected="false"><?php echo $res[$i]['nome'] ?></a>
+            </li>
+
+    <?php    }
+    }
+
+    ?>
 </ul>
 
 
@@ -131,6 +122,135 @@ $data_atual = date('Y-m-d');
         </small>
     </div>
 
+</div>
+
+
+<!-- MODAL EDITAR -->
+
+<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Inserir Registro</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form" method="post">
+                <div class="modal-body">
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Descrição</label>
+                                <input type="text" class="form-control" name="descricao-edit" placeholder="Descrição" id="descricao-edit" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Valor</label>
+                                <input type="text" class="form-control" name="valor-edit" placeholder="Valor" id="valor-edit" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data</label>
+                                <input type="date" class="form-control" name="data-edit" id="data-edit" required>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
+                                <select class="form-select" aria-label="Default select example" name="documento-edit" id="documento-edit">
+
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Plano de Conta</label>
+                                <input type="text" class="form-control" name="plano-conta-edit" placeholder="Plano de Conta" id="plano-conta-edit" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Movimento</label>
+                                <input type="text" class="form-control" name="movimento-edit" placeholder="Movimento" id="movimento-edit" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Lançamento</label>
+                                <select class="form-select" aria-label="Default select example" name="lancamento-edit" id="lancamento-edit">
+                                    <option value="Caixa">Caixa (Movimento)</option>
+
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <br>
+
+                    <small>
+                        <div id="mensagem" align="center"></div>
+                    </small>
+
+                    <input type="hidden" class="form-control" name="id" id="id">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 
@@ -375,8 +495,16 @@ $data_atual = date('Y-m-d');
     $(document).ready(function() {
         listarCaixa();
         $('#nome-busca').val('Caixa');
-
+        var cat = $('#cat_despesas').val();
+        listarDespesas(cat);
+        listarClientes();
+        $('#cat_despesas').change(function() {
+            var cat = $(this).val();
+            listarDespesas(cat);
+        });
     });
+
+
 
     //FILTRANDO POR DATAS
 
@@ -404,6 +532,7 @@ $data_atual = date('Y-m-d');
     });
 
 
+    //FUNÇAO DE PESQUISAR MOVIMENTO
     function pesquisar(tipo, movimento) {
         var id = $('#id-caixa').val();
         $.ajax({
@@ -425,7 +554,7 @@ $data_atual = date('Y-m-d');
 
 
 
-
+    //LISTANDO CAIXA
     function listarCaixa() {
         $.ajax({
             url: pag + "/listar-caixa.php",
@@ -440,6 +569,7 @@ $data_atual = date('Y-m-d');
     }
 
 
+    //LISTAR BUSCA CAIXA
     function listarBuscaCaixa(dataInicial, dataFinal, status, alterou_data) {
         var busca = $('#nome-busca').val();
 
@@ -462,12 +592,12 @@ $data_atual = date('Y-m-d');
         });
     }
 
-
+    //PESQUISAR CAIXA
     function pesquisarCaixa(tipo, movimento, busca) {
         $('#nome-busca').val(busca);
 
 
-        if (busca != 'Caixa') {
+        if (busca == 'Cartão de Crédito' || busca == 'Cartão de Débito') {
             $('#outras-consultas').addClass('d-none');
         } else {
             $('#outras-consultas').removeClass('d-none');
@@ -483,6 +613,7 @@ $data_atual = date('Y-m-d');
             $('#data-inicial-caixa').val('<?= $data_atual ?>');
             $('#data-final-caixa').val('<?= $data_atual ?>');
         }
+
 
 
         $.ajax({
@@ -505,10 +636,12 @@ $data_atual = date('Y-m-d');
         });
     }
 
+    //LANÇAR DESPESA
     function lancarDespesa() {
 
         var myModal = new bootstrap.Modal(document.getElementById('modalDespesa'), {});
         myModal.show();
+
         var busca = $('#nome-busca').val();
         $('#lancamento').val(busca);
         $('#Valor').val('');
@@ -516,29 +649,18 @@ $data_atual = date('Y-m-d');
         $('#nome-cliente').val('');
         $('#descricao').val('');
 
-        //DEFINIR ABA A SER ABERTA
+        //DEFINIR ABA A SER ABERTA EM FORNECEDORES
         var someTabTriggerEl = document.querySelector('#forn-tab')
         var tab = new bootstrap.Tab(someTabTriggerEl);
         tab.show();
 
     }
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        var cat = $('#cat_despesas').val();
-        listarDespesas(cat);
-        listarClientes();
-        $('#cat_despesas').change(function() {
-            var cat = $(this).val();
-            listarDespesas(cat);
-        });
-
-    });
 
 
 
+
+
+    //LISTAR CLIENTES
     function listarClientes() {
 
         $.ajax({
@@ -554,7 +676,7 @@ $data_atual = date('Y-m-d');
     }
 
 
-
+    //LISTAR DESPESAS
     function listarDespesas(cat, despesa) {
 
         $.ajax({
@@ -576,7 +698,7 @@ $data_atual = date('Y-m-d');
 
 
 
-
+    //AJAX DO FORMULARIO DESPESA
     $("#form-desp").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
@@ -589,7 +711,7 @@ $data_atual = date('Y-m-d');
             success: function(mensagem) {
                 $('#mensagem-desp').text('');
                 $('#mensagem-desp').removeClass()
-                if (mensagem.trim() == "Salvo com Sucesso") {
+                if (mensagem.trim() == "Salvo com Sucesso!") {
                     //$('#nome').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar-desp').click();
@@ -615,8 +737,8 @@ $data_atual = date('Y-m-d');
 
 
 
-
-    $("#form-excluir-mov").submit(function() {
+    //AJAX FORMULARIO EXCLUIR MOVIMENTAÇÃO
+    $("#form-excluir-mov").submit(function(event) {
         event.preventDefault();
         var formData = new FormData(this);
 
@@ -628,7 +750,7 @@ $data_atual = date('Y-m-d');
             success: function(mensagem) {
                 $('#mensagem-excluir').text('');
                 $('#mensagem-excluir').removeClass()
-                if (mensagem.trim() == "Excluído com Sucesso") {
+                if (mensagem.trim() == "Excluído com Sucesso!") {
                     $('#btn-fechar-excluir').click();
                     var busca = $('#nome-busca').val();
                     pesquisarCaixa('', '', busca);
@@ -650,7 +772,7 @@ $data_atual = date('Y-m-d');
 
     });
 
-
+    //LIMPAR CAMPOS
     function limparCampos() {
         $('#usuario_adm').val('');
         $('#senha_adm').val('');
@@ -659,7 +781,7 @@ $data_atual = date('Y-m-d');
 
 
 
-
+    //FORMULARIO DE INSERIR MOVIMENTAÇOES
     $("#form").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
@@ -672,7 +794,7 @@ $data_atual = date('Y-m-d');
             success: function(mensagem) {
                 $('#mensagem').text('');
                 $('#mensagem').removeClass()
-                if (mensagem.trim() == "Salvo com Sucesso") {
+                if (mensagem.trim() == "Salvo com Sucesso!") {
                     //$('#nome').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar').click();
@@ -698,7 +820,7 @@ $data_atual = date('Y-m-d');
 
 
 
-
+    //FORMULARIO DE TRANSFERENCIA DE DINHEIRO ENTRO BANCOS
     $("#form-transf").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
@@ -735,7 +857,7 @@ $data_atual = date('Y-m-d');
 
     });
 
-    // Ajax de excluir mov
+    // AJAX DE EXCLUIR MOV
     $("#form-excluir-mov").submit(function(event) {
         event.preventDefault();
         var formData = new FormData(this);
