@@ -22,7 +22,9 @@ if ($cp4 == "") {
 $id = @$_POST['id'];
 
 
-$query = $pdo->prepare("UPDATE movimentacoes set movimento = :campo2, descricao = :campo3, valor = :campo4, data = :campo6, lancamento = :campo7, plano_conta = :campo8, documento = :campo9, usuario = :campo10 WHERE id = '$id'");
+$query = $pdo->prepare("UPDATE movimentacoes set movimento = :campo2, descricao = :campo3, 
+valor = :campo4, data = :campo6, lancamento = :campo7, plano_conta = :campo8, 
+documento = :campo9, usuario = :campo10 WHERE id = '$id'");
 
 
 $query->bindValue(":campo2", "$cp2");

@@ -13,31 +13,35 @@ if ($busca == "") {
 
 $total_saldo_geral = 0;
 $total_saldo_geralF = 0;
-
-//TRAZER O  SALDO GERAL
-$query_t = $pdo->query("SELECT * from $pagina  where lancamento = '$busca' order by id desc");
+//TRAZER O SALDO GERAL
+$query_t = $pdo->query("SELECT * from $pagina where lancamento = '$busca' order by id desc");
 $res_t = $query_t->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res_t) > 0) {
-    for ($i_t = 0; $i_t < @count($res_t); $i_t++) {
-        foreach ($res_t[$i_t] as $key => $value) {
+    for ($it = 0; $it < @count($res_t); $it++) {
+        foreach ($res_t[$it] as $key => $value) {
         }
-        $data_primeiro_reg = $res_t[$i_t]['data'];
+        $data_primeiro_reg = $res_t[$it]['data'];
 
-        $total_saldo_geral +=  $res_t[$i_t]['valor'];
+        if ($res_t[$it]['tipo'] == 'Entrada') {
+            $total_saldo_geral += $res_t[$it]['valor'];
+        } else {
+            $total_saldo_geral -= $res_t[$it]['valor'];
+        }
     }
+
     if ($total_saldo_geral < 0) {
         $classe_saldo_geral = 'text-danger';
     } else {
         $classe_saldo_geral = 'text-success';
     }
+
     $total_saldo_geralF = number_format($total_saldo_geral, 2, ',', '.');
 }
+
 
 $tipo = '%' . @$_POST['tipo'] . '%';
 $movimento = '%' . @$_POST['movimento'] . '%';
 $doc = '%' . @$_POST['status'] . '%';
-
-
 $dataInicial = @$_POST['dataInicial'];
 $dataFinal = @$_POST['dataFinal'];
 $alterou_data = @$_POST['alterou_data'];
@@ -58,31 +62,25 @@ and documento LIKE '$doc' and lancamento = '$busca' and tipo LIKE '$tipo' and mo
 
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res) > 0) {
-
     echo <<<HTML
-<table id="example2" class="table table-striped table-light table-hover my-4">
-<thead>
-<tr>
-<th>Data</th>	
-<th>Movimento</th>		
-<th>Documento</th>
-<th>Plano Conta</th>
-<th>Usuário</th>
-<th>Valor</th>		
-<th>Saldo</th>
-<th>Ações</th>
-
-</tr>
-</thead>
-<tbody>
-HTML;
+	<table id="example2" class="table table-striped table-light table-hover my-4">
+	<thead>
+	<tr>
+	<th>Data</th>
+	<th>Movimento</th>		
+	<th>Documento</th>
+	<th>Plano Conta</th>
+	<th>Usuário</th>
+	<th>Valor</th>		
+	<th>Saldo</th>	
+	<th>Ações</th>	
+	</tr>
+	</thead>
+	<tbody>
+	HTML;
 
     $total_saldo = 0;
     $total_saldoF = 0;
-
-
-
-
     for ($i = 0; $i < @count($res); $i++) {
         foreach ($res[$i] as $key => $value) {
         }
@@ -99,22 +97,23 @@ HTML;
         $cp9 = $res[$i]['documento'];
 
 
+
         $total_saldo_periodo = 0;
         $total_saldo_periodoF = 0;
+        $contador = $i + 1;
 
         //TRAZER O SALDO GERAL
-        $query_t = $pdo->query("SELECT * from $pagina where lancamento = '$busca' and data >= '$data_primeiro_reg' and data <= '$cp6' 
-        order by data asc, id desc");
+        $query_t = $pdo->query("SELECT * from $pagina where lancamento = '$busca' and data >= '$data_primeiro_reg' and data <= '$cp6' order by data asc, id asc");
         $res_t = $query_t->fetchAll(PDO::FETCH_ASSOC);
         if (@count($res_t) > 0) {
-            for ($i_t = 0; $i_t < @count($res_t) and $id != $res_t[$i_t]['id']; $i_t++) {
-                foreach ($res_t[$i_t] as $key => $value) {
+            for ($it = 0; $it < @count($res_t) and $id != $res_t[$it]['id']; $it++) {
+                foreach ($res_t[$it] as $key => $value) {
                 }
 
-                if ($res_t[$i_t]['tipo'] == 'Entrada') {
-                    $total_saldo_periodo += $res_t[$i_t]['valor'];
+                if ($res_t[$it]['tipo'] == 'Entrada') {
+                    $total_saldo_periodo += $res_t[$it]['valor'];
                 } else {
-                    $total_saldo_periodo -= $res_t[$i_t]['valor'];
+                    $total_saldo_periodo -= $res_t[$it]['valor'];
                 }
             }
         }
@@ -124,8 +123,10 @@ HTML;
             $classe = 'text-success';
             $total_saldo += $cp4;
             $total_saldo_periodo = $total_saldo_periodo + $cp4;
+            $classe_linha = '';
         } else {
             $classe = 'text-danger';
+            $classe_linha = 'text-danger';
             $total_saldo -= $cp4;
             $total_saldo_periodo = $total_saldo_periodo - $cp4;
         }
@@ -136,13 +137,12 @@ HTML;
             $classe_saldo = 'text-success';
         }
 
-
-
         if ($total_saldo_periodo < 0) {
             $classe_saldo_periodo = 'text-danger';
         } else {
             $classe_saldo_periodo = 'text-success';
         }
+
 
 
         $query1 = $pdo->query("SELECT * from usuarios where id = '$cp5' ");
@@ -158,33 +158,29 @@ HTML;
         $total_saldoF = number_format($total_saldo, 2, ',', '.');
         $total_saldo_periodoF = number_format($total_saldo_periodo, 2, ',', '.');
 
-
-
-
         echo <<<HTML
-	<tr>
-    
-	<td><i class="bi bi-square-fill $classe"></i>&nbsp;&nbsp;{$data}</td>	
-	<td>{$cp2} <small>({$cp3})</small></td>	
-	<td>{$cp9}</td>	
-	<td>{$cp8}</td>	
-	<td>{$nome_usu}</td>
-    <td class="{$classe}">R$ {$valor}</td>	
-	<td class="{$classe_saldo_periodo}">R$ {$total_saldo_periodoF}</td>	
-    <td>
-    <a href="#" onclick="editar('{$id}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
-	<a href="#" onclick="excluir('{$id}' , '{$cp3}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i></a>
-	</td>
-    </tr>
-HTML;
+		<tr class="{$classe_linha}">
+		<td>{$data}</td>
+		<td>{$cp2} <small>({$cp3})</small></td>	
+		<td>{$cp9}</td>	
+		<td>{$cp8}</td>	
+		<td>{$nome_usu}</td>
+		<td class="{$classe}">R$ {$valor}</td>		
+		<td class="{$classe_saldo_periodo}">R$ {$total_saldo_periodoF}</td>
+		<td>
+			<a href="#" onclick="editar('{$id}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+			<a href="#" onclick="excluir('{$id}' , '{$cp3}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
+		</td>
+		</tr>
+		HTML;
     }
     echo <<<HTML
-</tbody>
-</table>
-<div class="my-3 " align="right">
-  <strong>  Saldo por Período:</strong>  <span class="$classe_saldo"> R$ {$total_saldoF}</span>
-</div>
-HTML;
+	</tbody>
+	</table>
+	<div class="my-3" align="right">
+	Saldo do Período: <span class="{$classe_saldo}">R$ {$total_saldoF}</span>
+	</div>
+	HTML;
 } else {
     echo '<div class="d-flex justify-content-center"> <strong> Nenhum registro foi encontrado nessa data inserida!</strong></div>';
 }
@@ -196,13 +192,13 @@ HTML;
             "ordering": false
         });
 
-        var classe_saldo_geral = '<?= $classe_saldo_geral ?>';
+
 
 
         $('#total_itens').removeClass();
         $('#icone_total').removeClass();
 
-
+        var classe_saldo_geral = '<?= $classe_saldo_geral ?>';
 
         $('#total_itens').addClass(classe_saldo_geral);
         $('#icone_total').addClass(classe_saldo_geral);

@@ -100,9 +100,9 @@ $data_atual = date('Y-m-d');
 
                     <!---LANÇAR DESPESAS DIRETO--->
                     <small class="mx-2">
-                        <a title="Lançar Despesas" class="text-success" href="#" onclick="lancarDespesa()"> <i class="bi bi-plus"></i> <span>Despesa</span></a>
+                        <a title="Lançar Despesas" class="text-danger" href="#" onclick="lancarDespesa()"></i><span>Despesa</span></a>
                         /
-                        <a title="Transferir Valores" class="text-dark" href="#" onclick="transferencias()"><span>Tranferências</span></a>
+                        <a title="Transferir Valores" class="text-primary" href="#" onclick="transferencias()"><span>Tranferências</span></a>
                     </small>
 
                 </div>
@@ -111,7 +111,7 @@ $data_atual = date('Y-m-d');
             </div>
 
             <div align="right" class="col-md-2">
-                <i class="bi bi-coin"></i> <span class="text-dark ml-5">Total: <span id="total_itens" class="text-danger"></span></span>
+                <i class="bi bi-coin"></i> <span class="text-dark ml-5">Total: <span id="total_itens"></span></span>
             </div>
         </div>
 
@@ -134,7 +134,7 @@ $data_atual = date('Y-m-d');
                 <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Inserir Registro</span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="form" method="post">
+            <form id="form-Mov" method="post">
                 <div class="modal-body">
 
 
@@ -482,6 +482,102 @@ $data_atual = date('Y-m-d');
 </div>
 
 
+<!-- Modal Trans-->
+<div class="modal fade" id="modalTransferir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Tranferir Valores</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-transf" method="post">
+                <div class="modal-body">
+
+
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Saída:</label>
+                                <select class="form-select" aria-label="Default select example" name="lancamento-transf" id="lancamento-transf">
+                                    <option value="Caixa">Caixa (Movimento)</option>
+
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Valor:</label>
+                                <input type="text" class="form-control" name="valor-transf" placeholder="Valor" id="valor-transf" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Entrada:</label>
+                                <select class="form-select" aria-label="Default select example" name="lancamento-entrada" id="lancamento-entrada">
+                                    <option value="Caixa">Caixa (Movimento)</option>
+
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <small>
+                        <div id="mensagem-transf" align="center"></div>
+                    </small>
+
+                    <input type="hidden" class="form-control" name="id" id="id-desp">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-transf">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Transferir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -695,9 +791,28 @@ $data_atual = date('Y-m-d');
         });
     }
 
+    //FAZER TRANSFERENÇIA
+    function transferencias() {
+
+        var busca = $('#nome-busca').val();
+        $('#lancamento-transf').val(busca);
+        $('#Valor-transf').val('');
+        var myModal = new bootstrap.Modal(document.getElementById('modalTransferir'), {});
+        myModal.show();
+
+    }
+
+    //LIMPAR CAMPOS
+    function limparCampos() {
+        $('#usuario_adm').val('');
+        $('#senha_adm').val('');
+    }
+</script>
 
 
+<!--AJAX-->
 
+<script>
     //AJAX DO FORMULARIO DESPESA
     $("#form-desp").submit(function() {
         event.preventDefault();
@@ -772,17 +887,13 @@ $data_atual = date('Y-m-d');
 
     });
 
-    //LIMPAR CAMPOS
-    function limparCampos() {
-        $('#usuario_adm').val('');
-        $('#senha_adm').val('');
-    }
+
 
 
 
 
     //FORMULARIO DE INSERIR MOVIMENTAÇOES
-    $("#form").submit(function() {
+    $("#form-Mov").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
 
@@ -824,7 +935,7 @@ $data_atual = date('Y-m-d');
     $("#form-transf").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
-        console.log('fsdsfasdfasfa')
+
         $.ajax({
             url: pag + "/transferir.php",
             type: 'POST',
@@ -833,7 +944,7 @@ $data_atual = date('Y-m-d');
             success: function(mensagem) {
                 $('#mensagem-transf').text('');
                 $('#mensagem-transf').removeClass()
-                if (mensagem.trim() == "Salvo com Sucesso") {
+                if (mensagem.trim() == "Salvo com Sucesso!") {
                     $('#valor-transf').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar-transf').click();
