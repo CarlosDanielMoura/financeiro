@@ -159,8 +159,8 @@ if (@count($res) > 0) {
         $total_saldo_periodoF = number_format($total_saldo_periodo, 2, ',', '.');
 
         echo <<<HTML
-		<tr class="{$classe_linha}">
-		<td>{$data}</td>
+		<tr>
+		<td> <i class="bi bi-square-fill $classe"></i> {$data}</td>
 		<td>{$cp2} <small>({$cp3})</small></td>	
 		<td>{$cp9}</td>	
 		<td>{$cp8}</td>	

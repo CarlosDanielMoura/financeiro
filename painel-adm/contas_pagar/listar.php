@@ -109,7 +109,7 @@ for ($i = 0; $i < @count($res); $i++) {
         if (@$desc[1] == "") {
             $descricao = $nome_cliente . ' - ' . $cp1;
         } else {
-            $descricao = $nome_cliente . ' - ' . @$desc[1];
+            $descricao = $nome_cliente;
         }
     } else {
         $nome_cliente = 'Sem Fornecedor';

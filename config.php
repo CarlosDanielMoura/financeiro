@@ -22,3 +22,6 @@ $nivel_minimo_estoque = 5; // A partir desse valor para baixo será nével baixo
 $valor_multa = 2; //0.02 PARA 2% SE FOR 20% SERIA POR EXEMPLO 0.2
 $valor_juros_dia = 0.15;
 $dias_carencia = 0;
+
+$frequencia_automatica = 'Não'; /* Caso utilize sim e tenha uma conta que foi lançada mensal, todo mês será 
+gerada uma conta independente se a anterior foi paga*/
