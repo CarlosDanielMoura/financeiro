@@ -31,6 +31,8 @@ $menu15 = 'contas_pagar';
 $menu16 = 'contas_receber';
 $menu18 = 'contas_despesa';
 $menu19 = 'movimentacoes';
+$menu20 = 'vendas';
+$menu21 = 'compras';
 
 
 
@@ -125,7 +127,7 @@ if (@$_GET['pag'] == "") {
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu11 ?>&estoque=sim">Estoque Baixo</a></li>
                         </ul>
                     </li>
-                    <!-- ABERTURA/ FECHAMENTO DE CAIXA-->
+                    <!-- ABERTURA/ FECHAMENTO DE CAIXA / CONTAS-->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Movimentações
                         </a>
@@ -137,6 +139,17 @@ if (@$_GET['pag'] == "") {
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa por Período</a></li>
                         </ul>
                     </li>
+
+                    <!-- VENDAS / COMPRAS-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vendas/Compras
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu20 ?>">Vendas</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu21 ?>">Compras</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
                 <div class="d-flex ">
                     <img class="img-profile rounded-circle" src=" ../img/usuario-navbar.png" alt="" width=" 50px" height="50px">
