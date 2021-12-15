@@ -3,7 +3,6 @@ require_once("../conexao.php");
 require_once("verificar.php");
 $pagina = 'vendas';
 
-require_once($pagina . "/campos.php");
 
 ?>
 <link rel="stylesheet" href="../css/tela-venda.css">

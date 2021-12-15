@@ -48,12 +48,13 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td style="text-align:center; width:20%">R$ {$cp5}</td>
 	<td style="text-align:center">{$res[$i]['estoque']}</td>
 	<td style="text-align:center"><img src="../img/produtos/{$res[$i]['foto']}" width="25"></td>
-	<td style="text-align:center">
-	<input class="form-control form-control-sm" value="1" type="number" id="qtd-{$id_reg}" >
+	<td style="text-align:center"><input class="form-control form-control-sm" value="1" type="number" id="qtd-{$id_reg}" >
 	</td>
 	<td style="text-align:center">
 	<a href="" onclick="addProduto({$id_reg})" title="Add Produto">
-		<i class="bi bi-check-square text-primary"></i></a>
+    <i class="bi bi-check-square text-primary">
+    </i>
+    </a>
 	</td>
 	</tr>
 HTML;
