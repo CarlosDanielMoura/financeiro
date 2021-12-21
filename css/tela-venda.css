@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  background-color: #858585;
+  background-color: #e9ebf2;
 }
 
 .margensCab {
@@ -76,7 +76,8 @@ body {
 
   -webkit-box-shadow: 0 15px 24px rgba(37, 44, 65, 0.16);
   -moz-box-shadow: 0 15px 24px rgba(37, 44, 65, 0.16);
-  box-shadow: 0 15px 24px rgba(37, 44, 65, 0.16);
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  border-radius: 15px;
 }
 
 ul.order-list {
@@ -142,6 +143,8 @@ ul.order-list li:hover > h5 {
 .payment {
   z-index: 0;
   background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  border-radius: 15px;
 }
 
 .Tabela-venda thead tr th {
@@ -156,17 +159,19 @@ ul.order-list li:hover > h5 {
 }
 
 /*BARRA DE TITULO CLIENTE / VENDAS  / COMPRAS */
+
 .barra-lista-itens {
-  border: 1px solid black;
-  border-radius: 5px;
-  color: white;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.background {
+  background-color: rgb(0, 219, 235);
+  color: #fff;
+  padding: 3px 10px;
+  margin-bottom: 5px;
   text-align: center;
-  font-family: "Acme", sans-serif;
-  height: 30px;
-  background-image: linear-gradient(
-    to right,
-    #136a8a 0%,
-    #267871 51%,
-    #136a8a 100%
-  );
+  box-shadow: rgba(0, 219, 235, 0.4) 5px 5px, rgba(0, 219, 235, 0.3) 10px 10px,
+    rgba(0, 219, 235, 0.2) 15px 15px, rgba(0, 219, 235, 0.1) 20px 20px,
+    rgba(0, 219, 235, 0.05) 25px 25px;
 }

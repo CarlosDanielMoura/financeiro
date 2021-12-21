@@ -12,9 +12,12 @@ $pagina = 'vendas';
             <div class="row justify-content-center">
                 <div class="col-md-4 col-sm-12">
                     <div class='order py-2'>
-                        <div class="barra-lista-itens">
-                            <p class="background">LISTA DE ITENS: CLIENTE<span id="nome-cliente"></span>
+                        <div class="row justify-content-center">
+                            <div class="col-md-11 barra-lista-itens">
+                                <p class="background">LISTA DE ITENS: CLIENTE <strong><span id="nome-cliente"></span></strong>
+                            </div>
                         </div>
+
 
 
                         </p>
@@ -52,7 +55,7 @@ $pagina = 'vendas';
                                 </div>
 
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control form-control-sm" name="nome-cliente" id="nome-cliente" placeholder="Nome Cliente" readonly>
+                                    <input type="text" class="form-control form-control-sm" name="nome-cliente-in" id="nome-cliente-in" placeholder="Nome Cliente" readonly>
                                 </div>
                             </div>
 

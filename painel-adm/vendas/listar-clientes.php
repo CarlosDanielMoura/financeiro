@@ -91,7 +91,9 @@ HTML;
 
     function selecionarCliente(id, nome) {
         $('#id-cliente').val(id);
-        $('#nome-cliente').val(nome);
+        var nomeTitle = nome.toUpperCase();
+        $('#nome-cliente').text(nomeTitle);
+        $('#nome-cliente-in').val(nome);
 
     }
 </script>

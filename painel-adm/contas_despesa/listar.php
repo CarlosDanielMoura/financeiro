@@ -60,7 +60,6 @@ HTML;
             $nome_usu = $res1[0]['nome'];
         }
 
-
         $data = implode('/', array_reverse(explode('-', $cp3)));
         $valor = number_format($cp2, 2, ',', '.');
 

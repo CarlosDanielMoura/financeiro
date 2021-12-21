@@ -134,7 +134,7 @@ if (@$_GET['pag'] == "") {
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu15 ?>">Contas à Pagar</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu16 ?>">Contas à Receber</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu18 ?>">Lanças Despesas</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu18 ?>">Lançar Despesas</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu19 ?>">Caixa - Movimentações</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu14 ?>">Caixa por Período</a></li>
                         </ul>
