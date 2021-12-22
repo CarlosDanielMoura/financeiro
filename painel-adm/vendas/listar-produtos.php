@@ -44,7 +44,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
     echo <<<HTML
 	<tr>
-	<td style="width:40%">{$res[$i]['nome']}</td>
+	<td style="width:40%; text-align:center">{$res[$i]['nome']}</td>
 	<td style="text-align:center; width:20%">R$ {$cp5}</td>
 	<td style="text-align:center">{$res[$i]['estoque']}</td>
 	<td style="text-align:center"><img src="../img/produtos/{$res[$i]['foto']}" width="25"></td>
