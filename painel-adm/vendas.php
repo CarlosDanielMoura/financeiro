@@ -135,9 +135,11 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                             </div>
 
                             <small>
-                                <div class="tabela bg-light" id="listar-clientes">
+                                <small>
+                                    <div class="tabela bg-light" id="listar-clientes">
 
-                                </div>
+                                    </div>
+                                </small>
                             </small>
 
                         </div>
@@ -566,8 +568,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function limparCampos() {
         listarItens();
         $('#id-cliente').val('');
-        $('#nome-cliente').val('');
-        $('#nome-cliente-in').text('');
+        $('#nome-cliente').text('');
+        $('#nome-cliente-in').val('');
 
         //DEFINIR ABA A SER ABERTA
         var someTabTriggerEl = document.querySelector('#home-tab')

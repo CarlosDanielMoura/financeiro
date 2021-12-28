@@ -1,0 +1,17 @@
+.format {
+  justify-content: center;
+}
+
+#nome-cliente-rec {
+  width: 100%;
+  text-align: center;
+}
+
+.tamOrigId {
+  width: 100%;
+  text-align: center;
+}
+
+.addtamIdModi {
+  width: 52px;
+}

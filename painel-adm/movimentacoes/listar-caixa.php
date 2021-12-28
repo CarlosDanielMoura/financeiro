@@ -45,6 +45,7 @@ $doc = '%' . @$_POST['status'] . '%';
 $dataInicial = @$_POST['dataInicial'];
 $dataFinal = @$_POST['dataFinal'];
 $alterou_data = @$_POST['alterou_data'];
+$todas = @$_POST['todas'];
 
 if ($dataInicial == "") {
     $dataInicial = date('Y-m-d');
@@ -54,10 +55,14 @@ if ($dataFinal == "") {
     $dataFinal = date('Y-m-d');
 }
 
+if ($todas != "") {
+    $dataInicial = $data_primeiro_reg;
+}
+
 
 $query = $pdo->query("SELECT * from $pagina where (data >= '$dataInicial' and data <= '$dataFinal') 
 and documento LIKE '$doc' and lancamento = '$busca' and tipo LIKE '$tipo' and movimento LIKE '$movimento'
- order by data asc, id desc ");
+ order by data asc, id asc ");
 
 
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -103,7 +108,8 @@ if (@count($res) > 0) {
         $contador = $i + 1;
 
         //TRAZER O SALDO GERAL
-        $query_t = $pdo->query("SELECT * from $pagina where lancamento = '$busca' and data >= '$data_primeiro_reg' and data <= '$cp6' order by data asc, id asc");
+        $query_t = $pdo->query("SELECT * from $pagina where lancamento = '$busca' 
+        and data >= '$data_primeiro_reg' and data <= '$cp6' order by data asc, id asc");
         $res_t = $query_t->fetchAll(PDO::FETCH_ASSOC);
         if (@count($res_t) > 0) {
             for ($it = 0; $it < @count($res_t) and $id != $res_t[$it]['id']; $it++) {

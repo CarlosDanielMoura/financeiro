@@ -10,7 +10,8 @@ $data_atual = date('Y-m-d');
 ?>
 
 
-
+<!---LINKS CSS-->
+<link rel="stylesheet" href="../css/geral.css">
 
 <ul class="nav nav-tabs my-2" id="myTab" role="tablist">
     <!-- CAIXA-->
@@ -56,7 +57,7 @@ $data_atual = date('Y-m-d');
             <div class="col-md-9">
                 <div style="float:left; margin-right:10px">
                     <a href="#" onclick="pesquisarCaixa('', '',$('#nome-busca').val())" class="text-dark">
-                        <span><small><i title="Filtrar Todas Movimentações" class="bi bi-search"></i></small></span>
+                        <span><small><i title="Filtrar Movimentações do Dia" class="bi bi-search"></i></small></span>
                     </a>
                 </div>
 
@@ -73,12 +74,6 @@ $data_atual = date('Y-m-d');
                 <!--TIRANDO AS DIVS-->
 
                 <div id="outras-consultas">
-
-                    <small class="mx-2">
-                        <a title="Movimentações de Entradas" class="text-success" href="#" onclick="pesquisarCaixa('Entrada', '')"><span>Entradas</span></a> /
-                        <a title="Movimentações de Saídas" class="text-danger" href="#" onclick="pesquisarCaixa('Saída', '')"><span>Saídas</span></a>
-
-                    </small>
 
                     <!--TIPO DE DOCUMENTO-->
                     <div style="float:left; margin-right:10px">
@@ -98,12 +93,26 @@ $data_atual = date('Y-m-d');
                         </select>
                     </div>
 
+                    <!--Entradas / Saidas-->
+
+                    <small class="mx-2">
+                        <a title="Movimentações de Entradas" class="text-success" href="#" onclick="pesquisarCaixa('Entrada', '')"><span>Entradas</span></a> /
+                        <a title="Movimentações de Saídas" class="text-danger" href="#" onclick="pesquisarCaixa('Saída', '')"><span>Saídas</span></a>/
+                        <a title="Filtrar Todas a contas" class="text-warning" href="#" onclick="pesquisarCaixa('','',$('#nome-busca').val(),'todas')"></i><span>Todas</span></a>
+
+                    </small>
+
+
+
                     <!---LANÇAR DESPESAS DIRETO--->
                     <small class="mx-2">
                         <a title="Lançar Despesas" class="text-danger" href="#" onclick="lancarDespesa()"></i><span>Despesa</span></a>
                         /
+                        <a title="Lançar Entradas" class="text-success" href="#" onclick="lancarReceita()"><span>Receita</span></a>
+                        /
                         <a title="Transferir Valores" class="text-primary" href="#" onclick="transferencias()"><span>Tranferências</span></a>
                     </small>
+
 
                 </div>
 
@@ -111,7 +120,7 @@ $data_atual = date('Y-m-d');
             </div>
 
             <div align="right" class="col-md-2">
-                <i class="bi bi-coin"></i> <span class="text-dark ml-5">Total: <span id="total_itens"></span></span>
+                <i class=" bi bi-coin"></i> <span class="text-dark ml-5">Total: <span id="total_itens"></span></span>
             </div>
         </div>
 
@@ -482,7 +491,160 @@ $data_atual = date('Y-m-d');
 </div>
 
 
-<!-- Modal Trans-->
+<!-- MODAL RECEITA-->
+<div class="modal fade" id="modalReceita" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Inserir Receita</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-rec" method="post">
+                <div class="modal-body">
+
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="cli-tab" data-bs-toggle="tab" data-bs-target="#dados-rec" type="button" role="tab" aria-controls="home" aria-selected="true">Clientes</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas-rec" type="button" role="tab" aria-controls="profile" aria-selected="false">Receita</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content my-2" id="myTabContent">
+                        <div class="tab-pane fade show active" id="dados-rec" role="tabpanel" aria-labelledby="home-tab">
+
+                            <div class="row my-2 format">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control tamOrigId" name="id-cliente-rec" id="id-cliente-rec" placeholder="Id do Cliente" readonly>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control " name="nome-cliente-rec" id="nome-cliente-rec" placeholder="Nome do Cliente" readonly>
+                                </div>
+                            </div>
+
+                            <small>
+                                <div class="tableDados bg-light" id="listar-clientes-rec">
+
+                                </div>
+                            </small>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="contas-rec" role="tabpanel" aria-labelledby="profile-tab">
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Descrição</label>
+                                        <input type="text" class="form-control" name="descricao" placeholder="Descrição" id="descricao-rec">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Valor</label>
+                                        <input type="text" class="form-control" name="valor" placeholder="Valor" id="Valor-rec">
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Data</label>
+                                        <input type="date" class="form-control" name="data" id="Data" value="<?php echo date('Y-m-d') ?>" required>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Tipo Entrada</label>
+                                        <select class="form-select" aria-label="Default select example" name="lancamento" id="lancamento-rec">
+                                            <option value="Caixa">Caixa (Movimento)</option>
+
+                                            <?php
+                                            $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                            for ($i = 0; $i < @count($res); $i++) {
+                                                foreach ($res[$i] as $key => $value) {
+                                                }
+                                                $id_item = $res[$i]['id'];
+                                                $nome_item = $res[$i]['nome'];
+                                            ?>
+                                                <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                            <?php } ?>
+
+
+                                        </select>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
+                                        <select class="form-select" aria-label="Default select example" name="documento" id="documento-rec">
+
+                                            <?php
+                                            $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
+                                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                            for ($i = 0; $i < @count($res); $i++) {
+                                                foreach ($res[$i] as $key => $value) {
+                                                }
+                                                $id_item = $res[$i]['id'];
+                                                $nome_item = $res[$i]['nome'];
+                                            ?>
+                                                <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                            <?php } ?>
+
+
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <br>
+
+                    <small>
+                        <div id="mensagem-rec" align="center"></div>
+                    </small>
+
+                    <input type="hidden" class="form-control" name="id" id="id-rec">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-rec">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Transferencia-->
 <div class="modal fade" id="modalTransferir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -594,6 +756,7 @@ $data_atual = date('Y-m-d');
         var cat = $('#cat_despesas').val();
         listarDespesas(cat);
         listarClientes();
+        listarClientesRec();
         $('#cat_despesas').change(function() {
             var cat = $(this).val();
             listarDespesas(cat);
@@ -689,7 +852,7 @@ $data_atual = date('Y-m-d');
     }
 
     //PESQUISAR CAIXA
-    function pesquisarCaixa(tipo, movimento, busca) {
+    function pesquisarCaixa(tipo, movimento, busca, todas) {
         $('#nome-busca').val(busca);
 
 
@@ -722,7 +885,8 @@ $data_atual = date('Y-m-d');
                 dataInicial,
                 dataFinal,
                 status,
-                busca
+                busca,
+                todas
             },
             dataType: "html",
 
@@ -752,9 +916,40 @@ $data_atual = date('Y-m-d');
 
     }
 
+    //LANÇAR RECEITA
+    function lancarReceita() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalReceita'), {});
+        myModal.show();
+        var busca = $('#nome-busca').val();
+        $('#lancamento-rec').val(busca);
+        $('#Valor-rec').val('');
+        $('#id-cliente-rec').val('');
+        $('#nome-cliente-rec').val('');
+        $('#descricao-rec').val('');
+
+        //DEFINIR ABA A SER ABERTA
+        var someTabTriggerEl = document.querySelector('#cli-tab')
+        var tab = new bootstrap.Tab(someTabTriggerEl);
+        tab.show();
 
 
+    }
 
+
+    // LISTAR CLIENTES RECEITA
+    function listarClientesRec() {
+
+        $.ajax({
+            url: pag + "/listar-clientes-rec.php",
+            method: 'POST',
+            data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-clientes-rec").html(result);
+            }
+        });
+    }
 
     //LISTAR CLIENTES
     function listarClientes() {
@@ -806,6 +1001,26 @@ $data_atual = date('Y-m-d');
     function limparCampos() {
         $('#usuario_adm').val('');
         $('#senha_adm').val('');
+    }
+
+
+    // FECHAMENTO
+    function fechamento() {
+
+        var myModal = new bootstrap.Modal(document.getElementById('modalFechamento'), {});
+        myModal.show();
+        var busca = $('#nome-busca').val();
+        $('#lancamento-fec').val(busca);
+
+        var local = $('#nome-busca').val();
+        $('#local').val(local);
+
+        if (local != 'Caixa') {
+            document.getElementById("valor-fec").readOnly = true;
+        } else {
+            document.getElementById("valor-fec").readOnly = false;
+        }
+
     }
 </script>
 
@@ -995,5 +1210,41 @@ $data_atual = date('Y-m-d');
             contentType: false,
             processData: false,
         });
+    });
+
+
+    $("#form-rec").submit(function() {
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: pag + "/inserir-receita.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+                $('#mensagem-rec').text('');
+                $('#mensagem-rec').removeClass()
+                if (mensagem.trim() == "Salvo com Sucesso!") {
+                    //$('#nome').val('');
+                    //$('#cpf').val('');
+                    $('#btn-fechar-rec').click();
+                    var busca = $('#nome-busca').val();
+                    pesquisarCaixa('', '', busca);
+                } else {
+
+                    $('#mensagem-rec').addClass('text-danger')
+                    $('#mensagem-rec').text(mensagem)
+                }
+
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+
+        });
+
     });
 </script>
