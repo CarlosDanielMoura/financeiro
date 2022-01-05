@@ -96,31 +96,33 @@ $data_atual = date('Y-m-d');
                     <!--Entradas / Saidas-->
 
                     <small class="mx-2">
-                        <a title="Movimentações de Entradas" class="text-success" href="#" onclick="pesquisarCaixa('Entrada', '')"><span>Entradas</span></a> /
-                        <a title="Movimentações de Saídas" class="text-danger" href="#" onclick="pesquisarCaixa('Saída', '')"><span>Saídas</span></a>/
-                        <a title="Filtrar Todas a contas" class="text-warning" href="#" onclick="pesquisarCaixa('','',$('#nome-busca').val(),'todas')"></i><span>Todas</span></a>
-
+                        <small>
+                            <a title="Movimentações de Entradas" class="text-success" href="#" onclick="pesquisarCaixa('Entrada', '')"><span>Entradas</span></a> /
+                            <a title="Movimentações de Saídas" class="text-danger" href="#" onclick="pesquisarCaixa('Saída', '')"><span>Saídas</span></a>/
+                        </small>
                     </small>
 
 
 
-                    <!---LANÇAR DESPESAS DIRETO--->
+                    <!---LANÇAR CONTA DIRETO--->
                     <small class="mx-2">
-                        <a title="Lançar Despesas" class="text-danger" href="#" onclick="lancarDespesa()"></i><span>Despesa</span></a>
-                        /
-                        <a title="Lançar Entradas" class="text-success" href="#" onclick="lancarReceita()"><span>Receita</span></a>
-                        /
-                        <a title="Transferir Valores" class="text-primary" href="#" onclick="transferencias()"><span>Tranferências</span></a>
+                        <small>
+                            <a title="Lançar Despesas" class="text-danger" href="#" onclick="lancarDespesa()"></i><span>Despesa</span></a>
+                            /
+                            <a title="Lançar Entradas" class="text-success" href="#" onclick="lancarReceita()"><span>Receita</span></a>
+                            /
+                            <a title="Transferir Valores" class="text-primary" href="#" onclick="transferencias()"><span>Tranferências</span></a>
+                        </small>
                     </small>
-
 
                 </div>
-
-
             </div>
 
             <div align="right" class="col-md-2">
-                <i class=" bi bi-coin"></i> <span class="text-dark ml-5">Total: <span id="total_itens"></span></span>
+
+                <a title="Filtrar Todas a contas" class="" href="#" onclick="pesquisarCaixa('','',$('#nome-busca').val(),'todas')">
+                    <i class=" bi bi-coin"></i> <span class="text-dark ml-5">Total: <span id="total_itens"></span></span>
+                </a>
             </div>
         </div>
 
@@ -740,6 +742,58 @@ $data_atual = date('Y-m-d');
 
 
 
+<!-- MODAL FECHAMENTO-->
+<div class="modal fade" id="modalFechamento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Retirar Valores</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-fec" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Valor Retirado:</label>
+                                <input onkeyup="calcularFechamento()" type="text" class="form-control" name="valor-fec" placeholder="Valor" id="valor-fec" required>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Restante Caixa:</label>
+                                <input type="text" class="form-control" name="valor-dif" placeholder="Valor" id="valor-dif" readonly>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" class="form-control" name="valor-difer" id="valor-difer">
+
+
+                    <br>
+
+                    <small>
+                        <div id="mensagem-fec" align="center"></div>
+                    </small>
+
+                    <input type="hidden" class="form-control" name="id" id="id-desp">
+                    <input type="hidden" class="form-control" name="local" id="local">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-fec">Sair</button>
+                    <button type="submit" class="btn btn-primary">Fechamento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -1012,6 +1066,9 @@ $data_atual = date('Y-m-d');
         var busca = $('#nome-busca').val();
         $('#lancamento-fec').val(busca);
 
+        /*Limpando campo para quando entrar novamente não ficar a mensagem de atenção*/
+        $('#mensagem-fec').text('');
+
         var local = $('#nome-busca').val();
         $('#local').val(local);
 
@@ -1235,6 +1292,43 @@ $data_atual = date('Y-m-d');
 
                     $('#mensagem-rec').addClass('text-danger')
                     $('#mensagem-rec').text(mensagem)
+                }
+
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+
+        });
+
+    });
+
+    /* AJAX DE FECHAMENTO */
+    $("#form-fec").submit(function() {
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: pag + "/fechamento.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+                $('#mensagem-fec').text('');
+                $('#mensagem-fec').removeClass()
+                if (mensagem.trim() == "Salvo com Sucesso!") {
+
+                    //$('#cpf').val('');
+                    $('#btn-fechar-fec').click();
+                    var busca = $('#nome-busca').val();
+                    pesquisarCaixa('', '', busca);
+
+                } else {
+
+                    $('#mensagem-fec').addClass('text-danger')
+                    $('#mensagem-fec').text(mensagem)
                 }
 
 

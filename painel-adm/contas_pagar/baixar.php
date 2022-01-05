@@ -125,13 +125,18 @@ if ($valor == $cp9) {
 
     $cp9 = $cp9 - $subtotal;
 
-    $pdo->query("INSERT INTO valor_parcial set id_conta = '$id', tipo = 'Pagar', valor = '$subtotal', data = curDate(), usuario = '$id_usuario'");
+    $pdo->query("INSERT INTO valor_parcial set id_conta = '$id', tipo = 'Pagar', valor = '$subtotal', 
+    data = curDate(), usuario = '$id_usuario'");
 
-    $pdo->query("UPDATE $pagina set saida = '$saida', usuario_baixa = '$id_usuario', status = 'Pendente', juros = '$valor_juros', multa = '$valor_multa', desconto = '$valor_desconto', valor = '$cp9', subtotal = '$subtotal', data_baixa = curDate() where id = '$id'");
+    $pdo->query("UPDATE $pagina set saida = '$saida', usuario_baixa = '$id_usuario', status = 'Pendente',
+     juros = '$valor_juros', multa = '$valor_multa', desconto = '$valor_desconto', valor = '$cp9',
+      subtotal = '$subtotal', data_baixa = curDate() where id = '$id'");
 }
 
 //LANÇAR NAS MOVIMENTAÇÕES
-$pdo->query("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Conta à Pagar', descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(), lancamento = '$cp3', plano_conta = '$cp5', documento = '$cp4', caixa_periodo = '$caixa_aberto'");
+$pdo->query("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Conta à Pagar',
+ descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(), 
+ lancamento = '$saida', plano_conta = '$cp5', documento = '$cp4', caixa_periodo = '$caixa_aberto'");
 
 
 echo 'Baixado com Sucesso!';

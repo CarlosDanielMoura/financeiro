@@ -60,3 +60,38 @@ echo '<a style="text-decoration:none;" class="text-danger ml-2" href="#" onclick
 echo '<small>
         <div id="mensagem-fec"></div>
     </small>';
+?>
+
+<script>
+    $(document).ready(function() {
+        $('#total-da-venda').text('<?= $total_vendaF ?>');
+        $('#subTotal').val('<?= $total_venda ?>');
+    });
+
+    function totalizarVenda() {
+
+        var valorTotal = '<?= $total_venda ?>';
+        var desconto = $('#desconto').val();
+        var acrescimo = $('#acrescimo').val();
+
+
+
+        desconto = desconto.replace(",", ".");
+        acrescimo = acrescimo.replace(",", ".");
+
+
+
+        if (desconto == "") {
+            desconto = 0;
+        }
+        if (acrescimo == "") {
+            acrescimo = 0;
+        }
+
+        saldoTotal = ((parseFloat(valorTotal) - parseFloat(desconto)) + parseFloat(acrescimo));
+        saldoTotal = saldoTotal.toFixed(2);
+
+        $('#subTotal').val('R$ ' + saldoTotal);
+
+    }
+</script>

@@ -2,27 +2,43 @@
 require_once("conexao.php");
 
 
-// Criar o usuário adminitrador caso não exista
+// CRIAR O USUÁRIO ADMINITRADOR CASO NÃO EXISTA
 $consulta = $pdo->query("SELECT * from usuarios where nivel = 'Administrador' ");
 $res = $consulta->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
 $total_reg = @count($res);
+// CRIANDO CONTA !
+if ($total_reg == 0) {
+    $pdo->query("INSERT INTO usuarios SET nome = '$nome_adm', email = '$email_adm', 
+    senha = '123', nivel = 'Administrador' ");
+}
 
 
-
-// Criar o nivel administrador
+// CRIAR O NIVEL ADMINISTRADOR
 $consulta2 = $pdo->query("SELECT * from niveis where nivel = 'Administrador' ");
 $res2 = $consulta2->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
 $total_reg2 = @count($res2);
-
-// Criando conta !
-if ($total_reg == 0) {
-    $pdo->query("INSERT INTO usuarios SET nome = '$nome_adm', email = '$email_adm', senha = '123', nivel = 'Administrador' ");
-}
-
-//Criando nivel
+//CRIANDO NIVEL
 if ($total_reg2 == 0) {
     $pdo->query("INSERT INTO niveis SET nivel = 'Administrador' ");
 }
+
+
+// CRIAR UM CLIENTE DIVERSOS
+$consulta3 = $pdo->query("SELECT * from clientes where id = 1 ");
+$res3 = $consulta3->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
+$total_reg3 = @count($res3);
+
+//CRIANDO CLIENTE
+if ($total_reg3 == 0) {
+    $pdo->query(" INSERT INTO clientes SET nome = 'Diversos', pessoa = 'Física', doc = '000.000.000-00', 
+    telefone = '(00) 00000-0000', endereco = '' , ativo = 'Sim',
+    obs = 'Esse cliente é exclusivo da loja para que não precisa sempre cadastrar clientes!',
+    data = curDate(), banco = '', agencia = '', conta = '',email = 'cliente@cliente.com' ");
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>

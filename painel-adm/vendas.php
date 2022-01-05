@@ -39,9 +39,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                 </div>
 
-
                 <div id='payment' class='payment col-md-7'>
-
 
                     <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -53,18 +51,16 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                     </ul>
 
-
-
                     <div class="tab-content mt-3" id="myTabContent">
                         <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
 
                             <div class="row mb-4 d-flex justify-content-center">
                                 <div class="col-md-1">
-                                    <input type="text" class="form-control form-control-sm" name="<?php echo $campo2 ?>" id="id-cliente" placeholder="Id" readonly>
+                                    <input type="text" class="form-control form-control-sm " name="<?php echo $campo2 ?>" id="id-cliente" placeholder="Id" readonly>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control form-control-sm" name="nome-cliente-in" id="nome-cliente-in" placeholder="Nome Cliente" readonly>
+                                    <input type="text" class="form-control form-control-sm " name="nome-cliente-in" id="nome-cliente-in" placeholder="Nome Cliente" readonly>
                                 </div>
                             </div>
 
@@ -100,244 +96,43 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 
 
-<!-- Modal  INSERIR DADOS-->
-<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Inserir Registro</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="form" method="post">
-                <div class="modal-body">
 
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Fornecedores</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Despesa</a>
-                        </li>
-
-                    </ul>
-
-                    <div class="tab-content my-2" id="myTabContent">
-                        <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
-
-                            <div class="row my-2">
-                                <div class="col-md-1">
-                                    <input type="text" class="form-control" name="<?php echo $campo8 ?>" id="id-cliente" placeholder="Id do Fornecedor" readonly>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" name="nome-cliente" id="nome-cliente" placeholder="Nome do Fornecedor" readonly>
-                                </div>
-                            </div>
-
-                            <small>
-                                <small>
-                                    <div class="tabela bg-light" id="listar-clientes">
-
-                                    </div>
-                                </small>
-                            </small>
-
-                        </div>
-
-                        <div class="tab-pane fade" id="contas" role="tabpanel" aria-labelledby="profile-tab">
-
-
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Descrição</label>
-                                        <input type="text" class="form-control" name="<?php echo $campo1 ?>" placeholder="Descrição" id="<?php echo $campo1 ?>">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label"><?php echo $campo2 ?></label>
-                                        <input type="text" class="form-control" name="<?php echo $campo2 ?>" placeholder="Valor" id="<?php echo $campo2 ?>">
-                                    </div>
-
-                                </div>
-
-
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Data</label>
-                                        <input type="date" class="form-control" name="<?php echo $campo3 ?>" id="<?php echo $campo3 ?>" value="<?php echo date('Y-m-d') ?>" required>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-
-                            <div class="row">
-
-
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Tipo Entrada</label>
-                                        <select class="form-select" aria-label="Default select example" name="<?php echo $campo5 ?>" id="<?php echo $campo5 ?>">
-                                            <option value="Caixa">Caixa (Movimento)</option>
-
-                                            <?php
-                                            $query = $pdo->query("SELECT * FROM bancos order by nome asc");
-                                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                            for ($i = 0; $i < @count($res); $i++) {
-                                                foreach ($res[$i] as $key => $value) {
-                                                }
-                                                $id_item = $res[$i]['id'];
-                                                $nome_item = $res[$i]['nome'];
-                                            ?>
-                                                <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
-                                            <?php } ?>
-
-
-                                        </select>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
-                                        <select class="form-select" aria-label="Default select example" name="<?php echo $campo6 ?>" id="<?php echo $campo6 ?>">
-
-                                            <?php
-                                            $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
-                                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                            for ($i = 0; $i < @count($res); $i++) {
-                                                foreach ($res[$i] as $key => $value) {
-                                                }
-                                                $id_item = $res[$i]['id'];
-                                                $nome_item = $res[$i]['nome'];
-                                            ?>
-                                                <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
-                                            <?php } ?>
-
-
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-3 col-sm-12">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Plano de Conta</label>
-                                        <select class="form-select" aria-label="Default select example" name="cat_despesas" id="cat_despesas">
-
-                                            <?php
-                                            $query = $pdo->query("SELECT * FROM cat_despesas order by nome asc");
-                                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                            for ($i = 0; $i < @count($res); $i++) {
-                                                foreach ($res[$i] as $key => $value) {
-                                                }
-                                                $id_item = $res[$i]['id'];
-                                                $nome_item = $res[$i]['nome'];
-                                            ?>
-                                                <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
-                                            <?php } ?>
-
-
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-3 col-sm-12">
-                                    <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Despesa</label>
-                                        <div id="listar-despesas">
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-
-                        </div>
-                    </div>
-                    <br>
-
-                    <small>
-                        <div id="mensagem" align="center"></div>
-                    </small>
-
-                    <input type="hidden" class="form-control" name="id" id="id">
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Excluir Registro</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="form-excluir" method="post">
-                <div class="modal-body">
-
-                    Deseja Realmente excluir este Registro: <span id="nome-excluido"></span>?
-
-                    <?php require_once("verificar_adm.php"); ?>
-
-                    <small>
-                        <div id="mensagem-excluir" align="center"></div>
-                    </small>
-
-                    <input type="hidden" class="form-control" name="id-excluir" id="id-excluir">
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-excluir">Fechar</button>
-                    <button type="submit" class="btn btn-danger">Excluir</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<!-- Modal fechamento de venda -->
+<!-- MODAL FECHAMENTO DE VENDA -->
 <div class="modal fade" id="modalVenda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Fechar Venda</span></h5>
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal"> Fechar Venda - Total: R$ <strong><span id="total-da-venda"> </span></strong></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="form-venda" method="post">
                 <div class="modal-body">
 
                     <div class="row">
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">Desconto:</label>
+                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="desconto" id="desconto" placeholder="Desconto">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">Acréscimo:</label>
+                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="acrescimo" id="acrescimo" placeholder="Acréscimo">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">SubTotal:</label>
+                            <input type="text" class="form-control" name="subTotal" id="subTotal" placeholder="SubTotal" readonly>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">Parcelas:</label>
+                            <input type="number" class="form-control" onkeyup="criarParcelas()" name="parcelas" id="parcelas" value="1">
+                        </div>
+
+
+                    </div>
+
+                    <div class="row mt-4">
                         <div class="col-md-4">
                             <div class="mb-3"><small>
                                     <label for="exampleFormControlInput1" class="form-label">Data (<a title="Lançar Venda para 30 Dias" href="#" onclick="mudarData('<?php echo $data30 ?>')" class="text-dark">30 Dias</a> /
@@ -425,6 +220,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         listarClientes();
         listarProdutos();
         listarItens();
+        limparCampos();
     });
 
 
@@ -506,6 +302,11 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         $('#mensagem-fec').text('');
         $('#mensagem-fec').removeClass()
 
+
+
+        $('#desconto').val('');
+        $('#acrescimo').val('');
+
         if ($('#nome-cliente-in').val() == "") {
             $('#mensagem-fec').addClass('text-danger')
             $('#mensagem-fec').text('Selecione um Cliente!');
@@ -520,6 +321,34 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             myModal.show();
         }
     }
+
+
+    function criarParcelas() {
+
+        valor = $('#subtotal').val();
+        parcelas = $('#parcelas').val();
+        data = $('#data').val();
+
+
+        $.ajax({
+            url: pag + "/parcelas.php",
+            method: 'POST',
+            data: {
+                valor,
+                parcelas,
+                data
+            },
+            dataType: "text",
+
+            success: function(mensagem) {
+                if (mensagem.trim() == "Inserido com Sucesso!") {
+                    listarParcelas();
+                }
+            },
+
+        });
+    }
+
 
 
     function mudarData(data) {
@@ -567,9 +396,9 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
     function limparCampos() {
         listarItens();
-        $('#id-cliente').val('');
-        $('#nome-cliente').text('');
-        $('#nome-cliente-in').val('');
+        $('#id-cliente').val('1');
+        $('#nome-cliente').text('Diversos');
+        $('#nome-cliente-in').val('Diversos');
 
         //DEFINIR ABA A SER ABERTA
         var someTabTriggerEl = document.querySelector('#home-tab')

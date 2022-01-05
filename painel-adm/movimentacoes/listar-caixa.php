@@ -56,7 +56,13 @@ if ($dataFinal == "") {
 }
 
 if ($todas != "") {
-    $dataInicial = $data_primeiro_reg;
+    $dataInicial = @$data_primeiro_reg;
+}
+
+if ($busca == 'Caixa' || $busca == 'Cartão de Crédito' || $busca == 'Cartão de Débito') {
+    $visivel = 'd-block';
+} else {
+    $visivel = 'd-none';
 }
 
 
@@ -151,11 +157,13 @@ if (@count($res) > 0) {
 
 
 
+
         $query1 = $pdo->query("SELECT * from usuarios where id = '$cp5' ");
         $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
         if (@count($res1) > 0) {
             $nome_usu = $res1[0]['nome'];
         }
+
 
 
 
@@ -174,7 +182,7 @@ if (@count($res) > 0) {
 		<td class="{$classe}">R$ {$valor}</td>		
 		<td class="{$classe_saldo_periodo}">R$ {$total_saldo_periodoF}</td>
 		<td>
-			<a href="#" onclick="editar('{$id}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+			<a href="#" onclick="editar('{$id}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}')" title="Editar Registro"> <i class="bi bi-pencil-square text-primary"></i> </a>
 			<a href="#" onclick="excluir('{$id}' , '{$cp3}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
 		</td>
 		</tr>
@@ -183,12 +191,22 @@ if (@count($res) > 0) {
     echo <<<HTML
 	</tbody>
 	</table>
-	<div class="my-3" align="right">
-	Saldo do Período: <span class="{$classe_saldo}">R$ {$total_saldoF}</span>
-	</div>
-	HTML;
+    <div class="row align-items-center">
+        <div class="col-md-6 " >
+        <a title="Retirar Valores" class="text-danger {$visivel}" href="#" onclick="fechamento()"><i class="bi bi-box-arrow-in-right mx-2"></i><span>Efetuar Fechamento</span></a> 
+        </div>
+        <div class="col-md-6 my-3" align="right" >
+	         Saldo do Período: <span class="{$classe_saldo}">R$ {$total_saldoF}</span>
+	    </div>
+        
+    </div>
+HTML;
 } else {
-    echo '<div class="d-flex justify-content-center"> <strong> Nenhum registro foi encontrado nessa data inserida!</strong></div>';
+
+    echo '<div class="d-flex justify-content-center"> <strong> Nenhum registro foi encontrado nessa data inserida!</strong></div></br>';
+    echo '<a title="Retirar Valores" class="d-flex justify-content-center text-success mx-4 ' . $visivel . '" href="#" onclick="fechamento()">
+		<i class="bi bi-box-arrow-right mx-2"></i><span>Efetuar Fechamento</span>
+		</a> ';
 }
 ?>
 
@@ -197,10 +215,6 @@ if (@count($res) > 0) {
         $('#example2').DataTable({
             "ordering": false
         });
-
-
-
-
         $('#total_itens').removeClass();
         $('#icone_total').removeClass();
 
@@ -209,7 +223,32 @@ if (@count($res) > 0) {
         $('#total_itens').addClass(classe_saldo_geral);
         $('#icone_total').addClass(classe_saldo_geral);
         $('#total_itens').text('R$ <?= $total_saldo_geralF ?>');
+
+        $('#valor-fec').val('<?= $total_saldo_geralF ?>');
+        calcularFechamento();
     });
+
+    //CALCULANDO FECHAMENTO NA HORA DE RETIRAR
+    function calcularFechamento() {
+        var valorTotal = '<?= $total_saldo_geralF ?>';
+        var valorFec = $('#valor-fec').val();
+
+        valorTotal = valorTotal.replace(".", "");
+        valorFec = valorFec.replace(".", "");
+
+        valorTotal = valorTotal.replace(",", ".");
+        valorFec = valorFec.replace(",", ".");
+        if (valorFec == "") {
+            valorFec = 0;
+        }
+        saldoTotal = parseFloat(valorTotal) - parseFloat(valorFec);
+        saldoTotalF = saldoTotal.toFixed(2);
+        saldoTotalF = saldoTotalF.toString();
+        saldoTotalF = saldoTotalF.replace(".", ",");
+        $('#valor-dif').val('R$ ' + saldoTotalF);
+        $('#valor-difer').val(saldoTotal);
+
+    }
 
 
     //EDITANDO OS CAMPOS CAIXA MOVIMENTO
