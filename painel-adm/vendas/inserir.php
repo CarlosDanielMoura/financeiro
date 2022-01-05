@@ -95,7 +95,7 @@ if ($status == 'Concluída') {
 		 id_venda = '$id_ult_registro' WHERE id_venda = '-1' and usuario_lanc = '$id_usuario'");
     } else {
 
-        $query = $pdo->query("INSERT INTO contas_receber set descricao = '$descricao_conta', 
+        $query = $pdo->query("INSERT INTO contas_receber set descricao = 'Venda', 
 		cliente = '$cliente', entrada = '$lancamento', documento = '$pagamento', plano_conta = 'Venda', 
 		data_emissao = curDate(), vencimento = '$data', frequencia = 'Uma Vez', valor = '$subtotal', 
 		usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(), 
