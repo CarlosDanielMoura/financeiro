@@ -4,6 +4,8 @@ $pagina = 'produtos';
 @session_start();
 $id_usuario = $_SESSION['id_usuario'];
 
+$query = $pdo->query("DELETE FROM contas_receber where id_venda = '-1' and usuario_lanc = '$id_usuario'");
+
 echo '<ul class="order-list">';
 
 $total_venda = 0;
@@ -66,32 +68,34 @@ echo '<small>
     $(document).ready(function() {
         $('#total-da-venda').text('<?= $total_vendaF ?>');
         $('#subTotal').val('<?= $total_venda ?>');
+        $('#parcelas').val('1');
+        $('#desconto').val('');
+        $('#acrescimo').val('');
     });
 
     function totalizarVenda() {
-
         var valorTotal = '<?= $total_venda ?>';
         var desconto = $('#desconto').val();
         var acrescimo = $('#acrescimo').val();
 
-
-
         desconto = desconto.replace(",", ".");
         acrescimo = acrescimo.replace(",", ".");
-
-
 
         if (desconto == "") {
             desconto = 0;
         }
+
         if (acrescimo == "") {
             acrescimo = 0;
         }
 
-        saldoTotal = ((parseFloat(valorTotal) - parseFloat(desconto)) + parseFloat(acrescimo));
+        saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
         saldoTotal = saldoTotal.toFixed(2);
 
-        $('#subTotal').val('R$ ' + saldoTotal);
+        $('#subTotal').val(saldoTotal);
+
+        criarParcelas();
+
 
     }
 </script>

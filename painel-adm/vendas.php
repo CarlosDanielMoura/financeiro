@@ -56,7 +56,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                             <div class="row mb-4 d-flex justify-content-center">
                                 <div class="col-md-1">
-                                    <input type="text" class="form-control form-control-sm " name="<?php echo $campo2 ?>" id="id-cliente" placeholder="Id" readonly>
+                                    <input type="text" class="form-control form-control-sm " name="id-cliente" id="id-cliente" placeholder="Id" readonly>
                                 </div>
 
                                 <div class="col-md-3">
@@ -191,10 +191,15 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     </div>
 
                     <small>
-                        <div id="mensagem-prod" align="center">
+                        <div align="center" id="mensagem-prod"></div>
+                    </small>
 
+                    <small>
+                        <div id="listar-parcelas">
                         </div>
                     </small>
+
+                    <input type="hidden" name="id-cli" id="id-cli">
 
 
                 </div>
@@ -300,12 +305,10 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
     function ModalFecharVenda() {
         $('#mensagem-fec').text('');
-        $('#mensagem-fec').removeClass()
-
-
-
-        $('#desconto').val('');
-        $('#acrescimo').val('');
+        $('#mensagem-fec').removeClass();
+        var idCli = $('#id-cliente').val();
+        $('#id-cli').val(idCli);
+        listarParcelas();
 
         if ($('#nome-cliente-in').val() == "") {
             $('#mensagem-fec').addClass('text-danger')
@@ -316,19 +319,23 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             var tab = new bootstrap.Tab(someTabTriggerEl);
             tab.show();
 
+
         } else {
             var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
             myModal.show();
+
         }
     }
 
 
+
+
+    //FUNÇÃO DE CRIAR PARCELAS
     function criarParcelas() {
 
-        valor = $('#subtotal').val();
+        valor = $('#subTotal').val();
         parcelas = $('#parcelas').val();
         data = $('#data').val();
-
 
         $.ajax({
             url: pag + "/parcelas.php",
@@ -343,6 +350,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             success: function(mensagem) {
                 if (mensagem.trim() == "Inserido com Sucesso!") {
                     listarParcelas();
+
                 }
             },
 
@@ -352,8 +360,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 
     function mudarData(data) {
-        console.log(data);
         $("#data").val(data);
+        criarParcelas();
     }
 
 
@@ -399,10 +407,26 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         $('#id-cliente').val('1');
         $('#nome-cliente').text('Diversos');
         $('#nome-cliente-in').val('Diversos');
+        $('#mensagem-prod').text('');
 
         //DEFINIR ABA A SER ABERTA
         var someTabTriggerEl = document.querySelector('#home-tab')
         var tab = new bootstrap.Tab(someTabTriggerEl);
         tab.show();
+    }
+
+    function listarParcelas() {
+        $('#mensagem-prod').text('');
+        var pag = "<?= $pagina ?>";
+        $.ajax({
+            url: pag + "/listar-parcelas.php",
+            method: 'POST',
+            data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-parcelas").html(result);
+            }
+        });
     }
 </script>
