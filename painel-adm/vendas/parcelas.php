@@ -5,7 +5,7 @@ $id_usuario = $_SESSION['id_usuario'];
 
 $query = $pdo->query("DELETE FROM contas_receber where id_venda = '-1' and usuario_lanc = '$id_usuario'");
 
-$valor = $_POST['subTotal'];
+$valor = $_POST['subTotal']; //trocar por valor
 $data = $_POST['data'];
 $parcelas = $_POST['parcelas'];
 
