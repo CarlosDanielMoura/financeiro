@@ -405,8 +405,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function limparCampos() {
         listarItens();
         $('#id-cliente').val('1');
-        $('#nome-cliente').text('Diversos');
-        $('#nome-cliente-in').val('Diversos');
+        $('#nome-cliente').text('Sistema');
+        $('#nome-cliente-in').val('Sistema');
         $('#mensagem-prod').text('');
 
         //DEFINIR ABA A SER ABERTA

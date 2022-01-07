@@ -15,6 +15,8 @@ $amanha = @$_POST['amanha'];
 $data_hoje = date('Y-m-d');
 $data_amanha = date('Y/m/d', strtotime("+1 days", strtotime($data_hoje)));
 
+
+
 if ($alterou_data == 'Sim') {
     if ($dataInicial != "" || $dataFinal != "") {
         $query = $pdo->query("SELECT * from $pagina where (vencimento >= '$dataInicial' 
