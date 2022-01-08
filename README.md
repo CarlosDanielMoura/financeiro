@@ -1,4 +1,4 @@
 # Financeiro_Nucleo
 
 
-* Arrumar o estoque ao editar ele reseta
+* 59 - 6.08
