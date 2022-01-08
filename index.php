@@ -37,6 +37,21 @@ if ($total_reg3 == 0) {
 }
 
 
+// CRIAR UM FORNECEDOR DIVERSOS
+$consulta4 = $pdo->query("SELECT * from fornecedores where id = 1 ");
+$res4 = $consulta4->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
+$total_reg4 = @count($res4);
+
+//CRIANDO FORNECEDOR
+if ($total_reg4 == 0) {
+    $pdo->query(" INSERT INTO fornecedores SET nome = 'Diversos', pessoa = 'Jurídica', doc = '000.000.000-00', 
+    telefone = '(00) 00000-0000', endereco = '' , ativo = 'Sim',
+    obs = 'Esse Fornecedor é exclusivo da loja para que não precisa sempre cadastrar um Forncedor!',
+    data = curDate(), banco = '', agencia = '', conta = '',email = 'fornecedor@forn.com' ");
+}
+
+
+
 
 
 ?>

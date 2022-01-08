@@ -22,7 +22,12 @@ $valor_multa = str_replace(',', '.', $valor_multa);
 $subtotal = $_POST['subtotal'];
 $subtotal = str_replace(',', '.', $subtotal);
 
-$saida = $_POST['saida-baixar'];
+$saida = @$_POST['saida-baixar'];
+
+if ($saida == '') {
+    echo 'Selecione o tipo de Saída';
+    exit();
+}
 
 $query = $pdo->query("SELECT * from $pagina where id = '$id' ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);

@@ -1,6 +1,7 @@
 <?php
 require_once("../../conexao.php");
 require_once("campos.php");
+
 @session_start();
 $nivel_usu = $_SESSION['nivel_usuario'];
 
@@ -17,24 +18,27 @@ $data_amanha = date('Y/m/d', strtotime("+1 days", strtotime($data_hoje)));
 
 
 
+
 if ($alterou_data == 'Sim') {
     if ($dataInicial != "" || $dataFinal != "") {
         $query = $pdo->query("SELECT * from $pagina where (vencimento >= '$dataInicial' 
-        and vencimento <= '$dataFinal') and status LIKE '$status' and id_venda = '-1' order by id desc ");
+	and vencimento <= '$dataFinal') and status LIKE '$status' and id_venda != '-1' order by id desc ");
     }
 } else if ($status != '%%' and $alterou_data == '') {
-    $query = $pdo->query("SELECT * from $pagina where status LIKE '$status'  order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where status LIKE '$status'
+	 and id_venda != '-1'  order by id desc ");
 } else if ($vencidas == 'Vencidas') {
-    $query = $pdo->query("SELECT * from $pagina where vencimento < curDate() and status = 'Pendente'
-    and id_venda = '-1' order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where vencimento < curDate() 
+	and status = 'Pendente' and id_venda != '-1' order by id desc ");
 } else if ($vencidas == 'Hoje') {
-    $query = $pdo->query("SELECT * from $pagina where vencimento = curDate() and status = 'Pendente' 
-    and id_venda = '-1'  order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where vencimento = curDate() 
+	and status = 'Pendente' and id_venda != '-1' order by id desc ");
 } else if ($vencidas == 'Amanha') {
-    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha' and status = 'Pendente'
-    and id_venda = '-1' order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where vencimento = '$data_amanha' 
+	and status = 'Pendente' and id_venda != '-1' order by id desc ");
 } else {
-    $query = $pdo->query("SELECT * from $pagina where status = 'Pendente' and id_venda = '-1' order by id desc ");
+    $query = $pdo->query("SELECT * from $pagina where status = 'Pendente' 
+	and id_venda != '-1' order by id desc ");
 }
 
 echo <<<HTML

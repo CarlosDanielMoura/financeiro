@@ -7,7 +7,7 @@ require_once($pagina . "/campos.php");
 
 ?>
 
-<div class="row my-3">
+<div class="row my-3 align-items-center">
     <div class="col-md-9">
 
         <div style="float:left; margin-right:35px">
@@ -24,13 +24,12 @@ require_once($pagina . "/campos.php");
             <input type="date" class="form-control form-control-sm" name="data-final" id="data-final" value="<?php echo date('Y-m-d') ?>" required>
         </div>
 
-
-
     </div>
-
     <div align="right" class="col-md-2">
         <small><i class="bi bi-cash text-danger"></i> <span class="text-dark">Total: <span class="text-danger" id="total_itens"></span></span></small>
     </div>
+
+
 </div>
 
 <small>

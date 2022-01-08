@@ -97,7 +97,7 @@ for ($i = 0; $i < @count($res); $i++) {
 	        <td>{$nome_cat}</td>	
 	        <td><img src="../img/{$pagina}/{$cp9}" width="40px"></td>	
             <td>
-            <a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}')" title="Editar Registro"><i class="bi bi-pencil-square text-primary"></i></a>
+            <a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}')" title="Editar Registro"><i class="bi bi-pencil-square text-primary"></i></a>
             <a href="#" onclick="excluir('{$id}' , '{$cp2}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
             <a href="#" onclick="mudarStatus('{$id}', '{$ativar}')" title="{$ativo}"><i class="bi {$icone} text-secondary"></i></a>
             <a href="#" class="mx-1" onclick="mostrarDados('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$nome_forn}', '{$nome_cat}', '{$cp9}', '{$cp10}')" title="Ver Dados do Cliente"><i class="bi bi-info-square"></i></a>
@@ -122,7 +122,7 @@ HTML;
 
     /*Funcão editar Usuário */
 
-    function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10) {
+    function editar(id, cp1, cp2, cp3, cp5, cp6, cp7, cp8, cp9, cp10) {
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
         $('#<?= $campo2 ?>').val(cp2);

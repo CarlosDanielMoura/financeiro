@@ -60,6 +60,7 @@ HTML;
             $nome_usu = $res1[0]['nome'];
         }
 
+
         $data = implode('/', array_reverse(explode('-', $cp3)));
         $valor = number_format($cp2, 2, ',', '.');
 
@@ -86,7 +87,8 @@ HTML;
 </table>
 HTML;
 } else {
-    echo '<div class="d-flex justify-content-center "><strong> Nenhum Registro foi Encontrado!</strong></div>';;
+    echo '<div class="d-flex justify-content-center"> <strong> Nenhum registro foi encontrado 
+    nessa data inserida!</strong></div></br>';
 }
 ?>
 
@@ -96,7 +98,7 @@ HTML;
             "ordering": false
         });
 
-        /* $('#total_itens').text('R$ <?= $total_valorF ?>');*/
+        $('#total_itens').text('R$ <?= $total_valorF ?>');
     });
 
 

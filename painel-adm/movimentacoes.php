@@ -817,8 +817,6 @@ $data_atual = date('Y-m-d');
         });
     });
 
-
-
     //FILTRANDO POR DATAS
 
     $('#data-inicial-caixa').change(function() {

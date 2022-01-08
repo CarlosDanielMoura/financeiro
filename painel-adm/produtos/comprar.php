@@ -35,7 +35,8 @@ if ($cp11 != "" and $alterar == 'true') {
 
 $total_estoque = $estoque + $quantidade;
 
-$query = $pdo->prepare("UPDATE  $pagina  SET estoque = :estoque , valor_compra = :valor_compra , fornecedores = :fornecedores, valor_venda = :valor_venda, lucro = :lucro WHERE id = '$id'");
+$query = $pdo->prepare("UPDATE  $pagina  SET estoque = :estoque , valor_compra = :valor_compra , 
+fornecedores = :fornecedores, valor_venda = :valor_venda, lucro = :lucro WHERE id = '$id'");
 
 $query->bindValue(":estoque", "$total_estoque");
 $query->bindValue(":valor_compra", "$cp5");
@@ -51,7 +52,9 @@ $nome_forn = $res_con[0]['nome'];
 
 //LANÇAR NAS CONTA A PAGAR
 
-$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn', plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario', status = 'Pendente'");
+$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
+ valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
+  status = 'Pendente'");
 
 
 $query->bindValue(":valor_compra", "$cp5");

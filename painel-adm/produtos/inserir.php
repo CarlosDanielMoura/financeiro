@@ -2,6 +2,8 @@
 require_once("../../conexao.php");
 require_once("campos.php");
 
+
+
 $cp1 = $_POST[$campo1];
 $cp2 = $_POST[$campo2];
 $cp3 = $_POST[$campo3];
@@ -62,12 +64,16 @@ if ($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif') {
 
 
 if ($id == "") {
-    $query = $pdo->prepare("INSERT INTO $pagina set codigo = :campo1, nome = :campo2, descricao = :campo3, estoque = :campo4, valor_compra = :campo5, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, foto = :campo9, ativo = :campo10");
+    $query = $pdo->prepare("INSERT INTO $pagina set codigo = :campo1, nome = :campo2,
+     descricao = :campo3, estoque = :campo4, valor_compra = :campo5, valor_venda = :campo6,
+      fornecedores = :campo7,  categoria = :campo8, foto = :campo9, ativo = :campo10");
     $query->bindValue(":campo9", "$imagem");
 } else {
 
     if ($imagem == "sem-foto.jpg") {
-        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, descricao = :campo3, estoque = :campo4, valor_compra = :campo5, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, ativo = :campo10 WHERE id = '$id'");
+        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, 
+        descricao = :campo3, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, 
+        ativo = :campo10 WHERE id = '$id'");
     } else {
 
         //BUSCAR A IMAGEM PARA EXCLUIR DA PASTA
@@ -78,7 +84,9 @@ if ($id == "") {
             @unlink('../../img/produtos/' . $imagem_antiga);
         }
 
-        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, descricao = :campo3, estoque = :campo4, valor_compra = :campo5, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, foto = :campo9, ativo = :campo10 WHERE id = '$id'");
+        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, 
+        descricao = :campo3, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, 
+        foto = :campo9, ativo = :campo10 WHERE id = '$id'");
         $query->bindValue(":campo9", "$imagem");
     }
 }
@@ -86,8 +94,6 @@ if ($id == "") {
 $query->bindValue(":campo1", "$cp1");
 $query->bindValue(":campo2", "$cp2");
 $query->bindValue(":campo3", "$cp3");
-$query->bindValue(":campo4", "$cp4");
-$query->bindValue(":campo5", "$cp5");
 $query->bindValue(":campo6", "$cp6");
 $query->bindValue(":campo7", "$cp7");
 $query->bindValue(":campo8", "$cp8");
