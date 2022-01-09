@@ -20,6 +20,10 @@ echo <<<HTML
 HTML;
 
 
+
+
+
+
 $query = $pdo->query("SELECT * from vendas order by id desc ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 for ($i = 0; $i < @count($res); $i++) {
@@ -68,13 +72,26 @@ for ($i = 0; $i < @count($res); $i++) {
     $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
     $nome_usuario = $res1[0]['nome'];
 
+    /*
+    $query3 = $pdo->query("SELECT * from itens_venda where id_venda = '$id' order by id asc");
+    $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
+    $id_produto = $res3[0]['produto'];
+
+
+    $consulta = $pdo->query("SELECT * from produtos where id = '$id_produto' order by id asc");
+    $res4 = $consulta->fetchAll(PDO::FETCH_ASSOC);
+    $nome_produto = $res4[0]['nome'];*/
+
+
+
+
 
     echo <<<HTML
 	<tr>
 	<td>
 	<i class="bi bi-square-fill $classe"></i>
-	</td>		
-	<td>R$ {$cp1}</td>	
+	</td>
+    <td>R$ {$cp1}</td>			
 	<td>{$cp3}</td>	
 	<td>{$cp4}</td>	
 	<td>{$cp6}</td>	
