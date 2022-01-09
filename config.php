@@ -1,9 +1,16 @@
 <?php
 
 $nome_sistema = 'ÓPTICA NÚCLEO DA VISÃO';
-$url_sistema = 'http://localhost/financeiro/index.php';
+$url_sistema = 'http://localhost/financeiro/';
 $email_adm = 'contato@carlos.com.br';
 $nome_adm = 'Carlos Daniel';
+
+
+$endereco_site = 'Av X, Número 550, Bairro Centro - Coromandel - MG CEP 38550-000';
+$telefone_fixo = '(33) 3333-3333';
+$telefone_whatsapp = '55 (34) 9 9999-9999';
+$telefone_whatsapp_link = '55 (34) 9 9999-9999';
+$cnpj_site = '45.366.898/0001-08';
 
 // DADOS PARA O BANCO DE DADOS
 
@@ -25,3 +32,6 @@ $dias_carencia = 0;
 
 $frequencia_automatica = 'Não'; /* Caso utilize sim e tenha uma conta que foi lançada mensal, todo mês será 
 gerada uma conta independente se a anterior foi paga*/
+
+$relatorio_pdf = 'Sim'; /*Se estiver sim  o relatorio vai sair em PDF caso ao contrario será 
+relatorio em html*/

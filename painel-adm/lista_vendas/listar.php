@@ -86,7 +86,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda">
 	<i class="bi bi-exclamation-square"></i></a>
-
+    <a href="../relatorios/venda_class.php?id={$id}" title="Gerar Comprovante" target="_blank"><i class="bi bi-file-earmark-check text-success"></i></a>
 	</td>
 	</tr>
 HTML;
