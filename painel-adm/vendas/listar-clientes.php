@@ -7,10 +7,10 @@ echo <<<HTML
 <table id="example" class="table table-striped table-light table-hover my-4">
 <thead>
 <tr>
-<th>{$campo1}</th>
-<th>CPF / CNPJ</th>	
-<th>{$campo11}</th>				
-<th>Ações</th>
+<th class="text-center">{$campo1}</th>
+<th class="d-none">CPF / CNPJ</th>	
+<th class="d-none">{$campo11}</th>				
+<th class="d-flex justify-content-center">Ações</th>
 </tr>
 </thead>
 <tbody>
@@ -52,17 +52,13 @@ for ($i = 0; $i < @count($res); $i++) {
 
     echo <<<HTML
 	<tr class="{$inativa}">
-	<td>
-	
-	{$cp1}
-	</td>		
-	
-	<td>{$cp3}</td>	
-	<td>{$cp11}</td>	
+	<td class="text-center"> {$cp1}</td>
+	<td class="d-none">{$cp3}</td>	
+	<td class="d-none">{$cp11}</td>	
 							
 	<td>
 	
-	<a href="#" onclick="selecionarCliente('{$id}', '{$cp1}')" title="Selecionar Cliente">
+	<a class="d-flex justify-content-center" href="#" onclick="selecionarCliente('{$id}', '{$cp1}')" title="Selecionar Cliente">
 	<i class="bi bi-check-square-fill text-success"></i></a>
 	
 	</td>

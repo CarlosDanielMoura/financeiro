@@ -36,6 +36,7 @@ $cp7 = $res[0]['vencimento'];
 $cp8 = $res[0]['frequencia'];
 $cp9 = $res[0]['valor'];
 $data_rec = $res[0]['data_recor'];
+$id_venda = $res[0]['id_venda'];
 
 $query2 = $pdo->query("SELECT * FROM clientes WHERE id = '$cp2'");
 $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -137,7 +138,25 @@ if ($valor == $cp9) {
 //LANÇAR NAS MOVIMENTAÇÕES
 $pdo->query("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Conta à Receber',
  descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(),
-  lancamento = '$saida', plano_conta = '$cp5', documento = '$cp4', caixa_periodo = '$caixa_aberto'");
+  lancamento = '$saida', plano_conta = '$cp5', documento = '$cp4', caixa_periodo = '$caixa_aberto',
+  id_mov = '$id_venda'");
+
+//VERIFICAR SE A CONTA É DE UMA VENDA E SE ELA ESTÁ TOTALMENTE PAGA
+$query = $pdo->query("SELECT * FROM $pagina WHERE id_venda = '$id_venda'");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$paga = 'Sim';
+for ($i = 0; $i < @count($res); $i++) {
+    foreach ($res[$i] as $key => $value) {
+    }
+    $status = $res[$i]['status'];
+    if ($status == 'Pendente') {
+        $paga = 'Não';
+    }
+}
+if ($paga == 'Sim') {
+    $pdo->query("UPDATE vendas set status = 'Concluída' where id = '$id_venda'");
+}
+
 
 
 echo 'Baixado com Sucesso!';

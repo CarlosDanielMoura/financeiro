@@ -91,7 +91,7 @@ body {
 .checkout {
   margin: 0 auto;
   width: 100%;
-  height: auto;
+  height: 350px;
   padding: 0px;
 }
 
@@ -110,7 +110,7 @@ body {
 
 ul.order-list {
   width: 100%;
-  height: auto;
+  height: 350px;
   list-style: none;
   overflow-y: scroll;
   padding-right: 12px;

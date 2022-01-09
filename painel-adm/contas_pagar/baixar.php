@@ -41,6 +41,7 @@ $cp7 = $res[0]['vencimento'];
 $cp8 = $res[0]['frequencia'];
 $cp9 = $res[0]['valor'];
 $data_rec = $res[0]['data_recor'];
+$id_compra = $res[0]['id_compra'];
 
 $query2 = $pdo->query("SELECT * FROM fornecedores WHERE id = '$cp2'");
 $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -106,7 +107,11 @@ if ($valor == $cp9) {
 
 
     if (@$dias_frequencia > 0) {
-        $pdo->query("INSERT INTO $pagina set descricao = '$cp1', cliente = '$cp2', saida = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), vencimento = '$nova_data_vencimento', frequencia = '$cp8', valor = '$cp9', usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = '$data_recor'");
+        $pdo->query("INSERT INTO $pagina set descricao = '$cp1', cliente = '$cp2', saida = '$cp3',
+        documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), 
+        vencimento = '$nova_data_vencimento', frequencia = '$cp8', valor = '$cp9',
+        usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = '$data_recor'");
+
         $id_ult_registro = $pdo->lastInsertId();
 
         $pdo->query("UPDATE $pagina set data_recor = '' where id='$id'");
@@ -134,14 +139,34 @@ if ($valor == $cp9) {
     data = curDate(), usuario = '$id_usuario'");
 
     $pdo->query("UPDATE $pagina set saida = '$saida', usuario_baixa = '$id_usuario', status = 'Pendente',
-     juros = '$valor_juros', multa = '$valor_multa', desconto = '$valor_desconto', valor = '$cp9',
-      subtotal = '$subtotal', data_baixa = curDate() where id = '$id'");
+    juros = '$valor_juros', multa = '$valor_multa', desconto = '$valor_desconto', valor = '$cp9',
+    subtotal = '$subtotal', data_baixa = curDate() where id = '$id'");
 }
 
 //LANÇAR NAS MOVIMENTAÇÕES
 $pdo->query("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Conta à Pagar',
- descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(), 
- lancamento = '$saida', plano_conta = '$cp5', documento = '$cp4', caixa_periodo = '$caixa_aberto'");
+descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(), 
+lancamento = '$saida', plano_conta = '$cp5', documento = '$cp4', caixa_periodo = '$caixa_aberto',
+id_mov = '$id_compra'");
+
+
+//VERIFICAR SE A CONTA É DE UMA VENDA E SE ELA ESTÁ TOTALMENTE PAGA
+$query = $pdo->query("SELECT * FROM $pagina WHERE id_compra = '$id_compra'");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$paga = 'Sim';
+for ($i = 0; $i < @count($res); $i++) {
+    foreach ($res[$i] as $key => $value) {
+    }
+    $status = $res[$i]['status'];
+    if ($status == 'Pendente') {
+        $paga = 'Não';
+    }
+}
+if ($paga == 'Sim') {
+    $pdo->query("UPDATE compras set status = 'Concluída' where id = '$id_compra'");
+}
+
+
 
 
 echo 'Baixado com Sucesso!';

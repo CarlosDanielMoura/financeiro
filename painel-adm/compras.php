@@ -213,18 +213,15 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 <script type="text/javascript">
     var pag = "<?= $pagina ?>"
 </script>
-<script src="../js/ajax.js"></script>
+
 
 <script>
     $(document).ready(function() {
-        var cat = $('#cat_despesas').val();
         listarClientes();
         listarProdutos();
         listarItens();
         limparCampos();
     });
-
-
 
 
     function listarClientes() {
@@ -241,6 +238,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         });
     }
 
+
     function listarProdutos() {
 
         var pag = "<?= $pagina ?>";
@@ -256,7 +254,9 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         });
     }
 
+
     function listarItens() {
+
         var pag = "<?= $pagina ?>";
         $.ajax({
             url: pag + "/listar-itens.php",
@@ -269,6 +269,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             }
         });
     }
+
 
     function excluirItem(id) {
 
@@ -306,7 +307,9 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         $('#id-cli').val(idCli);
         listarParcelas();
 
-        if ($('#nome-cliente-in').val() == "") {
+
+
+        if ($('#nome-cliente').val() == "") {
             $('#mensagem-fec').addClass('text-danger')
             $('#mensagem-fec').text('Selecione um Fornecedor!');
 
@@ -315,45 +318,13 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             var tab = new bootstrap.Tab(someTabTriggerEl);
             tab.show();
 
-
         } else {
             var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
             myModal.show();
 
+
         }
     }
-
-
-
-
-    //FUNÇÃO DE CRIAR PARCELAS
-    function criarParcelas() {
-
-        valor = $('#subTotal').val();
-        parcelas = $('#parcelas').val();
-        data = $('#data').val();
-
-
-        $.ajax({
-            url: pag + "/parcelas.php",
-            method: 'POST',
-            data: {
-                valor,
-                parcelas,
-                data
-            },
-            dataType: "text",
-
-            success: function(mensagem) {
-                if (mensagem.trim() == "Inserido com Sucesso!") {
-                    listarParcelas();
-
-                }
-            },
-
-        });
-    }
-
 
 
     function mudarData(data) {
@@ -374,17 +345,17 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             data: formData,
 
             success: function(mensagem) {
-                $('#mensagem-prod').text('');
-                $('#mensagem-prod').removeClass()
+                $('#mensagem').text('');
+                $('#mensagem').removeClass()
                 if (mensagem.trim() == "Salvo com Sucesso!") {
                     //$('#nome').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar-venda').click();
-                    listarItens();
                     limparCampos();
                 } else {
-                    $('#mensagem-prod').addClass('text-danger')
-                    $('#mensagem-prod').text(mensagem)
+
+                    $('#mensagem').addClass('text-danger')
+                    $('#mensagem').text(mensagem)
                 }
 
 
@@ -402,9 +373,9 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function limparCampos() {
         listarItens();
         $('#id-cliente').val('1');
-        $('#nome-cliente').text('Diversos');
-        $('#nome-cliente-in').val('Diversos');
-        $('#mensagem-prod').text('');
+        $('#nome-cliente-label').text('Diversos');
+        $('#nome-cliente').val('Diversos');
+        $('#mensagem').text('');
 
         //DEFINIR ABA A SER ABERTA
         var someTabTriggerEl = document.querySelector('#home-tab')
@@ -412,8 +383,39 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         tab.show();
     }
 
+
+    function criarParcelas() {
+
+        valor = $('#subtotal').val();
+        parcelas = $('#parcelas').val();
+        data = $('#data').val();
+
+
+        $.ajax({
+            url: pag + "/parcelas.php",
+            method: 'POST',
+            data: {
+                valor,
+                parcelas,
+                data
+            },
+            dataType: "text",
+
+            success: function(mensagem) {
+                if (mensagem.trim() == "Inserido com Sucesso!") {
+                    listarParcelas();
+                }
+            },
+
+        });
+    }
+
+
+
     function listarParcelas() {
-        $('#mensagem-prod').text('');
+
+        $('#mensagem').text('');
+
         var pag = "<?= $pagina ?>";
         $.ajax({
             url: pag + "/listar-parcelas.php",

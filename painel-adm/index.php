@@ -4,6 +4,13 @@ require_once("../conexao.php");
 require_once("verificar.php");
 
 $id_usuario = $_SESSION['id_usuario'];
+$niv_usuario = $_SESSION['nivel_usuario'];
+
+if ($niv_usuario != 'Administrador') {
+    $oculta_menu = 'd-none';
+} else {
+    $oculta_menu = 'd-block';
+}
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * from usuarios where id = '$id_usuario' ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -33,6 +40,8 @@ $menu18 = 'contas_despesa';
 $menu19 = 'movimentacoes';
 $menu20 = 'vendas';
 $menu21 = 'compras';
+$menu22 = 'lista_vendas';
+$menu23 = 'lista_compras';
 
 
 
@@ -97,22 +106,22 @@ if (@$_GET['pag'] == "") {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu2 ?>">Clientes</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu5 ?>">Bancos</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu4 ?>">Usuários</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu3 ?>">Níveis de Usuários</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu6 ?>">Contas Bancárias</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu5 ?>">Bancos</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu4 ?>">Usuários</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu3 ?>">Níveis de Usuários</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu6 ?>">Contas Bancárias</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle <?php echo $oculta_menu ?> " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Despesas
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu8 ?>">Despesas</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu7 ?>">Categorias Depesas</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu9 ?>">Frequências</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu10 ?>">Formas de Pagamentos</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu8 ?>">Despesas</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu7 ?>">Categorias Depesas</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu9 ?>">Frequências</a></li>
+                            <li><a class="dropdown-item <?php echo $oculta_menu ?> " href="index.php?pag=<?php echo $menu10 ?>">Formas de Pagamentos</a></li>
                         </ul>
                     </li>
                     <!--PRODUTOS-->
@@ -142,11 +151,13 @@ if (@$_GET['pag'] == "") {
 
                     <!-- VENDAS / COMPRAS-->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vendas/Compras
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vendas / Compras
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu20 ?>">Vendas</a></li>
                             <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu21 ?>">Compras</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu22 ?>">Lista de Vendas</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu23 ?>">Lista de Compras</a></li>
                         </ul>
                     </li>
 

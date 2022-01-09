@@ -1,6 +1,6 @@
 <?php
 require_once("../conexao.php");
-require_once("verificar.php");
+require_once("verificar_adm_acesso.php");
 $pagina = 'formas_pgtos';
 
 require_once($pagina . "/campos.php");
