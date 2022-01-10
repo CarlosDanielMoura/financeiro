@@ -32,6 +32,6 @@ $pdf->render();
 
 //NOMEAR O PDF GERADO
 $pdf->stream(
-    'comprovante.pdf',
+    'comprovante-Venda.pdf',
     array("Attachment" => false)
 );

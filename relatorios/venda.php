@@ -192,7 +192,9 @@ if (@count($res1) > 0) {
 
         <tr>
             <td colspan="2">Total:</td>
-            <td align="right">R$ <?php echo $sub_tot ?></td>
+
+            <td align="right"><b>R$ <?php echo $sub_tot ?></b></td>
+
         </tr>
 
         <?php if ($cp7 != 0) { ?>
@@ -214,17 +216,17 @@ if (@count($res1) > 0) {
 
         <tr>
             <td colspan="2">SubTotal:</td>
-            <td align="right">R$ <?php echo $sub_total ?></td>
+            <td align="right"><b>R$ <?php echo $sub_total ?><b></td>
         </tr>
-
-
-
-
-
 
         <tr>
             <td colspan="3" class="cor">
                 --------------------------------------------------------------------------------------------------------------------------------------------------------------
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
+                CUMPOM NÃO FISCAL
             </td>
         </tr>
     </tfoot>

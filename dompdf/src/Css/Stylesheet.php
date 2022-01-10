@@ -173,7 +173,7 @@ class Stylesheet
         $this->_styles = [];
         $this->_loaded_files = [];
         $script = __FILE__;
-        if (isset($_SERVER["SCRIPT_FILENAME"])) {
+        if(isset($_SERVER["SCRIPT_FILENAME"])){
             $script = $_SERVER["SCRIPT_FILENAME"];
         }
         list($this->_protocol, $this->_base_host, $this->_base_path) = Helpers::explode_url($script);
@@ -375,7 +375,7 @@ class Stylesheet
                 if (strpos($realfile, $rootDir) !== 0) {
                     $chroot = $options->getChroot();
                     $chrootValid = false;
-                    foreach ($chroot as $chrootPath) {
+                    foreach($chroot as $chrootPath) {
                         $chrootPath = realpath($chrootPath);
                         if ($chrootPath !== false && strpos($realfile, $chrootPath) === 0) {
                             $chrootValid = true;
@@ -446,9 +446,7 @@ class Stylesheet
 
         $d = min(mb_substr_count($selector, " ") +
             mb_substr_count($selector, ">") +
-            mb_substr_count($selector, "+") +
-            mb_substr_count($selector, "~") -
-            mb_substr_count($selector, "~="), 255);
+            mb_substr_count($selector, "+"), 255);
 
         //If a normal element name is at the beginning of the string,
         //a leading whitespace might have been removed on whitespace collapsing and removal
@@ -456,7 +454,7 @@ class Stylesheet
         //this can lead to a too small specificity
         //see _css_selector_to_xpath
 
-        if (!in_array($selector[0], [" ", ">", ".", "#", "+", "~", ":", "["]) && $selector !== "*") {
+        if (!in_array($selector[0], [" ", ">", ".", "#", "+", ":", "["]) && $selector !== "*") {
             $d++;
         }
 
@@ -481,8 +479,9 @@ class Stylesheet
      * @throws Exception
      * @return array
      */
-    private function _css_selector_to_xpath(string $selector, bool $first_pass = false): array
+    private function _css_selector_to_xpath($selector, $first_pass = false)
     {
+
         // Collapse white space and strip whitespace around delimiters
         //$search = array("/\\s+/", "/\\s+([.>#+:])\\s+/");
         //$replace = array(" ", "\\1");
@@ -500,7 +499,7 @@ class Stylesheet
         // Parse the selector
         //$s = preg_split("/([ :>.#+])/", $selector, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-        $delimiters = [" ", ">", ".", "#", "+", "~", ":", "[", "("];
+        $delimiters = [" ", ">", ".", "#", "+", ":", "[", "("];
 
         // Add an implicit * at the beginning of the selector
         // if it begins with an attribute selector
@@ -603,27 +602,12 @@ class Stylesheet
                     break;
 
                 case "+":
-                case "~":
-                    // Next-sibling combinator
-                    // Subsequent-sibling combinator
-                    // https://www.w3.org/TR/selectors-3/#sibling-combinators
+                    // All sibling elements that follow the current token
                     if (mb_substr($query, -1, 1) !== "/") {
                         $query .= "/";
                     }
 
-                    // Tag names are case-insensitive
-                    $tok = strtolower($tok);
-
-                    if (!$tok) {
-                        $tok = "*";
-                    }
-
                     $query .= "following-sibling::$tok";
-
-                    if ($s === "+") {
-                        $query .= "[1]";
-                    }
-
                     $tok = "";
                     break;
 
@@ -805,7 +789,6 @@ class Stylesheet
 
                 case "[":
                     // Attribute selectors.  All with an attribute matching the following token(s)
-                    // https://www.w3.org/TR/selectors-3/#attribute-selectors
                     $attr_delimiters = ["=", "]", "~", "|", "$", "^", "*"];
                     $tok_len = mb_strlen($tok);
                     $j = 0;
@@ -873,9 +856,14 @@ class Stylesheet
                         case "~=":
                             // FIXME: this will break if $value contains quoted strings
                             // (e.g. [type~="a b c" "d e f"])
-                            // FIXME: Don't match anything if value contains
-                            // whitespace or is the empty string
-                            $query .= "[contains(concat(' ', @$attr, ' '), concat(' ', '$value', ' '))]";
+                            $values = explode(" ", $value);
+                            $query .= "[";
+
+                            foreach ($values as $val) {
+                                $query .= "@$attr=\"$val\" or ";
+                            }
+
+                            $query = rtrim($query, " or ") . "]";
                             break;
 
                         case "|=":
@@ -933,7 +921,7 @@ class Stylesheet
             $query = rtrim($query, "/");
         }
 
-        return ['query' => $query, 'pseudo_elements' => $pseudo_elements];
+        return ["query" => $query, "pseudo_elements" => $pseudo_elements];
     }
 
     /**
@@ -1007,7 +995,7 @@ class Stylesheet
                 // Retrieve the nodes, limit to body for generated content
                 //TODO: If we use a context node can we remove the leading dot?
                 $nodes = @$xp->query('.' . $query["query"]);
-                if ($nodes === false) {
+                if ($nodes == null) {
                     Helpers::record_warnings(E_USER_WARNING, "The CSS selector '$selector' is not valid", __FILE__, __LINE__);
                     continue;
                 }
@@ -1025,7 +1013,7 @@ class Stylesheet
                             continue;
                         }
 
-                        if (($src = $this->resolve_url($style->get_prop('content'))) !== "none") {
+                        if (($src = $this->_image($style->get_prop('content'))) !== "none") {
                             $new_node = $node->ownerDocument->createElement("img_generated");
                             $new_node->setAttribute("src", $src);
                         } else {
@@ -1048,7 +1036,7 @@ class Stylesheet
 
                 // Retrieve the nodes
                 $nodes = @$xp->query($query["query"]);
-                if ($nodes === false) {
+                if ($nodes == null) {
                     Helpers::record_warnings(E_USER_WARNING, "The CSS selector '$selector' is not valid", __FILE__, __LINE__);
                     continue;
                 }
@@ -1430,13 +1418,12 @@ class Stylesheet
     }
 
     /**
-     * Resolve the given `url()` declaration to an absolute URL.
+     * See also style.cls Style::_image(), refactoring?, works also for imported css files
      *
-     * @param string|null $val The declaration to resolve in the context of the stylesheet.
-     * @return string The resolved URL, or `none`, if the value is `none`,
-     *         invalid, or points to a non-existent local file.
+     * @param $val
+     * @return string
      */
-    public function resolve_url($val): string
+    protected function _image($val)
     {
         $DEBUGCSS = $this->_dompdf->getOptions()->getDebugCss();
         $parsed_url = "none";
@@ -1457,8 +1444,8 @@ class Stylesheet
             if (($parsed_url["protocol"] == "" || $parsed_url["protocol"] == "file://") && ($this->_protocol == "" || $this->_protocol == "file://")) {
                 $path = realpath($path);
                 // If realpath returns FALSE then specifically state that there is no background image
-                if ($path === false) {
-                    $path = "none";
+                if (!$path) {
+                    $path = 'none';
                 }
             }
         }
@@ -1511,7 +1498,7 @@ class Stylesheet
             // Above does not work for subfolders and absolute urls.
             // Todo: As above, do we need to replace php or file to an empty protocol for local files?
 
-            $url = $this->resolve_url($url);
+            $url = $this->_image($url);
 
             $this->load_css_file($url);
 
@@ -1664,9 +1651,9 @@ class Stylesheet
     private function _parse_sections($str, $media_queries = [])
     {
         // Pre-process: collapse all whitespace and strip whitespace around '>',
-        // '.', ':', '+', '~', '#'
+        // '.', ':', '+', '#'
 
-        $patterns = ["/[\\s\n]+/", "/\\s+([>.:+~#])\\s+/"];
+        $patterns = ["/[\\s\n]+/", "/\\s+([>.:+#])\\s+/"];
         $replacements = [" ", "\\1"];
         $str = preg_replace($patterns, $replacements, $str);
         $DEBUGCSS = $this->_dompdf->getOptions()->getDebugCss();

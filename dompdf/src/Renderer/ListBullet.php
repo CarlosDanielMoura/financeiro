@@ -75,9 +75,9 @@ class ListBullet extends AbstractRenderer
     }
 
     /**
-     * @param int $n
+     * @param integer $n
      * @param string $type
-     * @param int|null $pad
+     * @param integer $pad
      *
      * @return string
      */
@@ -105,7 +105,7 @@ class ListBullet extends AbstractRenderer
             case "lower-alpha":
             case "lower-latin":
             case "a":
-                $text = chr((($n - 1) % 26) + ord('a'));
+                $text = chr(($n % 26) + ord('a') - 1);
                 break;
 
             case "upper-roman":
@@ -229,10 +229,8 @@ class ListBullet extends AbstractRenderer
                     $spacing = 0;
                     $font_family = $style->font_family;
 
-                    // Out-of-flow list items do not have a containing line
                     $line = $li->get_containing_line();
-                    $x = $frame->get_position("x");
-                    $y = $line ? $line->y : $li->get_position("y");
+                    list($x, $y) = [$frame->get_position("x"), $line->y];
 
                     $x -= $this->_dompdf->getFontMetrics()->getTextWidth($text, $font_family, $font_size, $spacing);
 
@@ -252,7 +250,7 @@ class ListBullet extends AbstractRenderer
         }
 
         $id = $frame->get_node()->getAttribute("id");
-        if (strlen($id) > 0) {
+        if (strlen($id) > 0)  {
             $this->_canvas->add_named_dest($id);
         }
     }

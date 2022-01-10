@@ -379,12 +379,17 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             success: function(mensagem) {
                 $('#mensagem-prod').text('');
                 $('#mensagem-prod').removeClass()
-                if (mensagem.trim() == "Salvo com Sucesso!") {
+
+                var array = mensagem.split("-")
+                if (array[0] == "Salvo com Sucesso") {
                     //$('#nome').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar-venda').click();
-                    listarItens();
                     limparCampos();
+                    let a = document.createElement('a');
+                    a.target = '_blank';
+                    a.href = '../relatorios/venda_class.php?id=' + array[1];
+                    a.click();
                 } else {
                     $('#mensagem-prod').addClass('text-danger')
                     $('#mensagem-prod').text(mensagem)
@@ -429,4 +434,10 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             }
         });
     }
+
+    $(document).keypress(function(e) {
+        if (e.which == 13) {
+            ModalFecharVenda();
+        }
+    });
 </script>

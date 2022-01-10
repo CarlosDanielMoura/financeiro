@@ -70,7 +70,6 @@ class Cache
         $data_uri = strpos($parsed_url['protocol'], "data:") === 0;
         $full_url = null;
         $enable_remote = $dompdf->getOptions()->getIsRemoteEnabled();
-        $tempfile = false;
 
         try {
 
@@ -93,7 +92,6 @@ class Cache
                     if (($resolved_url = @tempnam($tmp_dir, "ca_dompdf_img_")) === false) {
                         throw new ImageException("Unable to create temporary image in " . $tmp_dir, E_WARNING);
                     }
-                    $tempfile = $resolved_url;
                     $image = "";
 
                     if ($data_uri) {
@@ -131,7 +129,7 @@ class Cache
                     if (strpos($realfile, $rootDir) !== 0) {
                         $chroot = $dompdf->getOptions()->getChroot();
                         $chrootValid = false;
-                        foreach ($chroot as $chrootPath) {
+                        foreach($chroot as $chrootPath) {
                             $chrootPath = realpath($chrootPath);
                             if ($chrootPath !== false && strpos($realfile, $chrootPath) === 0) {
                                 $chrootValid = true;
@@ -159,7 +157,7 @@ class Cache
                 list($width, $height, $type) = Helpers::dompdf_getimagesize($resolved_url, $dompdf->getHttpContext());
 
                 // Known image type
-                if ($width && $height && in_array($type, ["gif", "png", "jpeg", "bmp", "svg","webp"])) {
+                if ($width && $height && in_array($type, ["gif", "png", "jpeg", "bmp", "svg"])) {
                     //Don't put replacement image into cache - otherwise it will be deleted on cache cleanup.
                     //Only execute on successful caching of remote image.
                     if ($enable_remote && $remote || $data_uri) {
@@ -171,9 +169,6 @@ class Cache
                 }
             }
         } catch (ImageException $e) {
-            if ($tempfile) {
-                unlink($tempfile);
-            }
             $resolved_url = self::$broken_image;
             $type = "png";
             $message = self::$error_message;

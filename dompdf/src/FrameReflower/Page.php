@@ -181,8 +181,8 @@ class Page extends AbstractFrameReflower
     {
         if (!isset($this->_callbacks)) {
             $dompdf = $this->_frame->get_dompdf();
-            $this->_callbacks = $dompdf->getCallbacks();
-            $this->_canvas = $dompdf->getCanvas();
+            $this->_callbacks = $dompdf->get_callbacks();
+            $this->_canvas = $dompdf->get_canvas();
         }
 
         if (is_array($this->_callbacks) && isset($this->_callbacks[$event])) {

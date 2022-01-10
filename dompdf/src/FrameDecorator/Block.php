@@ -10,7 +10,6 @@ namespace Dompdf\FrameDecorator;
 use Dompdf\Dompdf;
 use Dompdf\Frame;
 use Dompdf\LineBox;
-use Dompdf\FrameReflower\Text as TextFrameReflower;
 
 /**
  * Decorates frames for block layout
@@ -67,7 +66,7 @@ class Block extends AbstractFrameDecorator
     }
 
     /**
-     * @return int
+     * @return integer
      */
     function get_current_line_number()
     {
@@ -83,8 +82,8 @@ class Block extends AbstractFrameDecorator
     }
 
     /**
-     * @param int $line_number
-     * @return int
+     * @param integer $line_number
+     * @return integer
      */
     function set_current_line_number($line_number)
     {
@@ -94,7 +93,7 @@ class Block extends AbstractFrameDecorator
     }
 
     /**
-     * @param int $i
+     * @param integer $i
      */
     function clear_line($i)
     {
@@ -138,13 +137,6 @@ class Block extends AbstractFrameDecorator
             if ($frame->get_node()->nodeName === "br") {
                 $this->maximize_line_height($style->line_height, $frame);
                 $this->add_line(true);
-
-                $next = $frame->get_next_sibling();
-                $p = $frame->get_parent();
-
-                if ($next && $p instanceof Inline) {
-                    $p->split($next);
-                }
             }
 
             return;
@@ -185,78 +177,74 @@ class Block extends AbstractFrameDecorator
         */
         // End debugging
 
+        $line = $this->_line_boxes[$this->_cl];
+        if ($line->left + $line->w + $line->right + $w > $this->get_containing_block("w")) {
+            $this->add_line();
+        }
+
+        $frame->position();
+
         $current_line = $this->_line_boxes[$this->_cl];
         $current_line->add_frame($frame);
 
         if ($frame->is_text_node()) {
-            $trimmed = trim($frame->get_text());
-
-            if ($trimmed !== "") {
-                // split the text into words (used to determine spacing between words on justified lines)
-                // The regex splits on everything that's a separator (^\S double negative), excluding nbsp (\xa0)
-                // This currently excludes the "narrow nbsp" character
-                $words = preg_split('/[^\S\xA0]+/u', $trimmed);
-                $current_line->wc += count($words);
-            }
+            // split the text into words (used to determine spacing between words on justified lines)
+            // The regex splits on everything that's a separator (^\S double negative), excluding nbsp (\xa0)
+            // This currently excludes the "narrow nbsp" character
+            $words = preg_split('/[^\S\xA0]+/u', trim($frame->get_text()));
+            $current_line->wc += count($words);
         }
 
         $this->increase_line_width($w);
+
         $this->maximize_line_height($frame->get_margin_height(), $frame);
     }
 
     /**
-     * Remove the given frame and all following frames and lines from the block.
-     *
      * @param Frame $frame
      */
-    public function remove_frames_from_line(Frame $frame): void
+    function remove_frames_from_line(Frame $frame)
     {
-        // Inline frames are not added to line boxes themselves, only their
-        // text frame children
-        $actualFrame = $frame;
-        while ($actualFrame !== null && $actualFrame instanceof Inline) {
-            $actualFrame = $actualFrame->get_first_child();
-        }
-
-        if ($actualFrame === null) {
-            return;
-        }
-
         // Search backwards through the lines for $frame
-        $frame = $actualFrame;
         $i = $this->_cl;
         $j = null;
 
-        while ($i > 0) {
-            $line = $this->_line_boxes[$i];
-            foreach ($line->get_frames() as $index => $f) {
-                if ($frame === $f) {
-                    $j = $index;
-                    break 2;
-                }
+        while ($i >= 0) {
+            if (($j = in_array($frame, $this->_line_boxes[$i]->get_frames(), true)) !== false) {
+                break;
             }
+
             $i--;
         }
 
-        if ($j === null) {
+        if ($j === false) {
             return;
         }
 
+        // Remove $frame and all frames that follow
+        while ($j < count($this->_line_boxes[$i]->get_frames())) {
+            $frames = $this->_line_boxes[$i]->get_frames();
+            $f = $frames[$j];
+            $frames[$j] = null;
+            unset($frames[$j]);
+            $j++;
+            $this->_line_boxes[$i]->w -= $f->get_margin_width();
+        }
+
+        // Recalculate the height of the line
+        $h = 0;
+        foreach ($this->_line_boxes[$i]->get_frames() as $f) {
+            $h = max($h, $f->get_margin_height());
+        }
+
+        $this->_line_boxes[$i]->h = $h;
+
         // Remove all lines that follow
-        for ($k = $this->_cl; $k > $i; $k--) {
-            unset($this->_line_boxes[$k]);
+        while ($this->_cl > $i) {
+            $this->_line_boxes[$this->_cl] = null;
+            unset($this->_line_boxes[$this->_cl]);
+            $this->_cl--;
         }
-
-        // Remove the line, if it is empty
-        if ($j > 0) {
-            $line->remove_frames($j);
-        } else {
-            unset($this->_line_boxes[$i]);
-        }
-
-        // Reset array indices
-        $this->_line_boxes = array_values($this->_line_boxes);
-        $this->_cl = count($this->_line_boxes) - 1;
     }
 
     /**
@@ -268,7 +256,7 @@ class Block extends AbstractFrameDecorator
     }
 
     /**
-     * @param float $val
+     * @param $val
      * @param Frame $frame
      */
     function maximize_line_height($val, Frame $frame)
@@ -282,25 +270,10 @@ class Block extends AbstractFrameDecorator
     /**
      * @param bool $br
      */
-    function add_line(bool $br = false)
+    function add_line($br = false)
     {
-        $line = $this->_line_boxes[$this->_cl];
-        $frames = $line->get_frames();
-
-        if (count($frames) > 0) {
-            $last_frame = $frames[count($frames) - 1];
-            $reflower = $last_frame->get_reflower();
-
-            if ($reflower instanceof TextFrameReflower
-                && !$last_frame->is_pre()
-            ) {
-                $reflower->trim_trailing_ws();
-                $line->recalculate_width();
-            }
-        }
-
-        $line->br = $br;
-        $y = $line->y + $line->h;
+        $this->_line_boxes[$this->_cl]->br = $br;
+        $y = $this->_line_boxes[$this->_cl]->y + $this->_line_boxes[$this->_cl]->h;
 
         $new_line = new LineBox($this, $y);
 

@@ -37,7 +37,7 @@ class Helpers
         return null;
     }
 
-    /**
+      /**
      * builds a full url given a protocol, hostname, base path and url
      *
      * @param string $protocol
@@ -122,7 +122,7 @@ class Helpers
         // partially reproduced from https://stackoverflow.com/a/1243431/264628
         /* replace '//' or '/./' or '/foo/../' with '/' */
         $re = array('#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#');
-        for ($n=1; $n>0; $path=preg_replace($re, '/', $path, -1, $n)) {}
+        for($n=1; $n>0; $path=preg_replace($re, '/', $path, -1, $n)) {}
 
         $ret = "$scheme$user$pass$host$port$path$query$fragment";
 
@@ -157,19 +157,14 @@ class Helpers
     }
 
     /**
-     * Converts decimal numbers to roman numerals.
+     * Converts decimal numbers to roman numerals
      *
-     * As numbers larger than 3999 (and smaller than 1) cannot be represented in
-     * the standard form of roman numerals, those are left in decimal form.
-     *
-     * See https://en.wikipedia.org/wiki/Roman_numerals#Standard_form
-     *
-     * @param int|string $num
+     * @param int $num
      *
      * @throws Exception
      * @return string
      */
-    public static function dec2roman($num): string
+    public static function dec2roman($num)
     {
 
         static $ones = ["", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix"];
@@ -181,8 +176,8 @@ class Helpers
             throw new Exception("dec2roman() requires a numeric argument.");
         }
 
-        if ($num >= 4000 || $num <= 0) {
-            return (string) $num;
+        if ($num > 4000 || $num < 0) {
+            return "(out of range)";
         }
 
         $num = strrev((string)$num);
@@ -280,7 +275,7 @@ class Helpers
      * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
      *
      * @param string $str Data to decode
-     * @param int $width Image width
+     * @param integer $width Image width
      *
      * @return string
      */
@@ -333,7 +328,7 @@ class Helpers
      * see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
      *
      * @param string $str Data to decode
-     * @param int $width Image width
+     * @param integer $width Image width
      *
      * @return string
      */
@@ -637,7 +632,6 @@ class Helpers
             IMAGETYPE_GIF  => "gif",
             IMAGETYPE_BMP  => "bmp",
             IMAGETYPE_PNG  => "png",
-            IMAGETYPE_WEBP => "webp",
         ];
 
         $type = isset($types[$type]) ? $types[$type] : null;

@@ -97,7 +97,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 
 
-<!-- MODAL FECHAMENTO DE VENDA -->
+<!-- MODAL FECHAMENTO DE COMPRA -->
 <div class="modal fade" id="modalVenda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -347,11 +347,17 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             success: function(mensagem) {
                 $('#mensagem').text('');
                 $('#mensagem').removeClass()
-                if (mensagem.trim() == "Salvo com Sucesso!") {
+                var array = mensagem.split("-");
+                if (array[0] == "Salvo com Sucesso") {
                     //$('#nome').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar-venda').click();
                     limparCampos();
+
+                    let a = document.createElement('a');
+                    a.target = '_blank';
+                    a.href = '../relatorios/compras_class.php?id=' + array[1];
+                    a.click();
                 } else {
 
                     $('#mensagem').addClass('text-danger')
@@ -373,8 +379,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function limparCampos() {
         listarItens();
         $('#id-cliente').val('1');
-        $('#nome-cliente-label').text('Diversos');
-        $('#nome-cliente').val('Diversos');
+        $('#nome-cliente').text('Diversos');
+        $('#nome-cliente-in').val('Diversos');
         $('#mensagem').text('');
 
         //DEFINIR ABA A SER ABERTA
@@ -428,4 +434,10 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             }
         });
     }
+
+    $(document).keypress(function(e) {
+        if (e.which == 13) {
+            ModalFecharVenda();
+        }
+    });
 </script>

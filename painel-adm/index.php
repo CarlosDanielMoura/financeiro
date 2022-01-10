@@ -161,6 +161,16 @@ if (@$_GET['pag'] == "") {
                         </ul>
                     </li>
 
+                    <!-- RELATÓRIOS -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="../relatorios/produtos_class.php" target="_blank">Produtos</a></li>
+                            <li><a class="dropdown-item" data-bs-target="#modalRelMov" href="index.php?pag=<?php echo $menu20 ?>">Movimentações</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
                 <div class="d-flex ">
                     <img class="img-profile rounded-circle" src=" ../img/usuario-navbar.png" alt="" width=" 50px" height="50px">

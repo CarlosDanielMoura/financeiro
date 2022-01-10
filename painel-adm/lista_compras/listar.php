@@ -12,7 +12,7 @@ echo <<<HTML
 <th>Lançamento</th>	
 <th>Vencimento</th>	
 <th>Parcelas</th>
-<th>Cliente</th>								
+<th>Fornecedor</th>								
 <th>Ações</th>
 </tr>
 </thead>
@@ -53,12 +53,12 @@ for ($i = 0; $i < @count($res); $i++) {
 
 	$cp6 = implode('/', array_reverse(explode('-', $cp6)));
 
-	$query1 = $pdo->query("SELECT * from clientes where id = '$cp12' ");
+	$query1 = $pdo->query("SELECT * from fornecedores where id = '$cp12' ");
 	$res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
 	if (@count($res1) > 0) {
 		$nome_cliente = $res1[0]['nome'];
 	} else {
-		$nome_cliente = 'Sem Cliente';
+		$nome_cliente = 'Sem Fornecedor';
 	}
 
 
@@ -82,9 +82,9 @@ for ($i = 0; $i < @count($res); $i++) {
 	
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Cancelar Venda">	<i class="bi bi-trash text-danger {$ocultar}"></i> </a>
 
-	<a class="mx-1 text-dark" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda">
-	<i class="bi bi-exclamation-square"></i></a>
+	<a class="mx-1 text-dark" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda"><i class="bi bi-exclamation-square"></i></a>
 
+	<a href="../relatorios/compras_class.php?id={$id}" title="Gerar Comprovante" target="_blank">	<i class="bi bi-file-earmark-check text-success"></i> </a>
 	</td>
 	</tr>
 HTML;

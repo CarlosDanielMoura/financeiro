@@ -57,7 +57,9 @@ if (@count($res2) > 0) {
 
 
 
-$query = $pdo->prepare("INSERT INTO compras set valor = '$subtotal', usuario = '$id_usuario', pagamento = :pagamento, lancamento = :lancamento, data_lanc = CurDate(), data_pgto = :data, parcelas = :parcelas, status = '$status', cliente = :cliente");
+$query = $pdo->prepare("INSERT INTO compras set valor = '$subtotal', usuario = '$id_usuario',
+ pagamento = :pagamento, lancamento = :lancamento, data_lanc = CurDate(), data_pgto = :data, 
+ parcelas = :parcelas, status = '$status', cliente = :cliente");
 
 
 
@@ -72,12 +74,20 @@ $id_ult_registro = $pdo->lastInsertId();
 $descricao_conta = 'Compra - ' . $nome_cli;
 if ($status == 'Concluída') {
 
-    $pdo->query("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Compra', descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(), lancamento = '$lancamento', plano_conta = 'Compra de Produtos', documento = '$pagamento', caixa_periodo = '$caixa_aberto', id_mov = '$id_ult_registro'");
+    $pdo->query("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Compra', 
+    descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(),
+     lancamento = '$lancamento', plano_conta = 'Compra de Produtos', documento = '$pagamento', 
+     caixa_periodo = '$caixa_aberto', id_mov = '$id_ult_registro'");
 } else {
     if ($parcelas > 1) {
-        $query = $pdo->query("UPDATE contas_pagar set cliente = '$cliente', saida = '$lancamento', documento = '$pagamento', plano_conta = 'Compra de Produtos', frequencia = 'Uma Vez', usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(), id_compra = '$id_ult_registro' WHERE id_compra = '-1' and usuario_lanc = '$id_usuario'");
+        $query = $pdo->query("UPDATE contas_pagar set cliente = '$cliente', saida = '$lancamento',
+         documento = '$pagamento', plano_conta = 'Compra de Produtos', frequencia = 'Uma Vez', usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(), id_compra = '$id_ult_registro' WHERE id_compra = '-1' and usuario_lanc = '$id_usuario'");
     } else {
-        $query = $pdo->query("INSERT INTO contas_pagar set descricao = '$descricao_conta', cliente = '$cliente', saida = '$lancamento', documento = '$pagamento', plano_conta = 'Compra de Produtos', data_emissao = curDate(), vencimento = '$data', frequencia = 'Uma Vez', valor = '$subtotal', usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(), id_compra = '$id_ult_registro'");
+        $query = $pdo->query("INSERT INTO contas_pagar set descricao = '$descricao_conta', 
+        cliente = '$cliente', saida = '$lancamento', documento = '$pagamento', plano_conta = 
+        'Compra de Produtos', data_emissao = curDate(), vencimento = '$data', frequencia = 
+        'Uma Vez', valor = '$subtotal', usuario_lanc = '$id_usuario', status = 'Pendente',
+         data_recor = curDate(), id_compra = '$id_ult_registro'");
     }
 }
 
@@ -96,4 +106,4 @@ if ($total_reg > 0) {
 }
 
 
-echo 'Salvo com Sucesso!';
+echo 'Salvo com Sucesso-' . $id_ult_registro;

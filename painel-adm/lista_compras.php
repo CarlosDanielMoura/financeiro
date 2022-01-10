@@ -116,7 +116,7 @@ require_once($pagina . "/campos.php");
                                 <b>Status:</b> <span id="campo11"></span>
                             </div>
                             <div class="col-6 dados-detalhados-itens">
-                                <b>Cliente:</b> <span id="campo12"></span>
+                                <b>Fornecedor:</b> <span id="campo12"></span>
                             </div>
                         </div>
                         <hr>
