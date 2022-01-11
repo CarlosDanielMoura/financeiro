@@ -2,4 +2,4 @@
 
 
 
-* 20
+* Ajeitar os compras a pagar e o compras a receber

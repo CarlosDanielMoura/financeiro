@@ -327,11 +327,11 @@ $data_atual = date('Y-m-d');
 
                             <div class="row my-2 justify-content-center">
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control" style="text-align: center;" name="Fornecedor" id="id-cliente" placeholder="id" readonly>
+                                    <input type="text" class="form-control" style="text-align: center;" name="id-cliente-desp" id="id-cliente-desp" placeholder="id" readonly>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" style="text-align: center;" name="nome-cliente" id="nome-cliente" placeholder="Nome do Fornecedor" readonly>
+                                    <input type="text" class="form-control" style="text-align: center;" name="nome-cliente-desp" id="nome-cliente-desp" placeholder="Nome do Fornecedor" readonly>
                                 </div>
                             </div>
 
@@ -457,7 +457,6 @@ $data_atual = date('Y-m-d');
                                     </div>
                                 </div>
 
-
                                 <div class="col-md-3 col-sm-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">Despesa</label>
@@ -467,7 +466,6 @@ $data_atual = date('Y-m-d');
 
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -1007,7 +1005,7 @@ $data_atual = date('Y-m-d');
     function listarClientes() {
 
         $.ajax({
-            url: "contas_despesa/listar-clientes.php",
+            url: pag + "/listar-clientes.php",
             method: 'POST',
             data: $('#form').serialize(),
             dataType: "html",

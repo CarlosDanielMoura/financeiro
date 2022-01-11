@@ -11,6 +11,7 @@ if ($niv_usuario != 'Administrador') {
 } else {
     $oculta_menu = 'd-block';
 }
+
 //RECUPERAR DADOS DO USUÁRIO
 $query = $pdo->query("SELECT * from usuarios where id = '$id_usuario' ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -50,6 +51,29 @@ if (@$_GET['pag'] == "") {
 } else {
     $pag = @$_GET['pag'];
 }
+
+$data_atual = date('Y-m-d');
+$dataOntem = date('Y-m-d', strtotime("-1 day", strtotime($data_atual)));
+
+$mes_atual = Date("m");
+$ano_atual = Date("Y");
+$data_inicial_mes_atual = $ano_atual . "-" . $mes_atual . "-01";
+
+$data_inicial_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_inicial_mes_atual)));
+
+$separar_data = explode("-", $data_inicial_mes_ant);
+$mes_ant = $separar_data[1];
+
+if ($mes_ant == '4' || $mes_atual == '6' || $mes_atual == '9' || $mes_atual == '11') {
+    $data_final_mes_atual = $ano_atual . "-" . $mes_atual . "-30";
+} else if ($mes_ant == '2') {
+    $data_final_mes_atual = $ano_atual . "-" . $mes_atual . "-28";
+} else {
+    $data_final_mes_atual = $ano_atual . "-" . $mes_atual . "-31";
+}
+
+$data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_mes_atual)));
+
 
 ?>
 
@@ -166,8 +190,9 @@ if (@$_GET['pag'] == "") {
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRelMov">Movimentações</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRelLucro">Lucro Vendas</a></li>
                             <li><a class="dropdown-item" href="../relatorios/produtos_class.php" target="_blank">Produtos</a></li>
-                            <li><a class="dropdown-item" data-bs-target="#modalRelMov" href="index.php?pag=<?php echo $menu20 ?>">Movimentações</a></li>
                         </ul>
                     </li>
 
@@ -192,6 +217,10 @@ if (@$_GET['pag'] == "") {
             </div>
     </nav>
 
+
+
+
+
     <!-- Corpo da pagina-->
     <div class="container-fluid">
         <?php
@@ -207,7 +236,7 @@ if (@$_GET['pag'] == "") {
 
 
 
-<!-- Modal  Dados-->
+<!-- MODAL  DADOS-->
 <div class="modal fade" id="modalPerfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -252,6 +281,209 @@ if (@$_GET['pag'] == "") {
     </div>
 </div>
 
+
+<!-- MODAL REL MOV -->
+<div class="modal fade" id="modalRelMov" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Relatório de Movimentações
+                    <span class="mx-4"><small><small><small><b>Período:</b>
+
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $dataOntem ?>', '<?php echo $dataOntem ?>')" class="text-dark"> Ontem </a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_atual ?>', '<?php echo $data_atual ?>')" class="text-dark"> Mês Atual</a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_ant ?>', '<?php echo $data_final_mes_ant ?>')" class="text-dark">Mês Anterior</a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_atual ?>', '<?php echo $data_atual ?>')" class="text-dark">Hoje</a>
+
+                                </small></small></small></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="../relatorios/movimentacoes_class.php" target="_blank">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Tipo <small><small>(Despesas, Contas, etc)</small></small></label>
+                                <select class="form-select form-select-sm" aria-label="Default select example" name="tipo-rel" id="tipo-rel">
+                                    <option value="">Todas</option>
+                                    <option value="Contas à Pagar">Contas à Pagar</option>
+                                    <option value="Contas à Receber">Contas à Receber</option>
+                                    <option value="Venda">Venda</option>
+                                    <option value="Compra">Compra</option>
+                                    <option value="Despesa">Despesa</option>
+                                    <option value="Transferência">Transferência</option>
+                                    <option value="Receita">Receita</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data Inicial </label>
+                                <input type="date" class="form-control form-control-sm" name="data-inicial-rel" id="data-inicial-rel" value="<?php echo date('Y-m-d') ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data Final </label>
+                                <input type="date" class="form-control form-control-sm" name="data-final-rel" id="data-final-rel" value="<?php echo date('Y-m-d') ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-12">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Local Movimentação</label>
+                                <select class="form-select" aria-label="Default select example" name="local-mov" id="local-mov">
+                                    <option value="Caixa">Caixa (Movimento)</option>
+                                    <option value="Cartão de Débito">Cartão de Débito</option>
+                                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Plano de Conta</label>
+                                <select class="form-select form-select-sm" aria-label="Default select example" name="cat-despesas-rel" id="cat-despesas-rel">
+                                    <option value="">Todas</option>
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM cat_despesas order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Sub Cat Plano Conta</label>
+                                <div id="listar-despesas-rel">
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Forma de Pagamento</label>
+                                <select class="form-select form-select-sm" aria-label="Default select example" name="pgto-rel" id="pgto-rel">
+                                    <option value="">Todas</option>
+                                    <option value="Dinheiro">Dinheiro</option>
+                                    <option value="Boleto">Boleto</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <option value="Conta Corrente">Conta Corrente</option>
+                                    <option value="Conta Poupança">Conta Poupança</option>
+                                    <option value="Carnê">Carnê</option>
+                                    <option value="DARF">DARF</option>
+                                    <option value="Depósito">Depósito</option>
+                                    <option value="Transferência">Transferência</option>
+                                    <option value="Pix">Pix</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-12">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Entrada / Saída</label>
+                                <select class="form-select form-select-sm" aria-label="Default select example" name="tipo-mov" id="tipo-mov">
+                                    <option value="">Todas</option>
+                                    <option value="Entrada">Entradas</option>
+                                    <option value="Saída">Saídas</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-perfil">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Gerar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL REL MOV -->
+<div class="modal fade" id="modalRelLucro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Relatório de Lucro de Vendas
+                    <span class="mx-4"><small><small><small><b>Período:</b>
+
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $dataOntem ?>', '<?php echo $dataOntem ?>')" class="text-dark"> Ontem </a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_atual ?>', '<?php echo $data_atual ?>')" class="text-dark"> Mês Atual</a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_ant ?>', '<?php echo $data_final_mes_ant ?>')" class="text-dark">Mês Anterior</a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_atual ?>', '<?php echo $data_atual ?>')" class="text-dark">Hoje</a>
+
+                                </small></small></small></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="../relatorios/lucro_class.php" target="_blank">
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data Inicial </label>
+                                <input type="date" class="form-control form-control-sm" name="data-inicial-rel-lucro" id="data-inicial-rel-lucro" value="<?php echo date('Y-m-d') ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data Final </label>
+                                <input type="date" class="form-control form-control-sm" name="data-final-rel-lucro" id="data-final-rel-lucro" value="<?php echo date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-perfil">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Gerar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- Mascaras JS -->
 <script type="text/javascript" src="../js/mascaras.js"></script>
 <!-- Ajax para funcionar Mascaras JS -->
@@ -260,6 +492,18 @@ if (@$_GET['pag'] == "") {
 
 <!-- Ajax para inserir ou editar dados -->
 <script type="text/javascript">
+    $(document).ready(function() {
+        var cat = $('#cat-despesas-rel').val();
+        console.log(cat)
+        listarDespesasRel(cat, '');
+
+        $('#cat-despesas-rel').change(function() {
+            var cat = $(this).val();
+            listarDespesasRel(cat);
+        });
+
+    });
+
     $("#form_edit_perfil").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
@@ -293,4 +537,34 @@ if (@$_GET['pag'] == "") {
         });
 
     });
+
+    function mudarDataRel(data, data2) {
+        $("#data-inicial-rel").val(data);
+        $("#data-final-rel").val(data2);
+
+        $("#data-inicial-rel-lucro").val(data);
+        $("#data-final-rel-lucro").val(data2);
+    }
+
+
+
+
+
+    function listarDespesasRel(cat, despesa) {
+
+        $.ajax({
+            url: "listar-despesas.php",
+            method: 'POST',
+            data: {
+                cat,
+                despesa
+            },
+            dataType: "text",
+
+            success: function(result) {
+                $("#listar-despesas-rel").html(result);
+            }
+
+        });
+    }
 </script>

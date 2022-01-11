@@ -22,7 +22,6 @@ echo <<<HTML
 <th>Descrição</th>
 <th>{$campo4}</th>	
 <th>Valor Venda</th>
-<th>{$campo7}</th>	
 <th>{$campo8}</th>	
 <th>{$campo9}</th>
 <th>Ações</th>
@@ -93,7 +92,6 @@ for ($i = 0; $i < @count($res); $i++) {
             <td>{$cp3}</td>	
 	        <td>{$cp4}</td>	
 	        <td>R$ {$cp6}</td>	
-	        <td>{$nome_forn}</td>	
 	        <td>{$nome_cat}</td>	
 	        <td><img src="../img/{$pagina}/{$cp9}" width="40px"></td>	
             <td>
@@ -127,10 +125,8 @@ HTML;
         $('#<?= $campo1 ?>').val(cp1);
         $('#<?= $campo2 ?>').val(cp2);
         $('#<?= $campo3 ?>').val(cp3);
-
-
+        $('#<?= $campo5 ?>').val(cp5);
         $('#<?= $campo6 ?>').val(cp6);
-
         $('#<?= $campo8 ?>').val(cp8);
         $('#target').attr('src', '../img/' + pag + '/' + cp9);
         $('#<?= $campo10 ?>').val(cp10);

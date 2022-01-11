@@ -23,7 +23,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     <div class='order py-2'>
                         <div class="row justify-content-center">
                             <div class="col-md-11 barra-lista-itens">
-                                <p class="background">LISTA DE ITENS: FORNECEDOR <strong><span id="nome-cliente"></span></strong>
+                                <p class="background">LISTA DE ITENS: FORNECEDOR <strong><span id="nome-cliente-label"></span></strong>
                             </div>
                         </div>
 

@@ -90,12 +90,8 @@ HTML;
 
 
     function selecionarCliente(id, nome) {
-        $('#mensagem-fec').text('');
-        $('#mensagem-fec').removeClass()
         $('#id-cliente').val(id);
-        var nomeTitle = nome.toUpperCase();
-        $('#nome-cliente').text(nomeTitle);
+        $('#nome-cliente-label').text(nome);
         $('#nome-cliente-in').val(nome);
-
     }
 </script>

@@ -7,10 +7,10 @@ $nome_adm = 'Carlos Daniel';
 
 
 $endereco_site = 'Av X, Número 550, Bairro Centro - Coromandel - MG CEP 38550-000';
-$telefone_fixo = '(33) 3333-3333';
-$telefone_whatsapp = '55 (34) 9 9999-9999';
+$telefone_fixo = '(34) 9 9336-5163';
+$telefone_whatsapp = '55 (34) 9 9336-5163';
 $telefone_whatsapp_link = '55 (34) 9 9999-9999';
-$cnpj_site = '45.366.898/0001-08';
+$cnpj_site = '39.226.470/0001-03';
 
 
 // DADOS PARA O BANCO DE DADOS

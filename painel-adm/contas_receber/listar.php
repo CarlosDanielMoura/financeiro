@@ -46,10 +46,10 @@ echo <<<HTML
 <thead>
 <tr>
 <th>Descrição</th>
-<th>Laçamento</th>		
+<th>Plano de Conta</th>			
 <th>Cliente</th>	
 <th>Vencimento</th>	
-<th>Frequência</th>	
+<th>Laçamento</th>
 <th>Valor</th>
 <th>Ações</th>
 </tr>
@@ -184,10 +184,10 @@ for ($i = 0; $i < @count($res); $i++) {
 	{$descricao}
 	</span>
 	</td>		
-	<td>{$cp3}</td>	
+    <td>{$cp5}</td>
 	<td>{$nome_cliente}</td>		
 	<td>{$data_venc}</td>	
-	<td>{$cp8}</td>	
+    <td>{$cp3}</td>	
 	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-success" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
 								
 	<td>

@@ -13,7 +13,9 @@ if ($saida == $entrada) {
     exit();
 }
 
-$query = $pdo->prepare("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Transferência', descricao = 'Transferência', valor = :valor, usuario = '$id_usuario', data = curDate(), lancamento = :saida, plano_conta = 'Transferência', documento = 'Dinheiro'");
+$query = $pdo->prepare("INSERT INTO movimentacoes set tipo = 'Saída', movimento = 'Transferência',
+ descricao = 'Enviada', valor = :valor, usuario = '$id_usuario', data = curDate(), 
+ lancamento = :saida, plano_conta = 'Transferência', documento = 'Dinheiro'");
 
 $query->bindValue(":valor", "$valor");
 $query->bindValue(":saida", "$saida");
@@ -21,7 +23,9 @@ $query->execute();
 
 
 
-$query2 = $pdo->prepare("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Transferência', descricao = 'Transferência', valor = :valor, usuario = '$id_usuario', data = curDate(), lancamento = :entrada, plano_conta = 'Transferência', documento = 'Dinheiro'");
+$query2 = $pdo->prepare("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Transferência',
+ descricao = 'Recebida', valor = :valor, usuario = '$id_usuario', data = curDate(),
+  lancamento = :entrada, plano_conta = 'Transferência', documento = 'Dinheiro'");
 
 $query2->bindValue(":valor", "$valor");
 $query2->bindValue(":entrada", "$entrada");

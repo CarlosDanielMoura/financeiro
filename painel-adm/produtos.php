@@ -72,28 +72,33 @@ require_once($pagina . "/campos.php");
 						<div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
 
 							<div class="row">
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<div class="mb-3">
 										<label for="exampleFormControlInput1" class="form-label"><?php echo $campo1 ?></label>
 										<input type="text" class="form-control" name="<?php echo $campo1 ?>" placeholder="<?php echo $campo1 ?>" id="<?php echo $campo1 ?>" required>
 									</div>
 								</div>
 
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<div class="mb-3">
 										<label for="exampleFormControlInput1" class="form-label"><?php echo $campo2 ?></label>
 										<input type="text" class="form-control" name="<?php echo $campo2 ?>" placeholder="<?php echo $campo2 ?>" id="<?php echo $campo2 ?>" required>
 									</div>
 								</div>
 
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-3 col-sm-12">
 									<div class="mb-3">
 										<label for="exampleFormControlInput1" class="form-label">Valor Venda</label>
 										<input type="text" class="form-control" name="<?php echo $campo6 ?>" id="<?php echo $campo6 ?>" placeholder="Valor Venda" required>
 									</div>
 								</div>
 
-
+								<div class="col-md-3 col-sm-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label">Valor Custo</label>
+										<input type="text" class="form-control" name="<?php echo $campo5 ?>" id="<?php echo $campo5 ?>" placeholder="Valor de Compra" required>
+									</div>
+								</div>
 							</div>
 
 
@@ -265,9 +270,13 @@ require_once($pagina . "/campos.php");
 					<!--LINHA 2-->
 
 					<div class="row">
-						<div class="col-md-12 col-sm-12">
+						<div class="col-md-6 col-sm-12">
 							<!-- FORNECEDORES-->
 							<span><b><?php echo $campo7 ?>: </b><span id="campo7"></span></span>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<!-- FORNECEDORES-->
+							<span><b><?php echo $campo5 ?>: </b><span id="campo5"></span></span>
 						</div>
 
 					</div>

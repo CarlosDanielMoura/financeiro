@@ -35,6 +35,7 @@ if (@count($res_t) > 0) {
         $classe_saldo_geral = 'text-success';
     }
 
+
     $total_saldo_geralF = number_format($total_saldo_geral, 2, ',', '.');
 }
 

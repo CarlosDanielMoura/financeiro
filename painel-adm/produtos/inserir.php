@@ -8,7 +8,8 @@ $cp1 = $_POST[$campo1];
 $cp2 = $_POST[$campo2];
 $cp3 = $_POST[$campo3];
 $cp4 = "";
-$cp5 = "";
+$cp5 = $_POST[$campo5];
+$cp5 = str_replace(',', '.', $cp5);
 $cp6 = $_POST[$campo6];
 $cp6 = str_replace(',', '.', $cp6);
 $cp7 = "";
@@ -72,7 +73,7 @@ if ($id == "") {
 
     if ($imagem == "sem-foto.jpg") {
         $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, 
-        descricao = :campo3, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, 
+        descricao = :campo3, valor_compra = :campo5, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, 
         ativo = :campo10 WHERE id = '$id'");
     } else {
 
@@ -84,9 +85,8 @@ if ($id == "") {
             @unlink('../../img/produtos/' . $imagem_antiga);
         }
 
-        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, 
-        descricao = :campo3, valor_venda = :campo6, fornecedores = :campo7,  categoria = :campo8, 
-        foto = :campo9, ativo = :campo10 WHERE id = '$id'");
+        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, descricao = :campo3, 
+         valor_compra = :campo5, valor_venda = :campo6, fornecedor = :campo7, categoria = :campo8, foto = :campo9, ativo = :campo10 WHERE id = '$id'");
         $query->bindValue(":campo9", "$imagem");
     }
 }
@@ -94,12 +94,12 @@ if ($id == "") {
 $query->bindValue(":campo1", "$cp1");
 $query->bindValue(":campo2", "$cp2");
 $query->bindValue(":campo3", "$cp3");
+$query->bindValue(":campo5", "$cp5");
 $query->bindValue(":campo6", "$cp6");
 $query->bindValue(":campo7", "$cp7");
 $query->bindValue(":campo8", "$cp8");
 
 $query->bindValue(":campo10", "$cp10");
-
 $query->execute();
 
 echo 'Salvo com Sucesso!';

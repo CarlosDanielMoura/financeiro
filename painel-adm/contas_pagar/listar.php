@@ -227,10 +227,12 @@ HTML;
         }
 
         var plano = cp5.split("-");
+        if (plano.length > 1) {
+            $('#cat_despesas').val(plano[1].trim());
+            listarDespesas(plano[1].trim(), plano[0].trim())
+            //$('#<?= $campo5 ?>').val(plano[0].trim());
+        }
 
-        $('#cat_despesas').val(plano[1].trim());
-        listarDespesas(plano[1].trim(), plano[0].trim())
-        //$('#<?= $campo5 ?>').val(plano[0].trim());
 
 
         $('#tituloModal').text('Editar Registro');
