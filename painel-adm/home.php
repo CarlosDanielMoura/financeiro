@@ -8,7 +8,7 @@ $mes_atual = Date('m');
 $ano_atual = Date('Y');
 $dataInicioMes = $ano_atual . "-" . $mes_atual . "-01";
 
-
+$menu11 = 'produtos';
 
 $query = $pdo->query("SELECT * from clientes where ativo = 'Sim'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -144,7 +144,7 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class="text-success"><?php echo @$produtosCadastrados ?></span></h3>
-                                    <span>Produtos Cadastrados</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu11 ?>"> <span>Produtos Cadastrados</span></a>
                                 </div>
                             </div>
                         </div>

@@ -32,3 +32,11 @@ a{
 .container-fluid{
   max-width: 1400px;
 }
+
+.link-rapido{
+  color:black;
+}
+
+.link-rapido:hover{
+  color: red;
+}

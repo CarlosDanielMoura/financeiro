@@ -345,7 +345,7 @@ require_once($pagina . "/campos.php");
 								<label for="exampleFormControlInput1" class="form-label"><?php echo $campo7 ?></label>
 								<select class="form-select" aria-label="Default select example" name="<?php echo $campo7 ?>" id="<?php echo $campo7 ?>">
 									<?php
-									$query = $pdo->query("SELECT * FROM fornecedores order by nome asc");
+									$query = $pdo->query("SELECT * FROM fornecedores where ativo = 'Sim' order by nome asc");
 									$res = $query->fetchAll(PDO::FETCH_ASSOC);
 									for ($i = 0; $i < @count($res); $i++) {
 										foreach ($res[$i] as $key => $value) {
