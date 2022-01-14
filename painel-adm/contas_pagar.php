@@ -156,7 +156,7 @@ if ($frequencia_automatica != 'Não') {
 
 
 <small>
-   <div class="tableDados" id="listar">
+   <div class="table" id="listar">
    </div>
 </small>
 

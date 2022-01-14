@@ -11,9 +11,9 @@ if (@count($res) > 0) {
     echo <<<HTML
 <table id="example" class="table table-striped table-light table-hover my-4">
 <thead>
-<tr>
-<th>{$campo1}</th>
-<th>Acões</th>
+<tr >
+<th >{$campo1}</th>
+<th >Acões</th>
 </tr>
 </thead>
 <tbody>
@@ -29,10 +29,10 @@ HTML;
         echo <<<HTML
             <tr>
             <td>{$campoTd1}</td>
-            <td>
+            <td >
             <a href="#" onclick="editar('{$id}' , '{$campoTd1}')" title="Editar Registro"> <i class="bi bi-pencil-square text-primary"></i></a>
             <a href="#" onclick="excluir('{$id}' , '{$campoTd1}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
-            </td>
+            </td class="">
             </tr>
 HTML;
     }
