@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+
+body{
+    font-family: 'Coustard', serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+.nav-bar-background{
+    background-color: #0D214F;
+    box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
+    -webkit-box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
+    -moz-box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
+    margin-bottom: 10px;
+}
+.nav-link-a > .nav-item >  .nav-link{
+    text-decoration: none;
+    color: white;
+    font-family: 'Coustard', serif;
+    font-size: 15px;
+}
+
+.nav-link-a > .nav-item >  .nav-link:hover{
+    text-decoration: none;
+    color: white;
+    font-family: 'Coustard', serif;
+    border-radius: 10px;
+    border:1px solid white;
+}
+
+
+
+
+

@@ -15,6 +15,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 
 <link rel="stylesheet" href="../css/tela-venda.css">
+
 <div class="container-fluid ">
     <div class="row py-3">
         <div class='checkout'>

@@ -105,6 +105,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
     <link rel="stylesheet" href="../css/btn.css">
     <link rel="stylesheet" href="../css/niveis.css">
     <link rel="stylesheet" href="../css/contas_pagar.css">
+    <link rel="stylesheet" href="../css/navbar.css">
 
 
 
@@ -113,16 +114,17 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
 
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
+    <div class="container-fluid nav-bar-background">
+        <nav class="navbar navbar-expand-lg ">
+
             <a class="navbar-brand" href="#"><img src="../img/logo-150.png" width="65px" height="65px" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarSupportedContent" style="font-size: 15px; margin-right: 25px; color:black">
-                <ul class=" navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class=" navbar-nav nav-link-a me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php?pag=<?php echo $menu1 ?>">Home</a>
+                        <a class="nav-link  active" aria-current="page" href="index.php?pag=<?php echo $menu1 ?>">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -198,10 +200,10 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
 
                 </ul>
                 <div class="d-flex ">
-                    <img class="img-profile rounded-circle" src=" ../img/usuario-navbar.png" alt="" width=" 50px" height="50px">
-                    <ul class="navbar-nav" style="margin-right: 70px;">
+                    <img class="img-profile rounded-circle " src=" ../img/usuario-navbar.png" alt="" width=" 50px" height="50px">
+                    <ul class="navbar-nav nav-link-a" style="margin-right: 70px;">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <?php echo @$nome_usuario ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -214,8 +216,8 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                         </li>
                     </ul>
                 </div>
-            </div>
-    </nav>
+        </nav>
+    </div>
 
 
 

@@ -1,4 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Acme&family=Bebas+Neue&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+
+input {
+  margin-bottom: 15px;
+}
+
+/*------------------------------------------------------------------------------------------------*/
 
 html {
   font-family: "Quicksand", sans-serif;
