@@ -6,6 +6,8 @@ $pagina = 'contas_despesa';
 require_once($pagina . "/campos.php");
 
 ?>
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
 
 <div class="row my-3 align-items-center">
     <div class="col-md-9">

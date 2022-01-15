@@ -105,7 +105,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
     <link rel="stylesheet" href="../css/btn.css">
     <link rel="stylesheet" href="../css/niveis.css">
     <link rel="stylesheet" href="../css/contas_pagar.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/home.css">
 
 
 
@@ -127,7 +127,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                         <a class="nav-link  active" aria-current="page" href="index.php?pag=<?php echo $menu1 ?>">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Cadastro
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

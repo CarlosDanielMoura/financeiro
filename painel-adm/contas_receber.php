@@ -90,7 +90,8 @@ if ($frequencia_automatica != 'Não') {
 
 
 
-
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
 
 
 <div class="row  center-line  my-3">

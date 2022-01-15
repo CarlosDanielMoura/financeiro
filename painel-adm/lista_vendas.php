@@ -8,6 +8,8 @@ require_once($pagina . "/campos.php");
 ?>
 
 <link rel="stylesheet" href="../css/lista_venda_compras.css">
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
 
 <div class="col-md-12 my-3">
 

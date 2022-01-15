@@ -9,6 +9,11 @@ $ano_atual = Date('Y');
 $dataInicioMes = $ano_atual . "-" . $mes_atual . "-01";
 
 $menu11 = 'produtos';
+$menu15 = 'contas_pagar';
+$menu16 = 'contas_receber';
+$menu13 = 'fornecedores';
+$menu2 = 'clientes';
+
 
 $query = $pdo->query("SELECT * from clientes where ativo = 'Sim'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -119,6 +124,7 @@ if ($total_reg > 0) {
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/geral.css">
+<link rel="stylesheet" href="../css/home.css">
 
 <div class="container-fluid">
     <section id="minimal-statistics">
@@ -137,8 +143,8 @@ if ($total_reg > 0) {
             <div class="col-xl-3 col-sm-6 col-12">
                 <div class="card card-tam-edit">
                     <div class="card-content">
-                        <div class="card-body">
-                            <div class="row">
+                        <div class="card-body ">
+                            <div class="row card-linha">
                                 <div class="align-self-center col-3">
                                     <i class="bi bi-box-seam text-success fs-1 float-start"></i>
                                 </div>
@@ -162,7 +168,7 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class="text-primary"><?php echo @$clientesCadastrados ?></span></h3>
-                                    <span>Clientes Cadastrados</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu2 ?>"> <span>Clientes Cadastrados</span></a>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +187,7 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class="text-dark"><?php echo @$fornCadastrados ?></span></h3>
-                                    <span>Fornecedores Cadastrados</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu13 ?>"> <span>Fornecedores Cadastrados</span></a>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +206,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3><span class="text-danger"><?php echo @$estoqueBaixo ?></span></h3>
-                                    <span>Produtos Estoque Baixo</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu11 ?>&estoque=sim"> <span>Produtos Estoque Baixo</span></a>
+
                                 </div>
                             </div>
                         </div>
@@ -227,7 +234,7 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class=""><?php echo @$contas_pagar_hoje ?></span></h3>
-                                    <span>Contas à Pagar (Hoje)</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu15 ?>"> <span>Contas à Pagar (Hoje)</span></a>
 
                                 </div>
                             </div>
@@ -247,7 +254,7 @@ if ($total_reg > 0) {
                                 <div class="col-9 text-end">
                                     <h3> <span class="">
                                             <?php echo @$contas_pagar_vencidas ?></span></h3>
-                                    <span>Contas à Pagar Vencidas</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu15 ?>"> <span>Contas à Pagar Vencidas</span></a>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +273,7 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class=""><?php echo @$contas_receber_hoje ?></span></h3>
-                                    <span>Contas Receber (Hoje)</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu16 ?>"> <span>Contas à Receber (Hoje)</span></a>
                                 </div>
                             </div>
                         </div>
@@ -285,7 +292,7 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3><?php echo @$contas_receber_vencidas ?></h3>
-                                    <span>Contas à Receber Vencidas</span>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu16 ?>"> <span>Contas à Receber Vencidas</span></a>
                                 </div>
                             </div>
                         </div>
@@ -310,8 +317,8 @@ if ($total_reg > 0) {
         <div class="row mb-4">
 
             <div class="col-xl-6 col-md-12">
-                <div class="card overflow-hidden">
-                    <div class="card-content">
+                <div class="card overflow-hidden card-tam-ret">
+                    <div class="card-content ">
                         <div class="card-body cleartfix">
                             <div class="row media align-items-stretch">
                                 <div class="align-self-center col-1">
@@ -331,7 +338,7 @@ if ($total_reg > 0) {
             </div>
 
             <div class="col-xl-6 col-md-12">
-                <div class="card overflow-hidden">
+                <div class="card overflow-hidden card-tam-ret">
                     <div class="card-content">
                         <div class="card-body cleartfix">
                             <div class="row media align-items-stretch">
@@ -357,7 +364,7 @@ if ($total_reg > 0) {
         <div class="row mb-4">
 
             <div class="col-xl-6 col-md-12">
-                <div class="card overflow-hidden">
+                <div class="card overflow-hidden card-tam-ret">
                     <div class="card-content">
                         <div class="card-body cleartfix">
                             <div class="row media align-items-stretch">
@@ -378,7 +385,7 @@ if ($total_reg > 0) {
             </div>
 
             <div class="col-xl-6 col-md-12">
-                <div class="card overflow-hidden">
+                <div class="card overflow-hidden card-tam-ret">
                     <div class="card-content">
                         <div class="card-body cleartfix">
                             <div class="row media align-items-stretch">

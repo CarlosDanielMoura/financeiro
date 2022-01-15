@@ -9,7 +9,10 @@ $pagina = 'fornecedores';
 require_once($pagina . "/campos.php");
 ?>
 
+<!--LINK DE CSS-->
 <link rel="stylesheet" href="../css/icones.css">
+<link rel="stylesheet" href="../css/home.css">
+
 
 
 <div class="col-md-12 my-4">

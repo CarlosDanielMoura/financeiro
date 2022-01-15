@@ -13,6 +13,9 @@ require_once($pagina . "/campos.php");
 
 </div>
 
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
+
 <small>
     <div class="tableDados bg-light" id="listar">
 

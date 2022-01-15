@@ -9,7 +9,8 @@ $pagina = 'frequencias';
 require_once($pagina . "/campos.php");
 ?>
 
-
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
 
 <div class="col-md-12 my-4">
     <a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Nova Frequêcia </a>

@@ -12,6 +12,7 @@ $data_atual = date('Y-m-d');
 
 <!---LINKS CSS-->
 <link rel="stylesheet" href="../css/geral.css">
+<link rel="stylesheet" href="../css/home.css">
 
 <ul class="nav nav-tabs my-2" id="myTab" role="tablist">
     <!-- CAIXA-->

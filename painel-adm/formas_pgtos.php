@@ -6,6 +6,8 @@ $pagina = 'formas_pgtos';
 require_once($pagina . "/campos.php");
 
 ?>
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
 
 <div class="col-md-12 my-3">
 	<a href="#" onclick="inserir()" type="button" class="btn btn-dark btn-sm buttonNivel">Nova Forma</a>

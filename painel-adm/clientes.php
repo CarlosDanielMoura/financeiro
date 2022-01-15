@@ -10,7 +10,8 @@ require_once($pagina . "/campos.php");
 ?>
 
 <link rel="stylesheet" href="../css/icones.css">
-
+<!--LINK DE CSS-->
+<link rel="stylesheet" href="../css/home.css">
 
 <div class="col-md-12 my-4">
     <a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Novo Cliente</a>
