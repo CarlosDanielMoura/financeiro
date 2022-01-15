@@ -55,7 +55,8 @@ $contas_pagar_hoje = @count($res);
 
 
 
-$query = $pdo->query("SELECT * from vendas where (data_pgto >= '$dataInicioMes' and data_pgto <= curDate()) and status = 'Concluída'");
+$query = $pdo->query("SELECT * from vendas where (data_pgto >= '$dataInicioMes' 
+and data_pgto <= curDate()) and status = 'Concluída'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $subtotal = 0;
@@ -85,7 +86,8 @@ for ($i = 0; $i < @count($res); $i++) {
 
 
 $totalPagarM = 0;
-$query = $pdo->query("SELECT * from contas_pagar where vencimento >= '$dataInicioMes' and vencimento <= curDate() and status = 'Pendente'");
+$query = $pdo->query("SELECT * from contas_pagar where vencimento >= '$dataInicioMes' 
+and  vencimento <= curDate() and status = 'Pendente'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $pagarMes = @count($res);
 $total_reg = @count($res);
@@ -102,7 +104,8 @@ if ($total_reg > 0) {
 
 
 $totalReceberM = 0;
-$query = $pdo->query("SELECT * from contas_receber where vencimento >= '$dataInicioMes' and vencimento <= curDate() and status = 'Pendente'");
+$query = $pdo->query("SELECT * from contas_receber where vencimento >= '$dataInicioMes'
+ and vencimento <= curDate() and status = 'Pendente'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $receberMes = @count($res);
 $total_reg = @count($res);
@@ -519,7 +522,8 @@ if ($total_reg > 0) {
                 $dataMesInicio = $ano_atual . "-" . $i . "-01";
                 $dataMesFinal = $ano_atual . "-" . $i . "-31";
                 $totalVenM = 0;
-                $query = $pdo->query("SELECT * from vendas where data_pgto >= '$dataMesInicio' and data_pgto <= '$dataMesFinal' and status = 'Concluída'");
+                $query = $pdo->query("SELECT * from vendas where data_pgto >= '$dataMesInicio'
+                 and data_pgto <= '$dataMesFinal' and status = 'Concluída'");
                 $res = $query->fetchAll(PDO::FETCH_ASSOC);
                 $total_vendas_mes = @count($res);
                 if ($total_vendas_mes > 0) {
@@ -547,7 +551,7 @@ if ($total_reg > 0) {
                         $subtotalF = number_format($subtotal, 2, ',', '.');
                     }
 
-                    $altura_barra = $lucroMes / 5;
+                    $altura_barra = $lucroMes / 15;
                 } else {
                     $altura_barra = $total_vendas_mes;
                     $lucroMesF = 0;
@@ -569,11 +573,7 @@ if ($total_reg > 0) {
                 </div>
 
             <?php } ?>
-
         </div>
-
-
-
     </section>
 
 

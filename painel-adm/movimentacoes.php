@@ -1075,6 +1075,9 @@ $data_atual = date('Y-m-d');
             document.getElementById("valor-fec").readOnly = false;
         }
 
+        $('#valor-fec').val('');
+        calcularFechamento();
+
     }
 </script>
 

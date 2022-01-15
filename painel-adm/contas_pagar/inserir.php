@@ -30,15 +30,54 @@ if ($cp9 == "") {
     exit();
 }
 
+//SCRIPT PARA SUBIR FOTO NO BANCO
+$nome_img = date('d-m-Y H:i:s') . '-' . @$_FILES['imagem']['name'];
+$nome_img = preg_replace('/[ :]+/', '-', $nome_img);
+
+$caminho = '../../contas/' . $pagina . '/' . $nome_img;
+if (@$_FILES['imagem']['name'] == "") {
+    $imagem = "sem-foto.jpg";
+} else {
+    $imagem = $nome_img;
+}
+
+$imagem_temp = @$_FILES['imagem']['tmp_name'];
+$ext = pathinfo($imagem, PATHINFO_EXTENSION);
+if ($ext == 'png' or $ext == 'jpg' or $ext == 'JPG' or $ext == 'jpeg' or $ext == 'gif' or $ext == 'pdf' or $ext == 'rar' or $ext == 'zip') {
+    move_uploaded_file($imagem_temp, $caminho);
+} else {
+    echo 'Extensão de Imagem ou Documento não permitida!';
+    exit();
+}
+
 $id = @$_POST['id'];
 
 
 if ($id == "") {
 
-    $query = $pdo->prepare("INSERT INTO $pagina set descricao = :campo1, cliente = :campo2, saida = :campo3, documento = :campo4, plano_conta = :campo5, data_emissao = :campo6, vencimento = :campo7, frequencia = :campo8, valor = :campo9, usuario_lanc = :campo10, status = 'Pendente', data_recor = curDate()");
+    $query = $pdo->prepare("INSERT INTO $pagina set descricao = :campo1, cliente = :campo2, saida = :campo3, 
+    documento = :campo4, plano_conta = :campo5, data_emissao = :campo6, vencimento = :campo7, 
+    frequencia = :campo8, valor = :campo9, usuario_lanc = :campo10, status = 'Pendente', data_recor = curDate(),
+    arquivo = '$imagem'");
 } else {
 
-    $query = $pdo->prepare("UPDATE $pagina set descricao = :campo1, cliente = :campo2, saida = :campo3, documento = :campo4, plano_conta = :campo5, data_emissao = :campo6, vencimento = :campo7, frequencia = :campo8, valor = :campo9, usuario_lanc = :campo10 WHERE id = '$id'");
+
+    $query = $pdo->query("SELECT * FROM $pagina where id = '$id'");
+    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+    $arquivo_reg = $res[0]['arquivo'];
+
+    if (@$_FILES['imagem']['name'] == "") {
+        $imagem = $arquivo_reg;
+    } else {
+
+        if ($arquivo_reg != "sem-foto.jpg") {
+            @unlink('../../img/contas/' . $arquivo_reg);
+        }
+    }
+
+    $query = $pdo->prepare("UPDATE $pagina set descricao = :campo1, cliente = :campo2, saida = :campo3,
+     documento = :campo4, plano_conta = :campo5, data_emissao = :campo6, vencimento = :campo7, 
+     frequencia = :campo8, valor = :campo9, usuario_lanc = :campo10 , arquivo = '$imagem' WHERE id = '$id'");
 }
 
 $query->bindValue(":campo1", "$cp1");

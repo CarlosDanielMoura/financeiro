@@ -64,6 +64,14 @@ for ($i = 1; $i <= $qtd_parcelas; $i++) {
         }
     }
 
+    $novo_valor = number_format($novo_valor, 2);
+    $resto_conta = $cp9 - $novo_valor * $qtd_parcelas;
+    $resto_conta = number_format($resto_conta, 2);
+
+    if ($i == $qtd_parcelas) {
+        $novo_valor = $novo_valor + $resto_conta;
+    }
+
 
     $nova_descricao = str_replace('(Resíduo) -', '', $nova_descricao);
 

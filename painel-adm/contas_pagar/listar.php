@@ -219,7 +219,7 @@ HTML;
         $('#<?= $campo9 ?>').val(cp9);
 
         $('#nome-cliente').val(nome);
-        $('#id-cliente').val(cp2);
+        $('#id-cliente').val(cp2).change();
 
         var usuario = "<?= $nivel_usu ?>";
         if (usuario != 'Administrador') {
@@ -248,7 +248,6 @@ HTML;
 
         $('#<?= $campo1 ?>').val('');
         $('#<?= $campo9 ?>').val('');
-        $('#id-cliente').val('');
         $('#nome-cliente').val('');
         $('#mensagem').text('');
 

@@ -89,7 +89,7 @@ if ($frequencia_automatica != 'Não') {
 
 ?>
 
-
+<link rel="stylesheet" href="../css/home.css">
 
 
 
@@ -162,7 +162,7 @@ if ($frequencia_automatica != 'Não') {
 
 <!-- Modal -->
 <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-xl">
+   <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Inserir Registro</span></h5>
@@ -171,199 +171,192 @@ if ($frequencia_automatica != 'Não') {
          <form id="form" method="post">
             <div class="modal-body">
 
+               <div class="row">
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Fornecedores</label>
+                        <select class="form-select sel2" aria-label="Default select example" name="<?php echo $campo2 ?>" id="id-cliente" style="width:100%;">
+
+                           <option value="">Diversos</option>
+
+                           <?php
+                           $query = $pdo->query("SELECT * FROM fornecedores where ativo = 'Sim' order by nome asc");
+                           $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                           for ($i = 0; $i < @count($res); $i++) {
+                              foreach ($res[$i] as $key => $value) {
+                              }
+                              $id_item = $res[$i]['id'];
+                              $nome_item = $res[$i]['nome'];
+                           ?>
+                              <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
+
+                           <?php } ?>
 
 
-               <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item" role="presentation">
-                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Fornecedor</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Conta</a>
-                  </li>
-
-               </ul>
-
-               <hr>
-
-               <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
-                     <!--TAB FORNECEDORES-->
-                     <div class="row mb-4 " style="justify-content: center;">
-                        <div class="col-md-2">
-                           <input type="text" style="text-align: center;" class="form-control" name="<?php echo $campo2 ?>" id="id-cliente" placeholder="id" readonly>
-                        </div>
-
-                        <div class="col-md-3">
-                           <input type="text" style="text-align: center;" class="form-control" name="nome-cliente" id="nome-cliente" placeholder="Nome do Fornecedor" readonly>
-                        </div>
+                        </select>
                      </div>
-
-                     <small>
-                        <div class="tableDados bg-light" id="listar-clientes">
-
-                        </div>
-                     </small>
-
                   </div>
 
-                  <div class="tab-pane fade" id="contas" role="tabpanel" aria-labelledby="profile-tab">
-
-                     <div class="row">
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Descrição</label>
-                              <input type="text" class="form-control" name="<?php echo $campo1 ?>" placeholder="Descrição" id="<?php echo $campo1 ?>">
-                           </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Tipo Saída</label>
-                              <select class="form-select" aria-label="Default select example" name="<?php echo $campo3 ?>" id="<?php echo $campo3 ?>">
-                                 <option value="Caixa">Caixa (Movimento)</option>
-                                 <option value="Cartão de Débito">Cartão de Débito</option>
-                                 <option value="Cartão de Crédito">Cartão de Crédito</option>
-
-                                 <?php
-                                 $query = $pdo->query("SELECT * FROM bancos order by nome asc");
-                                 $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                 for ($i = 0; $i < @count($res); $i++) {
-                                    foreach ($res[$i] as $key => $value) {
-                                    }
-                                    $id_item = $res[$i]['id'];
-                                    $nome_item = $res[$i]['nome'];
-                                 ?>
-                                    <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
-                                 <?php } ?>
-
-
-                              </select>
-                           </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label"><?php echo $campo4 ?></label>
-                              <select class="form-select" aria-label="Default select example" name="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>">
-                                 <option value="Dinheiro">Dinheiro</option>
-                                 <option value="Boleto">Boleto</option>
-                                 <option value="Cheque">Cheque</option>
-                                 <option value="Conta Corrente">Conta Corrente</option>
-                                 <option value="Conta Poupança">Conta Poupança</option>
-                                 <option value="Carnê">Carnê</option>
-                                 <option value="DARF">DARF</option>
-                                 <option value="Depósito">Depósito</option>
-                                 <option value="Transferência">Transferência</option>
-                                 <option value="Pix">Pix</option>
-                              </select>
-                           </div>
-                        </div>
-
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Valor da Conta</label>
+                        <input type="text" class="form-control" name="<?php echo $campo9 ?>" id="<?php echo $campo9 ?>" placeholder="Valor da Conta">
 
                      </div>
-
-                     <div class="row">
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Plano de Conta</label>
-                              <select class="form-select" aria-label="Default select example" name="cat_despesas" id="cat_despesas">
-
-                                 <?php
-                                 $query = $pdo->query("SELECT * FROM cat_despesas order by nome asc");
-                                 $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                 for ($i = 0; $i < @count($res); $i++) {
-                                    foreach ($res[$i] as $key => $value) {
-                                    }
-                                    $id_item = $res[$i]['id'];
-                                    $nome_item = $res[$i]['nome'];
-                                 ?>
-                                    <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
-                                 <?php } ?>
-
-
-                              </select>
-                           </div>
-                        </div>
-
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Despesa</label>
-                              <div id="listar-despesas">
-
-                              </div>
-
-                           </div>
-                        </div>
-
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Data Emissão</label>
-                              <input type="date" class="form-control" name="<?php echo $campo6 ?>" id="<?php echo $campo6 ?>" value="<?php echo date('Y-m-d') ?>" required>
-                           </div>
-                        </div>
-
-                     </div>
-
-
-
-                     <div class="row">
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label"><?php echo $campo7 ?></label>
-                              <input type="date" class="form-control" name="<?php echo $campo7 ?>" id="<?php echo $campo7 ?>" value="<?php echo date('Y-m-d') ?>" required>
-                           </div>
-                        </div>
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Frequência</label>
-                              <select class="form-select" aria-label="Default select example" name="<?php echo $campo8 ?>" id="<?php echo $campo8 ?>">
-
-                                 <?php
-                                 $query = $pdo->query("SELECT * FROM frequencias order by id asc");
-                                 $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                                 for ($i = 0; $i < @count($res); $i++) {
-                                    foreach ($res[$i] as $key => $value) {
-                                    }
-                                    $id_item = $res[$i]['id'];
-                                    $nome_item = $res[$i]['nome'];
-                                 ?>
-                                    <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
-                                 <?php } ?>
-
-
-                              </select>
-                           </div>
-                        </div>
-
-
-                        <div class="col-md-4 col-sm-12">
-                           <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Valor da Conta</label>
-                              <input type="text" class="form-control" name="<?php echo $campo9 ?>" id="<?php echo $campo9 ?>" placeholder="Valor da Conta">
-
-                           </div>
-                        </div>
-
-
-
-
-                     </div>
-
-
-
                   </div>
+
+
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" name="<?php echo $campo1 ?>" placeholder="Descrição" id="<?php echo $campo1 ?>">
+                     </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Tipo Saída</label>
+                        <select class="form-select" aria-label="Default select example" name="<?php echo $campo3 ?>" id="<?php echo $campo3 ?>">
+                           <option value="Caixa">Caixa (Movimento)</option>
+
+                           <?php
+                           $query = $pdo->query("SELECT * FROM bancos order by nome asc");
+                           $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                           for ($i = 0; $i < @count($res); $i++) {
+                              foreach ($res[$i] as $key => $value) {
+                              }
+                              $id_item = $res[$i]['id'];
+                              $nome_item = $res[$i]['nome'];
+                           ?>
+                              <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                           <?php } ?>
+
+
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><?php echo $campo4 ?></label>
+                        <select class="form-select" aria-label="Default select example" name="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>">
+                           <option value="Dinheiro">Dinheiro</option>
+                           <option value="Boleto">Boleto</option>
+                           <option value="Cheque">Cheque</option>
+                           <option value="Conta Corrente">Conta Corrente</option>
+                           <option value="Conta Poupança">Conta Poupança</option>
+                           <option value="Carnê">Carnê</option>
+                           <option value="DARF">DARF</option>
+                           <option value="Depósito">Depósito</option>
+                           <option value="Transferência">Transferência</option>
+                           <option value="Pix">Pix</option>
+                        </select>
+                     </div>
+                  </div>
+
+
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Plano de Conta</label>
+                        <select class="form-select" aria-label="Default select example" name="cat_despesas" id="cat_despesas">
+
+                           <?php
+                           $query = $pdo->query("SELECT * FROM cat_despesas order by nome asc");
+                           $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                           for ($i = 0; $i < @count($res); $i++) {
+                              foreach ($res[$i] as $key => $value) {
+                              }
+                              $id_item = $res[$i]['id'];
+                              $nome_item = $res[$i]['nome'];
+                           ?>
+                              <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                           <?php } ?>
+
+
+                        </select>
+                     </div>
+                  </div>
+
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Despesa</label>
+                        <div id="listar-despesas">
+
+                        </div>
+
+                     </div>
+                  </div>
+
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Data Emissão</label>
+                        <input type="date" class="form-control" name="<?php echo $campo6 ?>" id="<?php echo $campo6 ?>" value="<?php echo date('Y-m-d') ?>" required>
+                     </div>
+                  </div>
+
+
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><?php echo $campo7 ?></label>
+                        <input type="date" class="form-control" name="<?php echo $campo7 ?>" id="<?php echo $campo7 ?>" value="<?php echo date('Y-m-d') ?>" required>
+                     </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12">
+                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Frequência</label>
+
+                        <select class="form-select" aria-label="Default select example" name="<?php echo $campo8 ?>" id="<?php echo $campo8 ?>">
+
+                           <?php
+                           $query = $pdo->query("SELECT * FROM frequencias order by id asc");
+                           $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                           for ($i = 0; $i < @count($res); $i++) {
+                              foreach ($res[$i] as $key => $value) {
+                              }
+                              $id_item = $res[$i]['id'];
+                              $nome_item = $res[$i]['nome'];
+                           ?>
+                              <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                           <?php } ?>
+
+
+                        </select>
+                     </div>
+                  </div>
+
+
+
+                  <div class="col-md-5 col-sm-12">
+                     <div class="mb-3">
+                        <label>Arquivo</label>
+                        <input type="file" class="form-control-file" name="imagem" id="arquivo" onChange="carregarImg();">
+                     </div>
+                  </div>
+
 
                </div>
 
+               <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                     <div id="divImg" class="mt-4">
+                        <img src="../img/sem-foto.jpg" width="200px" id="target">
+                     </div>
+                  </div>
+               </div>
+
+
 
                <br>
+
                <small>
                   <div id="mensagem" align="center"></div>
                </small>
@@ -380,6 +373,9 @@ if ($frequencia_automatica != 'Não') {
       </div>
    </div>
 </div>
+
+
+
 
 
 <!--Modal Excluir-->
@@ -750,6 +746,12 @@ if ($frequencia_automatica != 'Não') {
 <script>
    //FUNÇÃO AOS DOCUMENTOS A SEREM CARREGADOS
    $(document).ready(function() {
+      //Select 2
+      $('.sel2').select2({
+         placeholder: 'Diversos',
+         dropdownParent: $('#modalForm')
+      });
+
       var cat = $('#cat_despesas').val();
       listarDespesas(cat);
       listarClientes();
@@ -804,22 +806,6 @@ if ($frequencia_automatica != 'Não') {
       });
    }
 
-   //LISTAR CLIENTES
-   function listarClientes() {
-      var pag = "<?= $pagina ?>";
-      $.ajax({
-         url: pag + "/listar-clientes.php",
-         method: 'POST',
-         data: $('#form').serialize(),
-         dataType: "html",
-
-         success: function(result) {
-            $("#listar-clientes").html(result);
-         }
-
-      });
-
-   }
 
 
    //LISTA DADOS DA DATA INICIAL
@@ -914,3 +900,19 @@ if ($frequencia_automatica != 'Não') {
       });
    }
 </script>
+
+<style type="text/css">
+   .select2-selection__rendered {
+      line-height: 36px !important;
+      font-size: 16px !important;
+      color: #666666 !important;
+
+   }
+
+   .select2-selection {
+      height: 36px !important;
+      font-size: 16px !important;
+      color: #666666 !important;
+
+   }
+</style>

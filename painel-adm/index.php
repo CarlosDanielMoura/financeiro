@@ -107,6 +107,10 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
     <link rel="stylesheet" href="../css/contas_pagar.css">
     <link rel="stylesheet" href="../css/home.css">
 
+    <!--SELECT2-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
     <title><?php $nome_sistema ?></title>

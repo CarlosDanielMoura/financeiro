@@ -65,8 +65,13 @@ for ($i = 1; $i <= $qtd_parcelas; $i++) {
     }
 
 
-    $nova_descricao = str_replace('(Resíduo) -', '', $nova_descricao);
+    $novo_valor = number_format($novo_valor, 2);
+    $resto_conta = $cp9 - $novo_valor * $qtd_parcelas;
+    $resto_conta = number_format($resto_conta, 2);
 
+    if ($i == $qtd_parcelas) {
+        $novo_valor = $novo_valor + $resto_conta;
+    }
     $pdo->query("INSERT INTO $pagina set descricao = '$nova_descricao', cliente = '$cp2',
      saida = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), 
      vencimento = '$novo_vencimento', frequencia = '$cp8', valor = '$novo_valor', 

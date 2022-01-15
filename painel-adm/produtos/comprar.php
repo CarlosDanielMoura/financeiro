@@ -13,6 +13,7 @@ $cp7 = @$_POST[$campo7];
 $cp11 = @$_POST[$campo11];
 
 $alterar = @$_POST['alterar'];
+$total_compra = $cp5 * $quantidade;
 
 
 $total_estoque = 0;
@@ -52,12 +53,13 @@ $nome_forn = $res_con[0]['nome'];
 
 //LANÇAR NAS CONTA A PAGAR
 
-$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
- valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
-  status = 'Pendente'");
+$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',
+plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
+valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
+status = 'Pendente'");
 
 
-$query->bindValue(":valor_compra", "$cp5");
+$query->bindValue(":valor_compra", "$total_compra");
 $query->execute();
 
 

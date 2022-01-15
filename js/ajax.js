@@ -128,6 +128,15 @@ function carregarImg() {
     return;
   }
 
+  if (resultado[1] === "rar") {
+    $("#target").attr("src", "../img/rar.png");
+    return;
+  }
+  if (resultado[1] === "zip") {
+    $("#target").attr("src", "../img/rar.png");
+    return;
+  }
+
   var reader = new FileReader();
 
   reader.onloadend = function () {
@@ -144,14 +153,14 @@ function carregarImg() {
 
 //AJAX DE PARCELAR COMPRAS / VENDAS
 
-function parcelar(id, descricao, valor){
+function parcelar(id, descricao, valor) {
   $('#id-parcelar').val(id);
   $('#descricao-parcelar').text(descricao);
   $('#valor-parcelar').val(valor);
   $('#qtd-parcelar').val('');
 
-  
-  var myModal = new bootstrap.Modal(document.getElementById('modalParcelar'), {       });
+
+  var myModal = new bootstrap.Modal(document.getElementById('modalParcelar'), {});
   myModal.show();
   $('#mensagem-parcelar').text('');
 }
@@ -162,31 +171,31 @@ function parcelar(id, descricao, valor){
 $("#form-parcelar").submit(function (event) {
   event.preventDefault();
   var formData = new FormData(this);
-  
+
   $.ajax({
-      url: pag + "/parcelar.php",
-      type: 'POST',
-      data: formData,
+    url: pag + "/parcelar.php",
+    type: 'POST',
+    data: formData,
 
-      success: function (mensagem) {
-          $('#mensagem-parcelar').text('');
-          $('#mensagem-parcelar').removeClass()
-          if (mensagem.trim() == "Parcelado com Sucesso!") {
-              $('#btn-fechar-parcelar').click();
-              listar();
-              limparCampos();
-          } else {
+    success: function (mensagem) {
+      $('#mensagem-parcelar').text('');
+      $('#mensagem-parcelar').removeClass()
+      if (mensagem.trim() == "Parcelado com Sucesso!") {
+        $('#btn-fechar-parcelar').click();
+        listar();
+        limparCampos();
+      } else {
 
-              $('#mensagem-parcelar').addClass('text-danger')
-              $('#mensagem-parcelar').text(mensagem)
-          }
+        $('#mensagem-parcelar').addClass('text-danger')
+        $('#mensagem-parcelar').text(mensagem)
+      }
 
 
-      },
+    },
 
-      cache: false,
-      contentType: false,
-      processData: false,
+    cache: false,
+    contentType: false,
+    processData: false,
 
   });
 
@@ -195,24 +204,24 @@ $("#form-parcelar").submit(function (event) {
 
 
 //AJAX Função de Baixar
-function baixar(id, descricao, valor, saida){
+function baixar(id, descricao, valor, saida) {
   $('#id-baixar').val(id);
   $('#descricao-baixar').text(descricao);
   $('#valor-baixar').val(valor);
   $('#saida-baixar').val(saida);
   $('#subtotal').val(valor);
- 
+
 
   //CAMPOS LIMPOS
   //$('#valor-juros').val('');
   //$('#valor-desconto').val('');
- // $('#valor-multa').val('');
+  // $('#valor-multa').val('');
 
 
 
 
-  
-  var myModal = new bootstrap.Modal(document.getElementById('modalBaixar'), {       });
+
+  var myModal = new bootstrap.Modal(document.getElementById('modalBaixar'), {});
   myModal.show();
   $('#mensagem-baixar').text('');
 }
@@ -221,31 +230,31 @@ function baixar(id, descricao, valor, saida){
 $("#form-baixar").submit(function (event) {
   event.preventDefault();
   var formData = new FormData(this);
-  
+
   $.ajax({
-      url: pag + "/baixar.php",
-      type: 'POST',
-      data: formData,
+    url: pag + "/baixar.php",
+    type: 'POST',
+    data: formData,
 
-      success: function (mensagem) {
-          $('#mensagem-baixar').text('');
-          $('#mensagem-baixar').removeClass()
-          if (mensagem.trim() == "Baixado com Sucesso!") {
-              $('#btn-fechar-baixar').click();
-              listar();
-              limparCampos();
-          } else {
+    success: function (mensagem) {
+      $('#mensagem-baixar').text('');
+      $('#mensagem-baixar').removeClass()
+      if (mensagem.trim() == "Baixado com Sucesso!") {
+        $('#btn-fechar-baixar').click();
+        listar();
+        limparCampos();
+      } else {
 
-              $('#mensagem-baixar').addClass('text-danger')
-              $('#mensagem-baixar').text(mensagem)
-          }
+        $('#mensagem-baixar').addClass('text-danger')
+        $('#mensagem-baixar').text(mensagem)
+      }
 
 
-      },
+    },
 
-      cache: false,
-      contentType: false,
-      processData: false,
+    cache: false,
+    contentType: false,
+    processData: false,
 
   });
 

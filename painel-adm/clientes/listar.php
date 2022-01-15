@@ -56,7 +56,7 @@ for ($i = 0; $i < @count($res); $i++) {
         $inativa = 'text-muted';
     }
 
-echo <<<HTML
+    echo <<<HTML
             <tr class="{$inativa}">
             <td>
             <i class="bi bi-square-fill $classe"></i>
@@ -94,7 +94,7 @@ HTML;
     function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11) {
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
-        $('#<?= $campo2 ?>').val(cp2);
+        $('#<?= $campo2 ?>').val(cp2).change();
         $('#<?= $campo3 ?>').val(cp3);
         $('#<?= $campo4 ?>').val(cp4);
         $('#<?= $campo5 ?>').val(cp5);

@@ -234,11 +234,16 @@ HTML;
         var valorTotal = '<?= $total_saldo_geralF ?>';
         var valorFec = $('#valor-fec').val();
 
-        valorTotal = valorTotal.replace(".", "");
-        valorFec = valorFec.replace(".", "");
+        if (valorTotal > 999) {
+            valorFec = valorFec.replace(".", "");
+            valorFec = valorFec.replace(",", ".");
+        } else {
+            valorFec = valorFec.replace(",", ".");
+        }
 
+        valorTotal = valorTotal.replace(".", "");
         valorTotal = valorTotal.replace(",", ".");
-        valorFec = valorFec.replace(",", ".");
+
         if (valorFec == "") {
             valorFec = 0;
         }
