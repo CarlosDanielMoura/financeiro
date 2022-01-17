@@ -6,8 +6,6 @@ $id = @$_POST['id-excluir'];
 $usuario_adm = @$_POST['usuario_adm'];
 $senha_adm = @$_POST['senha_adm'];
 
-
-//SELECIONANDO A TABELA USUARIOS PRA VER SE TEM PARA PODER FAZER A EXCLUSÃO
 $query = $pdo->prepare("SELECT * from usuarios where email = :email and senha = :senha and nivel = 'Administrador' ");
 $query->bindValue(":email", "$usuario_adm");
 $query->bindValue(":senha", "$senha_adm");

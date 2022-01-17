@@ -51,6 +51,7 @@ echo <<<HTML
 <th>Vencimento</th>	
 <th>Laçamento</th>
 <th>Valor</th>
+<th>Arquivo</th>
 <th>Ações</th>
 </tr>
 </thead>
@@ -76,9 +77,20 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp9 = $res[$i]['valor'];
     $cp10 = $res[$i]['usuario_lanc'];
     $cp11 = $res[$i]['usuario_baixa'];
+    $arquivo = $res[$i]['arquivo'];
 
     $cp13 = $res[$i]['status'];
     $cp18 = $res[$i]['data_baixa'];
+
+    //EXTRAIR EXTENSÃO DO ARQUIVO
+    $ext = pathinfo($arquivo, PATHINFO_EXTENSION);
+    if ($ext == 'pdf') {
+        $tumb_arquivo = 'pdf.png';
+    } else if ($ext == 'rar' || $ext == 'zip') {
+        $tumb_arquivo = 'rar.png';
+    } else {
+        $tumb_arquivo = $arquivo;
+    }
 
     if ($cp13 == 'Paga') {
         $classe = 'text-success';
@@ -124,14 +136,16 @@ for ($i = 0; $i < @count($res); $i++) {
     $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
     if (@count($res1) > 0) {
         $nome_cliente = $res1[0]['nome'];
-        $desc = explode(" - ", $cp1);
-        if (@$desc[1] == "") {
-            $descricao = $nome_cliente . ' - ' . $cp1;
-        } else {
-            $descricao = $nome_cliente;
-        }
+        $telefone_cliente = $res1[0]['telefone'];
+        $classe_whats = '';
     } else {
         $nome_cliente = 'Sem Cliente';
+        $classe_whats = 'd-none';
+        $telefone_cliente = "";
+    }
+
+    if ($descricao == '') {
+        $descricao = $nome_cliente;
     }
 
 
@@ -189,9 +203,13 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td>{$data_venc}</td>	
     <td>{$cp3}</td>	
 	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-success" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
-								
+    <td >
+	<a href="../img/contas/{$arquivo}" target="_blank">
+	<img src="../img/contas/{$tumb_arquivo}" width="40px">
+	</a>
+	</td>						
 	<td>
-	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
+	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}','{$tumb_arquivo}', '{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Excluir Registro">	<i class="bi bi-trash text-danger {$ocutar}"></i> </a>
 
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}', '$cp18')" title="Ver Dados da Conta">
@@ -202,6 +220,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
 	<a href="#" onclick="baixar('{$id}' , '{$cp1}', '{$cp9}', '$cp3', '$dias_vencidos')" title="Dar Baixa">	<i class="bi bi-check-square text-success mx-1 {$ocutar}"></i> </a>
 	
+    <a class="{$classe_whats}" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55$telefone_cliente&text=Ola, $nome_cliente Lembrete de vencimento no dia: $data_venc no valor de: R$ $valor.Endereço: $endereco_site." title="Cobrar pelo WhatsApp: $telefone_cliente"><i class="bi bi-whatsapp text-success"></i></a>
 	</td>
 	</tr>
 HTML;
@@ -223,7 +242,7 @@ HTML;
     });
 
 
-    function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, nome) {
+    function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, arquivo, nome) {
 
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
@@ -238,6 +257,9 @@ HTML;
 
         $('#nome-cliente').val(nome);
         $('#id-cliente').val(cp2);
+        $('#id-cliente').val(cp2).change();
+
+        $('#target').attr('src', '../img/contas/' + arquivo);
 
         var usuario = "<?= $nivel_usu ?>";
         if (usuario != 'Administrador') {
@@ -267,6 +289,9 @@ HTML;
         $('#senha_adm').val('');
         document.getElementById("<?= $campo9 ?>").readOnly = false;
 
+        $('#target').attr('src', '../img/contas/sem-foto.jpg');
+        $('#arquivo').val('');
+        $('#id-cliente').val('').change();
 
         listarClientes();
 

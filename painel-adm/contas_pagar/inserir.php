@@ -5,7 +5,7 @@ require_once("campos.php");
 $cp10 = $_SESSION['id_usuario'];
 
 $cp1 = $_POST[$campo1];
-$cp2 = $_POST[$campo2];
+$cp2 = @$_POST[$campo2];
 $cp3 = $_POST[$campo3];
 $cp4 = $_POST[$campo4];
 $cp5 = $_POST[$campo5];
@@ -34,7 +34,7 @@ if ($cp9 == "") {
 $nome_img = date('d-m-Y H:i:s') . '-' . @$_FILES['imagem']['name'];
 $nome_img = preg_replace('/[ :]+/', '-', $nome_img);
 
-$caminho = '../../contas/' . $pagina . '/' . $nome_img;
+$caminho = '../../img/contas/' . $nome_img;
 if (@$_FILES['imagem']['name'] == "") {
     $imagem = "sem-foto.jpg";
 } else {

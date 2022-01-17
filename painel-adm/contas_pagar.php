@@ -338,7 +338,7 @@ if ($frequencia_automatica != 'Não') {
                   <div class="col-md-5 col-sm-12">
                      <div class="mb-3">
                         <label>Arquivo</label>
-                        <input type="file" class="form-control-file" name="imagem" id="arquivo" onChange="carregarImg();">
+                        <input type="file" class="form-control-file mt-2" name="imagem" id="arquivo" onChange="carregarImg();">
                      </div>
                   </div>
 

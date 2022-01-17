@@ -42,6 +42,7 @@ echo <<<HTML
 <th>Vencimento</th>	
 <th>Frequência</th>	
 <th>Valor</th>
+<th>Arquivo</th>
 <th>Ações</th>
 </tr>
 </thead>
@@ -67,9 +68,22 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp9 = $res[$i]['valor'];
     $cp10 = $res[$i]['usuario_lanc'];
     $cp11 = $res[$i]['usuario_baixa'];
+    $arquivo =  $res[$i]['arquivo'];
 
     $cp13 = $res[$i]['status'];
     $cp18 = $res[$i]['data_baixa'];
+
+
+    //EXTRAIR EXTENSÃO DO ARQUIVO
+    $ext = pathinfo($arquivo, PATHINFO_EXTENSION);
+    if ($ext == 'pdf') {
+        $tumb_arquivo = 'pdf.png';
+    } else if ($ext == 'rar' || $ext == 'zip') {
+        $tumb_arquivo = 'rar.png';
+    } else {
+        $tumb_arquivo = $arquivo;
+    }
+
 
     if ($cp13 == 'Paga') {
         $classe = 'text-success';
@@ -171,9 +185,10 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td>{$data_venc}</td>	
 	<td>{$cp8}</td>	
 	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-danger" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
-								
+	<td><a href="../img/contas/{$arquivo}" target="_blank"><img src="../img/contas/{$tumb_arquivo}" width="40px"></a>
+    </td>								
 	<td>
-	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
+	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$tumb_arquivo}','{$nome_cliente}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Excluir Registro">	<i class="bi bi-trash text-danger {$ocutar}"></i> </a>
 
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}', '$cp18')" title="Ver Dados da Conta">
@@ -205,8 +220,8 @@ HTML;
     });
 
 
-    function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, nome) {
-
+    function editar(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, arquivo, nome) {
+        $('#arquivo').val('');
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
         //$('#<?= $campo2 ?>').val(cp2);
@@ -217,6 +232,8 @@ HTML;
         $('#<?= $campo7 ?>').val(cp7);
         $('#<?= $campo8 ?>').val(cp8);
         $('#<?= $campo9 ?>').val(cp9);
+
+        $('#target').attr('src', '../img/contas/' + arquivo);
 
         $('#nome-cliente').val(nome);
         $('#id-cliente').val(cp2).change();
@@ -254,8 +271,10 @@ HTML;
         $('#usuario_adm').val('');
         $('#senha_adm').val('');
         document.getElementById("<?= $campo9 ?>").readOnly = false;
+        $('#target').attr('src', '../img/contas/sem-foto.jpg');
+        $('#arquivo').val('');
 
-        listarClientes();
+        $('#id-cliente').val('').change();
 
         //DEFINIR ABA A SER ABERTA
         var someTabTriggerEl = document.querySelector('#home-tab')

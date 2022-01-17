@@ -13,7 +13,7 @@ input{
 }
 
 .nav-bar-background{
-    background-color: rgb(13, 33, 79);
+    background-color: #0d214f;
     box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
     -webkit-box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
     -moz-box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
@@ -40,13 +40,15 @@ input{
      rgba(0, 0, 0, 0.09) 0px 4px 2px,
      rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 
      rgba(0, 0, 0, 0.09) 0px 32px 16px;
+     
+     border-left: 3px solid #0d214f;
 }
 .card-tam-ret:hover{
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, 
      rgba(0, 0, 0, 0.09) 0px 4px 2px,
      rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 
      rgba(0, 0, 0, 0.09) 0px 32px 16px;
-
+     border-left: 3px solid #0d214f;
 }
 
 #divImg{
