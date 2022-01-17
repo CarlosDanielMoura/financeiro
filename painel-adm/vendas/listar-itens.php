@@ -58,7 +58,7 @@ echo '<div class="row">
 
 echo '<div class="col-md-6" align="right"> </a>';
 
-echo '<a style="text-decoration:none;" class="text-danger ml-2" href="#" onclick="ModalFecharVenda()" title="Fechar Venda"><i class="bi bi-cash"></i> <small>Fechar Venda R$</small> </a></div>';
+echo '<a style="text-decoration:none;" class="text-danger ml-2" href="#" onclick="ModalFecharVenda()" title="Fechar Venda"><i class="bi bi-cash"></i> <small> (F4) Fechar Venda R$</small> </a></div>';
 echo '<small>
         <div id="mensagem-fec"></div>
     </small>';

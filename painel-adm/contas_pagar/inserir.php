@@ -5,6 +5,7 @@ require_once("campos.php");
 $cp10 = $_SESSION['id_usuario'];
 
 $cp1 = $_POST[$campo1];
+$cp1 = str_replace('\'', ' ', $cp1);
 $cp2 = @$_POST[$campo2];
 $cp3 = $_POST[$campo3];
 $cp4 = $_POST[$campo4];

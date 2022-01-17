@@ -184,10 +184,8 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vendas / Compras
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu20 ?>">Vendas</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu21 ?>">Compras</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu22 ?>">Lista de Vendas</a></li>
-                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu23 ?>">Lista de Compras</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu22 ?>">Vendas</a></li>
+                            <li><a class="dropdown-item" href="index.php?pag=<?php echo $menu23 ?>">Compras</a></li>
                         </ul>
                     </li>
 

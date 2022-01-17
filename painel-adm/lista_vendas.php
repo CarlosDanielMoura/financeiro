@@ -11,9 +11,11 @@ require_once($pagina . "/campos.php");
 <!--LINK DE CSS-->
 <link rel="stylesheet" href="../css/home.css">
 
-<div class="col-md-12 my-3">
 
+<div class="col-md-12 my-4">
+    <a href="index.php?pag=<?php echo $menu20 ?>" class="buttonNivel btn sm" type="button">Nova Venda</a>
 </div>
+
 
 <small>
     <div class="tableDados bg-light" id="listar">
@@ -61,7 +63,8 @@ require_once($pagina . "/campos.php");
 
 <!-- Modal -->
 <div class="modal fade" id="modalDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
+
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Venda - SubTotal: R$ <span id="campo9"></span></h5>
@@ -70,91 +73,65 @@ require_once($pagina . "/campos.php");
 
             <div class="modal-body">
                 <small>
-                    <!--LINHA 1-->
+                    <span class="mx-4"><b>Cliente:</b> <span id="campo12"></span></span>
+                    <hr style="margin:6px;">
+                    <span class="mx-5"><b>Venda:</b> <span id="id"></span></span>
+                    <span class="mx-5"><b>Data:</b> <span id="campo5"></span></span>
+                    <span class="mx-4"><b>Usuário:</b> <span id="campo2"></span></span></span>
+                    <span class="mx-4"><b>Status:</b> <span id="campo11"></span></span>
+
+                    <hr style="margin-top:5px;">
+
+
                     <div class="row">
-                        <div class="dados-detalhados">
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Usuário:</b> <span id="campo2"></span>
-                            </div>
-                            <div class="col-6 dados-detalhados-item">
-                                <b>Pagamento:</b> <span id="campo3"></span>
-                            </div>
+                        <div class="col-md-12">
+                            <small>
+                                <h5>
+                                    PRODUTOS VENDIDOS:
+                                </h5>
+                            </small>
                         </div>
-                        <hr>
                     </div>
 
-                    <!--LINHA 2-->
+
+                    <small>
+                        <div id="listar-produtos"></div>
+                    </small>
+
+
                     <div class="row">
-
-                        <div class="dados-detalhados">
-
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Lançamento:</b> <span id="campo4"></span>
-                            </div>
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Vencimento:</b> <span id="campo6"></span>
-                            </div>
+                        <div class="col-md-12">
+                            <small>
+                                <h5>
+                                    <h5>INFORMAÇÕES FINANCEIRAS:</h5>
+                                </h5>
+                            </small>
                         </div>
-                        <hr>
                     </div>
+                    <small>
+                        <div id="listar-parcelas"></div>
+                    </small>
 
-                    <!--LINHA 3-->
-                    <div class="row">
-                        <div class="dados-detalhados">
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Valor:</b> R$ <span id="campo1"></span>
-                            </div>
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Desconto:</b> R$ <span id="campo7"></span>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
+                    <hr style="margin:6px;">
 
-                    <!--LINHA 4-->
-                    <div class="row">
-                        <div class="dados-detalhados">
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Acréscimo:</b> R$ <span id="campo8"></span>
-                            </div>
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>SubTotal:</b> R$ <span id="subtot"></span>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
+                    <small>
+                        <span class="mx-5"><b>Lançamento:</b> <span id="campo4"></span></span>
+                        <span class="mx-4"><b>Pagamento:</b> <span id="campo3"></span>
+                            <span class="mx-4"><b>Parcelas:</b> <span id="campo10"></span></span>
+                            <span class="mx-4"><b>Vencimento:</b> <span id="campo6"></span></span>
+                    </small>
 
-                    <!--LINHA 5-->
-                    <div class="row">
-                        <div class="dados-detalhados">
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Parcelas:</b> <span id="campo10"></span>
-                            </div>
-                            <div class="col-6 dados-detalhados-itens">
-                                <b>Status:</b> <span id="campo11"></span>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
 
-                    <!--LINHA 6-->
-                    <div class="row">
-                        <div class="dados-detalhados">
-                            <div class="col-12 dados-detalhados-itens">
-                                <b>Cliente:</b> <span id="campo12"></span>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
+                    <hr style="margin:6px;">
+
+                    <span class="mx-5"><b>Valor:</b> R$ <span id="campo1"></span></span>
+                    <span class="mx-4"><b>Desconto:</b> R$ <span id="campo7"></span></span>
+                    <span class="mx-4"><b>Acréscimo:</b> R$ <span id="campo8"></span></span>
+                    <span class="mx-4"><b>SubTotal:</b> R$ <span id="subtot"></span></span>
+
+
+
                 </small>
-
-                <small>
-                    <div id="listar-parcelas"></div>
-                </small>
-
-
-
-
 
 
             </div>

@@ -177,7 +177,7 @@ if ($frequencia_automatica != 'Não') {
                         <label for="exampleFormControlInput1" class="form-label">Clientes</label>
 
                         <select class="form-select sel2" aria-label="Default select example" name="<?php echo $campo2 ?>" id="id-cliente" style="width:100%;">
-                           <option value="">Diversos</option>
+                           <option value="">Sistema</option>
                            <?php
                            $query = $pdo->query("SELECT * FROM clientes order by nome asc");
                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -830,3 +830,19 @@ if ($frequencia_automatica != 'Não') {
       });
    }
 </script>
+
+<style type="text/css">
+   .select2-selection__rendered {
+      line-height: 36px !important;
+      font-size: 16px !important;
+      color: #666666 !important;
+
+   }
+
+   .select2-selection {
+      height: 36px !important;
+      font-size: 16px !important;
+      color: #666666 !important;
+
+   }
+</style>

@@ -44,6 +44,8 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp11 = $res[$i]['status'];
     $cp12 = $res[$i]['cliente'];
 
+
+
     if ($cp11 == 'Concluída') {
         $classe = 'text-success';
         $ocultar = '';
@@ -58,6 +60,7 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp1 = number_format($cp1, 2, ',', '.');
     $cp9 = number_format($cp9, 2, ',', '.');
     $cp6 = implode('/', array_reverse(explode('-', $cp6)));
+    $cp5 = implode("/", array_reverse(explode("-", $cp5)));
 
     $query1 = $pdo->query("SELECT * from clientes where id = '$cp12' ");
     $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
@@ -95,13 +98,13 @@ for ($i = 0; $i < @count($res); $i++) {
 	<td>{$cp3}</td>	
 	<td>{$cp4}</td>	
 	<td>{$cp6}</td>	
-	<td><a class="mx-1 text-dark" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda">{$cp10}</a></td>		
+    <td><a class="mx-1 text-dark" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda">{$cp10}</a></td>		
 	<td>{$nome_cliente}</td>									
 	<td>
 	
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Cancelar Venda">	<i class="bi bi-trash text-danger {$ocultar}"></i> </a>
 
-	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda">
+	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}')" title="Ver Dados da Venda">
 	<i class="bi bi-exclamation-square"></i></a>
     <a href="../relatorios/venda_class.php?id={$id}" title="Gerar Comprovante" target="_blank"><i class="bi bi-file-earmark-check text-success"></i></a>
 	</td>
@@ -124,13 +127,13 @@ HTML;
     });
 
 
-    function mostrarDados(id, cp1, cp2, cp3, cp4, cp6, cp7, cp8, cp9, cp10, cp11, cp12) {
+    function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11, cp12) {
 
         $('#campo1').text(cp1);
         $('#campo2').text(cp2);
         $('#campo3').text(cp3);
         $('#campo4').text(cp4);
-
+        $('#campo5').text(cp5);
         $('#campo6').text(cp6);
         $('#campo7').text(cp7);
         $('#campo8').text(cp8);
@@ -139,13 +142,16 @@ HTML;
         $('#campo11').text(cp11);
         $('#campo12').text(cp12);
         $('#subtot').text(cp9);
+        $('#id').text(id);
 
         var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
         myModal.show();
 
         listarParcelas(id);
+        listarProdutos(id);
 
     }
+
 
 
     function listarParcelas(id) {
@@ -159,6 +165,21 @@ HTML;
 
             success: function(result) {
                 $("#listar-parcelas").html(result);
+            }
+        });
+    }
+
+    function listarProdutos(id) {
+        $.ajax({
+            url: pag + "/listar-produtos.php",
+            method: 'POST',
+            data: {
+                id
+            },
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-produtos").html(result);
             }
         });
     }

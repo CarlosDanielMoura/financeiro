@@ -42,7 +42,7 @@ if ($alterou_data == 'Sim') {
 }
 
 echo <<<HTML
-<table id="example2" class="table table-striped table-light table-hover my-4">
+<table id="{$pagina}" class="table table-striped table-light table-hover my-4">
 <thead>
 <tr>
 <th>Descrição</th>
@@ -143,6 +143,9 @@ for ($i = 0; $i < @count($res); $i++) {
         $classe_whats = 'd-none';
         $telefone_cliente = "";
     }
+    if ($nome_cliente == 'Sistema') {
+        $classe_whats = 'd-none';
+    }
 
     if ($descricao == '') {
         $descricao = $nome_cliente;
@@ -220,7 +223,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
 	<a href="#" onclick="baixar('{$id}' , '{$cp1}', '{$cp9}', '$cp3', '$dias_vencidos')" title="Dar Baixa">	<i class="bi bi-check-square text-success mx-1 {$ocutar}"></i> </a>
 	
-    <a class="{$classe_whats}" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55$telefone_cliente&text=Ola, $nome_cliente Lembrete de vencimento no dia: $data_venc no valor de: R$ $valor.Endereço: $endereco_site." title="Cobrar pelo WhatsApp: $telefone_cliente"><i class="bi bi-whatsapp text-success"></i></a>
+    <a class="{$classe_whats}" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55$telefone_cliente&text=Ola $nome_cliente, Lembrete de vencimento no dia: $data_venc no valor de: R$ $valor.Endereço: $endereco_site." title="Cobrar pelo WhatsApp: $telefone_cliente"><i class="bi bi-whatsapp text-success"></i></a>
 	</td>
 	</tr>
 HTML;
@@ -234,8 +237,9 @@ HTML;
 
 <script>
     $(document).ready(function() {
-        $('#example2').DataTable({
-            "ordering": false
+        $('#<?= $pagina ?>').DataTable({
+            "ordering": false,
+            "stateSave": true
         });
 
         $('#total_itens').text('R$ <?= $total_valorF ?>');

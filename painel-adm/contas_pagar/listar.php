@@ -32,7 +32,7 @@ if ($alterou_data == 'Sim') {
 }
 
 echo <<<HTML
-<table id="example2" class="table table-striped table-light table-hover my-4">
+<table id="{$pagina}" class="table table-striped table-light table-hover my-4">
 <thead>
 <tr>
 <th>Descrição</th>
@@ -212,8 +212,9 @@ HTML;
 
 <script>
     $(document).ready(function() {
-        $('#example2').DataTable({
-            "ordering": false
+        $('#<?= $pagina ?>').DataTable({
+            "ordering": false,
+            "stateSave": true
         });
 
         $('#total_itens').text('R$ <?= $total_valorF ?>');

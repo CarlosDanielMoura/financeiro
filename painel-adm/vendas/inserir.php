@@ -99,7 +99,7 @@ if ($status == 'Concluída') {
          cliente = '$cliente', entrada = '$lancamento', documento = '$pagamento', plano_conta = 'Venda', 
          data_emissao = curDate(), vencimento = '$data', frequencia = 'Uma Vez', valor = '$subtotal', 
          usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(),
-          id_venda = '$id_ult_registro'");
+          id_venda = '$id_ult_registro', arquivo = 'sem-foto.jpg'");
     }
 }
 

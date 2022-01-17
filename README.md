@@ -11,3 +11,7 @@
 * -------------------------------------- Parte para rever com cliente -------------------------------------
 
 * Rever com cliente se quando realizo a compra de produtos ele deve multiplicar ou seria o valor pago nos 3.
+
+
+
+* 36 

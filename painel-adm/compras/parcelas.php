@@ -19,7 +19,7 @@ if ($parcelas > 1) {
     for ($i = 1; $i <= $parcelas; $i++) {
         $query = $pdo->prepare("INSERT INTO contas_pagar set descricao = :descricao, 
 		data_emissao = curDate(), vencimento = :data, frequencia = 'Uma Vez',  valor = :valor,
-		 usuario_lanc = '$id_usuario', status = 'Pendente', id_compra = '-1'");
+		 usuario_lanc = '$id_usuario', status = 'Pendente', id_compra = '-1', arquivo = 'sem-foto.jpg'");
 
         $query->bindValue(":valor", "$novo_valor");
         $query->bindValue(":descricao", "Parcela " . $i);

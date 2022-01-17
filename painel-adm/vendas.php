@@ -17,84 +17,64 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 <link rel="stylesheet" href="../css/tela-venda.css">
 <link rel="stylesheet" href="../css/home.css">
 
-<div class="container-fluid ">
-    <div class="row py-3">
+
+<div class="container-fluid">
+    <div class="row my-2">
+
         <div class='checkout'>
-            <div class="row justify-content-center">
+            <div class="row d-flex justify-content-center">
                 <div class="col-md-4 col-sm-12">
                     <div class='order py-2'>
-                        <div class="row justify-content-center">
-                            <div class="col-md-11 barra-lista-itens">
-                                <p class="background">LISTA DE ITENS: CLIENTE <strong><span id="nome-cliente"></span></strong>
-                            </div>
-                        </div>
-
-
-
+                        <p class="background">LISTA DE ITENS : CLIENTE <span id="nome-cliente-label"></span>
                         </p>
-
                         <span id="listar-itens">
-
                         </span>
                     </div>
-                    <br>
-
                 </div>
+                <div id='payment' class='payment col-md-7 py-2 mx-4'>
 
-                <div id='payment' class='payment col-md-7'>
+                    <div class="row mt-3">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Selecione um Clientes:</label>
+                                <select class="form-select sel1" aria-label="Default select example" name="<?php echo $campo2 ?>" id="id-cliente" style="width:100%;">
+                                    <option value="">Sistema</option>
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM clientes order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
 
-                    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Clientes</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Produtos</a>
-                        </li>
+                                    <?php } ?>
 
-                    </ul>
 
-                    <div class="tab-content mt-3" id="myTabContent">
-                        <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
-
-                            <div class="row mb-4 d-flex justify-content-center">
-                                <div class="col-md-1">
-                                    <input type="text" class="form-control form-control-sm " name="id-cliente" id="id-cliente" placeholder="Id" readonly>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control form-control-sm " name="nome-cliente-in" id="nome-cliente-in" placeholder="Nome Cliente" readonly>
-                                </div>
+                                </select>
                             </div>
-
-                            <small>
-                                <div id="listar-clientes"></div>
-                            </small>
                         </div>
-
-                        <div class="tab-pane fade " id="contas" role="tabpanel" aria-labelledby="profile-tab">
-
-
-                            <small class="mt-3">
-                                <div id="listar-produtos">
-
-                                </div>
-                            </small>
-                        </div> <br>
-
-                        <small>
-                            <div id="mensagem-itens"></div>
-                        </small>
                     </div>
 
-
+                    <small>
+                        <div id="listar-produtos" class="mt-3"></div>
+                    </small>
                 </div>
-
-
+                <br>
+                <small>
+                    <div id="mensagem-itens"></div>
+                </small>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
+
+
+
+
 
 
 
@@ -128,7 +108,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                         <div class="col-md-3">
                             <label for="exampleFormControlInput1" class="form-label">Parcelas:</label>
-                            <input type="number" class="form-control" onkeyup="criarParcelas()" name="parcelas" id="parcelas" value="1">
+                            <input type="number" class="form-control" onkeyup="criarParcelas()" onchange="criarParcelas()" name="parcelas" id="parcelas" value="1">
                         </div>
 
 
@@ -223,29 +203,16 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 <script>
     $(document).ready(function() {
+
         var cat = $('#cat_despesas').val();
-        listarClientes();
+
         listarProdutos();
         listarItens();
         limparCampos();
+
+
     });
 
-
-
-
-    function listarClientes() {
-        var pag = "<?= $pagina ?>";
-        $.ajax({
-            url: pag + "/listar-clientes.php",
-            method: 'POST',
-            data: $('#form').serialize(),
-            dataType: "html",
-
-            success: function(result) {
-                $("#listar-clientes").html(result);
-            }
-        });
-    }
 
     function listarProdutos() {
 
@@ -308,26 +275,13 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function ModalFecharVenda() {
         $('#mensagem-fec').text('');
         $('#mensagem-fec').removeClass();
-        var idCli = $('#id-cliente').val();
-        $('#id-cli').val(idCli);
+
         listarParcelas();
+        var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
+        myModal.show();
 
-        if ($('#nome-cliente-in').val() == "") {
-            $('#mensagem-fec').addClass('text-danger')
-            $('#mensagem-fec').text('Selecione um Cliente!');
-
-            //DEFINIR ABA A SER ABERTA
-            var someTabTriggerEl = document.querySelector('#home-tab')
-            var tab = new bootstrap.Tab(someTabTriggerEl);
-            tab.show();
-
-
-        } else {
-            var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
-            myModal.show();
-
-        }
     }
+
 
 
 
@@ -411,16 +365,11 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
     function limparCampos() {
         listarItens();
-        $('#id-cliente').val('1');
-        $('#nome-cliente').text('Sistema');
-        $('#nome-cliente-in').val('Sistema');
-        $('#mensagem-prod').text('');
-
-        //DEFINIR ABA A SER ABERTA
-        var someTabTriggerEl = document.querySelector('#home-tab')
-        var tab = new bootstrap.Tab(someTabTriggerEl);
-        tab.show();
+        $('#id-cliente').val('').change();
+        $('#nome-cliente-label').text('Sistema');
+        $('#mensagem').text('');
     }
+
 
     function listarParcelas() {
         $('#mensagem-prod').text('');
@@ -437,9 +386,37 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         });
     }
 
-    $(document).keypress(function(e) {
-        if (e.which == 13) {
+    $(document).keyup(function(e) {
+        if (e.which == 115) {
             ModalFecharVenda();
         }
     });
 </script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.sel1').select2({
+            placeholder: 'Sistema',
+            //dropdownParent: $('#modalForm')
+        });
+
+    });
+</script>
+
+<style type="text/css">
+    .select2-selection__rendered {
+        line-height: 36px !important;
+        font-size: 16px !important;
+        color: #666666 !important;
+
+    }
+
+    .select2-selection {
+        height: 36px !important;
+        font-size: 16px !important;
+        color: #666666 !important;
+
+    }
+</style>

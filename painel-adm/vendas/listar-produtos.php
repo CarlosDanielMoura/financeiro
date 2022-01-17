@@ -6,12 +6,13 @@ echo <<<HTML
 <table id="exampleProd" class="Tabela-venda table  table-striped table-light table-hover my-4">
 <thead>
 <tr>
-<th >Nome</th>
-<th >Valor</th>
-<th >Estoque</th>
-<th>Imagem</th>
-<th>Quantidade</th>
-<th>ADD</th>
+<th style="">Código</th>
+<th style="width:35%">Nome</th>
+<th style="text-align:center; width:20%">Valor</th>
+<th style="text-align:center">Estoque</th>
+<th style="text-align:center">Imagem</th>
+<th style="text-align:center">Quantidade</th>
+<th style="text-align:center">ADD</th>
 </tr>
 </thead>
 <tbody>
@@ -25,6 +26,7 @@ for ($i = 0; $i < @count($res); $i++) {
     }
 
     $id_reg = $res[$i]['id'];
+    $codigo = $res[$i]['codigo'];
     $cp1 = $res[$i]['nome'];
     $cp2 = $res[$i]['descricao'];
     $cp3 = $res[$i]['estoque'];
@@ -44,6 +46,7 @@ for ($i = 0; $i < @count($res); $i++) {
 
     echo <<<HTML
 	<tr>
+    <td style="width:40%">{$codigo}</td>
 	<td style="width:40%; text-align:center">{$res[$i]['nome']}</td>
 	<td style="text-align:center; width:20%">R$ {$cp5}</td>
 	<td style="text-align:center">{$res[$i]['estoque']}</td>
@@ -72,6 +75,7 @@ HTML;
                 [5, 8, 10, "Todos"]
             ]
         });
+        $('#exampleProd_filter label input').focus();
 
     });
 

@@ -16,6 +16,10 @@ require_once($pagina . "/campos.php");
 <!--LINK DE CSS-->
 <link rel="stylesheet" href="../css/home.css">
 
+<div class="col-md-12 my-4">
+    <a href="index.php?pag=<?php echo $menu21 ?>" class="buttonNivel btn sm" type="button">Nova Compra</a>
+</div>
+
 <small>
     <div class="tableDados bg-light" id="listar">
 

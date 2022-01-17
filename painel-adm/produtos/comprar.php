@@ -56,7 +56,7 @@ $nome_forn = $res_con[0]['nome'];
 $query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',
 plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
 valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
-status = 'Pendente'");
+status = 'Pendente', arquivo = 'sem-foto.jpg'");
 
 
 $query->bindValue(":valor_compra", "$total_compra");
