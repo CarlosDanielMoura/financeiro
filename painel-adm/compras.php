@@ -20,86 +20,59 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 
 
+<div class="container-fluid">
+    <div class="row my-2">
 
-<div class="container-fluid ">
-
-    <div class="row py-3">
         <div class='checkout'>
-            <div class="row justify-content-center">
+            <div class="row d-flex justify-content-center">
                 <div class="col-md-4 col-sm-12">
                     <div class='order py-2'>
-                        <div class="row justify-content-center">
-                            <div class="col-md-11 barra-lista-itens">
-                                <p class="background">LISTA DE ITENS: FORNECEDOR <strong><span id="nome-cliente-label"></span></strong>
-                            </div>
-                        </div>
-
-
-
+                        <p class="background">LISTA DE ITENS : FORNECEDORES <span id="nome-cliente-label"></span>
                         </p>
-
                         <span id="listar-itens">
-
                         </span>
                     </div>
-                    <br>
-
                 </div>
+                <div id='payment' class='payment col-md-7 py-2 mx-4'>
 
-                <div id='payment' class='payment col-md-7'>
+                    <div class="row mt-3 d-flex justify-content-center">
+                        <div class="col-md-5 col-sm-12">
+                            <div class="mb-3">
+                                <select class="form-select sel2" aria-label="Default select example" name="id-cliente" id="id-cliente" style="width:100%;" onchange="selecionarCliente()">
+                                    <option value="">Compra Rápida</option>
+                                    <?php
+                                    $query = $pdo->query("SELECT * FROM fornecedores where ativo = 'Sim' order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
 
-                    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-controls="home" aria-selected="true">Fornecedores</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#contas" type="button" role="tab" aria-controls="profile" aria-selected="false">Produtos</a>
-                        </li>
+                                    <?php } ?>
 
-                    </ul>
 
-                    <div class="tab-content mt-3" id="myTabContent">
-                        <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="home-tab">
-
-                            <div class="row mb-4 d-flex justify-content-center">
-                                <div class="col-md-1">
-                                    <input type="text" class="form-control form-control-sm " name="id-cliente" id="id-cliente" placeholder="Id" readonly>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control form-control-sm " name="nome-cliente-in" id="nome-cliente-in" placeholder="Nome Fornecedor" readonly>
-                                </div>
+                                </select>
                             </div>
-
-                            <small>
-                                <div id="listar-clientes"></div>
-                            </small>
                         </div>
-
-                        <div class="tab-pane fade " id="contas" role="tabpanel" aria-labelledby="profile-tab">
-
-
-                            <small class="mt-3">
-                                <div id="listar-produtos">
-
-                                </div>
-                            </small>
-                        </div> <br>
-
-                        <small>
-                            <div id="mensagem-itens"></div>
-                        </small>
                     </div>
 
-
+                    <small>
+                        <div id="listar-produtos" class="mt-3"></div>
+                    </small>
                 </div>
-
-
+                <br>
+                <small>
+                    <div id="mensagem-itens"></div>
+                </small>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
+
 
 
 
@@ -224,6 +197,11 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 <script>
     $(document).ready(function() {
+
+        $('.sel2').select2({
+            placeholder: 'Selecione um Fornecedor',
+            //dropdownParent: $('#modalForm')
+        });
         listarClientes();
         listarProdutos();
         listarItens();
@@ -447,4 +425,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             ModalFecharVenda();
         }
     });
+
+    function selecionarCliente() {
+        $('#id-cli').val($('#id-cliente').val())
+    }
 </script>

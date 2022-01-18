@@ -25,22 +25,20 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             <div class="row d-flex justify-content-center">
                 <div class="col-md-4 col-sm-12">
                     <div class='order py-2'>
-                        <p class="background">LISTA DE ITENS : CLIENTE <span id="nome-cliente-label"></span>
-                        </p>
+                        <p class="background">LISTA DE ITENS : CLIENTE <span id="nome-cliente-label"></span></p>
                         <span id="listar-itens">
                         </span>
                     </div>
                 </div>
                 <div id='payment' class='payment col-md-7 py-2 mx-4'>
 
-                    <div class="row mt-3">
-                        <div class="col-md-4 col-sm-12">
+                    <div class="row mt-3 d-flex justify-content-center">
+                        <div class="col-md-5 col-sm-12">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Selecione um Clientes:</label>
-                                <select class="form-select sel1" aria-label="Default select example" name="<?php echo $campo2 ?>" id="id-cliente" style="width:100%;">
-                                    <option value="">Sistema</option>
+                                <select class="form-select sel2" aria-label="Default select example" name="id-cliente" id="id-cliente" style="width:100%;" onchange="selecionarCliente()">
+                                    <option value="">Venda Rápida</option>
                                     <?php
-                                    $query = $pdo->query("SELECT * FROM clientes order by nome asc");
+                                    $query = $pdo->query("SELECT * FROM clientes where ativo = 'Sim' order by nome asc");
                                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
                                     for ($i = 0; $i < @count($res); $i++) {
                                         foreach ($res[$i] as $key => $value) {
@@ -62,15 +60,20 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         <div id="listar-produtos" class="mt-3"></div>
                     </small>
                 </div>
-                <br>
                 <small>
-                    <div id="mensagem-itens"></div>
+                    <div id="listar-produtos" class="mt-3"></div>
                 </small>
             </div>
-
+            <br>
+            <small>
+                <div id="mensagem-itens"></div>
+            </small>
         </div>
     </div>
 </div>
+</div>
+
+
 
 
 
@@ -91,12 +94,12 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="exampleFormControlInput1" class="form-label">Desconto:</label>
                             <input type="text" onkeyup="totalizarVenda()" class="form-control" name="desconto" id="desconto" placeholder="Desconto">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="exampleFormControlInput1" class="form-label">Acréscimo:</label>
                             <input type="text" onkeyup="totalizarVenda()" class="form-control" name="acrescimo" id="acrescimo" placeholder="Acréscimo">
                         </div>
@@ -106,11 +109,15 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                             <input type="text" class="form-control" name="subTotal" id="subTotal" placeholder="SubTotal" readonly>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="exampleFormControlInput1" class="form-label">Parcelas:</label>
                             <input type="number" class="form-control" onkeyup="criarParcelas()" onchange="criarParcelas()" name="parcelas" id="parcelas" value="1">
                         </div>
 
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">Total Recebido:</label>
+                            <input type="text" class="form-control" name="recebido" id="recebido" placeholder="Total Recebido">
+                        </div>
 
                     </div>
 
@@ -203,15 +210,23 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 <script>
     $(document).ready(function() {
-
+        $('.sel2').select2({
+            placeholder: 'Selecione um Cliente',
+            //dropdownParent: $('#modalForm')
+        });
         var cat = $('#cat_despesas').val();
-
         listarProdutos();
         listarItens();
         limparCampos();
 
 
     });
+
+    //Selecionar o cliente para jogar o ID no input para verificar
+    function selecionarCliente() {
+        $('#id-cli').val($('#id-cliente').val());
+
+    }
 
 
     function listarProdutos() {
@@ -391,18 +406,28 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             ModalFecharVenda();
         }
     });
-</script>
 
+    // Mudando valor de input dentro das parcelas
+    function alterarParcela(id, cont) {
 
+        valor = $('#valor-da-parc' + cont).val();
+        data = $('#data-da-parc' + cont).val();
+        $.ajax({
+            url: pag + "/alterar-parcela.php",
+            method: 'POST',
+            data: {
+                id,
+                valor,
+                data
+            },
+            dataType: "text",
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.sel1').select2({
-            placeholder: 'Sistema',
-            //dropdownParent: $('#modalForm')
+            success: function(mensagem) {
+                if (mensagem.trim() == "Inserido com Sucesso!") {}
+            },
+
         });
-
-    });
+    }
 </script>
 
 <style type="text/css">

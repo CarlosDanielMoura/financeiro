@@ -11,6 +11,7 @@ $acrescimo = $_POST['acrescimo'];
 $subtotal = $_POST['subTotal'];
 $parcelas = $_POST['parcelas'];
 $cliente = $_POST['id-cli'];
+$recebido = $_POST['recebido'];
 
 $desconto = str_replace(',', '.', $desconto);
 $acrescimo = str_replace(',', '.', $acrescimo);
@@ -19,6 +20,10 @@ if ($data == date('Y-m-d') and $parcelas == '1') {
     $status = 'Concluída';
 } else {
     $status = 'Pendente';
+    if ($cliente == '') {
+        echo 'Você precisa Selecionar um Cliente';
+        exit();
+    }
 }
 
 if ($parcelas < 1) {
@@ -29,11 +34,17 @@ if ($parcelas < 1) {
 
 $query_con = $pdo->query("SELECT * FROM clientes WHERE id = '$cliente'");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
-$nome_cli = $res[0]['nome'];
+if (@count($res) > 0) {
+    $nome_cli = $res[0]['nome'];
+} else {
+    $nome_cli = 'Venda Rápida';
+}
+
 
 $total_venda = 0;
 $total_custo = 0;
-$query_con = $pdo->query("SELECT * FROM itens_venda WHERE id_venda = 0 and usuario = '$id_usuario' order by id desc");
+$query_con = $pdo->query("SELECT * FROM itens_venda WHERE id_venda = 0 and usuario = '$id_usuario' 
+order by id desc");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
 if ($total_reg > 0) {
@@ -63,10 +74,10 @@ if (@count($res2) > 0) {
 
 
 
-$query = $pdo->prepare("INSERT INTO vendas set valor = '$total_venda', 
-usuario = '$id_usuario', pagamento = :pagamento, lancamento = :lancamento, data_lanc = CurDate(), 
-data_pgto = :data, desconto = :desconto, acrescimo = :acrescimo, subtotal = :subtotal, parcelas = :parcelas,
-status = '$status', cliente = :cliente, valor_custo = '$total_custo'");
+$query = $pdo->prepare("INSERT INTO vendas set valor = '$total_venda', usuario = '$id_usuario', 
+pagamento = :pagamento, lancamento = :lancamento, data_lanc = CurDate(), data_pgto = :data, 
+desconto = :desconto, acrescimo = :acrescimo, subtotal = :subtotal, parcelas = :parcelas, status = '$status', 
+cliente = :cliente, valor_custo = '$total_custo', recebido = :recebido");
 
 
 
@@ -78,28 +89,29 @@ $query->bindValue(":acrescimo", "$acrescimo");
 $query->bindValue(":subtotal", "$subtotal");
 $query->bindValue(":parcelas", "$parcelas");
 $query->bindValue(":cliente", "$cliente");
+$query->bindValue(":recebido", "$recebido");
 $query->execute();
 $id_ult_registro = $pdo->lastInsertId();
 
 $descricao_conta = 'Venda - ' . $nome_cli;
 if ($status == 'Concluída') {
 
-    $pdo->query("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Venda',
-     descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', 
-     data = curDate(), lancamento = '$lancamento', plano_conta = 'Venda', documento = '$pagamento', 
-     caixa_periodo = '$caixa_aberto', id_mov = '$id_ult_registro'");
+    $pdo->query("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Venda', 
+    descricao = '$descricao_conta', valor = '$subtotal', usuario = '$id_usuario', data = curDate(), 
+    lancamento = '$lancamento', plano_conta = 'Venda', documento = '$pagamento', 
+    caixa_periodo = '$caixa_aberto', id_mov = '$id_ult_registro'");
 } else {
     if ($parcelas > 1) {
-        $query = $pdo->query("UPDATE contas_receber set cliente = '$cliente', entrada = '$lancamento',
-         documento = '$pagamento', plano_conta = 'Venda', frequencia = 'Uma Vez',
-          usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(), 
-          id_venda = '$id_ult_registro' WHERE id_venda = '-1' and usuario_lanc = '$id_usuario'");
+        $query = $pdo->query("UPDATE contas_receber set cliente = '$cliente', entrada = '$lancamento', 
+        documento = '$pagamento', plano_conta = 'Venda', frequencia = 'Uma Vez', usuario_lanc = '$id_usuario',
+        status = 'Pendente', data_recor = curDate(), id_venda = '$id_ult_registro' WHERE id_venda = '-1' 
+        and usuario_lanc = '$id_usuario'");
     } else {
-        $query = $pdo->query("INSERT INTO contas_receber set descricao = '$descricao_conta',
-         cliente = '$cliente', entrada = '$lancamento', documento = '$pagamento', plano_conta = 'Venda', 
-         data_emissao = curDate(), vencimento = '$data', frequencia = 'Uma Vez', valor = '$subtotal', 
-         usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(),
-          id_venda = '$id_ult_registro', arquivo = 'sem-foto.jpg'");
+        $query = $pdo->query("INSERT INTO contas_receber set descricao = '$descricao_conta', 
+        cliente = '$cliente', entrada = '$lancamento', documento = '$pagamento', plano_conta = 'Venda', 
+        data_emissao = curDate(), vencimento = '$data', frequencia = 'Uma Vez', valor = '$subtotal', 
+        usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = curDate(), id_venda = '$id_ult_registro',
+        arquivo = 'sem-foto.jpg'");
     }
 }
 
@@ -114,8 +126,8 @@ if ($total_reg > 0) {
         foreach ($res[$i] as $key => $value) {
         }
 
-        $pdo->query("UPDATE itens_venda set id_venda = '$id_ult_registro' where id_venda = 0 
-        and usuario = '$id_usuario'");
+        $pdo->query("UPDATE itens_venda set id_venda = '$id_ult_registro' where id_venda = 0 and
+         usuario = '$id_usuario'");
     }
 }
 

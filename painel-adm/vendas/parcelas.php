@@ -5,7 +5,8 @@ $id_usuario = $_SESSION['id_usuario'];
 
 $query = $pdo->query("DELETE FROM contas_receber where id_venda = '-1' and usuario_lanc = '$id_usuario'");
 
-$valor = $_POST['valor']; //trocar por valor
+$valor = $_POST['valor'];
+//$valor = str_replace(',', '.', $valor);
 $data = $_POST['data'];
 $parcelas = $_POST['parcelas'];
 
@@ -29,6 +30,7 @@ if ($parcelas > 1) {
         if ($i == $parcelas) {
             $novo_valor = $novo_valor + $resto_conta;
         }
+
 
         $query = $pdo->prepare("INSERT INTO contas_receber set descricao = :descricao, 
 		data_emissao = curDate(), vencimento = :data, frequencia = 'Uma Vez',  valor = :valor, 

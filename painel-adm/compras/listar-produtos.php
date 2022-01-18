@@ -7,7 +7,7 @@ echo <<<HTML
 <thead>
 <tr>
 <th >Nome</th>
-<th >Valor</th>
+<th >Vlr Compra</th>
 <th >Estoque</th>
 <th>Imagem</th>
 <th>Quantidade</th>
@@ -72,7 +72,7 @@ HTML;
                 [5, 8, 10, "Todos"]
             ]
         });
-
+        $('#exampleProd_filter label input').focus();
     });
 
 
