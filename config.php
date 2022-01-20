@@ -17,7 +17,7 @@ $cnpj_site = '39.226.470/0001-03';
 
 $servidor = 'localhost';
 $usuario = 'root';
-$senha = 'root';
+$senha = '';
 $banco = 'financeiro';
 
 
