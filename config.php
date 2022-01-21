@@ -2,7 +2,7 @@
 
 $nome_sistema = 'ÓPTICA NÚCLEO DA VISÃO';
 $url_sistema = 'http://localhost/financeiro/';
-$email_adm = 'contato@carlos.com.br';
+$email_adm = 'carlos.daniel.moura99@gmail.com';
 $nome_adm = 'Carlos Daniel';
 
 

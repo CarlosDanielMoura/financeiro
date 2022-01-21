@@ -30,27 +30,51 @@ $total_reg3 = @count($res3);
 
 //CRIANDO CLIENTE
 if ($total_reg3 == 0) {
-    $pdo->query(" INSERT INTO clientes SET nome = 'Diversos', pessoa = 'Física', doc = '000.000.000-00', 
+    $pdo->query(" INSERT INTO clientes SET nome = 'Sistema', pessoa = 'Física', doc = '000.000.000-00', 
     telefone = '(00) 00000-0000', endereco = '' , ativo = 'Sim',
     obs = 'Esse cliente é exclusivo da loja para que não precisa sempre cadastrar clientes!',
     data = curDate(), banco = '', agencia = '', conta = '',email = 'cliente@cliente.com' ");
 }
 
 
-// CRIAR UM FORNECEDOR DIVERSOS
+// CRIAR UM FORNECEDOR PARA O SISTEMA
 $consulta4 = $pdo->query("SELECT * from fornecedores where id = 1 ");
 $res4 = $consulta4->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
 $total_reg4 = @count($res4);
 
-//CRIANDO FORNECEDOR
-if ($total_reg4 == 0) {
-    $pdo->query(" INSERT INTO fornecedores SET nome = 'Diversos', pessoa = 'Jurídica', doc = '000.000.000-00', 
-    telefone = '(00) 00000-0000', endereco = '' , ativo = 'Sim',
-    obs = 'Esse Fornecedor é exclusivo da loja para que não precisa sempre cadastrar um Forncedor!',
-    data = curDate(), banco = '', agencia = '', conta = '',email = 'fornecedor@forn.com' ");
+
+//ROTINA PARA GERAR AS COBRANÇAS POR EMAIL
+$query_cob = $pdo->query("SELECT * from cobrancas where data = curDate()");
+$res_cob = $query_cob->fetchAll(PDO::FETCH_ASSOC);
+if(@count($res_cob) == 0){
+    $query = $pdo->query("SELECT * from contas_receber where vencimento = curDate() 
+    and status = 'Pendente' ");
+    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+    $linhas_cob = @count($res);
+    if($linhas_cob > 0){
+        for($i=0; $i < @count($res); $i++){
+            foreach ($res[$i] as $key => $value){} 
+                $cliente = $res[$i]['cliente'];
+                $descricao = $res[$i]['descricao'];
+                $valor = $res[$i]['valor'];
+                $valor = number_format($valor, 2, ',', '.');
+
+            $query1 = $pdo->query("SELECT * from clientes where id = '$cliente' ");
+            $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
+            if(@count($res1) > 0){
+                $nome_cliente = $res1[0]['nome'];
+                $email_cliente = $res1[0]['email'];
+                
+                $destinatario = $email_cliente;
+                $assunto = $nome_sistema . ' - Sua conta vence Hoje';
+                $mensagem = utf8_decode('Olá '.$nome_cliente. "\r\n"."\r\n" . 'Sua conta '.$descricao. ' no valor de R$'.$valor. ' está vencendo hoje, se já pagou ignore nosso email! ');
+                $cabecalhos = "From: ".$email_adm;
+                @mail($destinatario, $assunto, $mensagem, $cabecalhos);                             
+            }
+        }
+    }
+    $pdo->query("INSERT INTO cobrancas set data = curDate(), quantidade = '$linhas_cob' ");
 }
-
-
 
 
 
@@ -68,8 +92,11 @@ if ($total_reg4 == 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/logo-150.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/estilo_login.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
     <script src="https://kit.fontawesome.com/d9fe1d4535.js" crossorigin="anonymous"></script>
 
 
@@ -114,7 +141,8 @@ if ($total_reg4 == 0) {
             <form class="login100-form validate-form" method="post" action="autenticar.php">
                 <img src="./img/logo-150.png" alt="Logo">
                 <div class="wrap-input100 validate-input m-b-20" data-validate="Entrar com seu Email">
-                    <input type="email" name="email" class="form-control input100 mb-2" placeholder="Email" required autofocus>
+                    <input type="email" name="email" class="form-control input100 mb-2" placeholder="Email" required
+                        autofocus>
                 </div>
 
                 <div class="wrap-input100 validate-input m-b-25" data-validate="Entrar com a Senha">

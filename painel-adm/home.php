@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 require_once('../conexao.php');
 require_once('verificar.php');
@@ -6,13 +6,8 @@ require_once('verificar.php');
 $hoje = date('Y-m-d');
 $mes_atual = Date('m');
 $ano_atual = Date('Y');
-$dataInicioMes = $ano_atual . "-" . $mes_atual . "-01";
+$dataInicioMes = $ano_atual."-".$mes_atual."-01";
 
-$menu11 = 'produtos';
-$menu15 = 'contas_pagar';
-$menu16 = 'contas_receber';
-$menu13 = 'fornecedores';
-$menu2 = 'clientes';
 
 
 $query = $pdo->query("SELECT * from clientes where ativo = 'Sim'");
@@ -55,8 +50,8 @@ $contas_pagar_hoje = @count($res);
 
 
 
-$query = $pdo->query("SELECT * from vendas where (data_pgto >= '$dataInicioMes' 
-and data_pgto <= curDate()) and status = 'Concluída'");
+$query = $pdo->query("SELECT * from vendas where (data_pgto >= '$dataInicioMes' and
+data_pgto <= curDate()) and status = 'Concluída'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $subtotal = 0;
@@ -68,57 +63,57 @@ $total_custoF = 0;
 $lucroMes = 0;
 $lucroMesF = 0;
 
-for ($i = 0; $i < @count($res); $i++) {
-    foreach ($res[$i] as $key => $value) {
-    }
+for ($i=0; $i < @count($res); $i++) { 
+	foreach ($res[$i] as $key => $value) {
+	}
 
-    $subt = $res[$i]['subtotal'];
-    $custo = $res[$i]['valor_custo'];
+	$subt = $res[$i]['subtotal'];
+	$custo = $res[$i]['valor_custo'];
 
-    $subtotal += $subt;
-    $total_custo += $custo;
-    $lucroMes = $subtotal - $total_custo;
-    $lucroMesF = number_format($lucroMes, 2, ',', '.');
-    $subtotalF = number_format($subtotal, 2, ',', '.');
+	$subtotal += $subt;
+	$total_custo += $custo;	
+	$lucroMes = $subtotal - $total_custo;
+	$lucroMesF = number_format($lucroMes, 2, ',', '.');
+	$subtotalF = number_format($subtotal, 2, ',', '.');
+
+
 }
 
 
 
 
 $totalPagarM = 0;
-$query = $pdo->query("SELECT * from contas_pagar where vencimento >= '$dataInicioMes' 
-and  vencimento <= curDate() and status = 'Pendente'");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$pagarMes = @count($res);
-$total_reg = @count($res);
-if ($total_reg > 0) {
+		$query = $pdo->query("SELECT * from contas_pagar where vencimento >= '$dataInicioMes' and vencimento <= curDate() and status = 'Pendente'");
+		$res = $query->fetchAll(PDO::FETCH_ASSOC);
+		$pagarMes = @count($res);
+		$total_reg = @count($res);
+		if($total_reg > 0){ 
 
-    for ($i = 0; $i < $total_reg; $i++) {
-        foreach ($res[$i] as $key => $value) {
-        }
+			for($i=0; $i < $total_reg; $i++){
+				foreach ($res[$i] as $key => $value){	}
 
-        $totalPagarM += $res[$i]['valor'];
-        $pagarMesF = number_format($totalPagarM, 2, ',', '.');
-    }
-}
+					$totalPagarM += $res[$i]['valor'];
+				$pagarMesF = number_format($totalPagarM, 2, ',', '.');
+
+			}
+		}
 
 
-$totalReceberM = 0;
-$query = $pdo->query("SELECT * from contas_receber where vencimento >= '$dataInicioMes'
- and vencimento <= curDate() and status = 'Pendente'");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$receberMes = @count($res);
-$total_reg = @count($res);
-if ($total_reg > 0) {
+		$totalReceberM = 0;
+		$query = $pdo->query("SELECT * from contas_receber where vencimento >= '$dataInicioMes' and vencimento <= curDate() and status = 'Pendente'");
+		$res = $query->fetchAll(PDO::FETCH_ASSOC);
+		$receberMes = @count($res);
+		$total_reg = @count($res);
+		if($total_reg > 0){ 
 
-    for ($i = 0; $i < $total_reg; $i++) {
-        foreach ($res[$i] as $key => $value) {
-        }
+			for($i=0; $i < $total_reg; $i++){
+				foreach ($res[$i] as $key => $value){	}
 
-        $totalReceberM += $res[$i]['valor'];
-        $receberMesF = number_format($totalReceberM, 2, ',', '.');
-    }
-}
+					$totalReceberM += $res[$i]['valor'];
+				$receberMesF = number_format($totalReceberM, 2, ',', '.');
+
+			}
+		}
 
 
 
@@ -153,7 +148,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class="text-success"><?php echo @$produtosCadastrados ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu11 ?>"> <span>Produtos Cadastrados</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu11 ?>"> <span>Produtos
+                                            Cadastrados</span></a>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +167,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class="text-primary"><?php echo @$clientesCadastrados ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu2 ?>"> <span>Clientes Cadastrados</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu2 ?>"> <span>Clientes
+                                            Cadastrados</span></a>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +187,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class="text-dark"><?php echo @$fornCadastrados ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu13 ?>"> <span>Fornecedores Cadastrados</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu13 ?>">
+                                        <span>Fornecedores Cadastrados</span></a>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +207,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3><span class="text-danger"><?php echo @$estoqueBaixo ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu11 ?>&estoque=sim"> <span>Produtos Estoque Baixo</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu11 ?>&estoque=sim">
+                                        <span>Produtos Estoque Baixo</span></a>
 
                                 </div>
                             </div>
@@ -237,7 +236,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class=""><?php echo @$contas_pagar_hoje ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu15 ?>"> <span>Contas à Pagar (Hoje)</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu15 ?>"> <span>Contas à
+                                            Pagar (Hoje)</span></a>
 
                                 </div>
                             </div>
@@ -257,7 +257,8 @@ if ($total_reg > 0) {
                                 <div class="col-9 text-end">
                                     <h3> <span class="">
                                             <?php echo @$contas_pagar_vencidas ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu15 ?>"> <span>Contas à Pagar Vencidas</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu15 ?>"> <span>Contas à
+                                            Pagar Vencidas</span></a>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +277,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3> <span class=""><?php echo @$contas_receber_hoje ?></span></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu16 ?>"> <span>Contas à Receber (Hoje)</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu16 ?>"> <span>Contas à
+                                            Receber (Hoje)</span></a>
                                 </div>
                             </div>
                         </div>
@@ -295,7 +297,8 @@ if ($total_reg > 0) {
                                 </div>
                                 <div class="col-9 text-end">
                                     <h3><?php echo @$contas_receber_vencidas ?></h3>
-                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu16 ?>"> <span>Contas à Receber Vencidas</span></a>
+                                    <a class="link-rapido" href=" index.php?pag=<?php echo $menu16 ?>"> <span>Contas à
+                                            Receber Vencidas</span></a>
                                 </div>
                             </div>
                         </div>
@@ -427,87 +430,87 @@ if ($total_reg > 0) {
 
 
         <style type="text/css">
-            #principal {
-                width: 100%;
-                height: 100%;
-                margin-left: 10px;
-                font-family: Verdana, Helvetica, sans-serif;
-                font-size: 14px;
+        #principal {
+            width: 100%;
+            height: 100%;
+            margin-left: 10px;
+            font-family: Verdana, Helvetica, sans-serif;
+            font-size: 14px;
 
-            }
+        }
 
-            #barra {
-                margin: 0 2px;
-                vertical-align: bottom;
-                display: inline-block;
-                padding: 5px;
-                text-align: center;
+        #barra {
+            margin: 0 2px;
+            vertical-align: bottom;
+            display: inline-block;
+            padding: 5px;
+            text-align: center;
 
-            }
+        }
 
-            .cor1,
-            .cor2,
-            .cor3,
-            .cor4,
-            .cor5,
-            .cor6,
-            .cor7,
-            .cor8,
-            .cor9,
-            .cor10,
-            .cor11,
-            .cor12 {
-                color: #FFF;
-                padding: 5px;
-            }
+        .cor1,
+        .cor2,
+        .cor3,
+        .cor4,
+        .cor5,
+        .cor6,
+        .cor7,
+        .cor8,
+        .cor9,
+        .cor10,
+        .cor11,
+        .cor12 {
+            color: #FFF;
+            padding: 5px;
+        }
 
-            .cor1 {
-                background-color: #FF0000;
-            }
+        .cor1 {
+            background-color: #FF0000;
+        }
 
-            .cor2 {
-                background-color: #0000FF;
-            }
+        .cor2 {
+            background-color: #0000FF;
+        }
 
-            .cor3 {
-                background-color: #FF6600;
-            }
+        .cor3 {
+            background-color: #FF6600;
+        }
 
-            .cor4 {
-                background-color: #009933;
-            }
+        .cor4 {
+            background-color: #009933;
+        }
 
-            .cor5 {
-                background-color: #FF0000;
-            }
+        .cor5 {
+            background-color: #FF0000;
+        }
 
-            .cor6 {
-                background-color: #0000FF;
-            }
+        .cor6 {
+            background-color: #0000FF;
+        }
 
-            .cor7 {
-                background-color: #FF6600;
-            }
+        .cor7 {
+            background-color: #FF6600;
+        }
 
-            .cor8 {
-                background-color: #009933;
-            }
+        .cor8 {
+            background-color: #009933;
+        }
 
-            .cor9 {
-                background-color: #FF0000;
-            }
+        .cor9 {
+            background-color: #FF0000;
+        }
 
-            .cor10 {
-                background-color: #0000FF;
-            }
+        .cor10 {
+            background-color: #0000FF;
+        }
 
-            .cor11 {
-                background-color: #FF6600;
-            }
+        .cor11 {
+            background-color: #FF6600;
+        }
 
-            .cor12 {
-                background-color: #009933;
-            }
+        .cor12 {
+            background-color: #009933;
+        }
         </style>
 
         <div id="principal">
@@ -567,10 +570,11 @@ if ($total_reg > 0) {
             ?>
 
 
-                <div id="barra">
-                    <div class="cor<?php echo $i ?>" style="height:<?php echo $altura_barra + 25 ?>px">R$ <?php echo $lucroMesF ?> </div>
-                    <div><?php echo $texto ?></div>
-                </div>
+            <div id="barra">
+                <div class="cor<?php echo $i ?>" style="height:<?php echo $altura_barra + 25 ?>px">R$
+                    <?php echo $lucroMesF ?> </div>
+                <div><?php echo $texto ?></div>
+            </div>
 
             <?php } ?>
         </div>

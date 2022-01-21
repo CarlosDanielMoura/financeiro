@@ -26,6 +26,27 @@ $cp11 = $res[0]['usuario_baixa'];
 $cp13 = $res[0]['status'];
 
 
+//SCRIPT PARA SUBIR FOTO NO BANCO
+$nome_img = date('d-m-Y H:i:s') .'-'.@$_FILES['imagem']['name'];
+$nome_img = preg_replace('/[ :]+/' , '-' , $nome_img);
+
+$caminho = '../../img/contas/' .$nome_img;
+if (@$_FILES['imagem']['name'] == ""){
+	$imagem = "sem-foto.jpg";
+}else{
+	$imagem = $nome_img;
+}
+
+$imagem_temp = @$_FILES['imagem']['tmp_name']; 
+$ext = pathinfo($imagem, PATHINFO_EXTENSION);   
+if($ext == 'png' or $ext == 'jpg' or $ext == 'JPG' or $ext == 'jpeg' or $ext == 'gif' or $ext == 'pdf' or $ext == 'rar' or $ext == 'zip'){ 
+	move_uploaded_file($imagem_temp, $caminho);
+}else{
+	echo 'Extensão de Imagem não permitida!';
+	exit();
+}
+
+
 //CORRENDO A TABELA FREQUENCIAS
 $query1 = $pdo->query("SELECT * from frequencias where nome = '$frequencia' ");
 $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
@@ -77,7 +98,7 @@ for ($i = 1; $i <= $qtd_parcelas; $i++) {
     $pdo->query("INSERT INTO $pagina set descricao = '$nova_descricao', cliente = '$cp2',
      entrada = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), 
      vencimento = '$novo_vencimento', frequencia = '$cp8', valor = '$novo_valor', 
-     usuario_lanc = '$cp10', status = 'Pendente', data_recor = curDate()");
+     usuario_lanc = '$cp10', status = 'Pendente', data_recor = curDate(), arquivo = '$imagem'");
 }
 
 $pdo->query("DELETE from $pagina where id = '$id'");
