@@ -22,23 +22,25 @@ if (@count($res) > 0) {
 <tbody>
 HTML;
 
-	for ($i = 0; $i < @count($res); $i++) {
-		foreach ($res[$i] as $key => $value) {
-		}
-		$valor = $res[$i]['valor'];
-		$vencimento = $res[$i]['vencimento'];
-		$vencimento = implode('/', array_reverse(explode('-', $vencimento)));
-		$valor = number_format($valor, 2, ',', '.');
+for($i=0; $i < @count($res); $i++){
+	foreach ($res[$i] as $key => $value){} 
+	$valor = $res[$i]['valor'];
+	$vencimento = $res[$i]['vencimento'];
+	$id = $res[$i]['id'];
+	//$vencimento = implode('/', array_reverse(explode('-', $vencimento)));
+	//$valor = number_format($valor, 2, ',', '.');
 
-		echo <<<HTML
+echo <<<HTML
 	<tr><td>{$res[$i]['descricao']}</td>	
-	<td>R$ {$valor}</td>	
-	<td>{$vencimento}</td>	
+	<td><input class="form-control form-control-sm" type="text" name="valor" id="valor-da-parc{$i}" onkeyup="alterarParcela({$id}, {$i})" value="{$valor}" style="width:120px"></td>	
+	<td><input class="form-control form-control-sm" type="date" name="data" id="data-da-parc{$i}" onchange="alterarParcela({$id}, {$i})" value="{$vencimento}" style="width:200px"></td>	
 	</tr>
 HTML;
-	}
-	echo <<<HTML
+} 
+echo <<<HTML
 </tbody>
 </table>
 HTML;
 }
+
+?>

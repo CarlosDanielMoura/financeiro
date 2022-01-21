@@ -7,7 +7,7 @@ echo <<<HTML
 <thead>
 <tr>
 <th style="">Código</th>
-<th style="width:35%">Nome</th>
+<th style="width:25%">Nome</th>
 <th style="text-align:center; width:20%">Valor</th>
 <th style="text-align:center">Estoque</th>
 <th style="text-align:center">Imagem</th>
@@ -46,8 +46,8 @@ for ($i = 0; $i < @count($res); $i++) {
 
     echo <<<HTML
 	<tr>
-    <td style="width:40%">{$codigo}</td>
-	<td style="width:40%; text-align:center">{$res[$i]['nome']}</td>
+    <td style="width:10%">{$codigo}</td>
+	<td style="width:25%; text-align:center">{$res[$i]['nome']}</td>
 	<td style="text-align:center; width:20%">R$ {$cp5}</td>
 	<td style="text-align:center">{$res[$i]['estoque']}</td>
 	<td style="text-align:center"><img src="../img/produtos/{$res[$i]['foto']}" width="25"></td>
@@ -67,44 +67,44 @@ HTML;
 ?>
 
 <script>
-    $(document).ready(function() {
-        $('#exampleProd').DataTable({
-            "ordering": false,
-            "lengthMenu": [
-                [5, 8, 10, -1],
-                [5, 8, 10, "Todos"]
-            ]
-        });
-        $('#exampleProd_filter label input').focus();
+$(document).ready(function() {
+    $('#exampleProd').DataTable({
+        "ordering": false,
+        "lengthMenu": [
+            [5, 8, 10, -1],
+            [5, 8, 10, "Todos"]
+        ]
+    });
+    $('#exampleProd_filter label input').focus();
+
+});
+
+
+function addProduto(id) {
+    var quant = $('#qtd-' + id).val();
+    event.preventDefault();
+    $.ajax({
+        url: "vendas/inserir-item.php",
+        method: 'POST',
+        data: {
+            id,
+            quant
+        },
+        dataType: "text",
+
+        success: function(mensagem) {
+            $('#mensagem-itens').text('');
+            $('#mensagem-itens').removeClass()
+            if (mensagem.trim() == "Inserido com Sucesso!") {
+
+                listarItens();
+                listarProdutos();
+            } else {
+                $('#mensagem-itens').addClass('text-danger')
+                $('#mensagem-itens').text(mensagem)
+            }
+        },
 
     });
-
-
-    function addProduto(id) {
-        var quant = $('#qtd-' + id).val();
-        event.preventDefault();
-        $.ajax({
-            url: "vendas/inserir-item.php",
-            method: 'POST',
-            data: {
-                id,
-                quant
-            },
-            dataType: "text",
-
-            success: function(mensagem) {
-                $('#mensagem-itens').text('');
-                $('#mensagem-itens').removeClass()
-                if (mensagem.trim() == "Inserido com Sucesso!") {
-
-                    listarItens();
-                    listarProdutos();
-                } else {
-                    $('#mensagem-itens').addClass('text-danger')
-                    $('#mensagem-itens').text(mensagem)
-                }
-            },
-
-        });
-    }
+}
 </script>

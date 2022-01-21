@@ -64,43 +64,43 @@ HTML;
 ?>
 
 <script>
-    $(document).ready(function() {
-        $('#exampleProd').DataTable({
-            "ordering": false,
-            "lengthMenu": [
-                [5, 8, 10, -1],
-                [5, 8, 10, "Todos"]
-            ]
-        });
-        $('#exampleProd_filter label input').focus();
+$(document).ready(function() {
+    $('#exampleProd').DataTable({
+        "ordering": false,
+        "lengthMenu": [
+            [5, 8, 10, -1],
+            [5, 8, 10, "Todos"]
+        ]
     });
+    $('#exampleProd_filter label input').focus();
+});
 
 
-    function addProduto(id) {
-        var quant = $('#qtd-' + id).val();
-        event.preventDefault();
-        $.ajax({
-            url: "compras/inserir-item.php",
-            method: 'POST',
-            data: {
-                id,
-                quant
-            },
-            dataType: "text",
+function addProduto(id) {
+    var quant = $('#qtd-' + id).val();
+    event.preventDefault();
+    $.ajax({
+        url: "compras/inserir-item.php",
+        method: 'POST',
+        data: {
+            id,
+            quant
+        },
+        dataType: "text",
 
-            success: function(mensagem) {
-                $('#mensagem-itens').text('');
-                $('#mensagem-itens').removeClass()
-                if (mensagem.trim() == "Inserido com Sucesso!") {
+        success: function(mensagem) {
+            $('#mensagem-itens').text('');
+            $('#mensagem-itens').removeClass()
+            if (mensagem.trim() == "Inserido com Sucesso!") {
 
-                    listarItens();
-                    listarProdutos();
-                } else {
-                    $('#mensagem-itens').addClass('text-danger')
-                    $('#mensagem-itens').text(mensagem)
-                }
-            },
+                listarItens();
+                listarProdutos();
+            } else {
+                $('#mensagem-itens').addClass('text-danger')
+                $('#mensagem-itens').text(mensagem)
+            }
+        },
 
-        });
-    }
+    });
+}
 </script>

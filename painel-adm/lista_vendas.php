@@ -49,7 +49,8 @@ require_once($pagina . "/campos.php");
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-excluir">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        id="btn-fechar-excluir">Fechar</button>
                     <button type="submit" class="btn btn-danger">Cancelar</button>
                 </div>
             </form>
@@ -73,16 +74,44 @@ require_once($pagina . "/campos.php");
 
             <div class="modal-body">
                 <small>
-                    <span class="mx-4"><b>Cliente:</b> <span id="campo12"></span></span>
-                    <hr style="margin:6px;">
-                    <span class="mx-5"><b>Venda:</b> <span id="id"></span></span>
-                    <span class="mx-5"><b>Data:</b> <span id="campo5"></span></span>
-                    <span class="mx-4"><b>Usuário:</b> <span id="campo2"></span></span></span>
-                    <span class="mx-4"><b>Status:</b> <span id="campo11"></span></span>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span class="mx-4"><b>Cliente:</b> <span id="campo12"></span></span>
+                        </div>
 
-                    <hr style="margin-top:5px;">
+                        <div class="col-md-4">
+                            <!--Venda-->
+                            <span class="mx-5"><b>Venda:</b> <span id="id"></span></span>
+                        </div>
 
 
+                    </div>
+                    <hr class="mb-3">
+                </small>
+
+
+                <small>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!--Usuário-->
+                            <span class="mx-4"><b>Usuário:</b> <span id="campo2"></span></span></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <!--Status-->
+                            <span class="mx-4"><b>Status:</b> <span id="campo11"></span></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <!--Data-->
+                            <span class="mx-5"><b>Data:</b> <span id="campo5"></span></span>
+                        </div>
+                    </div>
+                    <hr class="mb-3">
+                </small>
+
+
+                <small>
                     <div class="row">
                         <div class="col-md-12">
                             <small>
@@ -142,6 +171,6 @@ require_once($pagina . "/campos.php");
 
 
 <script type="text/javascript">
-    var pag = "<?= $pagina ?>"
+var pag = "<?= $pagina ?>"
 </script>
 <script src="../js/ajax.js"></script>

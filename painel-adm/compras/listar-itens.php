@@ -1,7 +1,7 @@
 <?php
 require_once("../../conexao.php");
 $pagina = 'produtos';
-
+$data_atual = date('Y-m-d');
 @session_start();
 $id_usuario = $_SESSION['id_usuario'];
 
@@ -55,7 +55,7 @@ echo '<div class="row"><div class="col-md-6"><h2>R$ <span id="sub_total">' . @$t
 
 echo '<div class="col-md-6" align="right"> </a>';
 
-echo '<a style="text-decoration:none" class="text-danger ml-2" href="#" onclick="ModalFecharVenda()" title="Fechar Compra"><i class="bi bi-cash"></i> <small>Fechar Compra R$</small> </a></div>';
+echo '<a style="text-decoration:none" class="text-danger ml-2" href="#" onclick="ModalFecharVenda()" title=" (F4) Fechar Compra"><i class="bi bi-cash"></i> <small>(F4)Fechar Compra R$</small> </a></div>';
 echo '<small><div id="mensagem-fec"></div></small>';
 
 
@@ -64,24 +64,22 @@ echo '<small><div id="mensagem-fec"></div></small>';
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#total-da-venda').text('R$ <?= $total_vendaF ?>');
-        $('#subtotal').val('<?= $total_venda ?>');
-        $('#parcelas').val('1');
-        $('#desconto').val('');
-        $('#acrescimo').val('');
-    });
+$(document).ready(function() {
+    $('#total-da-venda').text('R$ <?= $total_vendaF ?>');
+    $('#subtotal').val('<?= $total_venda ?>');
+    $('#parcelas').val('1');
+    $('#data').val('<?=$data_atual?>');
 
 
-    function totalizarVenda() {
-        var valorTotal = '<?= $total_venda ?>';
-        saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
-        saldoTotal = saldoTotal.toFixed(2);
-
-        $('#subtotal').val(saldoTotal)
-
-        criarParcelas();
+});
 
 
-    }
+function totalizarVenda() {
+    var valorTotal = '<?= $total_venda ?>';
+    saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
+    saldoTotal = saldoTotal.toFixed(2);
+
+    $('#subtotal').val(saldoTotal)
+    criarParcelas();
+}
 </script>

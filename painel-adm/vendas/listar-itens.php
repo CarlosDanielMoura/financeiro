@@ -1,6 +1,7 @@
 <?php
 require_once("../../conexao.php");
 $pagina = 'produtos';
+$data_atual = date('Y-m-d');
 @session_start();
 $id_usuario = $_SESSION['id_usuario'];
 
@@ -65,37 +66,38 @@ echo '<small>
 ?>
 
 <script>
-    $(document).ready(function() {
-        $('#total-da-venda').text('<?= $total_vendaF ?>');
-        $('#subTotal').val('<?= $total_venda ?>');
-        $('#parcelas').val('1');
-        $('#desconto').val('');
-        $('#acrescimo').val('');
-    });
+$(document).ready(function() {
+    $('#total-da-venda').text('<?= $total_vendaF ?>');
+    $('#subTotal').val('<?= $total_venda ?>');
+    $('#parcelas').val('1');
+    $('#desconto').val('');
+    $('#acrescimo').val('');
+    $('#data').val('<?=$data_atual?>');
+});
 
-    function totalizarVenda() {
-        var valorTotal = '<?= $total_venda ?>';
-        var desconto = $('#desconto').val();
-        var acrescimo = $('#acrescimo').val();
+function totalizarVenda() {
+    var valorTotal = '<?= $total_venda ?>';
+    var desconto = $('#desconto').val();
+    var acrescimo = $('#acrescimo').val();
 
-        desconto = desconto.replace(",", ".");
-        acrescimo = acrescimo.replace(",", ".");
+    desconto = desconto.replace(",", ".");
+    acrescimo = acrescimo.replace(",", ".");
 
-        if (desconto == "") {
-            desconto = 0;
-        }
-
-        if (acrescimo == "") {
-            acrescimo = 0;
-        }
-
-        saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
-        saldoTotal = saldoTotal.toFixed(2);
-
-        $('#subTotal').val(saldoTotal);
-
-        criarParcelas();
-
-
+    if (desconto == "") {
+        desconto = 0;
     }
+
+    if (acrescimo == "") {
+        acrescimo = 0;
+    }
+
+    saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
+    saldoTotal = saldoTotal.toFixed(2);
+
+    $('#subTotal').val(saldoTotal);
+
+    criarParcelas();
+
+
+}
 </script>
