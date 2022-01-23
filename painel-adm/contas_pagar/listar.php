@@ -299,8 +299,6 @@ HTML;
         $('#campo11').text(cp11);
         $('#campo13').text(cp13);
         $('#campo18').text(cp18);
-
-
         var myModal = new bootstrap.Modal(document.getElementById('modalDadosContaPagar'), {});
         myModal.show();
 

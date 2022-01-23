@@ -285,7 +285,8 @@ if ($data_inicial == $data_final) {
 
                     <?php
 
-                    $query = $pdo->query("SELECT * from vendas where (data_pgto >= '$data_inicial' and data_pgto <= '$data_final') and status = 'Concluída' order by data_pgto asc, id asc ");
+                    $query = $pdo->query("SELECT * from vendas where (data_pgto >= '$data_inicial'
+                     and data_pgto <= '$data_final') order by data_pgto asc, id asc ");
                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
                     $totalItens = @count($res);
 

@@ -39,6 +39,13 @@ $query = $pdo->query("SELECT * from clientes where id = '$id_cliente' ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $nome_cliente = $res[0]['nome'];
 $telefone_cliente = $res[0]['telefone'];
+$email_cliente = $res[0]['email'];
+
+if($email_cliente != ''){
+    $email = $email_cliente;
+}else{
+     $email = 'Sem Email';
+}
 
 $total_saldo_geral = 0;
 $total_saldo_geralF = 0;
@@ -299,8 +306,20 @@ $status = '%'.$status.'%';
 
     <div class="mx-2" style="padding-top:15px ">
 
-        <div class="mb-2 mx-2 " align="right"><small><small><b>Cliente:</b> <?php echo $nome_cliente ?>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Telefone:</b> <?php echo $telefone_cliente ?></small></small>
+        <div class="mb-2 mx-2 " align="right">
+
+            <small>
+                <b>Cliente:</b> <?php echo $nome_cliente ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>Telefone:</b> <?php echo $telefone_cliente ?></small> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <?php 
+                    if($email != 'Sem Email'){
+                     echo '<b>Email: </b>'.$email. '</small>';
+                     }
+                ?>
+
+            <small>
+            </small>
+
         </div>
 
         <small><small><small>
@@ -321,9 +340,13 @@ $status = '%'.$status.'%';
 
                     <?php 
 		if($status == '%Debitos%'){
-		$query = $pdo->query("SELECT * from contas_receber where vencimento >= '$data_inicial' and vencimento < curDate() and status = 'Pendente' and cliente = '$id_cliente' order by vencimento asc, id asc ");
+		$query = $pdo->query("SELECT * from contas_receber where vencimento >= '$data_inicial' and
+         vencimento < curDate() and status = 'Pendente' and cliente = '$id_cliente' order by 
+         vencimento asc, id asc ");
 		}else{
-			$query = $pdo->query("SELECT * from contas_receber where (vencimento >= '$data_inicial' and vencimento <= '$data_final') and status LIKE '$status' and cliente = '$id_cliente' order by vencimento asc, id asc ");
+			$query = $pdo->query("SELECT * from contas_receber where (vencimento >= '$data_inicial'
+            and vencimento <= '$data_final') and status LIKE '$status' and cliente = '$id_cliente'
+            order by vencimento asc, id asc ");
 		}
 		
 		$res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -442,15 +465,6 @@ $status = '%'.$status.'%';
     </div>
 
     <br>
-
-
-    <div class="footer" align="center">
-        <span style="font-size:12px"><?php echo $rodape_relatorios ?></span>
-    </div>
-
-
-
-
 </body>
 
 </html>

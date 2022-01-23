@@ -15,8 +15,12 @@ $cp11 = @$_POST[$campo11];
 $alterar = @$_POST['alterar'];
 $total_compra = $cp5 * $quantidade;
 
+if($cp11 == ''){
+    $cp11 = 0;
+}
 
 $total_estoque = 0;
+
 //BUSCAR PARA TOTALIZAR PRODUTOS
 $query_con = $pdo->query("SELECT * FROM $pagina   WHERE id = '$id'");
 $res_con = $query_con->fetchAll(PDO::FETCH_ASSOC);
@@ -58,9 +62,7 @@ plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimen
 valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
 status = 'Pendente', arquivo = 'sem-foto.jpg'");
 
-
 $query->bindValue(":valor_compra", "$total_compra");
 $query->execute();
-
 
 echo 'Comprado com Sucesso!';

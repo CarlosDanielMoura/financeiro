@@ -6,6 +6,7 @@ require_once("conexao.php");
 $consulta = $pdo->query("SELECT * from usuarios where nivel = 'Administrador' ");
 $res = $consulta->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
 $total_reg = @count($res);
+
 // CRIANDO CONTA !
 if ($total_reg == 0) {
     $pdo->query("INSERT INTO usuarios SET nome = '$nome_adm', email = '$email_adm', 
@@ -38,9 +39,15 @@ if ($total_reg3 == 0) {
 
 
 // CRIAR UM FORNECEDOR PARA O SISTEMA
-$consulta4 = $pdo->query("SELECT * from fornecedores where id = 1 ");
-$res4 = $consulta4->fetchAll(PDO::FETCH_ASSOC); // verificando se tem usuario adm
-$total_reg4 = @count($res4);
+//CRIAR UM FORNECEDOR DIVERSOS DE ID 1
+$query = $pdo->query("SELECT * from fornecedores where id = 1 ");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_reg_cli = @count($res);
+
+if($total_reg_cli == 0){
+  $pdo->query("INSERT INTO fornecedores SET id = 1, nome = 'Diversos', email = 'fornecedor@fornecedor.com', pessoa = 'Física', doc = '000.000.000-60', ativo = 'Sim', data = curDate() ");  
+}
+
 
 
 //ROTINA PARA GERAR AS COBRANÇAS POR EMAIL

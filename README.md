@@ -9,6 +9,6 @@
 
 - Rever com cliente se quando realizo a compra de produtos ele deve multiplicar ou seria o valor pago nos 3.
 
-- Alterar parcelas do input está com problema! 36
+- Alterar parcelas do input está com problema! 
 
-- Modal relatorios
+- Verificar se tem criação de banco ao cadastrar cliente!

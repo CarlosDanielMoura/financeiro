@@ -7,7 +7,7 @@ require_once("campos.php");
 $cp1 = $_POST[$campo1];
 $cp2 = $_POST[$campo2];
 $cp3 = $_POST[$campo3];
-$cp4 = "";
+$cp4 = @$_POST[$campo4];
 $cp5 = $_POST[$campo5];
 $cp5 = str_replace(',', '.', $cp5);
 $cp6 = $_POST[$campo6];
@@ -16,6 +16,10 @@ $cp7 = "";
 $cp8 = $_POST[$campo8];
 
 $cp10 = $_POST[$campo10];
+
+if($cp4 ==''){
+    $cp4 = 0;
+}
 
 $id = @$_POST['id'];
 
