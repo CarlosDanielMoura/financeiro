@@ -688,7 +688,6 @@ if ($frequencia_automatica != 'Não') {
 <script>
    //FUNÇÃO AOS DOCUMENTOS A SEREM CARREGADOS
    $(document).ready(function() {
-      listarClientes();
 
       $('.sel2').select2({
          placeholder: 'Sistema',

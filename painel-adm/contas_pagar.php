@@ -526,8 +526,6 @@ if ($frequencia_automatica != 'Não') {
                   </div>
                   <hr class="mt-2">
                </div>
-
-
          </div>
       </div>
    </div>
@@ -754,7 +752,6 @@ if ($frequencia_automatica != 'Não') {
 
       var cat = $('#cat_despesas').val();
       listarDespesas(cat);
-      listarClientes();
       $('#cat_despesas').change(function() {
          var cat = $(this).val();
          listarDespesas(cat);

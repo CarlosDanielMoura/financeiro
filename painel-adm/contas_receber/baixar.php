@@ -37,6 +37,7 @@ $cp8 = $res[0]['frequencia'];
 $cp9 = $res[0]['valor'];
 $data_rec = $res[0]['data_recor'];
 $id_venda = $res[0]['id_venda'];
+$arquivo = $res[0]['arquivo'];
 
 $query2 = $pdo->query("SELECT * FROM clientes WHERE id = '$cp2'");
 $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -71,7 +72,7 @@ if ($valor == $cp9) {
 
     $pdo->query("UPDATE $pagina set entrada = '$saida', usuario_baixa = '$id_usuario', 
     status = 'Paga', juros = '$valor_juros', multa = '$valor_multa', desconto = '$valor_desconto', 
-    subtotal = '$subtotal', data_baixa = curDate() where id = '$id'");
+    subtotal = '$subtotal', data_baixa = curDate() , arquivo = '$arquivo' where id = '$id'");
 
 
     //CRIAR A PRÓXIMA CONTA A PAGAR
@@ -103,7 +104,10 @@ if ($valor == $cp9) {
 
 
     if (@$dias_frequencia > 0) {
-        $pdo->query("INSERT INTO $pagina set descricao = '$cp1', cliente = '$cp2', entrada = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(), vencimento = '$nova_data_vencimento', frequencia = '$cp8', valor = '$cp9', usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = '$data_recor'");
+        $pdo->query("INSERT INTO $pagina set descricao = '$cp1', cliente = '$cp2', 
+        entrada = '$cp3', documento = '$cp4', plano_conta = '$cp5', data_emissao = curDate(),
+         vencimento = '$nova_data_vencimento', frequencia = '$cp8', valor = '$cp9', 
+         usuario_lanc = '$id_usuario', status = 'Pendente', data_recor = '$data_recor'");
         $id_ult_registro = $pdo->lastInsertId();
 
         $pdo->query("UPDATE $pagina set data_recor = '' where id='$id'");

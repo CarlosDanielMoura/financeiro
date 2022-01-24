@@ -28,10 +28,14 @@
 div .bi-search {
   margin-left: 5px;
 }
+.bi-search{
+  margin-right: 5px;
+  
+}
 
 #data-inicial,
 #data-final {
   height: 30px;
-  width: 141px;
+  width: 150px;
   margin-top: 10px;
 }
