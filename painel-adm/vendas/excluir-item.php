@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once("../../conexao.php");
 @session_start();
 $id_usuario = $_SESSION['id_usuario'];
@@ -22,3 +22,5 @@ $query = $pdo->query("UPDATE produtos set estoque = '$novo_estoque' where id = '
 $query = $pdo->query("DELETE from itens_venda where id = '$id'");
 
 echo 'Excluído com Sucesso!';
+
+ ?>

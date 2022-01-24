@@ -72,7 +72,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         </div>
     </div>
 </div>
-</div>
+
 
 
 
@@ -110,7 +110,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                         <div class="col-md-3">
                             <label for="exampleFormControlInput1" class="form-label">SubTotal:</label>
-                            <input type="text" class="form-control" name="subTotal" id="subTotal" placeholder="SubTotal"
+                            <input type="text" class="form-control" name="subtotal" id="subtotal" placeholder="SubTotal"
                                 readonly>
                         </div>
 
@@ -198,7 +198,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     </small>
 
                     <small>
-                        <div id="listar-parcelas">
+                        <div id="listar-parc">
                         </div>
                     </small>
 
@@ -320,7 +320,7 @@ function ModalFecharVenda() {
 //FUNÇÃO DE CRIAR PARCELAS
 function criarParcelas() {
 
-    valor = $('#subTotal').val();
+    valor = $('#subtotal').val();
     parcelas = $('#parcelas').val();
     data = $('#data').val();
 
@@ -344,24 +344,19 @@ function criarParcelas() {
     });
 }
 
-function alterarParcela(id, cont) {
-    valor = $('#valor-da-parc' + cont).val();
-    data = $('#data-da-parc' + cont).val();
-
-    $.ajax({
+	function alterarParcela(id, cont){
+	valor = $('#valor-da-parc'+cont).val();
+	data = $('#data-da-parc'+cont).val();	
+	 $.ajax({
         url: pag + "/alterar-parcela.php",
         method: 'POST',
-        data: {
-            id,
-            valor,
-            data
-        },
+        data: {id, valor, data},
         dataType: "text",
 
-        success: function(mensagem) {
-            if (mensagem.trim() == "Inserido com Sucesso") {
-
-            }
+        success: function (mensagem) {
+            if (mensagem.trim() == "Inserido com Sucesso!") {
+                
+            }               
         },
 
     });
@@ -391,7 +386,7 @@ function listarParcelas() {
         dataType: "html",
 
         success: function(result) {
-            $("#listar-parcelas").html(result);
+            $("#listar-parc").html(result);
         }
     });
 }
