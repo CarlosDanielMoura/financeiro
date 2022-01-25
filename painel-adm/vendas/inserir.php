@@ -43,7 +43,8 @@ if(@count($res) > 0){
 
 $total_venda = 0;
 $total_custo = 0;
-$query_con = $pdo->query("SELECT * FROM itens_venda WHERE id_venda = 0 and usuario = '$id_usuario' order by id desc");
+$query_con = $pdo->query("SELECT * FROM itens_venda WHERE id_venda = 0 and
+ usuario = '$id_usuario' order by id desc");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
 if($total_reg > 0){ 

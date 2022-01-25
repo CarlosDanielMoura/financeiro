@@ -49,8 +49,7 @@ require_once($pagina . "/campos.php");
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        id="btn-fechar-excluir">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-excluir">Fechar</button>
                     <button type="submit" class="btn btn-danger">Cancelar</button>
                 </div>
             </form>
@@ -64,7 +63,7 @@ require_once($pagina . "/campos.php");
 
 <!-- Modal -->
 <div class="modal fade" id="modalDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
 
         <div class="modal-content">
             <div class="modal-header">
@@ -73,96 +72,125 @@ require_once($pagina . "/campos.php");
             </div>
 
             <div class="modal-body">
-                <small>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <span class="mx-4"><b>Cliente:</b> <span id="campo12"></span></span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <!--Venda-->
-                            <span class="mx-5"><b>Venda:</b> <span id="id"></span></span>
-                        </div>
-
-
+                <!--LINHA 1-->
+                <div class="row">
+                    <!--Cliente-->
+                    <div class="col-md-4">
+                        <span class="mx-4"><b>Cliente:</b> <span id="campo12"></span></span>
                     </div>
-                    <hr class="mb-3">
+
+                    <div class="col-md-4">
+                        <!--Vencimento-->
+                        <span class="mx-4"><b>Vencimento:</b> <span id="campo6"></span></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!--Venda-->
+                        <span class="mx-5"><b>Venda:</b> <span id="id"></span></span>
+                    </div>
+
+                </div>
+                <hr class="mb-3">
+
+
+
+                <!--LINHA 2-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <!--Usuário-->
+                        <span class="mx-4"><b>Usuário:</b> <span id="campo2"></span></span></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!--Status-->
+                        <span class="mx-4"><b>Status:</b> <span id="campo11"></span></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!--Data-->
+                        <span class="mx-5"><b>Data:</b> <span id="campo5"></span></span>
+                    </div>
+                </div>
+
+                <hr class="mb-3">
+                <!--LINHA 3-->
+                <div class="row mt-4 mb-3">
+                    <div class="col-md-12">
+                        <h5>
+                            <h5>PRODUTOS VENDIDOS:</h5>
+                        </h5>
+                    </div>
+                </div>
+
+                <!--LINHA 4-->
+                <small>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div id="listar-produtos"></div>
+                        </div>
+                    </div>
                 </small>
 
 
+
+                <!--LINHA 5-->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h5>
+                            <h5>INFORMAÇÕES FINANCEIRAS:</h5>
+                        </h5>
+                    </div>
+                </div>
+                <!--LINHA 6-->
                 <small>
                     <div class="row">
-                        <div class="col-md-4">
-                            <!--Usuário-->
-                            <span class="mx-4"><b>Usuário:</b> <span id="campo2"></span></span></span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <!--Status-->
-                            <span class="mx-4"><b>Status:</b> <span id="campo11"></span></span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <!--Data-->
-                            <span class="mx-5"><b>Data:</b> <span id="campo5"></span></span>
+                        <div class="col-md-12">
+                            <div id="listar-parcelas"></div>
                         </div>
                     </div>
-                    <hr class="mb-3">
                 </small>
 
 
-                <small>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <small>
-                                <h5>
-                                    PRODUTOS VENDIDOS:
-                                </h5>
-                            </small>
-                        </div>
-                    </div>
 
-
-                    <small>
-                        <div id="listar-produtos"></div>
-                    </small>
-
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <small>
-                                <h5>
-                                    <h5>INFORMAÇÕES FINANCEIRAS:</h5>
-                                </h5>
-                            </small>
-                        </div>
-                    </div>
-                    <small>
-                        <div id="listar-parcelas"></div>
-                    </small>
-
-                    <hr style="margin:6px;">
-
-                    <small>
+                <!--LINHA 7-->
+                <div class="row">
+                    <!--Lançamento-->
+                    <div class="col-md-4">
                         <span class="mx-5"><b>Lançamento:</b> <span id="campo4"></span></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!--Pagamento-->
                         <span class="mx-4"><b>Pagamento:</b> <span id="campo3"></span>
-                            <span class="mx-4"><b>Parcelas:</b> <span id="campo10"></span></span>
-                            <span class="mx-4"><b>Vencimento:</b> <span id="campo6"></span></span>
-                    </small>
+                    </div>
 
+                    <div class="col-md-4">
+                        <!--Parcelas-->
+                        <span class="mx-4"><b>Parcelas:</b> <span id="campo10"></span></span>
+                    </div>
 
-                    <hr style="margin:6px;">
-
-                    <span class="mx-5"><b>Valor:</b> R$ <span id="campo1"></span></span>
-                    <span class="mx-4"><b>Desconto:</b> R$ <span id="campo7"></span></span>
-                    <span class="mx-4"><b>Acréscimo:</b> R$ <span id="campo8"></span></span>
-                    <span class="mx-4"><b>SubTotal:</b> R$ <span id="subtot"></span></span>
+                </div>
 
 
 
-                </small>
+                <hr style="margin:10px;">
+                <!--LINHA 8-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <!--Valor-->
+                        <span class="mx-5"><b>Valor:</b> R$ <span id="campo1"></span></span>
+                    </div>
 
+                    <div class="col-md-4">
+                        <!--Desconto-->
+                        <span class="mx-4"><b>Desconto:</b> R$ <span id="campo7"></span></span>
+                    </div>
 
+                    <div class="col-md-4">
+                        <!--Acréscimo-->
+                        <span class="mx-4"><b>Acréscimo:</b> R$ <span id="campo8"></span></span>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -171,6 +199,6 @@ require_once($pagina . "/campos.php");
 
 
 <script type="text/javascript">
-var pag = "<?= $pagina ?>"
+    var pag = "<?= $pagina ?>"
 </script>
 <script src="../js/ajax.js"></script>

@@ -16,23 +16,17 @@ if($data == ''){
 }
 
 
+
 if($parcelas > 1){
 	$novo_valor = $valor / $parcelas;
 
-	
-
 	for($i=1; $i <= $parcelas; $i++){
 
+		$resto_conta = $valor - $novo_valor * $parcelas;
+		if($i == $parcelas){
+			$novo_valor = $novo_valor + $resto_conta;
+		}
 		
-		// $novo_valor = number_format($novo_valor, 2);
-		// $resto_conta = $valor - $novo_valor * $parcelas;
-		// $resto_conta = number_format($resto_conta, 2);
-		
-		// if($i == $parcelas){
-		// 	$novo_valor = $novo_valor + $resto_conta;
-		// }
-	
-	
 		$query = $pdo->prepare("INSERT INTO contas_receber set 
 		descricao = :descricao, data_emissao = curDate(), vencimento = :data, 
 		frequencia = 'Uma Vez',  valor = :valor, usuario_lanc = '$id_usuario', 
