@@ -321,6 +321,7 @@ function ModalFecharVenda() {
 function criarParcelas() {
 
     valor = $('#subtotal').val();
+    console.log(valor);
     parcelas = $('#parcelas').val();
     data = $('#data').val();
 
