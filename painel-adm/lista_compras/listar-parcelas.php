@@ -9,7 +9,7 @@ $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
 if (@count($res) > 0) {
 	echo <<<HTML
-<table id="example" class="table table-striped table-light table-hover my-4">
+<table id="example" class="table table-info table-hover my-4">
 <thead>
 <tr>
 <th>Descrição</th>

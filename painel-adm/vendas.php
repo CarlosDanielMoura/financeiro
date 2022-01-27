@@ -35,8 +35,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     <div class="row mt-3 d-flex justify-content-center">
                         <div class="col-md-5 col-sm-12">
                             <div class="mb-3">
-                                <select class="form-select sel2" aria-label="Default select example" name="id-cliente"
-                                    id="id-cliente" style="width:100%;" onchange="selecionarCliente()">
+                                <select class="form-select sel2" aria-label="Default select example" name="id-cliente" id="id-cliente" style="width:100%;" onchange="selecionarCliente()">
                                     <option value="">Venda Rápida</option>
                                     <?php
                                     $query = $pdo->query("SELECT * FROM clientes where ativo = 'Sim' order by nome asc");
@@ -47,7 +46,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                                         $id_item = $res[$i]['id'];
                                         $nome_item = $res[$i]['nome'];
                                     ?>
-                                    <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
+                                        <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
 
                                     <?php } ?>
 
@@ -95,52 +94,49 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             <form id="form-venda" method="post">
                 <div class="modal-body">
 
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class="row d-flex justify-content-evenly">
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">Acréscimo:</label>
+                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="acrescimo" id="acrescimo" placeholder="Acréscimo">
+                        </div>
+                        <div class="col-md-3">
                             <label for="exampleFormControlInput1" class="form-label">Desconto:</label>
-                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="desconto"
-                                id="desconto" placeholder="Desconto">
+                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="desconto" id="desconto" placeholder="Desconto">
                         </div>
 
-                        <div class="col-md-2">
-                            <label for="exampleFormControlInput1" class="form-label">Acréscimo:</label>
-                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="acrescimo"
-                                id="acrescimo" placeholder="Acréscimo">
+
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">Valor em %:</label>
+                            <input type="text" class="form-control" name="subtotal" id="subtotal" placeholder="SubTotal" readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="row d-flex justify-content-evenly">
+                        <div class="col-md-3">
+                            <label for="exampleFormControlInput1" class="form-label">SubTotal:</label>
+                            <input type="text" class="form-control" name="subtotal" id="subtotal" placeholder="SubTotal" readonly>
                         </div>
 
                         <div class="col-md-3">
-                            <label for="exampleFormControlInput1" class="form-label">SubTotal:</label>
-                            <input type="text" class="form-control" name="subtotal" id="subtotal" placeholder="SubTotal"
-                                readonly>
-                        </div>
-
-                        <div class="col-md-2">
                             <label for="exampleFormControlInput1" class="form-label">Parcelas:</label>
-                            <input type="number" class="form-control" onkeyup="criarParcelas()"
-                                onchange="criarParcelas()" name="parcelas" id="parcelas" value="1">
+                            <input type="number" class="form-control" onkeyup="criarParcelas()" onchange="criarParcelas()" name="parcelas" id="parcelas" value="1">
                         </div>
 
                         <div class="col-md-3">
                             <label for="exampleFormControlInput1" class="form-label">Total Recebido:</label>
-                            <input type="text" class="form-control" name="recebido" id="recebido"
-                                placeholder="Total Recebido">
+                            <input type="text" class="form-control" name="recebido" id="recebido" placeholder="Total Recebido">
                         </div>
-
                     </div>
 
                     <div class="row mt-4">
                         <div class="col-md-4">
                             <div class="mb-3"><small>
-                                    <label for="exampleFormControlInput1" class="form-label">Data (<a
-                                            title="Lançar Venda para 30 Dias" href="#"
-                                            onclick="mudarData('<?php echo $data30 ?>')" class="text-dark">30 Dias</a> /
-                                        <a title="Lançar Venda para 60 Dias" href="#"
-                                            onclick="mudarData('<?php echo $data60 ?>')" class="text-dark">60 Dias</a> /
-                                        <a title="Lançar Venda para 90 Dias" href="#"
-                                            onclick="mudarData('<?php echo $data90 ?>')" class="text-dark">90 Dias</a>)
+                                    <label for="exampleFormControlInput1" class="form-label">Data (<a title="Lançar Venda para 30 Dias" href="#" onclick="mudarData('<?php echo $data30 ?>')" class="text-dark">30 Dias</a> /
+                                        <a title="Lançar Venda para 60 Dias" href="#" onclick="mudarData('<?php echo $data60 ?>')" class="text-dark">60 Dias</a> /
+                                        <a title="Lançar Venda para 90 Dias" href="#" onclick="mudarData('<?php echo $data90 ?>')" class="text-dark">90 Dias</a>)
                                     </label>
-                                    <input type="date" class="form-control" name="data" id="data"
-                                        value="<?php echo date('Y-m-d') ?>" required>
+                                    <input type="date" class="form-control" name="data" id="data" value="<?php echo date('Y-m-d') ?>" required>
                                 </small>
                             </div>
                         </div>
@@ -149,8 +145,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         <div class="col-md-4 col-sm-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tipo Entrada:</label>
-                                <select class="form-select" aria-label="Default select example" name="lancamento"
-                                    id="lancamento">
+                                <select class="form-select" aria-label="Default select example" name="lancamento" id="lancamento">
                                     <option value="Caixa">Caixa (Movimento)</option>
                                     <option value="Cartão de Débito">Cartão de Débito</option>
                                     <option value="Cartão de Crédito">Cartão de Crédito</option>
@@ -164,7 +159,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                                         $id_item = $res[$i]['id'];
                                         $nome_item = $res[$i]['nome'];
                                     ?>
-                                    <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
 
                                     <?php } ?>
 
@@ -176,8 +171,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         <div class="col-md-4 col-sm-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Pagamento:</label>
-                                <select class="form-select" aria-label="Default select example" name="pagamento"
-                                    id="pagamento">
+                                <select class="form-select" aria-label="Default select example" name="pagamento" id="pagamento">
                                     <option value="Dinheiro">Dinheiro</option>
                                     <option value="Boleto">Boleto</option>
                                     <option value="Cheque">Cheque</option>
@@ -207,8 +201,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        id="btn-fechar-venda">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-venda">Fechar</button>
                     <button type="submit" class="btn btn-primary">Finalizar</button>
                 </div>
             </form>
@@ -219,227 +212,231 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
 
 <script type="text/javascript">
-var pag = "<?= $pagina ?>"
+    var pag = "<?= $pagina ?>"
 </script>
 <script src="../js/ajax.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('.sel2').select2({
-        placeholder: 'Selecione um Cliente',
-        theme: 'classic'
-        //dropdownParent: $('#modalForm')
-    });
-    var cat = $('#cat_despesas').val();
-    listarProdutos();
-    listarItens();
-    limparCampos();
+    $(document).ready(function() {
+        $('.sel2').select2({
+            placeholder: 'Selecione um Cliente',
+            theme: 'classic'
+            //dropdownParent: $('#modalForm')
+        });
+        var cat = $('#cat_despesas').val();
+        listarProdutos();
+        listarItens();
+        limparCampos();
 
-
-});
-
-//Selecionar o cliente para jogar o ID no input para verificar
-function selecionarCliente() {
-    $('#id-cli').val($('#id-cliente').val());
-
-}
-
-
-function listarProdutos() {
-
-    var pag = "<?= $pagina ?>";
-    $.ajax({
-        url: pag + "/listar-produtos.php",
-        method: 'POST',
-        data: $('#form').serialize(),
-        dataType: "html",
-
-        success: function(result) {
-            $("#listar-produtos").html(result);
-        }
-    });
-}
-
-function listarItens() {
-    var pag = "<?= $pagina ?>";
-    $.ajax({
-        url: pag + "/listar-itens.php",
-        method: 'POST',
-        data: $('#form').serialize(),
-        dataType: "html",
-
-        success: function(result) {
-            $("#listar-itens").html(result);
-        }
-    });
-}
-
-function excluirItem(id) {
-
-    event.preventDefault();
-    $.ajax({
-        url: "vendas/excluir-item.php",
-        method: 'POST',
-        data: {
-            id
-        },
-        dataType: "text",
-
-        success: function(mensagem) {
-            $('#mensagem-itens').text('');
-            $('#mensagem-itens').removeClass()
-            if (mensagem.trim() == "Excluído com Sucesso!") {
-
-                listarItens();
-                listarProdutos();
-
-            } else {
-                $('#mensagem-itens').addClass('text-danger')
-                $('#mensagem-itens').text(mensagem)
-            }
-        },
-
-    });
-}
-
-
-function ModalFecharVenda() {
-    $('#mensagem-fec').text('');
-    $('#mensagem-fec').removeClass();
-
-    listarParcelas();
-    var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
-    myModal.show();
-
-}
-
-
-
-
-
-//FUNÇÃO DE CRIAR PARCELAS
-function criarParcelas() {
-
-    valor = $('#subtotal').val();
-    console.log(valor);
-    parcelas = $('#parcelas').val();
-    data = $('#data').val();
-
-    $.ajax({
-        url: pag + "/parcelas.php",
-        method: 'POST',
-        data: {
-            valor,
-            parcelas,
-            data
-        },
-        dataType: "text",
-
-        success: function(mensagem) {
-            if (mensagem.trim() == "Inserido com Sucesso!") {
-                listarParcelas();
-
-            }
-        },
-
-    });
-}
-
-	function alterarParcela(id, cont){
-	valor = $('#valor-da-parc'+cont).val();
-	data = $('#data-da-parc'+cont).val();	
-	 $.ajax({
-        url: pag + "/alterar-parcela.php",
-        method: 'POST',
-        data: {id, valor, data},
-        dataType: "text",
-
-        success: function (mensagem) {
-            if (mensagem.trim() == "Inserido com Sucesso!") {
-                
-            }               
-        },
-
-    });
-}
-
-
-function mudarData(data) {
-    $("#data").val(data);
-    criarParcelas();
-}
-
-function limparCampos() {
-    listarItens();
-    $('#id-cliente').val('').change();
-    $('#nome-cliente-label').text('Sistema');
-    $('#mensagem').text('');
-}
-
-
-function listarParcelas() {
-    $('#mensagem-prod').text('');
-    var pag = "<?= $pagina ?>";
-    $.ajax({
-        url: pag + "/listar-parcelas.php",
-        method: 'POST',
-        data: $('#form').serialize(),
-        dataType: "html",
-
-        success: function(result) {
-            $("#listar-parc").html(result);
-        }
-    });
-}
-
-
-
-
-
-
-$("#form-venda").submit(function() {
-    event.preventDefault();
-    var formData = new FormData(this);
-
-    $.ajax({
-        url: pag + "/inserir.php",
-        type: 'POST',
-        data: formData,
-
-        success: function(mensagem) {
-            $('#mensagem-prod').text('');
-            $('#mensagem-prod').removeClass()
-
-            var array = mensagem.split("-")
-            if (array[0] == "Salvo com Sucesso") {
-                //$('#nome').val('');
-                //$('#cpf').val('');
-                $('#btn-fechar-venda').click();
-                limparCampos();
-                let a = document.createElement('a');
-                a.target = '_blank';
-                a.href = '../relatorios/venda_class.php?id=' + array[1];
-                a.click();
-            } else {
-                $('#mensagem-prod').addClass('text-danger')
-                $('#mensagem-prod').text(mensagem)
-            }
-
-
-        },
-
-        cache: false,
-        contentType: false,
-        processData: false,
 
     });
 
-});
+    //Selecionar o cliente para jogar o ID no input para verificar
+    function selecionarCliente() {
+        $('#id-cli').val($('#id-cliente').val());
 
-
-$(document).keyup(function(e) {
-    if (e.which == 115) {
-        ModalFecharVenda();
     }
-});
+
+
+    function listarProdutos() {
+
+        var pag = "<?= $pagina ?>";
+        $.ajax({
+            url: pag + "/listar-produtos.php",
+            method: 'POST',
+            data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-produtos").html(result);
+            }
+        });
+    }
+
+    function listarItens() {
+        var pag = "<?= $pagina ?>";
+        $.ajax({
+            url: pag + "/listar-itens.php",
+            method: 'POST',
+            data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-itens").html(result);
+            }
+        });
+    }
+
+    function excluirItem(id) {
+
+        event.preventDefault();
+        $.ajax({
+            url: "vendas/excluir-item.php",
+            method: 'POST',
+            data: {
+                id
+            },
+            dataType: "text",
+
+            success: function(mensagem) {
+                $('#mensagem-itens').text('');
+                $('#mensagem-itens').removeClass()
+                if (mensagem.trim() == "Excluído com Sucesso!") {
+
+                    listarItens();
+                    listarProdutos();
+
+                } else {
+                    $('#mensagem-itens').addClass('text-danger')
+                    $('#mensagem-itens').text(mensagem)
+                }
+            },
+
+        });
+    }
+
+
+    function ModalFecharVenda() {
+        $('#mensagem-fec').text('');
+        $('#mensagem-fec').removeClass();
+
+        listarParcelas();
+        var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
+        myModal.show();
+
+    }
+
+
+
+
+
+    //FUNÇÃO DE CRIAR PARCELAS
+    function criarParcelas() {
+
+        valor = $('#subtotal').val();
+        console.log(valor);
+        parcelas = $('#parcelas').val();
+        data = $('#data').val();
+
+        $.ajax({
+            url: pag + "/parcelas.php",
+            method: 'POST',
+            data: {
+                valor,
+                parcelas,
+                data
+            },
+            dataType: "text",
+
+            success: function(mensagem) {
+                if (mensagem.trim() == "Inserido com Sucesso!") {
+                    listarParcelas();
+
+                }
+            },
+
+        });
+    }
+
+    function alterarParcela(id, cont) {
+        valor = $('#valor-da-parc' + cont).val();
+        data = $('#data-da-parc' + cont).val();
+        $.ajax({
+            url: pag + "/alterar-parcela.php",
+            method: 'POST',
+            data: {
+                id,
+                valor,
+                data
+            },
+            dataType: "text",
+
+            success: function(mensagem) {
+                if (mensagem.trim() == "Inserido com Sucesso!") {
+
+                }
+            },
+
+        });
+    }
+
+
+    function mudarData(data) {
+        $("#data").val(data);
+        criarParcelas();
+    }
+
+    function limparCampos() {
+        listarItens();
+        $('#id-cliente').val('').change();
+        $('#nome-cliente-label').text('Sistema');
+        $('#mensagem').text('');
+    }
+
+
+    function listarParcelas() {
+        $('#mensagem-prod').text('');
+        var pag = "<?= $pagina ?>";
+        $.ajax({
+            url: pag + "/listar-parcelas.php",
+            method: 'POST',
+            data: $('#form').serialize(),
+            dataType: "html",
+
+            success: function(result) {
+                $("#listar-parc").html(result);
+            }
+        });
+    }
+
+
+
+
+
+
+    $("#form-venda").submit(function() {
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: pag + "/inserir.php",
+            type: 'POST',
+            data: formData,
+
+            success: function(mensagem) {
+                $('#mensagem-prod').text('');
+                $('#mensagem-prod').removeClass()
+
+                var array = mensagem.split("-")
+                if (array[0] == "Salvo com Sucesso") {
+                    //$('#nome').val('');
+                    //$('#cpf').val('');
+                    $('#btn-fechar-venda').click();
+                    limparCampos();
+                    let a = document.createElement('a');
+                    a.target = '_blank';
+                    a.href = '../relatorios/venda_class.php?id=' + array[1];
+                    a.click();
+                } else {
+                    $('#mensagem-prod').addClass('text-danger')
+                    $('#mensagem-prod').text(mensagem)
+                }
+
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+
+        });
+
+    });
+
+
+    $(document).keyup(function(e) {
+        if (e.which == 115) {
+            ModalFecharVenda();
+        }
+    });
 </script>

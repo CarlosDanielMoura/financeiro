@@ -97,47 +97,64 @@ HTML;
 ?>
 
 <script>
-$(document).ready(function() {
-    $('#example').DataTable({
-        "ordering": false
-    });
+	$(document).ready(function() {
+		$('#example').DataTable({
+			"ordering": false
+		});
 
-});
-
-
-function mostrarDados(id, cp1, cp2, cp3, cp4, cp6, cp10, cp11, cp12) {
-
-    $('#campo1').text(cp1);
-    $('#campo2').text(cp2);
-    $('#campo3').text(cp3);
-    $('#campo4').text(cp4);
-
-    $('#campo6').text(cp6);
-    $('#campo10').text(cp10);
-    $('#campo11').text(cp11);
-    $('#campo12').text(cp12);
-    $('#subtot').text(cp1);
-
-    var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
-    myModal.show();
-
-    listarParcelas(id);
-
-}
+	});
 
 
-function listarParcelas(id) {
-    $.ajax({
-        url: pag + "/listar-parcelas.php",
-        method: 'POST',
-        data: {
-            id
-        },
-        dataType: "html",
+	function mostrarDados(id, cp1, cp2, cp3, cp4, cp6, cp10, cp11, cp12) {
 
-        success: function(result) {
-            $("#listar-parcelas").html(result);
-        }
-    });
-}
+		$('#campo1').text(cp1);
+		$('#campo2').text(cp2);
+		$('#campo3').text(cp3);
+		$('#campo4').text(cp4);
+
+		$('#campo6').text(cp6);
+		$('#campo10').text(cp10);
+		$('#campo11').text(cp11);
+		$('#campo12').text(cp12);
+		$('#subtot').text(cp1);
+
+		var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {});
+		myModal.show();
+
+		listarParcelas(id);
+		listarProduto(id)
+
+	}
+
+
+	function listarParcelas(id) {
+		$.ajax({
+			url: pag + "/listar-parcelas.php",
+			method: 'POST',
+			data: {
+				id
+			},
+			dataType: "html",
+
+			success: function(result) {
+				$("#listar-parc").html(result);
+			}
+		});
+	}
+
+
+	function listarProduto(id) {
+		$.ajax({
+			url: pag + "/listar-produto.php",
+			method: 'POST',
+			data: {
+				id
+			},
+			dataType: "html",
+
+			success: function(result) {
+				$("#listar-produto-compra").html(result);
+			}
+		});
+	}
 </script>
