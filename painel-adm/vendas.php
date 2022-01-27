@@ -100,14 +100,14 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                             <input type="text" onkeyup="totalizarVenda()" class="form-control" name="acrescimo" id="acrescimo" placeholder="Acréscimo">
                         </div>
                         <div class="col-md-3">
-                            <label for="exampleFormControlInput1" class="form-label">Desconto:</label>
+                            <label for="exampleFormControlInput1" class="form-label">Desconto em R$:</label>
                             <input type="text" onkeyup="totalizarVenda()" class="form-control" name="desconto" id="desconto" placeholder="Desconto">
                         </div>
 
 
                         <div class="col-md-3">
-                            <label for="exampleFormControlInput1" class="form-label">Valor em %:</label>
-                            <input type="text" class="form-control" name="subtotal" id="subtotal" placeholder="SubTotal" readonly>
+                            <label for="exampleFormControlInput1" class="form-label">Desconto equivale %:</label>
+                            <input type="text" class="form-control" name="desc_porcen" id="desc_porcen" placeholder="Desconto em %" readonly>
                         </div>
 
                     </div>
@@ -314,7 +314,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function criarParcelas() {
 
         valor = $('#subtotal').val();
-        console.log(valor);
+        porcen = $('#desc_porcen').val();
         parcelas = $('#parcelas').val();
         data = $('#data').val();
 
@@ -324,7 +324,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             data: {
                 valor,
                 parcelas,
-                data
+                data,
+                porcen
             },
             dataType: "text",
 

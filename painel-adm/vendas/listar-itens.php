@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once("../../conexao.php");
 $pagina = 'produtos';
 $data_atual = date('Y-m-d');
@@ -17,9 +17,10 @@ $query_con = $pdo->query("SELECT * FROM itens_venda WHERE id_venda = 0 and
 usuario = '$id_usuario' order by id desc");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
-if($total_reg > 0){ 
-	for($i=0; $i < $total_reg; $i++){
-	foreach ($res[$i] as $key => $value){	}
+if ($total_reg > 0) {
+	for ($i = 0; $i < $total_reg; $i++) {
+		foreach ($res[$i] as $key => $value) {
+		}
 
 		$id_venda = $res[$i]['id'];
 		$id_item = $res[$i]['produto'];
@@ -34,28 +35,24 @@ if($total_reg > 0){
 
 
 
-$query2 = $pdo->query("SELECT * FROM produtos where id = '$id_item'");
-$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-$valor_produto = $res2[0]['valor_venda'];
-$nome_produto = $res2[0]['nome'];
-$foto_produto = $res2[0]['foto'];
+		$query2 = $pdo->query("SELECT * FROM produtos where id = '$id_item'");
+		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$valor_produto = $res2[0]['valor_venda'];
+		$nome_produto = $res2[0]['nome'];
+		$foto_produto = $res2[0]['foto'];
 
 
-           echo '<li class="mb-1"><img src="../img/produtos/'.$foto_produto.'"><h4 class="cabH4">';
-           
-          echo $quantidade.' - '.mb_strtoupper($nome_produto). ' <a href="#" onclick="excluirItem('.$id_venda.')" title="Excluir Item" style="text-decoration: none">
+		echo '<li class="mb-1"><img src="../img/produtos/' . $foto_produto . '"><h4 class="cabH4">';
+
+		echo $quantidade . ' - ' . mb_strtoupper($nome_produto) . ' <a href="#" onclick="excluirItem(' . $id_venda . ')" title="Excluir Item" style="text-decoration: none">
 				<i class="bi bi-x text-danger mx-1"></i>
-								</a> </h4><h5 class="cabH5">'.$valor_total_itemF.'</h5></li>';
-
-
-
-}
-
+								</a> </h4><h5 class="cabH5">' . $valor_total_itemF . '</h5></li>';
+	}
 }
 
 echo '</ul>';
-echo '<h5 class="total mt-4">Total de Itens ('.$total_reg.')</h5>';
-echo '<div class="row"><div class="col-md-6"><h2>R$ <span id="sub_total">'.@$total_vendaF.'</span></h2></div>';
+echo '<h5 class="total mt-4">Total de Itens (' . $total_reg . ')</h5>';
+echo '<div class="row"><div class="col-md-6"><h2>R$ <span id="sub_total">' . @$total_vendaF . '</span></h2></div>';
 
 echo '<div class="col-md-6" align="right"> </a>';
 
@@ -64,45 +61,48 @@ echo '<small><div id="mensagem-fec"></div></small>';
 
 
 
- ?>
+?>
 
 
 <script type="text/javascript">
 	$(document).ready(function() {
-    	$('#total-da-venda').text('R$ <?=$total_vendaF?>');
-    	$('#subtotal').val('<?=$total_venda?>');
-    	
-    	$('#parcelas').val('1');
-    	$('#desconto').val('');
-    	$('#acrescimo').val('');
-    	$('#data').val('<?=$data_atual?>');
-		} );
+		$('#total-da-venda').text('R$ <?= $total_vendaF ?>');
+		$('#subtotal').val('<?= $total_venda ?>');
+
+		$('#parcelas').val('1');
+		$('#desconto').val('');
+		$('#acrescimo').val('');
+		$('#data').val('<?= $data_atual ?>');
+	});
 
 
-	function totalizarVenda(){
-			var valorTotal = '<?=$total_venda?>';
-			var desconto = $('#desconto').val();
-			var acrescimo = $('#acrescimo').val();
-			
-			desconto = desconto.replace(",", ".");
-			acrescimo = acrescimo.replace(",", ".");
-			
-			if(desconto == ""){
-				desconto = 0;
-			}
+	function totalizarVenda() {
+		var valorTotal = '<?= $total_venda ?>';
+		var desconto = $('#desconto').val();
+		var acrescimo = $('#acrescimo').val();
+		desconto = desconto.replace(",", ".");
+		acrescimo = acrescimo.replace(",", ".");
 
-			if(acrescimo == ""){
-				acrescimo = 0;
-			}
-
-			saldoTotal = parseFloat(valorTotal) -  parseFloat(desconto) + parseFloat(acrescimo);
-			saldoTotal = saldoTotal.toFixed(2);
-			
-			$('#subtotal').val(saldoTotal);
-
-			criarParcelas();
-
-			
+		if (desconto == "") {
+			desconto = 0;
+		} else {
+			var porc = desconto * 100;
+			var porc_final = porc / valorTotal;
 		}
-	
+
+		if (acrescimo == "") {
+			acrescimo = 0;
+		}
+
+		saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
+		saldoTotal = saldoTotal.toFixed(2);
+		// porc_final = Math.ceil(porc_final);
+		porc_final = porc_final.toFixed(2);
+		$('#subtotal').val(saldoTotal);
+		$('#desc_porcen').val(porc_final);
+
+		criarParcelas();
+
+
+	}
 </script>
