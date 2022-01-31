@@ -87,7 +87,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../img/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/logo-150.ico" type="image/x-icon">
 
     <!--Cdns-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -195,8 +195,8 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRelMov">Movimentações</a></li>
-                          	<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelLucro">Lucro Vendas (Demonstrativo Comercial)</a></li>
-							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelLucroPagas">Demonstrativo Comercial (Lucro Vendas Pagas)</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelLucro">Lucro Vendas (Demonstrativo Comercial)</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelLucroPagas">Demonstrativo Comercial (Lucro Vendas Pagas)</a></li>
                             <li><a class="dropdown-item" href="../relatorios/produtos_class.php" target="_blank">Produtos</a></li>
                         </ul>
                     </li>
@@ -485,45 +485,46 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
 
 
 
-	<!-- Modal Rel Mov -->
-	<div class="modal fade" id="modalRelLucroPagas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Relatório de Lucro de Vendas 
-						<span class="mx-4"><small><small><small><b>Período:</b>
-							<a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $dataOntem ?>', '<?php echo $dataOntem ?>')" class="text-dark"> Ontem </a> /
-							<a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_atual ?>', '<?php echo $data_atual ?>')" class="text-dark"> Mês Atual</a> / 
-							<a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_ant ?>', '<?php echo $data_final_mes_ant ?>')" class="text-dark">Mês Anterior</a> /
-							<a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_atual ?>', '<?php echo $data_atual ?>')" class="text-dark">Hoje</a>
-						</small></small></small></span></h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<form method="post" action="../relatorios/lucroPagas_class.php" target="_blank">
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="exampleFormControlInput1" class="form-label">Data Inicial </label>
-										<input type="date" class="form-control form-control-sm" name="data-inicial-rel-lucro"  id="data-inicial-rel-lucroP" value="<?php echo date('Y-m-d') ?>">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="exampleFormControlInput1" class="form-label">Data Final </label>
-										<input type="date" class="form-control form-control-sm" name="data-final-rel-lucro"  id="data-final-rel-lucroP" value="<?php echo date('Y-m-d') ?>">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-perfil">Fechar</button>
-							<button type="submit" class="btn btn-primary">Gerar</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+<!-- Modal Rel Mov -->
+<div class="modal fade" id="modalRelLucroPagas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Relatório de Lucro de Vendas
+                    <span class="mx-4"><small><small><small><b>Período:</b>
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $dataOntem ?>', '<?php echo $dataOntem ?>')" class="text-dark"> Ontem </a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_atual ?>', '<?php echo $data_atual ?>')" class="text-dark"> Mês Atual</a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_ant ?>', '<?php echo $data_final_mes_ant ?>')" class="text-dark">Mês Anterior</a> /
+                                    <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_atual ?>', '<?php echo $data_atual ?>')" class="text-dark">Hoje</a>
+                                </small></small></small></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="../relatorios/lucroPagas_class.php" target="_blank">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data Inicial </label>
+                                <input type="date" class="form-control form-control-sm" name="data-inicial-rel-lucro" id="data-inicial-rel-lucroP" value="<?php echo date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Data Final </label>
+                                <input type="date" class="form-control form-control-sm" name="data-final-rel-lucro" id="data-final-rel-lucroP" value="<?php echo date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-perfil">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Gerar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -589,7 +590,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
         $("#data-inicial-rel-lucro").val(data);
         $("#data-final-rel-lucro").val(data2);
 
-         $("#data-inicial-rel-lucroP").val(data);
+        $("#data-inicial-rel-lucroP").val(data);
         $("#data-final-rel-lucroP").val(data2);
     }
 
