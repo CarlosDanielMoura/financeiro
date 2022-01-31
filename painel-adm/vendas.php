@@ -370,7 +370,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function limparCampos() {
         listarItens();
         $('#id-cliente').val('').change();
-        $('#nome-cliente-label').text('Sistema');
+        $('#nome-cliente-label').text('Venda Rápida');
         $('#mensagem').text('');
     }
 
@@ -391,39 +391,28 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     }
 
 
-
-
-
-
     $("#form-venda").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
+        console.log('Entrou aqui');
 
         $.ajax({
             url: pag + "/inserir.php",
             type: 'POST',
             data: formData,
-
             success: function(mensagem) {
                 $('#mensagem-prod').text('');
                 $('#mensagem-prod').removeClass()
-
-                var array = mensagem.split("-")
-                if (array[0] == "Salvo com Sucesso") {
+                if (mensagem.trim() == "Salvo com Sucesso!") {
                     //$('#nome').val('');
                     //$('#cpf').val('');
                     $('#btn-fechar-venda').click();
                     limparCampos();
-                    let a = document.createElement('a');
-                    a.target = '_blank';
-                    a.href = '../relatorios/venda_class.php?id=' + array[1];
-                    a.click();
                 } else {
+
                     $('#mensagem-prod').addClass('text-danger')
                     $('#mensagem-prod').text(mensagem)
                 }
-
-
             },
 
             cache: false,

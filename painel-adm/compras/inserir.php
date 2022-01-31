@@ -121,6 +121,4 @@ if($total_reg > 0){
 }
 
 
-echo 'Salvo com Sucesso-'.$id_ult_registro;
-
-?>
+echo 'Salvo com Sucesso!';
