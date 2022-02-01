@@ -124,8 +124,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         </div>
 
                         <div class="col-md-3">
-                            <label for="exampleFormControlInput1" class="form-label">Total Recebido:</label>
-                            <input type="text" class="form-control" name="recebido" id="recebido" placeholder="Total Recebido">
+                            <label for="exampleFormControlInput1" class="form-label">Entrada Cliente:</label>
+                            <input type="text" onkeyup="totalizarVenda()" class="form-control" name="recebido" id="recebido" placeholder="Entrada Cliente">
                         </div>
                     </div>
 
@@ -316,6 +316,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
         valor = $('#subtotal').val();
         porcen = $('#desc_porcen').val();
         parcelas = $('#parcelas').val();
+        entrada = $('#recebido').val();
         data = $('#data').val();
 
         $.ajax({
@@ -325,7 +326,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                 valor,
                 parcelas,
                 data,
-                porcen
+                porcen,
+                entrada
             },
             dataType: "text",
 
@@ -394,7 +396,6 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     $("#form-venda").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
-        console.log('Entrou aqui');
 
         $.ajax({
             url: pag + "/inserir.php",

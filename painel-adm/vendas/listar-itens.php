@@ -80,8 +80,14 @@ echo '<small><div id="mensagem-fec"></div></small>';
 		var valorTotal = '<?= $total_venda ?>';
 		var desconto = $('#desconto').val();
 		var acrescimo = $('#acrescimo').val();
+		var entrada = $('#recebido').val();
 		desconto = desconto.replace(",", ".");
 		acrescimo = acrescimo.replace(",", ".");
+		entrada = entrada.replace(",", ".");
+
+		if (entrada == '') {
+			entrada = 0;
+		}
 
 		if (desconto == "") {
 			desconto = 0;
@@ -94,10 +100,10 @@ echo '<small><div id="mensagem-fec"></div></small>';
 			acrescimo = 0;
 		}
 
-		saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo);
+
+
+		saldoTotal = parseFloat(valorTotal) - parseFloat(desconto) + parseFloat(acrescimo) - parseFloat(entrada);
 		saldoTotal = saldoTotal.toFixed(2);
-		// porc_final = Math.ceil(porc_final);
-		porc_final = porc_final.toFixed(2);
 		$('#subtotal').val(saldoTotal);
 		$('#desc_porcen').val(porc_final);
 

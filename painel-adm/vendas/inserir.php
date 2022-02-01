@@ -12,6 +12,11 @@ $subtotal = $_POST['subtotal'];
 $parcelas = $_POST['parcelas'];
 $cliente = $_POST['id-cli'];
 $porcen = $_POST['desc_porcen'];
+$entrada = $_POST['recebido'];
+
+if ($entrada != '') {
+	$valor_entry = $subtotal - $entrada;
+}
 
 if ($desconto != '') {
 	$valor_final_porc = $desconto * 100;
@@ -83,7 +88,7 @@ if (@count($res2) > 0) {
 $query = $pdo->prepare("INSERT INTO vendas set valor = '$total_venda', usuario = '$id_usuario',
 pagamento = :pagamento, lancamento = :lancamento, data_lanc = CurDate(), data_pgto = :data,
 desconto = :desconto, acrescimo = :acrescimo, subtotal = :subtotal, parcelas = :parcelas, 
-status = '$status', cliente = :cliente, porcentagem = '$valor_final'");
+status = '$status', cliente = :cliente, porcentagem = '$valor_final', recebido = '$valor_entry'");
 
 
 
