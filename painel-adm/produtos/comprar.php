@@ -15,7 +15,7 @@ $cp11 = @$_POST[$campo11];
 $alterar = @$_POST['alterar'];
 $total_compra = $cp5 * $quantidade;
 
-if($cp11 == ''){
+if ($cp11 == '') {
     $cp11 = 0;
 }
 
