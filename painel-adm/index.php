@@ -43,7 +43,6 @@ $menu20 = 'vendas';
 $menu21 = 'compras';
 $menu22 = 'lista_vendas';
 $menu23 = 'lista_compras';
-$menu24 = 'ordem_servico';
 
 
 
@@ -202,10 +201,6 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                         </ul>
                     </li>
 
-                    <!-- ORDEM DE SERVIÇO -->
-                    <li class="nav-item">
-                        <a class="nav-link  active" aria-current="page" href="index.php?pag=<?php echo $menu24 ?>">Ordem Serviço</a>
-                    </li>
                 </ul>
                 <div class="d-flex ">
                     <img class="img-profile rounded-circle " src=" ../img/usuario-navbar.png" alt="" width=" 50px" height="50px">
