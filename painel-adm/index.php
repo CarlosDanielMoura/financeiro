@@ -43,7 +43,8 @@ $menu20 = 'vendas';
 $menu21 = 'compras';
 $menu22 = 'lista_vendas';
 $menu23 = 'lista_compras';
-$menu24 = 'ordem_servico';
+$menu24 = 'listar_os';
+$menu25 = 'ordem_servico';
 
 
 

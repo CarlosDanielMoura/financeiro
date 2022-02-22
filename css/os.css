@@ -1,0 +1,94 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+i{
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    list-style: none;
+}
+
+.dados-principais{
+    margin-top: 35px;
+    border-radius: 8px ;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.Input-details-1 input[type=text]{
+    width: 290px;    
+    padding-left: 40px;
+
+}
+.Input-details-1{
+    position: relative;
+}
+
+.Input-details-1 i{
+    position: absolute;
+    left: 0;
+    top: 35px;
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.Input-details-1 label{
+   margin-bottom: 5px;
+}
+
+
+.Input-details-func i{
+    margin-left: 5px;
+}
+
+.Input-details-func label{
+    margin-bottom: 5px;
+}
+
+.Input-details-obs input[type=text]{
+    height: 130px;
+    margin-top: 5px;
+    border: 1px solid black;
+}
+
+.Input-details-money input[type=number]{   
+    padding-left: 40px;
+    width: 150px;
+    height: 40px;
+
+}
+.Input-details-money{
+    position: relative;
+    display: flex;
+    gap: 200px;
+    justify-content: space-evenly;
+}
+
+.Input-details-money i{
+    position: absolute;
+    left: 177px;
+    top: 32px;
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+
+.produto-add{
+    color: black;
+    border: 1px solid black;
+    width: 175px;
+    height: 40px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(182, 182, 182);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
