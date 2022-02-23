@@ -66,7 +66,7 @@ a{
     justify-content: space-evenly;
 }
 
-.Input-details-money i{
+.Input-details-money a{
     position: absolute;
     left: 177px;
     top: 32px;
@@ -74,19 +74,18 @@ a{
     margin-left: 20px;
 }
 
-
-.produto-add{
-    color: black;
-    border: 1px solid black;
-    width: 175px;
-    height: 40px;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: rgb(182, 182, 182);
-    display: flex;
-    justify-content: center;
+.Input-details-add{
     align-items: center;
+    display: flex;
+    font-size: 25px;
 }
+
+.Input-details-add a{
+    margin-top: 29px;
+}
+
+
+
 
 
 
