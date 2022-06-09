@@ -51,7 +51,7 @@ $pagina = 'ordem_servico';
                 <div class="col-6 Input-details-func">
                     <label>Cliente:</label>
                     <i class="bi bi-question-circle-fill" title="Selecione seu cliente"></i>
-                    <select class="form-select sel2" aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ">
+                    <select class="classeCliente form-select " aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ">
                         <?php
                         $query = $pdo->query("SELECT * FROM clientes where nome != 'Venda Rápida' order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -182,6 +182,7 @@ $pagina = 'ordem_servico';
 
                         function removeLinhaTabelaProd(aLixeira) {
                             aLixeira.parentElement.parentElement.remove();
+                            //___TODO___ ATUALIZAR PRODUTO QUANDO REMOVER.
                         }
 
                         function atualizaValorTotal(valTotal) {
@@ -353,57 +354,57 @@ $pagina = 'ordem_servico';
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" °" class="input-sm form-control numeric-field text-right" id="valor-eixo_od_longe" autocomplete="off" maxlength="12" name="nova_receita[eixo_od_longe]" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="nova_receita[altura_od_longe]" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" mm" maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="nova_receita[dnp_od_longe]" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text">
                                     </td>
                                 </tr>
                                 <tr class="text-success">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_longe" autocomplete="off" name="nova_receita[esferico_oe_longe]" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_esferico_oe_longe" autocomplete="off" name="vlr_esferico_oe_longe" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico_oe_longe" autocomplete="off" name="nova_receita[cilindrico_oe_longe]" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_longe" autocomplete="off" name="vlr_cilindrico_oe_longe" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" °" class="input-sm form-control numeric-field text-right" id="valor-eixo_oe_longe" autocomplete="off" data-m-dec="0" maxlength="12" name="" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" mm" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" data-m-dec="2" name="" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" data-m-dec="2" name="" type="text">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text">
                                     </td>
                                 </tr>
                                 <tr class="text-danger">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" name="valor-esferico_od_perto" id="valor-esferico_od_perto" autocomplete="off" name="" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" name="valor-esferico_od_perto" id="valor-esferico_od_perto" autocomplete="off" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico_od_perto" autocomplete="off" name="" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_od_perto" name="vlr_cilindrico_od_perto" autocomplete="off" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" °" class="input-sm form-control numeric-field text-right" id="valor-eixo_od_perto" autocomplete="off" data-m-dec="0" maxlength="12" name="" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" mm" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" data-m-dec="2" name="" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" type="text">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text">
                                     </td>
 
 
@@ -414,19 +415,19 @@ $pagina = 'ordem_servico';
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico_oe_perto" data-bind-blur="formataValorReceita" autocomplete="off" name="nova_receita[cilindrico_oe_perto]" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" °" class="input-sm form-control numeric-field text-right" id="valor-eixo_oe_perto" autocomplete="off" data-m-dec="0" maxlength="12" name="nova_receita[eixo_oe_perto]" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" mm" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" data-m-dec="2" name="nova_receita[altura_oe_perto]" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input data-p-sign="s" data-a-sign=" mm" maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" data-m-dec="2" name="nova_receita[dnp_oe_perto]" type="text">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text">
                                     </td>
                                 </tr>
                             </tbody>
@@ -679,7 +680,7 @@ $pagina = 'ordem_servico';
                     </div>
 
                     <div class="select-arm mt-2">
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" aria-label="Default select example" name="tipo_armacao">
                             <option selected>Selecione uma opção</option>
                             <option value="Friso/Fio de Nylon">Friso/Fio de Nylon</option>
                             <option value="Furo/Parafuso">Furo/Parafuso</option>
@@ -726,17 +727,17 @@ $pagina = 'ordem_servico';
                     <div class="inputs-armacao mt-4">
                         <div class="inputs-arm">
                             <label>Maior Diagonal:</label>
-                            <input type="number" name="maior_diagonal" id="">
+                            <input type="number" name="maior_diagonal" id="maior_diagonal">
                         </div>
 
                         <div class="inputs-arm">
                             <label>Altura Vertical:</label>
-                            <input type="number" name="altura_vertical" id="">
+                            <input type="number" name="altura_vertical" id="altura_vertical">
                         </div>
 
                         <div class="inputs-arm">
                             <label>Distância Pupilar:</label>
-                            <input type="number" name="distancia_pupilar" id="">
+                            <input type="number" name="distancia_pupilar" id="distancia_pupilar">
                         </div>
                     </div>
 
@@ -749,12 +750,12 @@ $pagina = 'ordem_servico';
                     <div class="inputs-armacao-olhos mt-2">
                         <div class="inputs-arm">
                             <label>Longe OD</label>
-                            <input type="number" name="longe-od" id="">
+                            <input type="number" name="longe-od" id="longe-od">
                         </div>
 
                         <div class="inputs-arm">
                             <label>Longe OE</label>
-                            <input type="number" name="longe-oe" id="">
+                            <input type="number" name="longe-oe" id="longe-oe">
                         </div>
 
 
@@ -763,12 +764,12 @@ $pagina = 'ordem_servico';
                     <div class="inputs-armacao-olhos">
                         <div class="inputs-arm">
                             <label>Perto OD</label>
-                            <input type="number" name="perto_oe" id="">
+                            <input type="number" name="perto_od" id="perto_od">
                         </div>
 
                         <div class="inputs-arm">
                             <label>Perto OE</label>
-                            <input type="number" name="perto-od" id="">
+                            <input type="number" name="perto-oe" id="perto-oe">
                         </div>
                     </div>
 
@@ -779,7 +780,7 @@ $pagina = 'ordem_servico';
         <div class="row mt-3 mb-4">
             <div class="box-btns">
                 <div class="btns">
-                    <button class="btn-voltar_os" type="close">Voltar</button>
+                    <button class="btn-voltar_os" type="">Voltar</button>
                 </div>
                 <div class="btns">
 
@@ -799,16 +800,21 @@ $pagina = 'ordem_servico';
 
 
 <script>
-    $('.sel2').select2({
-        placeholder: 'Selecione um Cliente',
-        //dropdownParent: $('#modalForm')
-    });
+    // $('.classeCliente').select2({
+    //     placeholder: 'Selecione um Cliente',
+    //     //dropdownParent: $('#modalForm')
+    // });
 
 
     $("#os").submit(function(event) {
         event.preventDefault();
         var formData = new FormData(this);
         var json = Object.fromEntries(formData);
+
+
+        const produtos = document.getElementById("tabela-produtos").childNodes[1];
+
+        console.log(produtos);
         var obj_formatado = {
 
             "dadosPrincipal": {
@@ -822,14 +828,33 @@ $pagina = 'ordem_servico';
 
             "produtos": {
 
+
             },
             "receita": {
                 //Linha 1
                 "esferico_od_longe": json["vlr_esferico_longe_od"],
                 "cilindrico_od_longe": json["vlr_cilindrico_longe_od"],
-                "eixo_oe_longe": json["vlr_eixo_longe_od"],
-
-
+                "eixo_od_longe": json["valor_eixo_od_longe"],
+                "altura_od_longe": json["vlr_altura_od_longe"],
+                "dnp_od_longe": json["vlr_dnp_od_longe"],
+                //Linha 2
+                "esferico_oe_longe": json["vlr_esferico_oe_longe"],
+                "cilindrico_oe_longe": json["vlr_cilindrico_oe_longe"],
+                "eixo_oe_longe": json["vlr_eixo_oe_longe"],
+                "altura_oe_longe": json["vlr_altura_oe_longe"],
+                "dnp_oe_longe": json["vlr_dnp_oe_longe"],
+                //linha 3
+                "esferico_od_perto": json["valor-esferico_od_perto"],
+                "cilindrico_od_perto": json["vlr_cilindrico_od_perto"],
+                "eixo_od_perto": json["vlr_eixo_od_perto"],
+                "altura_od_perto": json["vlr_altura_od_perto"],
+                "dnp_od_perto": json["vlr_dnp_od_perto"],
+                //linha 4
+                "esferico_oe_perto": json["valor-esferico_oe_perto"],
+                "cilindrico_oe_perto": json["vlr_cilindrico_oe_perto"],
+                "eixo_oe_perto": json["vlr_eixo_oe_perto"],
+                "altura_oe_perto": json["vlr_altura_oe_perto"],
+                "dnp_oe_perto": json["vlr_dnp_oe_perto"],
             },
             "info_add": {
                 "local_montagem": json["checkedLocalMontagem"],
@@ -843,50 +868,51 @@ $pagina = 'ordem_servico';
                     "tratamentos": json["checkedTratamentos"]
                 },
                 "info_add_armacao": {
-                    "arm_possui_prop": json[""],
-                    "arm_segue": json[""],
-                    "arm_tipo": json[""],
-                    "arm_aro": json[""],
-                    "arm_ponte": json[""],
-                    "arm_aro_ponte": json[""],
-                    "arm_maior_diagonal": json[""],
-                    "arm_altura_vertical": json[""],
-                    "arm_distancia_pupilar": json[""],
-                    "altura_longe_OD": json[""],
-                    "altura_longe_OE": json[""],
-                    "altura_perto_OD": json[""],
-                    "altura_perto_OE": json[""]
+                    "arm_possui_prop": json["checkedArmProp"],
+                    "arm_segue": json["checkedSegArm"],
+                    "arm_tipo": json["tipo_armacao"],
+                    "arm_aro": json["in-aro-arm"],
+                    "arm_ponte": json["in-ponte-arm"],
+                    "arm_aro_ponte": json["in-aro-ponto-arm"], // Não está pegando o valor....
+                    "arm_maior_diagonal": json["maior_diagonal"],
+                    "arm_altura_vertical": json["altura_vertical"],
+                    "arm_distancia_pupilar": json["distancia_pupilar"],
+                    "altura_longe_OD": json["longe-od"],
+                    "altura_longe_OE": json["longe-oe"],
+                    "altura_perto_OD": json["perto_od"],
+                    "altura_perto_OE": json["perto-oe"]
                 }
             }
         }
 
+        //
         console.log(obj_formatado.info_add);
 
-        $.ajax({
+        // $.ajax({
 
-            url: pag + "",
-            type: 'POST',
-            data: formData,
+        //     url: pag + "",
+        //     type: 'POST',
+        //     data: formData,
 
-            success: function(mensagem) {
-                if (mensagem.trim() == "Parcelado com Sucesso!") {
-                    $('#btn-fechar-parcelar').click();
-                    listar();
-                    limparCampos();
-                } else {
+        //     success: function(mensagem) {
+        //         if (mensagem.trim() == "Parcelado com Sucesso!") {
+        //             $('#btn-fechar-parcelar').click();
+        //             listar();
+        //             limparCampos();
+        //         } else {
 
-                    $('#mensagem-parcelar').addClass('text-danger')
-                    $('#mensagem-parcelar').text(mensagem)
-                }
+        //             $('#mensagem-parcelar').addClass('text-danger')
+        //             $('#mensagem-parcelar').text(mensagem)
+        //         }
 
 
-            },
+        //     },
 
-            cache: false,
-            contentType: false,
-            processData: false,
+        //     cache: false,
+        //     contentType: false,
+        //     processData: false,
 
-        });
+        // });
 
     });
 </script>
