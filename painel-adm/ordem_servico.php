@@ -110,7 +110,7 @@ $pagina = 'ordem_servico';
 
 
                         ?>
-                            <option value="<?php echo $nome_item ?>">
+                            <option value="<?php echo $id_item ?>">
                                 <?php echo $codigo ?>
                                 <?php echo ' - ' ?>
                                 <?php echo $nome_item ?>
@@ -134,6 +134,22 @@ $pagina = 'ordem_servico';
                         div>table.table-bordered>tbody>tr>td {
                             border-color: #dee2e6
                         }
+
+                        #tabela-produtos tr,
+                        #tabela-produtos td {
+                            text-align: center;
+                            vertical-align: middle;
+                        }
+
+                        #tabela-produtos tr:nth-child(1),
+                        #tabela-produtos td:nth-child(1) {
+                            text-align: start;
+                            vertical-align: middle;
+                        }
+
+                        #tabela-produtos input {
+                            margin-bottom: 0;
+                        }
                     </style>
                     <script>
                         function calcTotalProdInd2(campoValUnLiq) {
@@ -152,30 +168,44 @@ $pagina = 'ordem_servico';
                             total.innerText = (Number.parseFloat(valor) * Number.parseInt(qtde)).toFixed(2);
                             //__TODO__ colorir campo de vermelho em desconto, ou verde em acrecimo
                             linha.childNodes[7].innerText = (Number.parseFloat(valor) - Number.parseFloat(linha.childNodes[5].innerText.replace(",", "."))).toFixed(2);
+                        }
 
+                        function removeLinhaTabelaProd(aLixeira) {
+                            aLixeira.parentElement.parentElement.remove();
                         }
 
                         function adicionaProdutoTab() {
-                            document.getElementById("tabela-produtos").innerHTML += `
-                            <tr>
-                                <td class="b-clara">22 - Oculos</td>
-                                <td><input placeholder="1" class="form-control" type="number" onkeyup="calcTotalProdInd(this)"></td>
-                                <td>150,00</td>
-                                <td></td>
-                                <td><input onkeyup="calcTotalProdInd2(this)" class="form-control" type="text" value="150,00"></td>
-                                <td>150,00</td>
-                            </tr>
-                            `
+                            const idProd = document.getElementById("user-os").value;
+                            $.ajax({
+                                url: `<?php echo $pagina; ?>/ajaxBuscaProduto.php?idProd=${idProd}`,
+                                method: "GET",
+                                dataType: "json",
+                                success: function(produto) {
+                                    console.log(produto);
+                                    document.getElementById("tabela-produtos").innerHTML += `
+                                    <tr>
+                                        <td class="b-clara">${produto.codigo} - ${produto.nome}</td>
+                                        <td><input placeholder="1" min="1" max="${produto.estoque}" class="form-control" type="number" onkeyup="calcTotalProdInd(this)"></td>
+                                        <td>${produto.valor_venda.replace(".", ",")}</td>
+                                        <td>0.00</td>
+                                        <td><input onkeyup="calcTotalProdInd2(this)" class="form-control" type="text" value="${produto.valor_venda.replace(".", ",")}"></td>
+                                        <td>${produto.valor_venda.replace(".", ",")}</td>
+                                        <td><a onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
+                                    </tr>
+                                    `;
+                                }
+                            });
                         }
                     </script>
                     <table class="table table-striped table-bordered" id="tabela-produtos">
                         <tr>
-                            <td style="width: 48%;">Código Prod - Nome produto</td>
+                            <td style="width: 40%;">Código Prod - Nome produto</td>
                             <td style="width: 8%;">Qtde</td>
                             <td style="width: 12%;">Val. Unit</td>
                             <td style="width: 8%;">Acre/Desc</td>
                             <td style="width: 8%;">Val. Un.Liq.</td>
                             <td style="width: 8%; ">Val. Total</td>
+                            <td style="width: 8%; ">Ações</td>
                         </tr>
 
                     </table>
