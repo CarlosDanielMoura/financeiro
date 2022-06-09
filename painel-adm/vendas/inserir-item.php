@@ -32,8 +32,7 @@ if($valor_custo <= 0){
 $novo_estoque = $estoque - $quant;
 $query = $pdo->query("UPDATE produtos set estoque = '$novo_estoque' where id = '$id' ");
 
-$query = $pdo->query("INSERT INTO itens_venda set id_venda = 0, produto = '$id', valor = '$valor', quantidade = '$quant', total = '$total', usuario = '$id_usuario', valor_custo = '$valor_custo'");
+$query = $pdo->query("INSERT INTO itens_venda set id_venda = 0, produto = '$id', valor = '$valor', quantidade = '$quant', total = '$total', usuario = '$id_usuario', 
+valor_custo = '$valor_custo'");
 
 echo 'Inserido com Sucesso!';
-
- ?>
