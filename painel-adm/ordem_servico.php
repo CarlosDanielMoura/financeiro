@@ -136,7 +136,9 @@ $pagina = 'ordem_servico';
                         }
 
                         #tabela-produtos tr,
-                        #tabela-produtos td {
+                        #tabela-produtos td,
+                        #tabela_resumo tr,
+                        #tabela_resumo td {
                             text-align: center;
                             vertical-align: middle;
                         }
@@ -147,7 +149,14 @@ $pagina = 'ordem_servico';
                             vertical-align: middle;
                         }
 
-                        #tabela-produtos input {
+                        #tabela_resumo tr:nth-child(1),
+                        #tabela_resumo td:nth-child(1) {
+                            text-align: end;
+                            vertical-align: middle;
+                        }
+
+                        #tabela-produtos input,
+                        #tabela_resumo input {
                             margin-bottom: 0;
                         }
                     </style>
@@ -168,10 +177,24 @@ $pagina = 'ordem_servico';
                             total.innerText = (Number.parseFloat(valor) * Number.parseInt(qtde)).toFixed(2);
                             //__TODO__ colorir campo de vermelho em desconto, ou verde em acrecimo
                             linha.childNodes[7].innerText = (Number.parseFloat(valor) - Number.parseFloat(linha.childNodes[5].innerText.replace(",", "."))).toFixed(2);
+                            atualizaValorTotal(linha.parentElement);
                         }
 
                         function removeLinhaTabelaProd(aLixeira) {
                             aLixeira.parentElement.parentElement.remove();
+                        }
+
+                        function atualizaValorTotal(valTotal) {
+                            let soma = 0;
+                            for (let i = 2; i < valTotal.childNodes.length; i++) {
+                                soma += Number.parseFloat(valTotal.childNodes[i].childNodes[11].innerText.replace(",", "."));
+                            }
+                            console.log(soma);
+                            let resumo = document.getElementById("tabela_resumo").childNodes[3];
+                            let totais = resumo.childNodes[1].childNodes[1];
+                            let liquido = resumo.childNodes[5];
+                            let valor_total = totais.childNodes[0].childNodes[5];
+                            valor_total.innerText = soma.toFixed(2);
                         }
 
                         function adicionaProdutoTab() {
@@ -181,22 +204,25 @@ $pagina = 'ordem_servico';
                                 method: "GET",
                                 dataType: "json",
                                 success: function(produto) {
-                                    console.log(produto);
-                                    document.getElementById("tabela-produtos").innerHTML += `
-                                    <tr>
+                                    //console.log(produto);
+                                    let html = `
                                         <td class="b-clara">${produto.codigo} - ${produto.nome}</td>
-                                        <td><input placeholder="1" min="1" max="${produto.estoque}" class="form-control" type="number" onkeyup="calcTotalProdInd(this)"></td>
+                                        <td><input placeholder="1" min="1" max="${produto.estoque}" class="form-control" type="number" onkeyup="calcTotalProdInd(this)" onchange="calcTotalProdInd(this)"></td>
                                         <td>${produto.valor_venda.replace(".", ",")}</td>
                                         <td>0.00</td>
-                                        <td><input onkeyup="calcTotalProdInd2(this)" class="form-control" type="text" value="${produto.valor_venda.replace(".", ",")}"></td>
+                                        <td><input onkeyup="calcTotalProdInd2(this)" onchange="calcTotalProdInd2(this)" class="form-control" type="text" value="${produto.valor_venda.replace(".", ",")}"></td>
                                         <td>${produto.valor_venda.replace(".", ",")}</td>
                                         <td><a onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
-                                    </tr>
                                     `;
+                                    const tabela = document.getElementById("tabela-produtos");
+                                    tabela.insertRow(-1);
+                                    tabela.rows[tabela.rows.length - 1].innerHTML = html;
+                                    atualizaValorTotal(tabela.childNodes[1]);
                                 }
                             });
                         }
                     </script>
+
                     <table class="table table-striped table-bordered" id="tabela-produtos">
                         <tr>
                             <td style="width: 40%;">Código Prod - Nome produto</td>
@@ -204,13 +230,47 @@ $pagina = 'ordem_servico';
                             <td style="width: 12%;">Val. Unit</td>
                             <td style="width: 8%;">Acre/Desc</td>
                             <td style="width: 8%;">Val. Un.Liq.</td>
-                            <td style="width: 8%; ">Val. Total</td>
-                            <td style="width: 8%; ">Ações</td>
+                            <td style="width: 8%;">Val. Total</td>
+                            <td style="width: 8%;">Ações</td>
                         </tr>
 
                     </table>
                 </div>
-
+            </div>
+            <hr>
+            <div id="tabela_resumo" class="detalhes-pagamento row">
+                <div class="col-8"></div>
+                <div class="col-4" style="font-weight: bolder">
+                    <table>
+                        <tr>
+                            <td style="width: 30%;">Valor total:</td>
+                            <td style="width: 30%;"></td>
+                            <td style="width: 30%;">0.00</td>
+                            <td style="width: 10%;" class="text-primary">( + )</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;">Desconto:</td>
+                            <td style="width: 30%;"><input class="form-control" type="text"></td>
+                            <td style="width: 30%;"><input class="form-control" type="text"></td>
+                            <td style="width: 10%;" class="text-danger">( - )</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;">Acréscimo:</td>
+                            <td style="width: 30%;"><input class="form-control" type="text"></td>
+                            <td style="width: 30%;"><input class="form-control" type="text"></td>
+                            <td style="width: 10%;" class="text-primary">( + )</td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <table style="font-size: 18px;">
+                        <tr>
+                            <td style="width: 40%;">Valor Líquido:</td>
+                            <td style="width: 2%;"></td>
+                            <td style="width: 48%; text-align: end;" class="text-primary">270,00</td>
+                            <td style="width: 10%;" class="text-primary">( = )</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
 
