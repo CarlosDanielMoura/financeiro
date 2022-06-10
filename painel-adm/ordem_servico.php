@@ -181,7 +181,9 @@ $pagina = 'ordem_servico';
                         }
 
                         function removeLinhaTabelaProd(aLixeira) {
+                            let tbody = aLixeira.parentElement.parentElement.parentElement;
                             aLixeira.parentElement.parentElement.remove();
+                            atualizaValorTotal(tbody);
                             //___TODO___ ATUALIZAR PRODUTO QUANDO REMOVER.
                         }
 
@@ -190,11 +192,12 @@ $pagina = 'ordem_servico';
                             for (let i = 2; i < valTotal.childNodes.length; i++) {
                                 soma += Number.parseFloat(valTotal.childNodes[i].childNodes[11].innerText.replace(",", "."));
                             }
-                            console.log(soma);
+
                             let resumo = document.getElementById("tabela_resumo").childNodes[3];
                             let totais = resumo.childNodes[1].childNodes[1];
                             let liquido = resumo.childNodes[5];
                             let valor_total = totais.childNodes[0].childNodes[5];
+
                             valor_total.innerText = soma.toFixed(2);
                         }
 
@@ -240,25 +243,57 @@ $pagina = 'ordem_servico';
             </div>
             <hr>
             <div id="tabela_resumo" class="detalhes-pagamento row">
-                <div class="col-8"></div>
+                <div class="col-8 mt-3">
+                    <div class="row d-flex">
+                        <div class="col-4">
+                            <label for=""> <b> Entrada do Cliente: R$</b></label>
+                            <input type="number" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control">
+                        </div>
+                        <div class="col-4">
+                            <label for=""><b> Tipo de Pagamento: </b></label>
+                            <select class="form-select" aria-label="Default select example" name="tipo_pagamento_cli" id="tipo_pagamento_cli">
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Cartão">Cartão</option>
+                                <option value="Boleto">Boleto</option>
+                                <option value="Cheque">Cheque</option>
+                                <option value="Conta Corrente">Conta Corrente</option>
+                                <option value="Conta Poupança">Conta Poupança</option>
+                                <option value="Carnê">Carnê</option>
+                                <option value="Depósito">Depósito</option>
+                                <option value="Transferência">Transferência</option>
+                                <option value="Pix">Pix</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-4">
+                            <label title="Valor restante que o cliente ainda tem a pagar." for=""> </label>
+                            <h5><b> SubTotal</b> <input style="text-align: end;" type="text" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" readonly value="150,00"> </h5>
+
+                        </div>
+                    </div>
+
+                </div>
                 <div class="col-4" style="font-weight: bolder">
                     <table>
                         <tr>
                             <td style="width: 30%;">Valor total:</td>
                             <td style="width: 30%;"></td>
-                            <td style="width: 30%;">0.00</td>
+                            <td id="vlr_total" style="width: 30%;">0.00</td>
                             <td style="width: 10%;" class="text-primary">( + )</td>
                         </tr>
                         <tr>
                             <td style="width: 30%;">Desconto:</td>
-                            <td style="width: 30%;"><input class="form-control" type="text"></td>
-                            <td style="width: 30%;"><input class="form-control" type="text"></td>
+                            <td style="width: 30%;"><input onkeyup="attPorcentagemDesconto()" name="porcentagem_desconto" class="form-control" type="text" placeholder="porcentagem"></td>
+                            <td style="width: 30%;"><input onkeyup="attDinheiroDesconto()" name="dinheiro_desconto" class="form-control" type="text" placeholder="dinheiro"></td>
                             <td style="width: 10%;" class="text-danger">( - )</td>
                         </tr>
                         <tr>
                             <td style="width: 30%;">Acréscimo:</td>
-                            <td style="width: 30%;"><input class="form-control" type="text"></td>
-                            <td style="width: 30%;"><input class="form-control" type="text"></td>
+                            <td style="width: 30%;"><input onkeyup="" name="porcentagem_acrescimo" class="form-control" type="text" placeholder="porcentagem"></td>
+                            <td style="width: 30%;"><input onkeyup="" name="dinheiro_acrescimo" class="form-control" type="text" placeholder="dinheiro"></td>
                             <td style="width: 10%;" class="text-primary">( + )</td>
                         </tr>
                     </table>
@@ -273,9 +308,67 @@ $pagina = 'ordem_servico';
                     </table>
                 </div>
             </div>
-
-
         </div>
+
+        <script>
+            function attDinheiroDesconto(self) {
+                let dinheiro_desconto = self.value
+                let valor_final = 0
+                let valor_total = document.getElementById("vlr_total").innerText
+                valor_total = Number.parseFloat(valor_total)
+
+                if (valor_total > 0) {
+                    valor_final = (dinheiro_desconto / valor_total) * 100;
+                }
+
+
+
+                console.log(valor_final)
+
+                let porcentagem_desconto = document.getElementsByName("porcentagem_desconto")[0];
+                porcentagem_desconto.value = valor_final.toFixed(2);
+            }
+
+            function attPorcentagemDesconto() {
+                let porcentagem_desconto = self.value;
+                let valor_final = 0
+                let valor_total = document.getElementById("vlr_total").innerText
+                valor_total = Number.parseFloat(valor_total)
+                if (valor_total > 0) {
+                    valor_final = (porcentagem_desconto * valor_total) / 100;
+                }
+
+                let dinheiro_desconto = document.getElementsByName("dinheiro_desconto")[0];
+
+                dinheiro_desconto.value = valor_final.toFixed(2)
+
+            }
+
+            function attPorcenAcres() {
+
+            }
+
+            function attDinAcres() {
+
+            }
+
+            function calcFinal() {
+                let porcen_desc = document.getElementsByName("porcentagem_desconto")[0].value
+                let dinheiro_desc = document.getElementsByName("dinheiro_desconto")[0].value
+
+                //acréscimo
+                let porc_acres = document.getElementsByName("porcentagem_acrescimo")[0].value
+                let dinheiro_acres = document.getElementsByName("dinheiro_desconto")[0].value
+
+                let valor_total = document.getElementById("vlr_total").innerText
+                valor_total = Number.parseFloat(valor_total)
+
+
+                console.log(valor_total);
+
+
+            }
+        </script>
 
 
 
@@ -436,7 +529,7 @@ $pagina = 'ordem_servico';
                     </div>
                     <div class="input-add">
                         <strong><label class="label-in-add" for="in-add">Adição:</label></strong>
-                        <input onkeyup="addInPerto(this)" id="in-add" name="in-add" class="input-sm form-control numeric-field in-adicao" type="text">
+                        <input onkeyup="addInPerto(this)" id="in-add" name="in-add" autocomplete="off" class="input-sm form-control numeric-field in-adicao" type="text">
                         <script>
                             function addInPerto(inAdd) {
                                 let nt = inAdd.value > 0 ? "+" + inAdd.value : inAdd.value;
@@ -707,7 +800,7 @@ $pagina = 'ordem_servico';
 
 
                             <label>Aro + Ponte:</label>
-                            <input type="number" disabled name="in-aro-ponto-arm" id="in-aro-ponto-arm">
+                            <input type="number" name="in-aro-ponto-arm" id="in-aro-ponto-arm" readonly>
                             <script>
                                 function somaAroePonte() {
                                     const r = document.getElementById("in-aro-ponto-arm");
@@ -813,8 +906,32 @@ $pagina = 'ordem_servico';
 
 
         const produtos = document.getElementById("tabela-produtos").childNodes[1];
+        let Lprodutos = [];
+        for (let i = 2; i < produtos.childNodes.length; i++) {
+            let qtde = produtos.childNodes[i].childNodes[3].childNodes[0].value.length < 1 ? 1 : produtos.childNodes[i].childNodes[3].childNodes[0].value;
+            let produto = geraProduto(
+                produtos.childNodes[i].childNodes[1].innerText,
+                qtde,
+                produtos.childNodes[i].childNodes[5].innerText.replace(",", "."),
+                produtos.childNodes[i].childNodes[7].innerText.replace(",", "."),
+                produtos.childNodes[i].childNodes[9].childNodes[0].value.replace(",", "."),
+                produtos.childNodes[i].childNodes[11].innerText.replace(",", ".")
+            );
+            Lprodutos.push(produto);
+        }
 
-        console.log(produtos);
+        function geraProduto(codENome, qtde, valUnit, acresOuDesc, valUnLiq, valTotal) {
+            return {
+                codENome,
+                qtde,
+                valUnit,
+                acresOuDesc,
+                valUnLiq,
+                valTotal
+            };
+        }
+
+        //console.log(produtos);
         var obj_formatado = {
 
             "dadosPrincipal": {
@@ -828,6 +945,10 @@ $pagina = 'ordem_servico';
 
             "produtos": {
 
+                "produtos_selecionados": Lprodutos,
+                "valor_entrada_cliente": json["vlr_entrada_cliente"],
+                "tipo_pagamento": json["tipo_pagamento_cli"],
+                "entrada_cliente": json["vlr_subtotal_cli"],
 
             },
             "receita": {
@@ -837,7 +958,7 @@ $pagina = 'ordem_servico';
                 "eixo_od_longe": json["valor_eixo_od_longe"],
                 "altura_od_longe": json["vlr_altura_od_longe"],
                 "dnp_od_longe": json["vlr_dnp_od_longe"],
-                //Linha 2
+                //Linha 2   
                 "esferico_oe_longe": json["vlr_esferico_oe_longe"],
                 "cilindrico_oe_longe": json["vlr_cilindrico_oe_longe"],
                 "eixo_oe_longe": json["vlr_eixo_oe_longe"],
@@ -886,7 +1007,7 @@ $pagina = 'ordem_servico';
         }
 
         //
-        console.log(obj_formatado.info_add);
+        console.log(obj_formatado.produtos);
 
         // $.ajax({
 
