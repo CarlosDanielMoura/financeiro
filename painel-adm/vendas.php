@@ -16,6 +16,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 <!--LINK DE CSS-->
 <link rel="stylesheet" href="../css/tela-venda.css">
 <link rel="stylesheet" href="../css/home.css">
+<link rel="stylesheet" href="../vendor/select2/select2.min.css">
 
 
 <div class="container-fluid">
@@ -215,6 +216,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     var pag = "<?= $pagina ?>"
 </script>
 <script src="../js/ajax.js"></script>
+<script src="../vendor/select2/select2.min.js"></script>
 
 <script>
     $(document).ready(function() {

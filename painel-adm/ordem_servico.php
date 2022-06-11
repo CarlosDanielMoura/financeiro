@@ -12,6 +12,8 @@ $pagina = 'ordem_servico';
 
 <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="../vendor/jquery/jquery.inputmask.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="../vendor/select2/select2.min.css">
 
 <script src="https://kit.fontawesome.com/d9fe1d4535.js" crossorigin="anonymous"></script>
 
@@ -51,7 +53,7 @@ $pagina = 'ordem_servico';
                 <div class="col-6 Input-details-func">
                     <label>Cliente:</label>
                     <i class="bi bi-question-circle-fill" title="Selecione seu cliente"></i>
-                    <select class="classeCliente form-select " aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ">
+                    <select style="width: 100%;" class="form-select " aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ">
                         <?php
                         $query = $pdo->query("SELECT * FROM clientes where nome != 'Venda Rápida' order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +63,7 @@ $pagina = 'ordem_servico';
                             $id_item = $res[$i]['id'];
                             $nome_item = $res[$i]['nome'];
                         ?>
-                            <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+                            <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
 
                         <?php } ?>
                     </select>
@@ -96,7 +98,7 @@ $pagina = 'ordem_servico';
                 <div class="col-5 Input-details-func">
                     <label>Escolha os produtos:</label>
                     <i class="bi bi-question-circle-fill" title="Digite sua opção de produto pelo codigo , nome ou valor."></i>
-                    <select class="form-select sel2" aria-label="Default select example" name="user-os" id="user-os">
+                    <select style="width: 100%;" class="form-select sel2" aria-label="Default select example" name="user-os" id="user-os">
                         <?php
                         $query = $pdo->query("SELECT * FROM produtos where nome != 'Venda Rápida' order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -159,6 +161,14 @@ $pagina = 'ordem_servico';
                         #tabela_resumo input {
                             margin-bottom: 0;
                         }
+
+                        .input-group-addon {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 27px;
+                            border: 1px solid #ced4da;
+                        }
                     </style>
                     <script>
                         function calcTotalProdInd2(campoValUnLiq) {
@@ -184,7 +194,7 @@ $pagina = 'ordem_servico';
                             let tbody = aLixeira.parentElement.parentElement.parentElement;
                             aLixeira.parentElement.parentElement.remove();
                             atualizaValorTotal(tbody);
-                            //___TODO___ ATUALIZAR PRODUTO QUANDO REMOVER.
+
                         }
 
                         function atualizaValorTotal(valTotal) {
@@ -197,8 +207,9 @@ $pagina = 'ordem_servico';
                             let totais = resumo.childNodes[1].childNodes[1];
                             let liquido = resumo.childNodes[5];
                             let valor_total = totais.childNodes[0].childNodes[5];
-
                             valor_total.innerText = soma.toFixed(2);
+
+                            calLiquido();
                         }
 
                         function adicionaProdutoTab() {
@@ -247,13 +258,14 @@ $pagina = 'ordem_servico';
                     <div class="row d-flex">
                         <div class="col-4">
                             <label for=""> <b> Entrada do Cliente: R$</b></label>
-                            <input type="number" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control">
+                            <input type="number" onchange="calcSubtotal(this)" onkeyup="calcSubtotal(this)" style="text-align: end;" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control">
                         </div>
                         <div class="col-4">
                             <label for=""><b> Tipo de Pagamento: </b></label>
                             <select class="form-select" aria-label="Default select example" name="tipo_pagamento_cli" id="tipo_pagamento_cli">
+                                <option value="Cartão Crédito">Cartão de Crédito</option>
+                                <option value="Cartão Débito">Cartão de Débito</option>
                                 <option value="Dinheiro">Dinheiro</option>
-                                <option value="Cartão">Cartão</option>
                                 <option value="Boleto">Boleto</option>
                                 <option value="Cheque">Cheque</option>
                                 <option value="Conta Corrente">Conta Corrente</option>
@@ -265,14 +277,18 @@ $pagina = 'ordem_servico';
                             </select>
 
                         </div>
+                        <div class="col-4">
+                            <label title="Quantidade de parcelas que o cliente deseja." for=""> </label>
+                            <b> Parcelas:</b> <input style="text-align: end; width: 6rem;" type="number" class="form-control" name="vlr_qtde_parc" id="vlr_qtde_parc"> </h5>
+                        </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col-4">
                             <label title="Valor restante que o cliente ainda tem a pagar." for=""> </label>
-                            <h5><b> SubTotal</b> <input style="text-align: end;" type="text" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" readonly value="150,00"> </h5>
-
+                            <h5><b> SubTotal: <b>R$</b></b> <input style="text-align: end;" type="number" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" readonly> </h5>
                         </div>
+
                     </div>
 
                 </div>
@@ -286,14 +302,30 @@ $pagina = 'ordem_servico';
                         </tr>
                         <tr>
                             <td style="width: 30%;">Desconto:</td>
-                            <td style="width: 30%;"><input onkeyup="attPorcentagemDesconto()" name="porcentagem_desconto" class="form-control" type="text" placeholder="porcentagem"></td>
-                            <td style="width: 30%;"><input onkeyup="attDinheiroDesconto()" name="dinheiro_desconto" class="form-control" type="text" placeholder="dinheiro"></td>
+                            <td style="width: 30%;">
+                                <div class="input-group"> <input step="0.01" onkeyup="attPorcentagemDesconto()" onchange="attPorcentagemDesconto(); arredondaPra2(this)" name="porcentagem_desconto" id="porcentagem_desconto" class="form-control" type="number" placeholder="porcentagem" autocomplete="off"><span class="input-group-addon">
+                                        <span class="fa fa-percent" style="background:transparent;border:none"></span>
+                                    </span></div>
+                            </td>
+                            <td style="width: 30%;">
+                                <div class="input-group"><input step="0.01" onkeyup="attDinheiroDesconto()" onchange="attDinheiroDesconto(); arredondaPra2(this)" name="dinheiro_desconto" id="dinheiro_desconto" class="form-control" type="number" placeholder="dinheiro" autocomplete="off"><span class="input-group-addon">
+                                        <span class="fa fa-dollar" style="background:transparent;border:none"></span>
+                                    </span></div>
+                            </td>
                             <td style="width: 10%;" class="text-danger">( - )</td>
                         </tr>
                         <tr>
                             <td style="width: 30%;">Acréscimo:</td>
-                            <td style="width: 30%;"><input onkeyup="" name="porcentagem_acrescimo" class="form-control" type="text" placeholder="porcentagem"></td>
-                            <td style="width: 30%;"><input onkeyup="" name="dinheiro_acrescimo" class="form-control" type="text" placeholder="dinheiro"></td>
+                            <td style="width: 30%;">
+                                <div class="input-group"><input step="0.01" onkeyup="attPorcentagemAcrescimo()" onchange="attPorcentagemAcrescimo(); arredondaPra2(this)" name="porcentagem_acrescimo" id="porcentagem_acrescimo" class="form-control" type="number" placeholder="porcentagem" autocomplete="off"><span class="input-group-addon">
+                                        <span class="fa fa-percent" style="background:transparent;border:none"></span>
+                                    </span></div>
+                            </td>
+                            <td style="width: 30%;">
+                                <div class="input-group"> <input step="0.01" onkeyup="attDinheiroAcrescimo()" onchange="attDinheiroAcrescimo(); arredondaPra2(this)" name="dinheiro_acrescimo" id="dinheiro_acrescimo" class="form-control" type="number" placeholder="dinheiro" autocomplete="off"><span class="input-group-addon">
+                                        <span class="fa fa-dollar" style="background:transparent;border:none"></span>
+                                    </span>
+                            </td>
                             <td style="width: 10%;" class="text-primary">( + )</td>
                         </tr>
                     </table>
@@ -302,7 +334,7 @@ $pagina = 'ordem_servico';
                         <tr>
                             <td style="width: 40%;">Valor Líquido:</td>
                             <td style="width: 2%;"></td>
-                            <td style="width: 48%; text-align: end;" class="text-primary">270,00</td>
+                            <td id="vlr_liquido" style="width: 48%; text-align: end;" class="text-primary">00.00</td>
                             <td style="width: 10%;" class="text-primary">( = )</td>
                         </tr>
                     </table>
@@ -311,8 +343,12 @@ $pagina = 'ordem_servico';
         </div>
 
         <script>
-            function attDinheiroDesconto(self) {
-                let dinheiro_desconto = self.value
+            function arredondaPra2(self) {
+                self.value = Number.parseFloat(self.value).toFixed(2);
+            }
+
+            function attDinheiroDesconto() {
+                let dinheiro_desconto = document.getElementById("dinheiro_desconto");
                 let valor_final = 0
                 let valor_total = document.getElementById("vlr_total").innerText
                 valor_total = Number.parseFloat(valor_total)
@@ -323,14 +359,14 @@ $pagina = 'ordem_servico';
 
 
 
-                console.log(valor_final)
 
                 let porcentagem_desconto = document.getElementsByName("porcentagem_desconto")[0];
                 porcentagem_desconto.value = valor_final.toFixed(2);
+                calLiquido()
             }
 
             function attPorcentagemDesconto() {
-                let porcentagem_desconto = self.value;
+                let porcentagem_desconto = document.getElementById("porcentagem_desconto").value;
                 let valor_final = 0
                 let valor_total = document.getElementById("vlr_total").innerText
                 valor_total = Number.parseFloat(valor_total)
@@ -341,30 +377,95 @@ $pagina = 'ordem_servico';
                 let dinheiro_desconto = document.getElementsByName("dinheiro_desconto")[0];
 
                 dinheiro_desconto.value = valor_final.toFixed(2)
+                calLiquido()
+            }
+
+            function attPorcentagemAcrescimo() {
+                var valor_porcentagem = document.getElementById("porcentagem_acrescimo").value;
+
+                let valor_final = 0
+                let valor_total = document.getElementById("vlr_total").innerText
+                valor_total = Number.parseFloat(valor_total)
+                if (valor_total > 0) {
+                    valor_final = (valor_porcentagem * valor_total) / 100;
+                }
+
+                let dinheiro_desconto = document.getElementById("dinheiro_acrescimo");
+
+                dinheiro_desconto.value = valor_final.toFixed(2)
+                calLiquido()
 
             }
 
-            function attPorcenAcres() {
+            function attDinheiroAcrescimo() {
+                let dinheiro_acrescimo = document.getElementById("dinheiro_acrescimo").value
+                let valor_final = 0
+                let valor_total = document.getElementById("vlr_total").innerText
+                valor_total = Number.parseFloat(valor_total)
 
+                if (valor_total > 0) {
+                    valor_final = (dinheiro_acrescimo / valor_total) * 100;
+                }
+                let porcentagem_desconto = document.getElementById("porcentagem_acrescimo");
+                porcentagem_desconto.value = valor_final.toFixed(2);
+                calLiquido()
             }
 
-            function attDinAcres() {
+            function calLiquido() {
 
-            }
-
-            function calcFinal() {
-                let porcen_desc = document.getElementsByName("porcentagem_desconto")[0].value
-                let dinheiro_desc = document.getElementsByName("dinheiro_desconto")[0].value
-
-                //acréscimo
-                let porc_acres = document.getElementsByName("porcentagem_acrescimo")[0].value
-                let dinheiro_acres = document.getElementsByName("dinheiro_desconto")[0].value
-
+                //Pegando o valor total
                 let valor_total = document.getElementById("vlr_total").innerText
                 valor_total = Number.parseFloat(valor_total)
 
 
-                console.log(valor_total);
+                //Pegando o Campo dinheiro da parte desconto
+                let campo_dinheiro_desconto = document.getElementById("dinheiro_desconto").value
+                //Pegando o Campo dinheiro da parte de acrescimo
+                let campo_dinheiro_acrescimo = document.getElementById("dinheiro_acrescimo").value
+
+                if (valor_total > 0) {
+                    if (campo_dinheiro_desconto > 0) {
+                        valor_total = valor_total - campo_dinheiro_desconto;
+
+                    }
+
+                    if (campo_dinheiro_acrescimo > 0) {
+                        valor_total = parseFloat(valor_total) + parseFloat(campo_dinheiro_acrescimo);
+                    }
+
+
+
+                }
+
+
+                //Pegar o campo liquido e jogando o valor final em liquido
+                let campo_liquido = document.getElementById("vlr_liquido");
+                campo_liquido.innerText = valor_total.toFixed(2)
+
+                //Pegando o valor liquido e jogando no sub total;
+                let campo_subTotal = document.getElementById("vlr_subtotal_cli");
+                campo_subTotal.value = valor_total.toFixed(2);
+
+                calcSubtotal(document.getElementById("vlr_entrada_cliente"))
+            }
+
+            function calcSubtotal(self) {
+
+                let valor_EntradaCli = self.value
+                let valor_Final = 0;
+
+                //Pegando o campo subTotal
+                let valor_liquido = document.getElementById("vlr_liquido")
+
+                //Campo subtotal
+                let campo_subtotal = document.getElementById("vlr_subtotal_cli");
+
+
+
+
+                valor_Final = Number.parseFloat(valor_liquido.innerText) - valor_EntradaCli;
+                campo_subtotal.value = valor_Final.toFixed(2)
+
 
 
             }
@@ -888,15 +989,22 @@ $pagina = 'ordem_servico';
 </div>
 
 
-
-
+<script src="../vendor/select2/select2.min.js"></script>
 
 
 <script>
-    // $('.classeCliente').select2({
-    //     placeholder: 'Selecione um Cliente',
-    //     //dropdownParent: $('#modalForm')
-    // });
+    $(document).ready(function() {
+        $('#cli-os-dados-princ').select2({
+            placeholder: 'Selecione um Cliente',
+
+        });
+
+        $('#user-os').select2({
+            placeholder: 'Selecione um Produto',
+
+        });
+    })
+
 
 
     $("#os").submit(function(event) {
@@ -935,11 +1043,11 @@ $pagina = 'ordem_servico';
         var obj_formatado = {
 
             "dadosPrincipal": {
-                "data-entrega": json["data_entrega"],
-                "hora-entrega": json['hora_entrega'],
+                "data_entrega": json["data_entrega"],
+                "hora_entrega": json['hora_entrega'],
                 "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-                "observacao-princ": json["obs-dados-princ"],
-                "cli-dados-princ": json["cli-os-dados-princ"],
+                "observacao_princ": json["obs-dados-princ"],
+                "cli_dados_princ": json["cli-os-dados-princ"],
                 "func-dados-princ": json["func-dados-princ"]
             },
 
@@ -948,7 +1056,13 @@ $pagina = 'ordem_servico';
                 "produtos_selecionados": Lprodutos,
                 "valor_entrada_cliente": json["vlr_entrada_cliente"],
                 "tipo_pagamento": json["tipo_pagamento_cli"],
-                "entrada_cliente": json["vlr_subtotal_cli"],
+                "qtde_parcelas": json["vlr_qtde_parc"],
+                "subTotal_Cliente": json["vlr_subtotal_cli"],
+                "valor_Total_produtos": Number.parseFloat(document.getElementById("vlr_total").innerText).toFixed(2),
+                "valor_liquido": Number.parseFloat(document.getElementById("vlr_liquido").innerText).toFixed(2),
+                "desconto": json["dinheiro_desconto"],
+                "acrescimo": json["dinheiro_acrescimo"]
+
 
             },
             "receita": {
@@ -1006,34 +1120,27 @@ $pagina = 'ordem_servico';
             }
         }
 
-        //
-        console.log(obj_formatado.produtos);
+        // https://jsonformatter.org/json-viewer Visualizar json
+        //console.log(obj_formatado.dadosPrincipal);
 
-        // $.ajax({
-
-        //     url: pag + "",
-        //     type: 'POST',
-        //     data: formData,
-
-        //     success: function(mensagem) {
-        //         if (mensagem.trim() == "Parcelado com Sucesso!") {
-        //             $('#btn-fechar-parcelar').click();
-        //             listar();
-        //             limparCampos();
-        //         } else {
-
-        //             $('#mensagem-parcelar').addClass('text-danger')
-        //             $('#mensagem-parcelar').text(mensagem)
-        //         }
-
-
-        //     },
-
-        //     cache: false,
-        //     contentType: false,
-        //     processData: false,
-
-        // });
+        $.ajax({
+            type: "POST",
+            url: `<?php echo $pagina; ?>/inserir.php`,
+            data: JSON.stringify(obj_formatado),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data, textStatus) {
+                console.log(data);
+                if (data.redirect) {
+                    console.log(data.redirect);
+                    // data.redirect contains the string URL to redirect to
+                    //window.location.replace(data.redirect);
+                } else {
+                    // data.form contains the HTML for the replacement form
+                    $("#my-form").replaceWith(data.form);
+                }
+            }
+        });
 
     });
 </script>
