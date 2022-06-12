@@ -303,3 +303,11 @@ td.border-blue {
     color: #666666 !important;
 
 }
+
+/*----------------- Cards ------------------*/
+
+.cards {
+    width: 100%;
+    height: auto;
+    border: 1px solid black;
+}

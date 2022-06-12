@@ -29,8 +29,11 @@ $pagina = 'ordem_servico';
                 <div class="col-6 Input-details-func">
                     <label>Funcionário:</label>
                     <i class="bi bi-question-circle-fill" title="Selecione seu funcionário"></i>
-                    <select class="form-select" aria-label="Default select example" name="func-dados-princ" id="func-dados-princ">
+                    <select style="width: 100%;" class="form-select" aria-label="Default select example" name="func-dados-princ" id="func-dados-princ">
+                        <option value=""></option>
+
                         <?php
+
                         $query = $pdo->query("SELECT * FROM usuarios order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
                         for ($i = 0; $i < @count($res); $i++) {
@@ -49,13 +52,14 @@ $pagina = 'ordem_servico';
 
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-6 Input-details-func">
                     <label>Cliente:</label>
                     <i class="bi bi-question-circle-fill" title="Selecione seu cliente"></i>
-                    <select style="width: 100%;" class="form-select " aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ">
+                    <select class="form-select sel2" aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ" style="width:100%;" onchange="selecionarCliente()" required>
+                        <option value=""></option>
                         <?php
-                        $query = $pdo->query("SELECT * FROM clientes where nome != 'Venda Rápida' order by nome asc");
+                        $query = $pdo->query("SELECT * FROM clientes where ativo = 'Sim' order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
                         for ($i = 0; $i < @count($res); $i++) {
                             foreach ($res[$i] as $key => $value) {
@@ -66,6 +70,8 @@ $pagina = 'ordem_servico';
                             <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
 
                         <?php } ?>
+
+
                     </select>
                 </div>
                 <div class="col-3 Input-details-1">
@@ -99,6 +105,7 @@ $pagina = 'ordem_servico';
                     <label>Escolha os produtos:</label>
                     <i class="bi bi-question-circle-fill" title="Digite sua opção de produto pelo codigo , nome ou valor."></i>
                     <select style="width: 100%;" class="form-select sel2" aria-label="Default select example" name="user-os" id="user-os">
+                        <option value=""></option>
                         <?php
                         $query = $pdo->query("SELECT * FROM produtos where nome != 'Venda Rápida' order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -974,7 +981,7 @@ $pagina = 'ordem_servico';
         <div class="row mt-3 mb-4">
             <div class="box-btns">
                 <div class="btns">
-                    <button class="btn-voltar_os" type="">Voltar</button>
+                    <button class="btn-voltar_os" type="close">Voltar</button>
                 </div>
                 <div class="btns">
 
@@ -1003,6 +1010,11 @@ $pagina = 'ordem_servico';
             placeholder: 'Selecione um Produto',
 
         });
+
+        $('#func-dados-princ').select2({
+            placeholder: 'Selecione um Funcionario',
+
+        });
     })
 
 
@@ -1011,6 +1023,28 @@ $pagina = 'ordem_servico';
         event.preventDefault();
         var formData = new FormData(this);
         var json = Object.fromEntries(formData);
+
+        var x;
+        x = document.getElementById("func-dados-princ").value;
+        if ((x == "") || (x == null)) {
+            alert("Selecione um Cliente");
+            return false;
+        };
+
+        var a;
+        a = document.getElementById("func-dados-princ").value;
+        if ((a == "") || (a == null)) {
+            alert("Selecione um Funcionário");
+            return false;
+        };
+
+        var p;
+        p = document.getElementById("user-os").value;
+        if ((p == "") || (p == null)) {
+            alert("Selecione um Produto");
+            return false;
+        };
+
 
 
         const produtos = document.getElementById("tabela-produtos").childNodes[1];
@@ -1130,15 +1164,10 @@ $pagina = 'ordem_servico';
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function(data, textStatus) {
-                console.log(data);
-                if (data.redirect) {
-                    console.log(data.redirect);
-                    // data.redirect contains the string URL to redirect to
-                    //window.location.replace(data.redirect);
-                } else {
-                    // data.form contains the HTML for the replacement form
-                    $("#my-form").replaceWith(data.form);
-                }
+                window.location.replace('index.php?pag=listar_os');
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseJSON);
             }
         });
 
