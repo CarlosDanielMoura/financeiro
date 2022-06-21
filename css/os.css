@@ -36,6 +36,36 @@ a {
     justify-content: space-between;
 }
 
+
+.button-88 {
+    display: flex;
+    width: 145px;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    background: #ad5389;
+    background: linear-gradient(0deg, rgb(25, 157, 233) 0%, rgb(98, 183, 209) 100%);
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em #1c84c6;
+    letter-spacing: 0.05em;
+    border-radius: 1rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-88:hover {
+    box-shadow: 0 0.5em 1.5em -0.5em #1c84c6;
+
+}
+
+.button-88:active {
+    box-shadow: 0 0.3em 1em -0.5em #1c84c6;
+}
+
 /******** Final btns *********/
 
 .dados-principais {
@@ -230,9 +260,8 @@ a {
 /*Inputs armação*/
 
 .inputs-armacao {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
+    width: 95%;
+    margin: 3px 0px 3px 0;
 }
 
 .inputs-arm {
@@ -241,7 +270,7 @@ a {
 }
 
 .inputs-arm input[type="number"] {
-    width: 15rem;
+
     border: solid 0.1rem gray;
     border-radius: 0.25rem;
     margin: 10px;
@@ -306,8 +335,165 @@ td.border-blue {
 
 /*----------------- Cards ------------------*/
 
-.cards {
-    width: 100%;
-    height: auto;
-    border: 1px solid black;
+.row-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    border-radius: 5px;
+    box-shadow: 7px 7px 13px 0px rgba(50, 50, 50, 0.22);
+    padding: 30px;
+    margin: 20px;
+    width: 400px;
+    transition: all 0.3s ease-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.card p {
+    color: #a3a5ae;
+    font-size: 16px;
+}
+
+.conteudo {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    padding: 8px 20px;
+}
+
+.conteudo>.titulo-conteudo-green {
+    color: #3bb54a;
+}
+
+.conteudo>.titulo-conteudo-blue {
+    color: #4895ff;
+}
+
+.conteudo>.titulo-conteudo-red {
+    color: #b3404a;
+}
+
+.image {
+    float: right;
+    max-width: 45px;
+    max-height: 45px;
+    align-self: end;
+}
+
+.blue {
+    border-left: 5px solid #4895ff;
+}
+
+.green {
+    border-left: 5px solid #3bb54a;
+}
+
+.red {
+    border-left: 5px solid #b3404a;
+}
+
+.orange {
+    border-left: 5px solid #f8ac59;
+}
+
+/***************** Cards cliente ****************/
+
+
+.secao-lista-dados {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.cards-clientes {
+    border-radius: 5px;
+    box-shadow: 7px 7px 13px 0px rgba(50, 50, 50, 0.22);
+    padding: 30px;
+    margin: 20px;
+
+    transition: all 0.3s ease-out;
+}
+
+.cards-clientes:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    border-left: 7px solid #f8ac59
+}
+
+
+.label {
+    background-color: #d1dade;
+    color: #5e5e5e;
+    font-family: 'Open Sans';
+    font-size: 15px;
+    font-weight: 600;
+    padding: 3px 8px;
+    text-shadow: none;
+    width: 85px;
+    border-radius: 5px;
+}
+
+.label-warning {
+    background-color: rgb(24, 189, 24);
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.row-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.row-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.row-3 {
+    display: flex;
+    align-items: center;
+    gap: 192px;
+}
+
+.row-4 {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+}
+
+a.btn {
+    border: 1px solid #cfd3d6;
+    border-radius: 5px;
+    background: transparent;
+}
+
+a.btn-comprovante {
+    color: inherit;
+
+}
+
+a.btn-comprovante:hover {
+    background-color: #adadad;
+    transition: all .5s;
+    color: #333;
+    text-decoration: none
+}
+
+/*Search */
+
+.box-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1%;
 }

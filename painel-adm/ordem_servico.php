@@ -25,10 +25,10 @@ $pagina = 'ordem_servico';
                 <h3 class="titulo-os">Nova O.S - Dados Principais</h3>
                 <hr>
             </div>
-            <div class="row">
+            <div class="row" style="display:flex; align-items: center;">
                 <div class="col-6 Input-details-func">
                     <label>Funcionário:</label>
-                    <i class="bi bi-question-circle-fill" title="Selecione seu funcionário"></i>
+                    <i class="bi bi-question-circle-fill" title="Selecione seu funcionário"></i> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
                     <select style="width: 100%;" class="form-select" aria-label="Default select example" name="func-dados-princ" id="func-dados-princ">
                         <option value=""></option>
 
@@ -42,21 +42,28 @@ $pagina = 'ordem_servico';
                             $id_item = $res[$i]['id'];
                             $nome_item = $res[$i]['nome'];
                         ?>
-                            <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+                            <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
 
                         <?php } ?>
                     </select>
 
                 </div>
-
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <div class="row">
+                        <a class="button-88" onclick="inserir()" data-toggle="modal" data-target="#exampleModal">
+                            Guia de Ajuda
+                        </a>
+                    </div>
+                </div>
 
             </div>
 
             <div class="row mt-3">
                 <div class="col-6 Input-details-func">
                     <label>Cliente:</label>
-                    <i class="bi bi-question-circle-fill" title="Selecione seu cliente"></i>
-                    <select class="form-select sel2" aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ" style="width:100%;" onchange="selecionarCliente()" required>
+                    <i class="bi bi-question-circle-fill" title="Selecione seu cliente"></i> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
+                    <select class="form-select sel2" aria-label="Default select example" name="cli-os-dados-princ" id="cli-os-dados-princ" style="width:100%;" required>
                         <option value=""></option>
                         <?php
                         $query = $pdo->query("SELECT * FROM clientes where ativo = 'Sim' order by nome asc");
@@ -75,12 +82,12 @@ $pagina = 'ordem_servico';
                     </select>
                 </div>
                 <div class="col-3 Input-details-1">
-                    <label>Data de Entrega:</label>
-                    <input type="date" class="form-control" name="data_entrega">
+                    <label>Data de Entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
+                    <input type="date" class="form-control" id="data_entrega" name="data_entrega">
                 </div>
                 <div class="col-3 Input-details-1">
-                    <label>Hora de entrega:</label>
-                    <input type="time" class="form-control" name="hora_entrega">
+                    <label>Hora de entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
+                    <input type="time" class="form-control" id="hora_entrega" name="hora_entrega">
 
                 </div>
             </div>
@@ -102,7 +109,7 @@ $pagina = 'ordem_servico';
             </div>
             <div class="row ">
                 <div class="col-5 Input-details-func">
-                    <label>Escolha os produtos:</label>
+                    <label>Escolha os produtos:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
                     <i class="bi bi-question-circle-fill" title="Digite sua opção de produto pelo codigo , nome ou valor."></i>
                     <select style="width: 100%;" class="form-select sel2" aria-label="Default select example" name="user-os" id="user-os">
                         <option value=""></option>
@@ -286,7 +293,7 @@ $pagina = 'ordem_servico';
                         </div>
                         <div class="col-4">
                             <label title="Quantidade de parcelas que o cliente deseja." for=""> </label>
-                            <b> Parcelas:</b> <input style="text-align: end; width: 6rem;" type="number" class="form-control" name="vlr_qtde_parc" id="vlr_qtde_parc"> </h5>
+                            <b> Parcelas:</b> <input style="text-align: end; width: 6rem;" type="number" placeholder="1" maxlength="12" minlength="1" class="form-control" name="vlr_qtde_parc" id="vlr_qtde_parc"> </h5>
                         </div>
                     </div>
 
@@ -507,6 +514,7 @@ $pagina = 'ordem_servico';
                     </select>
                 </div>
 
+
                 <div class="col-3 Input-details-func">
                     <label>Receita valida até:</label>
                     <input type="date" class="form-control" name="">
@@ -667,51 +675,75 @@ $pagina = 'ordem_servico';
                 <hr>
             </div>
             <div class="row">
-                <div class="col-6">
-                    <div class="check-receita-montagem ">
+                <div class="col-4">
+                    <div class="check-receita-montagem " style="display: flex; flex-direction: column;">
 
                         <div class="title-type">
                             <label>Local da Montagem:</label>
                         </div>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Loja">
-                            <label class="form-check-label" for="check-montagem-loja">
-                                Loja
-                            </label>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Loja">
+                                    <label class="form-check-label" for="check-montagem-loja">
+                                        Loja
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Laboratorio">
+                                    <label class="form-check-label" for="check-montagem-laboratorio">
+                                        Laboratório
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Laboratorio">
-                            <label class="form-check-label" for="check-montagem-laboratorio">
-                                Laboratório
-                            </label>
-                        </div>
-
                     </div>
                 </div>
 
-                <div class="col-6">
-                    <div class="check-receita-montagem ">
+                <div class="col-4 Input-details-func">
+                    <label>Laboratório:</label>
+
+                    <select class="form-select" aria-label="Default select example" name="laboratorio" id="laboratorio">
+                        <option value="Sem laboratório" selected>Escolha uma opção</option>
+                        <option value="Bausch Lomb">Bausch Lomb</option>
+                        <option value="Bausch Lomb">Haytek</option>
+                        <option value="Ottilab">Ottilab</option>
+                        <option value="Uberlentes">Uberlentes</option>
+                    </select>
+                </div>
+
+                <div class="col-4 ">
+                    <div class="check-receita-montagem " style="display: flex; flex-direction: column; margin-left: 25px;">
 
                         <div class="title-type">
                             <label>Possui Receita:</label>
                         </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-sim" value="Sim">
+                                    <label class="form-check-label" for="check-receita-sim">
+                                        Sim
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-nao" value="Nao">
+                                    <label class="form-check-label" for="check-receita-nao">
+                                        Não
+                                    </label>
+                                </div>
+                            </div>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-sim" value="Sim">
-                            <label class="form-check-label" for="check-receita-sim">
-                                Sim
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-nao" value="Nao">
-                            <label class="form-check-label" for="check-receita-nao">
-                                Não
-                            </label>
+
                         </div>
                     </div>
                 </div>
-                <hr>
+                <hr class="mt-5">
             </div>
 
 
@@ -720,14 +752,10 @@ $pagina = 'ordem_servico';
                     <div class="title-lente">
                         <h5 class="title-box">Lente</h5>
                     </div>
-
-
                     <!--CheckBox Tipo-->
-
                     <div class="title-type">
                         <span>Tipo:</span>
                     </div>
-
                     <div class="check-tipo ">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="checkedTipo" id="check-sim" value="Pronta">
@@ -743,11 +771,9 @@ $pagina = 'ordem_servico';
                         </div>
 
                     </div>
-
                     <div class="title-type">
                         <span>Material:</span>
                     </div>
-
                     <div class="check-tipo">
                         <!---CheckBox Material-->
                         <div class="form-check">
@@ -770,8 +796,6 @@ $pagina = 'ordem_servico';
                             </label>
                         </div>
                     </div>
-
-
                     <!--Inputs DESCRIÇÃO/COLORAÇÃO-->
                     <div class="inputs-variacao">
                         <div class="inputs">
@@ -789,10 +813,8 @@ $pagina = 'ordem_servico';
                     <div class="title-type">
                         <span>Tratamentos:</span>
                     </div>
-
                     <div class="select-lente">
                         <!---CheckBox tratamentos-->
-
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Easy-Clean" value="Easy-Clean">
                             <label class="form-check-label" for="check-Easy-Clean">
@@ -823,13 +845,9 @@ $pagina = 'ordem_servico';
                             </label>
                         </div>
                     </div>
-
-
-
                 </div>
 
                 <!--Armação-->
-
                 <div class="box-armacao">
                     <div class="title-armacao">
                         <h5 class="title-box">Armação</h5>
@@ -839,7 +857,6 @@ $pagina = 'ordem_servico';
                         <span>Armação própria:</span>
                         <span>Segue Armação:</span>
                     </div>
-
                     <div class="arm">
                         <!--CheckedBox Armação-->
                         <div class="check-tipo ">
@@ -855,7 +872,6 @@ $pagina = 'ordem_servico';
                                     Não
                                 </label>
                             </div>
-
                         </div>
                         <div class="check-tipo ">
                             <div class="form-check">
@@ -870,16 +886,13 @@ $pagina = 'ordem_servico';
                                     Não
                                 </label>
                             </div>
-
                         </div>
-
                     </div>
 
                     <!--Select armação-->
                     <div class="title-type mt-3">
                         <span>Tipo:</span>
                     </div>
-
                     <div class="select-arm mt-2">
                         <select class="form-select" aria-label="Default select example" name="tipo_armacao">
                             <option selected>Selecione uma opção</option>
@@ -889,110 +902,144 @@ $pagina = 'ordem_servico';
                             <option value="Zilo/Acetato">Zilo/Acetato</option>
                         </select>
                     </div>
-
-
                     <!--Inputs Armação-->
 
                     <div class="inputs-armacao mt-4">
-                        <div class="inputs-arm">
-                            <label>Aro:</label>
-                            <input onkeyup="somaAroePonte()" type="number" name="in-aro-arm" id="in-aro-arm">
-                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="inputs-arm">
+                                    <label>Aro:</label>
+                                    <input onkeyup="somaAroePonte()" class="form-control" type="number" name="in-aro-arm" id="in-aro-arm">
+                                </div>
+                            </div>
 
-                        <div class="inputs-arm">
-                            <label>Ponte:</label>
-                            <input onkeyup="somaAroePonte()" type="number" name="in-ponte-arm" id="in-ponte-arm">
-                        </div>
+                            <div class="col-4">
+                                <div class="inputs-arm">
+                                    <label>Ponte:</label>
+                                    <input onkeyup="somaAroePonte()" class="form-control" type="number" name="in-ponte-arm" id="in-ponte-arm">
+                                </div>
+                            </div>
 
-                        <div class="inputs-arm">
-
-
-                            <label>Aro + Ponte:</label>
-                            <input type="number" name="in-aro-ponto-arm" id="in-aro-ponto-arm" readonly>
-                            <script>
-                                function somaAroePonte() {
-                                    const r = document.getElementById("in-aro-ponto-arm");
-                                    let aro = document.getElementById("in-aro-arm").value;
-                                    let ponte = document.getElementById("in-ponte-arm").value;
-                                    if (aro.length < 1) aro = 0;
-                                    if (ponte.length < 1) ponte = 0;
-                                    r.value = Number.parseFloat(aro) + Number.parseFloat(ponte);
-                                }
-                            </script>
+                            <div class="col-4">
+                                <div class="inputs-arm">
+                                    <label>Aro + Ponte:</label>
+                                    <input type="number" class="form-control" name="in-aro-ponto-arm" id="in-aro-ponto-arm" readonly>
+                                    <script>
+                                        function somaAroePonte() {
+                                            const r = document.getElementById("in-aro-ponto-arm");
+                                            let aro = document.getElementById("in-aro-arm").value;
+                                            let ponte = document.getElementById("in-ponte-arm").value;
+                                            if (aro.length < 1) aro = 0;
+                                            if (ponte.length < 1) ponte = 0;
+                                            r.value = Number.parseFloat(aro) + Number.parseFloat(ponte);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-
                     <!--Inputs Diagonal / Vertical / Pupilar--->
-
                     <div class="inputs-armacao mt-4">
-                        <div class="inputs-arm">
-                            <label>Maior Diagonal:</label>
-                            <input type="number" name="maior_diagonal" id="maior_diagonal">
-                        </div>
 
-                        <div class="inputs-arm">
-                            <label>Altura Vertical:</label>
-                            <input type="number" name="altura_vertical" id="altura_vertical">
-                        </div>
+                        <div class="row">
 
-                        <div class="inputs-arm">
-                            <label>Distância Pupilar:</label>
-                            <input type="number" name="distancia_pupilar" id="distancia_pupilar">
+                            <div class="col-4">
+                                <div class="inputs-arm">
+                                    <label>Maior Diagonal:</label>
+                                    <input type="number" class="form-control" name="maior_diagonal" id="maior_diagonal">
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="inputs-arm">
+                                    <label>Altura Vertical:</label>
+                                    <input type="number" class="form-control" name="altura_vertical" id="altura_vertical">
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="inputs-arm">
+                                    <label>Distância Pupilar:</label>
+                                    <input type="number" class="form-control" name="distancia_pupilar" id="distancia_pupilar">
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
 
                     <!---Inputs Altura do Centro Otico (CO)-->
-
                     <div class="title-type mt-4">
                         <span>Altura do centro Otico (CO):</span>
                     </div>
-
                     <div class="inputs-armacao-olhos mt-2">
                         <div class="inputs-arm">
                             <label>Longe OD</label>
                             <input type="number" name="longe-od" id="longe-od">
                         </div>
-
                         <div class="inputs-arm">
                             <label>Longe OE</label>
                             <input type="number" name="longe-oe" id="longe-oe">
                         </div>
-
-
                     </div>
-
                     <div class="inputs-armacao-olhos">
                         <div class="inputs-arm">
                             <label>Perto OD</label>
                             <input type="number" name="perto_od" id="perto_od">
                         </div>
-
                         <div class="inputs-arm">
                             <label>Perto OE</label>
                             <input type="number" name="perto-oe" id="perto-oe">
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
         <div class="row mt-3 mb-4">
             <div class="box-btns">
                 <div class="btns">
-                    <button class="btn-voltar_os" type="close">Voltar</button>
+                    <button class="btn-voltar_os">Voltar</button>
                 </div>
                 <div class="btns">
-
                     <button class="btn-cad_os" type="submit">Cadastrar OS</button>
                 </div>
             </div>
-
-
         </div>
 
     </form>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Guia de ajuda!</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-excluir" method="post">
+                <div class="modal-body">
+                    <div class="texto-guia">
+                        <p>Itens:</p>
+                        <ul>
+                            <li> Funcioanário</li>
+                            <li>Cliente</li>
+                            <li>Data e hora de entrega</li>
+                            <li>Produtos</li>
+                        </ul>
+                        <p>Esse símbolo <span class="text-danger"> (*) </span> significa que esses itens são obrigatório a se preencher!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btn-fechar-excluir">Sair</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 
@@ -1001,6 +1048,9 @@ $pagina = 'ordem_servico';
 
 <script>
     $(document).ready(function() {
+
+
+
         $('#cli-os-dados-princ').select2({
             placeholder: 'Selecione um Cliente',
 
@@ -1018,6 +1068,16 @@ $pagina = 'ordem_servico';
     })
 
 
+    function inserir() {
+
+        $("#tituloModal").text("Guia de ajuda!");
+        var myModal = new bootstrap.Modal(document.getElementById("modalExcluir"), {
+            backdrop: "static",
+        });
+        myModal.show();
+
+    }
+
 
     $("#os").submit(function(event) {
         event.preventDefault();
@@ -1027,23 +1087,35 @@ $pagina = 'ordem_servico';
         var x;
         x = document.getElementById("func-dados-princ").value;
         if ((x == "") || (x == null)) {
-            alert("Selecione um Cliente");
             return false;
         };
 
         var a;
         a = document.getElementById("func-dados-princ").value;
         if ((a == "") || (a == null)) {
-            alert("Selecione um Funcionário");
             return false;
         };
 
         var p;
         p = document.getElementById("user-os").value;
         if ((p == "") || (p == null)) {
-            alert("Selecione um Produto");
             return false;
         };
+
+        var dataEntregue;
+        dataEntregue = document.getElementById("data_entrega").value;
+        if ((dataEntregue == "") || (dataEntregue == null)) {
+            console.log('data vazia');
+            return false;
+        };
+
+        var dataEntregueHora;
+        dataEntregueHora = document.getElementById("hora_entrega").value;
+        if ((dataEntregueHora == "") || (dataEntregueHora == null)) {
+            console.log('Hora vazia');
+            return false;
+        };
+
 
 
 
@@ -1082,7 +1154,7 @@ $pagina = 'ordem_servico';
                 "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone,
                 "observacao_princ": json["obs-dados-princ"],
                 "cli_dados_princ": json["cli-os-dados-princ"],
-                "func-dados-princ": json["func-dados-princ"]
+                "func_dados_princ": json["func-dados-princ"]
             },
 
             "produtos": {
@@ -1128,6 +1200,7 @@ $pagina = 'ordem_servico';
             "info_add": {
                 "local_montagem": json["checkedLocalMontagem"],
                 "possui_receita": json["checkedReceita-possui"],
+                "laboratorio": json["laboratorio"],
 
                 "info_add_lente": {
                     "tipo_lente": json["checkedTipo"],
