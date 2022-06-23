@@ -1,9 +1,20 @@
 <?php
 require_once("../conexao.php");
 require_once("verificar.php");
-$pagina = 'ordem_servico';
+$pagina = 'editar';
 
 //require_once($pagina . "/campos.php");
+
+$id = @$_GET['id'];
+
+$query = $pdo->query("SELECT * from ordem_servico where id = '$id'");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$json = json_decode($res[0]['obj']);
+
+print_r($json->produtos);
+
+
 ?>
 
 <link rel="stylesheet" href="../css/os.css">
@@ -22,7 +33,7 @@ $pagina = 'ordem_servico';
     <form id="os" action="">
         <div class="dados-principais">
             <div class="row">
-                <h3 class="titulo-os">Nova O.S - Dados Principais</h3>
+                <h3 class="titulo-os">Editar O.S - Dados Principais</h3>
                 <hr>
             </div>
             <div class="row" style="display:flex; align-items: center;">
@@ -30,7 +41,7 @@ $pagina = 'ordem_servico';
                     <label>Funcionário:</label>
                     <i class="bi bi-question-circle-fill" title="Selecione seu funcionário"></i> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
                     <select style="width: 100%;" class="form-select" aria-label="Default select example" name="func-dados-princ" id="func-dados-princ">
-                        <option value=""></option>
+                        <option value="" selected><?php  ?></option>
 
                         <?php
 
@@ -39,10 +50,11 @@ $pagina = 'ordem_servico';
                         for ($i = 0; $i < @count($res); $i++) {
                             foreach ($res[$i] as $key => $value) {
                             }
+
                             $id_item = $res[$i]['id'];
                             $nome_item = $res[$i]['nome'];
                         ?>
-                            <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
+                            <option value="<?php echo $id_item ?>" <?php if ($id_item == $json->dadosPrincipal->func_dados_princ) echo 'selected' ?>><?php echo $nome_item ?></option>
 
                         <?php } ?>
                     </select>
@@ -74,7 +86,7 @@ $pagina = 'ordem_servico';
                             $id_item = $res[$i]['id'];
                             $nome_item = $res[$i]['nome'];
                         ?>
-                            <option value="<?php echo $id_item ?>"><?php echo $nome_item ?></option>
+                            <option value="<?php echo $id_item ?>" <?php if ($id_item == $json->dadosPrincipal->cli_dados_princ) echo 'selected' ?>><?php echo $nome_item ?></option>
 
                         <?php } ?>
 
@@ -83,11 +95,11 @@ $pagina = 'ordem_servico';
                 </div>
                 <div class="col-3 Input-details-1">
                     <label>Data de Entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
-                    <input type="date" class="form-control" id="data_entrega" name="data_entrega">
+                    <input type="date" class="form-control" id="data_entrega" name="data_entrega" value="<?php echo $json->dadosPrincipal->data_entrega ?>">
                 </div>
                 <div class="col-3 Input-details-1">
                     <label>Hora de entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
-                    <input type="time" class="form-control" id="hora_entrega" name="hora_entrega">
+                    <input type="time" class="form-control" id="hora_entrega" name="hora_entrega" value="<?php echo $json->dadosPrincipal->hora_entrega  ?>">
 
                 </div>
             </div>
@@ -95,7 +107,7 @@ $pagina = 'ordem_servico';
             <div class="row">
                 <div class="col-9 Input-details-obs">
                     <label for="observacao">Observação:</label>
-                    <textarea class="form-control" id="observacao" rows="3" name="obs-dados-princ"></textarea>
+                    <textarea class="form-control" id="observacao" rows="3" name="obs-dados-princ"><?php echo $json->dadosPrincipal->observacao_princ ?></textarea>
 
                 </div>
             </div>
@@ -214,7 +226,7 @@ $pagina = 'ordem_servico';
                         function atualizaValorTotal(valTotal) {
                             let soma = 0;
                             for (let i = 2; i < valTotal.childNodes.length; i++) {
-                                soma += Number.parseFloat(valTotal.childNodes[i].childNodes[11].innerText.replace(",", "."));
+                                soma += Number.parseFloat(valTotal.childNodes[i].childNodes[34].innerText.replace(",", "."));
                             }
 
                             let resumo = document.getElementById("tabela_resumo").childNodes[3];
@@ -229,7 +241,7 @@ $pagina = 'ordem_servico';
                         function adicionaProdutoTab() {
                             const idProd = document.getElementById("user-os").value;
                             $.ajax({
-                                url: `<?php echo $pagina; ?>/ajaxBuscaProduto.php?idProd=${idProd}`,
+                                url: `<?php echo $pagina; ?>/../ordem_servico/ajaxBuscaProduto.php?idProd=${idProd}`,
                                 method: "GET",
                                 dataType: "json",
                                 success: function(produto) {
@@ -264,7 +276,29 @@ $pagina = 'ordem_servico';
                             <td style="width: 8%;">Ações</td>
                             <td class="d-none">id</td>
                         </tr>
+                        <?php
+                        require_once("../conexao.php");
+                        foreach ($json->produtos->produtos_selecionados as $key => $prod) {
+                            $query = $pdo->prepare("SELECT * from produtos where ativo = 'Sim' and estoque > 0 and id = :idProd ");
+                            $query->bindValue(":idProd", $prod->id);
+                            $query->execute();
+                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                            $produto = $res[0];
 
+                        ?>
+                            <tr>
+                                <td class="b-clara"><?php echo $produto["codigo"] ?> - <?php echo $produto["nome"] ?></td>
+                                <td><input placeholder="1" min="1" max="<?php echo $produto["estoque"] ?>" class="form-control" type="number" onkeyup="calcTotalProdInd(this)" onchange="calcTotalProdInd(this)"></td>
+                                <td><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
+                                <td>0.00</td>
+                                <td><input onkeyup="calcTotalProdInd2(this)" onchange="calcTotalProdInd2(this)" class="form-control" type="text" value="<?php echo str_replace(',', '.', $produto["valor_venda"]) ?>"></td>
+                                <td><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
+                                <td><a onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
+                                <td class="d-none"><?php echo $produto["id"] ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </table>
                 </div>
             </div>
@@ -274,11 +308,12 @@ $pagina = 'ordem_servico';
                     <div class="row d-flex">
                         <div class="col-4">
                             <label for=""> <b> Entrada do Cliente: R$</b></label>
-                            <input type="number" onchange="calcSubtotal(this)" onkeyup="calcSubtotal(this)" style="text-align: end;" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control">
+                            <input type="number" onchange="calcSubtotal(this)" onkeyup="calcSubtotal(this)" style="text-align: end;" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control" value="<?php echo $json->produtos->valor_entrada_cliente ?>">
                         </div>
                         <div class="col-4">
                             <label for=""><b> Tipo de Pagamento: </b></label>
                             <select class="form-select" aria-label="Default select example" name="tipo_pagamento_cli" id="tipo_pagamento_cli">
+                                <option value="<?php echo $json->produtos->valor_entrada_cliente ?>"><?php echo $json->produtos->tipo_pagamento ?></option>
                                 <option value="Cartão Crédito">Cartão de Crédito</option>
                                 <option value="Cartão Débito">Cartão de Débito</option>
                                 <option value="Dinheiro">Dinheiro</option>
@@ -295,14 +330,14 @@ $pagina = 'ordem_servico';
                         </div>
                         <div class="col-4">
                             <label title="Quantidade de parcelas que o cliente deseja." for=""> </label>
-                            <b> Parcelas:</b> <input style="text-align: end; width: 6rem;" type="number" placeholder="1" maxlength="12" minlength="1" class="form-control" name="vlr_qtde_parc" id="vlr_qtde_parc"> </h5>
+                            <b> Parcelas:</b> <input style="text-align: end; width: 6rem;" type="number" placeholder="1" maxlength="12" minlength="1" class="form-control" name="vlr_qtde_parc" id="vlr_qtde_parc" value="<?php echo $json->produtos->qtde_parcelas ?>"> </h5>
                         </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col-4">
                             <label title="Valor restante que o cliente ainda tem a pagar." for=""> </label>
-                            <h5><b> SubTotal: <b>R$</b></b> <input style="text-align: end;" type="number" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" readonly> </h5>
+                            <h5><b> SubTotal: <b>R$</b></b> <input style="text-align: end;" type="number" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" value="<?php echo $json->produtos->subTotal_Cliente ?>" readonly> </h5>
                         </div>
 
                     </div>
@@ -313,18 +348,20 @@ $pagina = 'ordem_servico';
                         <tr>
                             <td style="width: 30%;">Valor total:</td>
                             <td style="width: 30%;"></td>
-                            <td id="vlr_total" style="width: 30%;">0.00</td>
+                            <td id="vlr_total" style="width: 30%;"><?php echo $json->produtos->valor_Total_produtos ?></td>
                             <td style="width: 10%;" class="text-primary">( + )</td>
                         </tr>
                         <tr>
                             <td style="width: 30%;">Desconto:</td>
                             <td style="width: 30%;">
-                                <div class="input-group"> <input step="0.01" onkeyup="attPorcentagemDesconto()" onchange="attPorcentagemDesconto(); arredondaPra2(this)" name="porcentagem_desconto" id="porcentagem_desconto" class="form-control" type="number" placeholder="porcentagem" autocomplete="off"><span class="input-group-addon">
+                                <!--Salvar desconto em % no banco-->
+                                <div class="input-group"> <input step="0.01" onkeyup="attPorcentagemDesconto()" onchange="attPorcentagemDesconto(); arredondaPra2(this)" name="porcentagem_desconto" id="porcentagem_desconto" class="form-control" type="number" placeholder="porcentagem" autocomplete="off" value=""><span class="input-group-addon">
                                         <span class="fa fa-percent" style="background:transparent;border:none"></span>
                                     </span></div>
                             </td>
                             <td style="width: 30%;">
-                                <div class="input-group"><input step="0.01" onkeyup="attDinheiroDesconto()" onchange="attDinheiroDesconto(); arredondaPra2(this)" name="dinheiro_desconto" id="dinheiro_desconto" class="form-control" type="number" placeholder="dinheiro" autocomplete="off"><span class="input-group-addon">
+
+                                <div class="input-group"><input step="0.01" onkeyup="attDinheiroDesconto()" onchange="attDinheiroDesconto(); arredondaPra2(this)" name="dinheiro_desconto" id="dinheiro_desconto" class="form-control" type="number" placeholder="dinheiro" autocomplete="off" value="<?php echo $json->produtos->desconto ?>"><span class="input-group-addon">
                                         <span class="fa fa-dollar" style="background:transparent;border:none"></span>
                                     </span></div>
                             </td>
@@ -333,12 +370,13 @@ $pagina = 'ordem_servico';
                         <tr>
                             <td style="width: 30%;">Acréscimo:</td>
                             <td style="width: 30%;">
+                                <!--Salvar acrescimo em % no banco-->
                                 <div class="input-group"><input step="0.01" onkeyup="attPorcentagemAcrescimo()" onchange="attPorcentagemAcrescimo(); arredondaPra2(this)" name="porcentagem_acrescimo" id="porcentagem_acrescimo" class="form-control" type="number" placeholder="porcentagem" autocomplete="off"><span class="input-group-addon">
                                         <span class="fa fa-percent" style="background:transparent;border:none"></span>
                                     </span></div>
                             </td>
                             <td style="width: 30%;">
-                                <div class="input-group"> <input step="0.01" onkeyup="attDinheiroAcrescimo()" onchange="attDinheiroAcrescimo(); arredondaPra2(this)" name="dinheiro_acrescimo" id="dinheiro_acrescimo" class="form-control" type="number" placeholder="dinheiro" autocomplete="off"><span class="input-group-addon">
+                                <div class="input-group"> <input step="0.01" onkeyup="attDinheiroAcrescimo()" onchange="attDinheiroAcrescimo(); arredondaPra2(this)" name="dinheiro_acrescimo" id="dinheiro_acrescimo" class="form-control" type="number" placeholder="dinheiro" autocomplete="off" value="<?php echo $json->produtos->acrescimo ?>"><span class="input-group-addon">
                                         <span class="fa fa-dollar" style="background:transparent;border:none"></span>
                                     </span>
                             </td>
@@ -350,7 +388,7 @@ $pagina = 'ordem_servico';
                         <tr>
                             <td style="width: 40%;">Valor Líquido:</td>
                             <td style="width: 2%;"></td>
-                            <td id="vlr_liquido" style="width: 48%; text-align: end;" class="text-primary">00.00</td>
+                            <td id="vlr_liquido" style="width: 48%; text-align: end;" class="text-primary"><?php echo $json->produtos->valor_liquido ?></td>
                             <td style="width: 10%;" class="text-primary">( = )</td>
                         </tr>
                     </table>
@@ -1005,7 +1043,7 @@ $pagina = 'ordem_servico';
                     <button class="btn-voltar_os">Voltar</button>
                 </div>
                 <div class="btns">
-                    <button class="btn-cad_os" type="submit">Cadastrar OS</button>
+                    <button class="btn-cad_os" type="submit">Salvar</button>
                 </div>
             </div>
         </div>
@@ -1072,7 +1110,7 @@ $pagina = 'ordem_servico';
 
     function inserir() {
 
-        $("#tituloModal").text("Guia de ajuda!");
+        $("#tituloModalEditar").text("Guia de ajuda!");
         var myModal = new bootstrap.Modal(document.getElementById("modalExcluir"), {
             backdrop: "static",
         });
@@ -1125,9 +1163,7 @@ $pagina = 'ordem_servico';
         let Lprodutos = [];
         for (let i = 2; i < produtos.childNodes.length; i++) {
             let qtde = produtos.childNodes[i].childNodes[3].childNodes[0].value.length < 1 ? 1 : produtos.childNodes[i].childNodes[3].childNodes[0].value;
-
             let produto = geraProduto(
-                produtos.childNodes[i].childNodes[15].innerText,
                 produtos.childNodes[i].childNodes[1].innerText,
                 qtde,
                 produtos.childNodes[i].childNodes[5].innerText.replace(",", "."),
@@ -1138,9 +1174,8 @@ $pagina = 'ordem_servico';
             Lprodutos.push(produto);
         }
 
-        function geraProduto(id, codENome, qtde, valUnit, acresOuDesc, valUnLiq, valTotal) {
+        function geraProduto(codENome, qtde, valUnit, acresOuDesc, valUnLiq, valTotal) {
             return {
-                id,
                 codENome,
                 qtde,
                 valUnit,

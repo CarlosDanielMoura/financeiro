@@ -5,28 +5,15 @@ $pagina = 'listar_os';
 
 //require_once($pagina . "/campos.php");
 
-$query = $pdo->query("SELECT * from ordem_servico where status = 'Aberto' order by id desc ");
+//$query = $pdo->query("SELECT * from ordem_servico where status = 'Aberto' order by id desc ");
+$query = $pdo->query("SELECT COUNT(*), SUM(`valor_total`), SUM(`entrada_cliente`) from ordem_servico where status = 'Aberto';
+");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
-$listaOrdemServico = @count($res);
+//print_r($res[0]);
+$listaOrdemServico = $res[0]["COUNT(*)"];
+$finalTotal = $res[0]["SUM(`valor_total`)"];
+$finalEntrada = $res[0]["SUM(`entrada_cliente`)"];
 
-$valorTotalFinal = 0;
-$valorTotalEntrada = 0;
-
-$finalTotal = 0;
-$finalEntrada = 0;
-
-for ($i = 0; $i < @count($res); $i++) {
-    foreach ($res[$i] as $key => $value) {
-    }
-
-    $vlrTotal = $res[$i]['valor_total'];
-    $vlrEntradaCliente = $res[$i]['entrada_cliente'];
-
-    $valorTotalFinal += $vlrTotal;
-    $valorTotalEntrada += $vlrEntradaCliente;
-    $finalTotal = number_format($valorTotalFinal, 2, ',', '.');
-    $finalEntrada = number_format($valorTotalEntrada, 2, ',', '.');
-}
 
 // if (!empty($_GET['search'])) {
 //     $data = $_GET['search'];
@@ -82,7 +69,7 @@ for ($i = 0; $i < @count($res); $i++) {
             <h2>Adiantamentos</h2>
             <p>Valor total de adiantamentos</p>
             <div class="conteudo">
-                <h5 class="titulo-conteudo-red">R$ <?php echo $valorTotalEntrada ?></h5>
+                <h5 class="titulo-conteudo-red">R$ <?php echo $finalEntrada ?></h5>
                 <img class="image" src="../img/os/Adiantamento.png" alt="Ordens de serviços" />
             </div>
 
@@ -109,7 +96,7 @@ for ($i = 0; $i < @count($res); $i++) {
             <form id="form-excluir-os" method="post">
                 <div class="modal-body">
 
-                    Deseja Realmente excluir esta Ordem de Serviço: <span id="nome-excluido"></span>?
+                    Deseja Realmente cancelar esta Ordem de Serviço: <span id="nome-excluido"></span>?
 
                     <hr><small>
                         <div id="mensagem-excluir" align="center"></div>

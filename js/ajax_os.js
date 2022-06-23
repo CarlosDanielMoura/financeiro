@@ -92,7 +92,7 @@ function listarClientes() {
                                                 Comprovante
                                             </a>
                                             <!--Editar OS-->
-                                            <a title="Editar ordem de serviço" href="" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
+                                            <a title="Editar ordem de serviço" href="../painel-adm/index.php?pag=editar_os&id=${value.id}" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
                                                 <i class="fa fa fa-edit"></i>
                                                 Editar
                                             </a>
@@ -101,7 +101,7 @@ function listarClientes() {
                                                 <i class="fa fa fa-shopping-cart"></i>
                                                 Vender
                                             </a>
-                                            <!--Editar OS-->
+                                            <!--Confirmar Entrega-->
                                             <a title="Confirma entrega da os" href="" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
                                                 <i class="bi bi-patch-check"></i>
                                                 Confrmar OS
