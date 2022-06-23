@@ -12,7 +12,7 @@ $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $json = json_decode($res[0]['obj']);
 
-print_r($json->produtos);
+print_r($json->info_add->info_add_lente)
 
 
 ?>
@@ -546,9 +546,7 @@ print_r($json->produtos);
                             $id_item = $res[$i]['id'];
                             $nome_item = $res[$i]['nome'];
                         ?>
-                            <option value="<?php echo $nome_item ?>">
-                                <?php echo $nome_item ?>
-                            </option>
+                            <option value="<?php echo $id_item ?>" <?php if ($nome_item == $json->receita->profissional_resp) echo 'selected' ?>><?php echo $nome_item ?></option>
 
                         <?php } ?>
                     </select>
@@ -557,7 +555,7 @@ print_r($json->produtos);
 
                 <div class="col-3 Input-details-func">
                     <label>Receita valida até:</label>
-                    <input type="date" class="form-control" name="">
+                    <input type="date" class="form-control" name="data_receita_valida" value="<?php echo $json->receita->receita_valida ?>">
                 </div>
             </div>
             <hr>
@@ -595,88 +593,88 @@ print_r($json->produtos);
                             <tbody>
                                 <tr class="text-success">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_od_longe" name="vlr_esferico_longe_od" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_od_longe" name="vlr_esferico_longe_od" type="text" maxlength="6" autocomplete="off" value="<?php echo $json->receita->esferico_od_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico-od-longe" name="vlr_cilindrico_longe_od" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico-od-longe" name="vlr_cilindrico_longe_od" type="text" maxlength="6" autocomplete="of" value="<?php echo $json->receita->cilindrico_od_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text" value="<?php echo $json->receita->eixo_od_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text" value="<?php echo $json->receita->altura_od_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text" value="<?php echo $json->receita->dnp_od_longe ?>">
                                     </td>
                                 </tr>
                                 <tr class="text-success">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_esferico_oe_longe" autocomplete="off" name="vlr_esferico_oe_longe" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_esferico_oe_longe" autocomplete="off" name="vlr_esferico_oe_longe" type="text" maxlength="6" value="<?php echo $json->receita->esferico_oe_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_longe" autocomplete="off" name="vlr_cilindrico_oe_longe" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_longe" autocomplete="off" name="vlr_cilindrico_oe_longe" type="text" maxlength="6" value="<?php echo $json->receita->cilindrico_oe_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text" value="<?php echo $json->receita->eixo_oe_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text" value="<?php echo $json->receita->altura_oe_longe ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text" value="<?php echo $json->receita->dnp_oe_longe ?>">
                                     </td>
                                 </tr>
                                 <tr class="text-danger">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" name="valor-esferico_od_perto" id="valor-esferico_od_perto" autocomplete="off" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" name="valor-esferico_od_perto" id="valor-esferico_od_perto" autocomplete="off" type="text" maxlength="6" value="<?php echo $json->receita->esferico_od_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_od_perto" name="vlr_cilindrico_od_perto" autocomplete="off" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_od_perto" name="vlr_cilindrico_od_perto" autocomplete="off" type="text" maxlength="6" value="<?php echo $json->receita->cilindrico_od_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text" value="<?php echo $json->receita->eixo_od_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text" value="<?php echo $json->receita->altura_od_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text" value="<?php echo $json->receita->dnp_od_perto ?>">
                                     </td>
 
 
                                 </tr>
                                 <tr class="text-danger">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_perto" autocomplete="off" name="valor-esferico_oe_perto" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_perto" autocomplete="off" name="valor-esferico_oe_perto" type="text" maxlength="6"  value="<?php  echo $json->receita->esferico_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6" value="<?php  echo $json->receita->cilindrico_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text" value="<?php  echo $json->receita->eixo_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text" value="<?php  echo $json->receita->altura_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text" value="<?php  echo $json->receita->dnp_oe_perto ?>">
                                     </td>
                                 </tr>
                             </tbody>
@@ -704,8 +702,8 @@ print_r($json->produtos);
                 </div>
             </div>
             <div class="form-floating mt-5">
-                <textarea class="form-control" id="floatingTextarea2" style="height: 100px"></textarea>
-                <label for="floatingTextarea2">Observações</label>
+                <textarea class="form-control" id="obs_receita" name="obs_receita" style="height: 100px"  ><?php  echo $json->receita->observacao ?></textarea>
+                <label for="obs_receita">Observações:</label>
             </div>
         </div>
 
@@ -725,7 +723,7 @@ print_r($json->produtos);
                         <div class="row">
                             <div class="col-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Loja">
+                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Loja" <?php  if($json->info_add->local_montagem == 'Loja') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-montagem-loja">
                                         Loja
                                     </label>
@@ -733,7 +731,7 @@ print_r($json->produtos);
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Laboratorio">
+                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Laboratorio" <?php  if($json->info_add->local_montagem == 'Laboratorio') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-montagem-laboratorio">
                                         Laboratório
                                     </label>
@@ -747,7 +745,7 @@ print_r($json->produtos);
                     <label>Laboratório:</label>
 
                     <select class="form-select" aria-label="Default select example" name="laboratorio" id="laboratorio">
-                        <option value="Sem laboratório" selected>Escolha uma opção</option>
+                    <option value="<?php echo $json->produtos->valor_entrada_cliente ?>"><?php echo $json->info_add->laboratorio ?></option>
                         <option value="Bausch Lomb">Bausch Lomb</option>
                         <option value="Bausch Lomb">Haytek</option>
                         <option value="Ottilab">Ottilab</option>
@@ -764,7 +762,7 @@ print_r($json->produtos);
                         <div class="row">
                             <div class="col-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-sim" value="Sim">
+                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-sim" value="Sim" <?php if($json->info_add->possui_receita == 'Sim') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-receita-sim">
                                         Sim
                                     </label>
@@ -772,7 +770,7 @@ print_r($json->produtos);
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-nao" value="Nao">
+                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-nao" value="Nao" <?php if($json->info_add->possui_receita == 'Nao') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-receita-nao">
                                         Não
                                     </label>
@@ -798,13 +796,13 @@ print_r($json->produtos);
                     </div>
                     <div class="check-tipo ">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-sim" value="Pronta">
+                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-sim" value="Pronta" <?php if($json->info_add->info_add_lente->tipo_lente == "Pronta") echo 'checked' ?>>
                             <label class="form-check-label" for="check-sim">
                                 Pronta
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-nao" value="Surfacada">
+                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-nao" value="Surfacada" <?php if($json->info_add->info_add_lente->tipo_lente == "Surfacada") echo 'checked' ?>>
                             <label class="form-check-label" for="check-nao">
                                 Surfaçada
                             </label>
@@ -817,20 +815,20 @@ print_r($json->produtos);
                     <div class="check-tipo">
                         <!---CheckBox Material-->
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Poli" value="Policarbonato">
+                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Poli" value="Policarbonato" <?php if($json->info_add->info_add_lente->tipo_material == "Policarbonato") echo 'checked' ?>>
                             <label class="form-check-label" for="check-Poli">
                                 Policarbonato
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Resina" value="Resina">
+                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Resina" value="Resina" <?php if($json->info_add->info_add_lente->tipo_material == "Resina") echo 'checked' ?>>
                             <label class="form-check-label" for="check-Resina">
                                 Resina
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Trivex" value="Trivex">
+                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Trivex" value="Trivex" <?php if($json->info_add->info_add_lente->tipo_material == "Trivex") echo 'checked' ?>>
                             <label class="form-check-label" for="check-Trivex">
                                 Trivex
                             </label>
@@ -840,7 +838,7 @@ print_r($json->produtos);
                     <div class="inputs-variacao">
                         <div class="inputs">
                             <label>Descrição:</label>
-                            <input type="text" name="desc_lente" id="in-descri-lentes">
+                            <input type="text" name="desc_lente" id="in-descri-lentes"  value="<?php  echo $json->info_add->info_add_lente->descricao ?>">
                         </div>
 
                         <div class="inputs">

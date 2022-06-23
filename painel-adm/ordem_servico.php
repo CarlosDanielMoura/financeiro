@@ -519,7 +519,7 @@ $pagina = 'ordem_servico';
 
                 <div class="col-3 Input-details-func">
                     <label>Receita valida até:</label>
-                    <input type="date" class="form-control" name="">
+                    <input type="date" class="form-control" name="data_receita_valida">
                 </div>
             </div>
             <hr>
@@ -666,8 +666,8 @@ $pagina = 'ordem_servico';
                 </div>
             </div>
             <div class="form-floating mt-5">
-                <textarea class="form-control" id="floatingTextarea2" style="height: 100px"></textarea>
-                <label for="floatingTextarea2">Observações</label>
+                <textarea class="form-control" name="obs_receita" id="obs_receita" style="height: 100px"></textarea>
+                <label for="obs_receita">Observações</label>
             </div>
         </div>
 
@@ -1163,7 +1163,6 @@ $pagina = 'ordem_servico';
             },
 
             "produtos": {
-
                 "produtos_selecionados": Lprodutos,
                 "valor_entrada_cliente": json["vlr_entrada_cliente"],
                 "tipo_pagamento": json["tipo_pagamento_cli"],
@@ -1172,11 +1171,15 @@ $pagina = 'ordem_servico';
                 "valor_Total_produtos": Number.parseFloat(document.getElementById("vlr_total").innerText).toFixed(2),
                 "valor_liquido": Number.parseFloat(document.getElementById("vlr_liquido").innerText).toFixed(2),
                 "desconto": json["dinheiro_desconto"],
-                "acrescimo": json["dinheiro_acrescimo"]
-
-
+                "acrescimo": json["dinheiro_acrescimo"],
+                "porcen_desconto": json["porcentagem_desconto"],
+                "porcen_acrescimno": json["porcentagem_acrescimo"]
             },
             "receita": {
+                //Dados principais
+                "profissional_resp": json["func-resp"],
+                "receita_valida": json["data_receita_valida"],
+                "observacao": json["obs_receita"],
                 //Linha 1
                 "esferico_od_longe": json["vlr_esferico_longe_od"],
                 "cilindrico_od_longe": json["vlr_cilindrico_longe_od"],
