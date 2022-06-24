@@ -12,7 +12,7 @@ $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $json = json_decode($res[0]['obj']);
 
-print_r($json->info_add->info_add_lente)
+print_r($json->info_add->info_add_armacao)
 
 
 ?>
@@ -30,7 +30,7 @@ print_r($json->info_add->info_add_lente)
 
 
 <div class="container-fluid">
-    <form id="os" action="">
+    <form id="os-edit" action="">
         <div class="dados-principais">
             <div class="row">
                 <h3 class="titulo-os">Editar O.S - Dados Principais</h3>
@@ -224,11 +224,19 @@ print_r($json->info_add->info_add_lente)
                         }
 
                         function atualizaValorTotal(valTotal) {
-                            let soma = 0;
-                            for (let i = 2; i < valTotal.childNodes.length; i++) {
-                                soma += Number.parseFloat(valTotal.childNodes[i].childNodes[34].innerText.replace(",", "."));
-                            }
 
+                            let soma = 0;
+
+                            const collection = document.getElementsByClassName('valor_venda');
+
+
+                            for (let i = 0; i < collection.length; i++) {
+                                console.log(collection[i]);
+                                soma += Number.parseFloat(collection[i].innerText)
+                                //soma += Number.parseFloat(valTotal.childNodes[i].childNodes[11].innerText)
+
+                            }
+                            console.log(soma);
                             let resumo = document.getElementById("tabela_resumo").childNodes[3];
                             let totais = resumo.childNodes[1].childNodes[1];
                             let liquido = resumo.childNodes[5];
@@ -252,7 +260,7 @@ print_r($json->info_add->info_add_lente)
                                         <td>${produto.valor_venda.replace(".", ",")}</td>
                                         <td>0.00</td>
                                         <td><input onkeyup="calcTotalProdInd2(this)" onchange="calcTotalProdInd2(this)" class="form-control" type="text" value="${produto.valor_venda.replace(".", ",")}"></td>
-                                        <td>${produto.valor_venda.replace(".", ",")}</td>
+                                        <td class="valor_venda">${produto.valor_venda.replace(".", ",")}</td>
                                         <td><a onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
                                         <td class="d-none">${produto.id}</td>
                                     `;
@@ -286,13 +294,13 @@ print_r($json->info_add->info_add_lente)
                             $produto = $res[0];
 
                         ?>
-                            <tr>
+                            <tr clas="prods">
                                 <td class="b-clara"><?php echo $produto["codigo"] ?> - <?php echo $produto["nome"] ?></td>
                                 <td><input placeholder="1" min="1" max="<?php echo $produto["estoque"] ?>" class="form-control" type="number" onkeyup="calcTotalProdInd(this)" onchange="calcTotalProdInd(this)"></td>
                                 <td><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
                                 <td>0.00</td>
                                 <td><input onkeyup="calcTotalProdInd2(this)" onchange="calcTotalProdInd2(this)" class="form-control" type="text" value="<?php echo str_replace(',', '.', $produto["valor_venda"]) ?>"></td>
-                                <td><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
+                                <td class="valor_venda"><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
                                 <td><a onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
                                 <td class="d-none"><?php echo $produto["id"] ?></td>
                             </tr>
@@ -410,10 +418,6 @@ print_r($json->info_add->info_add_lente)
                 if (valor_total > 0) {
                     valor_final = (dinheiro_desconto / valor_total) * 100;
                 }
-
-
-
-
                 let porcentagem_desconto = document.getElementsByName("porcentagem_desconto")[0];
                 porcentagem_desconto.value = valor_final.toFixed(2);
                 calLiquido()
@@ -486,11 +490,7 @@ print_r($json->info_add->info_add_lente)
                     if (campo_dinheiro_acrescimo > 0) {
                         valor_total = parseFloat(valor_total) + parseFloat(campo_dinheiro_acrescimo);
                     }
-
-
-
                 }
-
 
                 //Pegar o campo liquido e jogando o valor final em liquido
                 let campo_liquido = document.getElementById("vlr_liquido");
@@ -513,15 +513,8 @@ print_r($json->info_add->info_add_lente)
 
                 //Campo subtotal
                 let campo_subtotal = document.getElementById("vlr_subtotal_cli");
-
-
-
-
                 valor_Final = Number.parseFloat(valor_liquido.innerText) - valor_EntradaCli;
                 campo_subtotal.value = valor_Final.toFixed(2)
-
-
-
             }
         </script>
 
@@ -658,23 +651,23 @@ print_r($json->info_add->info_add_lente)
                                 </tr>
                                 <tr class="text-danger">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_perto" autocomplete="off" name="valor-esferico_oe_perto" type="text" maxlength="6"  value="<?php  echo $json->receita->esferico_oe_perto ?>">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_perto" autocomplete="off" name="valor-esferico_oe_perto" type="text" maxlength="6" value="<?php echo $json->receita->esferico_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6" value="<?php  echo $json->receita->cilindrico_oe_perto ?>">
+                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6" value="<?php echo $json->receita->cilindrico_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text" value="<?php  echo $json->receita->eixo_oe_perto ?>">
+                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text" value="<?php echo $json->receita->eixo_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text" value="<?php  echo $json->receita->altura_oe_perto ?>">
+                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text" value="<?php echo $json->receita->altura_oe_perto ?>">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text" value="<?php  echo $json->receita->dnp_oe_perto ?>">
+                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text" value="<?php echo $json->receita->dnp_oe_perto ?>">
                                     </td>
                                 </tr>
                             </tbody>
@@ -702,7 +695,7 @@ print_r($json->info_add->info_add_lente)
                 </div>
             </div>
             <div class="form-floating mt-5">
-                <textarea class="form-control" id="obs_receita" name="obs_receita" style="height: 100px"  ><?php  echo $json->receita->observacao ?></textarea>
+                <textarea class="form-control" id="obs_receita" name="obs_receita" style="height: 100px"><?php echo $json->receita->observacao ?></textarea>
                 <label for="obs_receita">Observações:</label>
             </div>
         </div>
@@ -723,7 +716,7 @@ print_r($json->info_add->info_add_lente)
                         <div class="row">
                             <div class="col-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Loja" <?php  if($json->info_add->local_montagem == 'Loja') echo 'checked' ?>>
+                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Loja" <?php if ($json->info_add->local_montagem == 'Loja') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-montagem-loja">
                                         Loja
                                     </label>
@@ -731,7 +724,7 @@ print_r($json->info_add->info_add_lente)
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Laboratorio" <?php  if($json->info_add->local_montagem == 'Laboratorio') echo 'checked' ?>>
+                                    <input class="form-check-input" type="radio" name="checkedLocalMontagem" id="check-montagem-loja" value="Laboratorio" <?php if ($json->info_add->local_montagem == 'Laboratorio') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-montagem-laboratorio">
                                         Laboratório
                                     </label>
@@ -745,7 +738,7 @@ print_r($json->info_add->info_add_lente)
                     <label>Laboratório:</label>
 
                     <select class="form-select" aria-label="Default select example" name="laboratorio" id="laboratorio">
-                    <option value="<?php echo $json->produtos->valor_entrada_cliente ?>"><?php echo $json->info_add->laboratorio ?></option>
+                        <option value="<?php echo $json->produtos->valor_entrada_cliente ?>"><?php echo $json->info_add->laboratorio ?></option>
                         <option value="Bausch Lomb">Bausch Lomb</option>
                         <option value="Bausch Lomb">Haytek</option>
                         <option value="Ottilab">Ottilab</option>
@@ -762,7 +755,7 @@ print_r($json->info_add->info_add_lente)
                         <div class="row">
                             <div class="col-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-sim" value="Sim" <?php if($json->info_add->possui_receita == 'Sim') echo 'checked' ?>>
+                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-sim" value="Sim" <?php if ($json->info_add->possui_receita == 'Sim') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-receita-sim">
                                         Sim
                                     </label>
@@ -770,7 +763,7 @@ print_r($json->info_add->info_add_lente)
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-nao" value="Nao" <?php if($json->info_add->possui_receita == 'Nao') echo 'checked' ?>>
+                                    <input class="form-check-input" type="radio" name="checkedReceita-possui" id="check-receita-nao" value="Nao" <?php if ($json->info_add->possui_receita == 'Nao') echo 'checked' ?>>
                                     <label class="form-check-label" for="check-receita-nao">
                                         Não
                                     </label>
@@ -796,13 +789,13 @@ print_r($json->info_add->info_add_lente)
                     </div>
                     <div class="check-tipo ">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-sim" value="Pronta" <?php if($json->info_add->info_add_lente->tipo_lente == "Pronta") echo 'checked' ?>>
+                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-sim" value="Pronta" <?php if ($json->info_add->info_add_lente->tipo_lente == "Pronta") echo 'checked' ?>>
                             <label class="form-check-label" for="check-sim">
                                 Pronta
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-nao" value="Surfacada" <?php if($json->info_add->info_add_lente->tipo_lente == "Surfacada") echo 'checked' ?>>
+                            <input class="form-check-input" type="radio" name="checkedTipo" id="check-nao" value="Surfacada" <?php if ($json->info_add->info_add_lente->tipo_lente == "Surfacada") echo 'checked' ?>>
                             <label class="form-check-label" for="check-nao">
                                 Surfaçada
                             </label>
@@ -815,20 +808,20 @@ print_r($json->info_add->info_add_lente)
                     <div class="check-tipo">
                         <!---CheckBox Material-->
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Poli" value="Policarbonato" <?php if($json->info_add->info_add_lente->tipo_material == "Policarbonato") echo 'checked' ?>>
+                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Poli" value="Policarbonato" <?php if ($json->info_add->info_add_lente->tipo_material == "Policarbonato") echo 'checked' ?>>
                             <label class="form-check-label" for="check-Poli">
                                 Policarbonato
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Resina" value="Resina" <?php if($json->info_add->info_add_lente->tipo_material == "Resina") echo 'checked' ?>>
+                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Resina" value="Resina" <?php if ($json->info_add->info_add_lente->tipo_material == "Resina") echo 'checked' ?>>
                             <label class="form-check-label" for="check-Resina">
                                 Resina
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Trivex" value="Trivex" <?php if($json->info_add->info_add_lente->tipo_material == "Trivex") echo 'checked' ?>>
+                            <input class="form-check-input" type="radio" name="checkedMaterial" id="check-Trivex" value="Trivex" <?php if ($json->info_add->info_add_lente->tipo_material == "Trivex") echo 'checked' ?>>
                             <label class="form-check-label" for="check-Trivex">
                                 Trivex
                             </label>
@@ -838,12 +831,12 @@ print_r($json->info_add->info_add_lente)
                     <div class="inputs-variacao">
                         <div class="inputs">
                             <label>Descrição:</label>
-                            <input type="text" name="desc_lente" id="in-descri-lentes"  value="<?php  echo $json->info_add->info_add_lente->descricao ?>">
+                            <input type="text" name="desc_lente" id="in-descri-lentes" value="<?php echo $json->info_add->info_add_lente->descricao ?>">
                         </div>
 
                         <div class="inputs">
                             <label>Coloração:</label>
-                            <input type="text" name="coloracao_lente" id="in-descri-lentes">
+                            <input type="text" name="coloracao_lente" id="in-descri-lentes" value="<?php echo $json->info_add->info_add_lente->coloracao ?>">
                         </div>
                     </div>
 
@@ -854,14 +847,14 @@ print_r($json->info_add->info_add_lente)
                     <div class="select-lente">
                         <!---CheckBox tratamentos-->
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Easy-Clean" value="Easy-Clean">
+                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Easy-Clean" value="Easy-Clean" <?php if ($json->info_add->info_add_lente->tratamentos == 'Easy-Clean') echo 'checked' ?>>
                             <label class="form-check-label" for="check-Easy-Clean">
                                 Easy Clean
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-No-Risk" value="No-Risk">
+                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-No-Risk" value="No-Risk" <?php if ($json->info_add->info_add_lente->tratamentos == 'No-Risk') echo 'checked' ?>>
                             <label class="form-check-label" for="check-No-Risk">
                                 No-Risk
                             </label>
@@ -869,7 +862,7 @@ print_r($json->info_add->info_add_lente)
 
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Optkot" value="Optkot">
+                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Optkot" value="Optkot" <?php if ($json->info_add->info_add_lente->tratamentos == 'Optkot') echo 'checked' ?>>
                             <label class="form-check-label" for="check-Optkot">
                                 Optkot
                             </label>
@@ -877,7 +870,7 @@ print_r($json->info_add->info_add_lente)
 
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Outros" value="Outros">
+                            <input class="form-check-input" type="radio" name="checkedTratamentos" id="check-Outros" value="Outros" <?php if ($json->info_add->info_add_lente->tratamentos == 'Outros') echo 'checked' ?>>
                             <label class="form-check-label" for="check-Outros">
                                 Outros
                             </label>
@@ -899,13 +892,13 @@ print_r($json->info_add->info_add_lente)
                         <!--CheckedBox Armação-->
                         <div class="check-tipo ">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="checkedArmProp" id="check-sim" value="sim">
+                                <input class="form-check-input" type="radio" name="checkedArmProp" id="check-sim" value="sim" <?php if ($json->info_add->info_add_armacao->arm_possui_prop == 'sim') echo 'checked' ?>>
                                 <label class="form-check-label" for="check-sim">
                                     Sim
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="checkedArmProp" id="check-nao" value="nao">
+                                <input class="form-check-input" type="radio" name="checkedArmProp" id="check-nao" value="nao" <?php if ($json->info_add->info_add_armacao->arm_possui_prop == 'nao') echo 'checked' ?>>
                                 <label class="form-check-label" for="check-nao">
                                     Não
                                 </label>
@@ -913,13 +906,13 @@ print_r($json->info_add->info_add_lente)
                         </div>
                         <div class="check-tipo ">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="checkedSegArm" id="check-sim" value="sim">
+                                <input class="form-check-input" type="radio" name="checkedSegArm" id="check-sim" value="sim" <?php if ($json->info_add->info_add_armacao->arm_segue == 'sim') echo 'checked' ?>>
                                 <label class="form-check-label" for="check-sim">
                                     Sim
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="checkedSegArm" id="check-nao" value="nao">
+                                <input class="form-check-input" type="radio" name="checkedSegArm" id="check-nao" value="nao" <?php if ($json->info_add->info_add_armacao->arm_segue == 'nao') echo 'checked' ?>>
                                 <label class="form-check-label" for="check-nao">
                                     Não
                                 </label>
@@ -933,7 +926,7 @@ print_r($json->info_add->info_add_lente)
                     </div>
                     <div class="select-arm mt-2">
                         <select class="form-select" aria-label="Default select example" name="tipo_armacao">
-                            <option selected>Selecione uma opção</option>
+                            <option value="<?php echo $json->info_add->info_add_armacao->arm_tipo ?>"><?php echo $json->info_add->info_add_armacao->arm_tipo ?></option>
                             <option value="Friso/Fio de Nylon">Friso/Fio de Nylon</option>
                             <option value="Furo/Parafuso">Furo/Parafuso</option>
                             <option value="Metal">Metal</option>
@@ -947,21 +940,21 @@ print_r($json->info_add->info_add_lente)
                             <div class="col-4">
                                 <div class="inputs-arm">
                                     <label>Aro:</label>
-                                    <input onkeyup="somaAroePonte()" class="form-control" type="number" name="in-aro-arm" id="in-aro-arm">
+                                    <input onkeyup="somaAroePonte()" class="form-control" type="number" name="in-aro-arm" id="in-aro-arm" value="<?php echo $json->info_add->info_add_armacao->arm_aro ?>">
                                 </div>
                             </div>
 
                             <div class="col-4">
                                 <div class="inputs-arm">
                                     <label>Ponte:</label>
-                                    <input onkeyup="somaAroePonte()" class="form-control" type="number" name="in-ponte-arm" id="in-ponte-arm">
+                                    <input onkeyup="somaAroePonte()" class="form-control" type="number" name="in-ponte-arm" id="in-ponte-arm" value="<?php echo $json->info_add->info_add_armacao->arm_ponte ?>">
                                 </div>
                             </div>
 
                             <div class="col-4">
                                 <div class="inputs-arm">
                                     <label>Aro + Ponte:</label>
-                                    <input type="number" class="form-control" name="in-aro-ponto-arm" id="in-aro-ponto-arm" readonly>
+                                    <input type="number" class="form-control" name="in-aro-ponto-arm" id="in-aro-ponto-arm" readonly value="<?php echo $json->info_add->info_add_armacao->arm_aro_ponte ?>">
                                     <script>
                                         function somaAroePonte() {
                                             const r = document.getElementById("in-aro-ponto-arm");
@@ -985,21 +978,21 @@ print_r($json->info_add->info_add_lente)
                             <div class="col-4">
                                 <div class="inputs-arm">
                                     <label>Maior Diagonal:</label>
-                                    <input type="number" class="form-control" name="maior_diagonal" id="maior_diagonal">
+                                    <input type="number" class="form-control" name="maior_diagonal" id="maior_diagonal" value="<?php echo $json->info_add->info_add_armacao->arm_maior_diagonal ?>">
                                 </div>
                             </div>
 
                             <div class="col-4">
                                 <div class="inputs-arm">
                                     <label>Altura Vertical:</label>
-                                    <input type="number" class="form-control" name="altura_vertical" id="altura_vertical">
+                                    <input type="number" class="form-control" name="altura_vertical" id="altura_vertical" value="<?php echo $json->info_add->info_add_armacao->arm_altura_vertical ?>">
                                 </div>
                             </div>
 
                             <div class="col-4">
                                 <div class="inputs-arm">
                                     <label>Distância Pupilar:</label>
-                                    <input type="number" class="form-control" name="distancia_pupilar" id="distancia_pupilar">
+                                    <input type="number" class="form-control" name="distancia_pupilar" id="distancia_pupilar" value="<?php echo $json->info_add->info_add_armacao->arm_distancia_pupilar ?>">
                                 </div>
                             </div>
 
@@ -1015,21 +1008,21 @@ print_r($json->info_add->info_add_lente)
                     <div class="inputs-armacao-olhos mt-2">
                         <div class="inputs-arm">
                             <label>Longe OD</label>
-                            <input type="number" name="longe-od" id="longe-od">
+                            <input type="number" name="longe-od" id="longe-od" value="<?php echo $json->info_add->info_add_armacao->altura_longe_OD ?>">
                         </div>
                         <div class="inputs-arm">
                             <label>Longe OE</label>
-                            <input type="number" name="longe-oe" id="longe-oe">
+                            <input type="number" name="longe-oe" id="longe-oe" value="<?php echo $json->info_add->info_add_armacao->altura_longe_OE ?>">
                         </div>
                     </div>
                     <div class="inputs-armacao-olhos">
                         <div class="inputs-arm">
                             <label>Perto OD</label>
-                            <input type="number" name="perto_od" id="perto_od">
+                            <input type="number" name="perto_od" id="perto_od" value="<?php echo $json->info_add->info_add_armacao->altura_perto_OD ?>">
                         </div>
                         <div class="inputs-arm">
                             <label>Perto OE</label>
-                            <input type="number" name="perto-oe" id="perto-oe">
+                            <input type="number" name="perto-oe" id="perto-oe" value="<?php echo $json->info_add->info_add_armacao->altura_perto_OE ?>">
                         </div>
                     </div>
                 </div>
@@ -1162,6 +1155,7 @@ print_r($json->info_add->info_add_lente)
         for (let i = 2; i < produtos.childNodes.length; i++) {
             let qtde = produtos.childNodes[i].childNodes[3].childNodes[0].value.length < 1 ? 1 : produtos.childNodes[i].childNodes[3].childNodes[0].value;
             let produto = geraProduto(
+                produtos.childNodes[i].childNodes[15].innerText,
                 produtos.childNodes[i].childNodes[1].innerText,
                 qtde,
                 produtos.childNodes[i].childNodes[5].innerText.replace(",", "."),
@@ -1172,8 +1166,9 @@ print_r($json->info_add->info_add_lente)
             Lprodutos.push(produto);
         }
 
-        function geraProduto(codENome, qtde, valUnit, acresOuDesc, valUnLiq, valTotal) {
+        function geraProduto(id, codENome, qtde, valUnit, acresOuDesc, valUnLiq, valTotal) {
             return {
+                id,
                 codENome,
                 qtde,
                 valUnit,
@@ -1270,7 +1265,7 @@ print_r($json->info_add->info_add_lente)
 
         $.ajax({
             type: "POST",
-            url: `<?php echo $pagina; ?>/inserir.php`,
+            url: `<?php echo $pagina; ?>/editar_os.php`,
             data: JSON.stringify(obj_formatado),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
