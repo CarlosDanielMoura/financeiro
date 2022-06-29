@@ -48,7 +48,7 @@ echo <<<HTML
 <th>Plano de Conta</th>	
 
 <th>Vencimento</th>	
-<th>Frequência</th>	
+<th>Qtd Comprada</th>	
 <th>Valor</th>
 <th>Arquivo</th>
 <th>Ações</th>
@@ -63,7 +63,7 @@ $res = $query->fetchAll(PDO::FETCH_ASSOC);
 for($i=0; $i < @count($res); $i++){
 	foreach ($res[$i] as $key => $value){} 
 
-		$id = $res[$i]['id'];
+	$id = $res[$i]['id'];
 	$cp1 = $res[$i]['descricao'];
 	$cp2 = $res[$i]['cliente'];
 	$cp3 = $res[$i]['saida'];
@@ -76,6 +76,7 @@ for($i=0; $i < @count($res); $i++){
 	$cp10 = $res[$i]['usuario_lanc'];
 	$cp11 = $res[$i]['usuario_baixa'];
 	$arquivo = $res[$i]['arquivo'];
+	$quantidade = $res[$i]['quantidade'];
 
 	$cp13 = $res[$i]['status'];
 	$cp18 = $res[$i]['data_baixa'];
@@ -102,7 +103,9 @@ for($i=0; $i < @count($res); $i++){
 		$ocutar = '';
 	}
 
-	
+	if($quantidade == ''){
+	    $quantidade = 0;
+	}
 
 	$query1 = $pdo->query("SELECT * from usuarios where id = '$cp10' ");
 	$res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
@@ -190,7 +193,7 @@ for($i=0; $i < @count($res); $i++){
 	<td>{$cp5}</td>	
 
 	<td>{$data_venc}</td>	
-	<td>{$cp8}</td>	
+	<td>{$quantidade}</td>	
 	<td>R$ {$valor} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-danger" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
 
 	<td >
@@ -203,11 +206,11 @@ for($i=0; $i < @count($res); $i++){
 	<a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$nome_cliente}', '{$tumb_arquivo}')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary {$ocutar}"></i> </a>
 	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Excluir Registro">	<i class="bi bi-trash text-danger {$ocutar}"></i> </a>
 
-	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}', '$cp18')" title="Ver Dados da Conta">
+	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_cliente}', '{$cp3}', '{$cp4}', '{$cp5}', '{$data_emissao}', '{$data_venc}', '{$cp8}', '{$valor}', '{$nome_usu_lanc}', '{$nome_usu_baixa}', '{$cp13}', '$cp18','{$quantidade}')" title="Ver Dados da Conta">
 	<i class="bi bi-exclamation-square"></i></a>
 
 
-	<a href="#" class="d-none" onclick="parcelar('{$id}' , '{$cp1}', '{$cp9}')" title="Parcelar Conta">	<i class="bi bi-calendar-week text-secondary {$ocutar}"></i> </a>
+	<a href="#" onclick="parcelar('{$id}' , '{$cp1}', '{$cp9}')" title="Parcelar Conta">	<i class="bi bi-calendar-week text-secondary {$ocutar}"></i> </a>
 
 	<a href="#" onclick="baixar('{$id}' , '{$cp1}', '{$cp9}', '$cp3')" title="Dar Baixa">	<i class="bi bi-check-square text-success mx-1 {$ocutar}"></i> </a>
 	
@@ -297,7 +300,7 @@ function limparCampos(){
 }
 
 
-function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11, cp13, cp18){
+function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11, cp13, cp18, quantidade){
 	
 	$('#campo1').text(cp1);
 	$('#campo2').text(cp2);
@@ -312,6 +315,7 @@ function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp1
 	$('#campo11').text(cp11);
 	$('#campo13').text(cp13);
 	$('#campo18').text(cp18);
+	$('#campo20').text(quantidade);
 
 	
 	var myModal = new bootstrap.Modal(document.getElementById('modalDadosContaPagar'), {		});

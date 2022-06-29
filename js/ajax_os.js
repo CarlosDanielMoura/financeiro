@@ -87,7 +87,7 @@ function listarClientes() {
                                     <div class="col-6">
                                         <div class="">
                                             <!--Tirar comprovante OS-->
-                                            <a  title="Gerar comprovante" href="" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
+                                            <a  title="Gerar comprovante" href="../relatorios/ordemServicos_class.php?id=${value.id}" target="_blank" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
                                                 <i class="bi bi-receipt text-dark"></i>
                                                 Comprovante
                                             </a>

@@ -13,9 +13,10 @@ $cp7 = @$_POST[$campo7];
 $cp11 = @$_POST[$campo11];
 
 $alterar = @$_POST['alterar'];
-$total_compra = $cp5 * $quantidade;
 
-if ($cp11 == '') {
+$total_compra = $cp5 * $quantidade;//Valor da quantidade do produtos
+
+if($cp11 == ''){
     $cp11 = 0;
 }
 
@@ -60,7 +61,7 @@ $nome_forn = $res_con[0]['nome'];
 $query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',
 plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
 valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
-status = 'Pendente', arquivo = 'sem-foto.jpg'");
+status = 'Pendente', arquivo = 'sem-foto.jpg', quantidade = '$quantidade'");
 
 $query->bindValue(":valor_compra", "$total_compra");
 $query->execute();
