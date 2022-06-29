@@ -545,8 +545,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
 <!-- Ajax para inserir ou editar dados -->
 <script type="text/javascript">
     $(document).ready(function() {
-        var cat = $('#cat-despesas-rel').val();
-        console.log(cat)
+        var cat = $('#cat-despesas-rel').val()
         listarDespesasRel(cat, '');
 
         $('#cat-despesas-rel').change(function() {

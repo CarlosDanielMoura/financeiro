@@ -84,7 +84,7 @@ $finalEntrada = $res[0]["SUM(`entrada_cliente`)"];
 
 </div>
 
-<!--Modal Excluir-->
+<!--Modal Cancelar OS-->
 
 <div class="modal fade" id="modalCancelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -96,13 +96,45 @@ $finalEntrada = $res[0]["SUM(`entrada_cliente`)"];
             <form id="form-excluir-os" method="post">
                 <div class="modal-body">
 
-                    Deseja Realmente cancelar esta Ordem de Serviço: <span id="nome-excluido"></span>?
+                    Deseja realmente excluir esta Ordem de Serviço <span id="nome-excluido"></span>?
 
                     <hr><small>
                         <div id="mensagem-excluir" align="center"></div>
                     </small>
 
                     <input type="hidden" class="form-control" name="id-excluir" id="id-excluir">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-excluir">Fechar</button>
+                    <button type="submit" class="btn btn-danger">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal Excluir OS-->
+
+<div class="modal fade" id="modalExcluirDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="tituloModal">Excluir Registro</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-excluir-ordem" method="post">
+                <div class="modal-body">
+
+                    Deseja realmente cancelar esta Ordem de Serviço: <span id="nome-excluido-ordem"></span>?
+
+                    <hr><small>
+                        <div id="mensagem-excluir" align="center"></div>
+                    </small>
+
+                    <input type="hidden" class="form-control" name="id-excluir-ordem" id="id-excluir-ordem">
 
 
                 </div>
@@ -129,13 +161,21 @@ $finalEntrada = $res[0]["SUM(`entrada_cliente`)"];
     //     window.location = 'index.php?pag=listar_os?search=' + search.value;
     // }
 
-
-
-
     function excluir(id, nome) {
         $("#id-excluir").val(id);
         $("#nome-excluido").text(nome);
         var myModal = new bootstrap.Modal(document.getElementById("modalCancelar"), {
+            backdrop: "static",
+        });
+        myModal.show();
+
+
+    }
+
+    function excluirOrdemServiço(id, nome) {
+        $("#id-excluir-ordem").val(id);
+        $("#nome-excluido-dados").text(nome);
+        var myModal = new bootstrap.Modal(document.getElementById("modalExcluirDados"), {
             backdrop: "static",
         });
         myModal.show();

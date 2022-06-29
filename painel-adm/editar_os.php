@@ -1,2 +1,2 @@
 <?php
-require_once("./listar_os/editar.php");
+require_once("editar.php");

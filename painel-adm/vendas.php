@@ -411,6 +411,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     //$('#cpf').val('');
                     $('#btn-fechar-venda').click();
                     limparCampos();
+                    window.location.replace('index.php?pag=lista_vendas');
                 } else {
 
                     $('#mensagem-prod').addClass('text-danger')

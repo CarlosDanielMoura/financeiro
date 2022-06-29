@@ -364,7 +364,7 @@ $pagina = 'ordem_servico';
             }
 
             function attDinheiroDesconto() {
-                let dinheiro_desconto = document.getElementById("dinheiro_desconto");
+                let dinheiro_desconto = document.getElementById("dinheiro_desconto").value;
                 let valor_final = 0
                 let valor_total = document.getElementById("vlr_total").innerText
                 valor_total = Number.parseFloat(valor_total)
@@ -377,6 +377,7 @@ $pagina = 'ordem_servico';
 
 
                 let porcentagem_desconto = document.getElementsByName("porcentagem_desconto")[0];
+
                 porcentagem_desconto.value = valor_final.toFixed(2);
                 calLiquido()
             }
@@ -498,21 +499,8 @@ $pagina = 'ordem_servico';
             <div class="row">
                 <div class="col-5 Input-details-func">
                     <label>Profissional Responsável:</label>
-                    <select class="form-select " aria-label="Default select example" name="func-resp" id="func-resp">
-                        <?php
-                        $query = $pdo->query("SELECT * FROM usuarios order by nome asc");
-                        $res = $query->fetchAll(PDO::FETCH_ASSOC);
-                        for ($i = 0; $i < @count($res); $i++) {
-                            foreach ($res[$i] as $key => $value) {
-                            }
-                            $id_item = $res[$i]['id'];
-                            $nome_item = $res[$i]['nome'];
-                        ?>
-                            <option value="<?php echo $nome_item ?>">
-                                <?php echo $nome_item ?>
-                            </option>
-
-                        <?php } ?>
+                    <select readonly="readonly" class="form-select " aria-label="Default select example" name="func-resp" id="func-resp">
+                        <option value="Maicon Lucas Fraga">Maicon Lucas Fraga</option>
                     </select>
                 </div>
 
@@ -557,88 +545,88 @@ $pagina = 'ordem_servico';
                             <tbody>
                                 <tr class="text-success">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_od_longe" name="vlr_esferico_longe_od" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_od_longe" name="vlr_esferico_longe_od" type="text" autocomplete="off" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico-od-longe" name="vlr_cilindrico_longe_od" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm text-right input-mask-receita-field form-control" id="valor-cilindrico-od-longe" name="vlr_cilindrico_longe_od" autocomplete="off" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text">
+                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text">
                                     </td>
                                 </tr>
                                 <tr class="text-success">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_esferico_oe_longe" autocomplete="off" name="vlr_esferico_oe_longe" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm text-right input-mask-receita-field form-control" id="vlr_esferico_oe_longe" autocomplete="off" name="vlr_esferico_oe_longe" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_longe" autocomplete="off" name="vlr_cilindrico_oe_longe" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_longe" autocomplete="off" name="vlr_cilindrico_oe_longe" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text">
+                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text">
+                                        <input onchange="trataNumero(this)" maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text">
                                     </td>
                                 </tr>
                                 <tr class="text-danger">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" name="valor-esferico_od_perto" id="valor-esferico_od_perto" autocomplete="off" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" class="input-sm text-right input-mask-receita-field form-control" name="valor-esferico_od_perto" id="valor-esferico_od_perto" autocomplete="off" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_od_perto" name="vlr_cilindrico_od_perto" autocomplete="off" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_od_perto" name="vlr_cilindrico_od_perto" autocomplete="off" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text">
+                                        <input onchange="trataNumero(this)" maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text">
                                     </td>
 
 
                                 </tr>
                                 <tr class="text-danger">
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_perto" autocomplete="off" name="valor-esferico_oe_perto" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" class="input-sm text-right input-mask-receita-field form-control" id="valor-esferico_oe_perto" autocomplete="off" name="valor-esferico_oe_perto" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6">
+                                        <input  onchange="trataNumero(this)" class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text">
+                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text">
+                                        <input onchange="trataNumero(this)" maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text">
                                     </td>
                                 </tr>
                             </tbody>
@@ -647,19 +635,187 @@ $pagina = 'ordem_servico';
                     </div>
                     <div class="input-add">
                         <strong><label class="label-in-add" for="in-add">Adição:</label></strong>
-                        <input onkeyup="addInPerto(this)" id="in-add" name="in-add" autocomplete="off" class="input-sm form-control numeric-field in-adicao" type="text">
+                        <input onkeyup="addInPerto()" id="in-add" name="in-add" autocomplete="off" class="input-sm form-control numeric-field in-adicao" type="text">
                         <script>
-                            function addInPerto(inAdd) {
-                                let nt = inAdd.value > 0 ? "+" + inAdd.value : inAdd.value;
-                                ['valor-esferico_oe_perto', 'valor-esferico_od_perto'].forEach((c) => {
-                                    document.getElementById(c).value = nt;
-                                })
+                            function addInPerto() {
+
+                                // Valor adição
+                                let adicao = document.getElementById("in-add").value;
+                                valor_adicao = Number.parseFloat(adicao)
+                               
+
+                                if (adicao != '') {
+                                    //Valor dos campos esfericos
+                                    let esf_od = document.getElementById("valor-esferico_od_longe").value;
+                                    valor_esf_od = Number.parseFloat(esf_od);
+                                    
+
+                                    let esf_oe = document.getElementById("vlr_esferico_oe_longe").value;
+                                    valor_esf_oe = Number.parseFloat(esf_oe)
+
+                                    
+
+                                    // Pegando os valores que vão receber
+                                    let esferico_perto_od = document.getElementById('valor-esferico_od_perto');
+                                    let esferico_perto_oe = document.getElementById('valor-esferico_oe_perto');
+
+                                    // Jogando os valores no campo
+                                    let valor_final_perto_od = (valor_esf_od + valor_adicao);
+                                    if (valor_final_perto_od >= 0) {
+                                        esferico_perto_od.value = '+' + valor_final_perto_od.toFixed(2).replace('.', ',');
+
+                                    } 
+
+                                    let valor_final_perto_oe = (valor_esf_oe + valor_adicao);
+                                    if (valor_final_perto_oe >= 0) {
+                                        esferico_perto_oe.value = '+' + valor_final_perto_oe.toFixed(2).replace('.', ',');
+                                    }
+                                    // Pegandos os campos Cilindrico 
+                                    let cilindrico_od_longe = document.getElementById("valor-cilindrico-od-longe").value;
+                                    let cilindrico_oe_longe = document.getElementById("vlr_cilindrico_oe_longe").value;
+
+                                    let valor_final_od_longe = Number.parseFloat(cilindrico_od_longe);
+                                    let valor_final_oe_longe = Number.parseFloat(cilindrico_oe_longe);
+                                    //Jogando os valores 
+                                    let cilindrico_od_perto = document.getElementById("vlr_cilindrico_od_perto");
+                                    let cilindrinco_oe_perto = document.getElementById("vlr_cilindrico_oe_perto");
+
+
+                                    if (cilindrico_od_longe != '' || cilindrico_od_longe > 0) {
+                                        cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace('.', ',')
+
+                                    } else {
+                                        cilindrico_od_perto.value = ''
+                                    }
+                                    if (cilindrico_oe_longe != '' || cilindrico_oe_longe > 0) {
+                                        cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace('.', ',')
+
+                                    } else {
+                                        cilindrinco_oe_perto.value = '';
+
+                                    }
+
+                                    //Pegando os valores do Eixo
+
+                                    let eixo_od_longe = document.getElementById("valor_eixo_od_longe").value
+                                    let eixo_oe_longe = document.getElementById("vlr_eixo_oe_longe").value
+
+                                    //Transformando os valores em Float
+                                    let valor_final_od_longe_eixo = Number.parseFloat(eixo_od_longe);
+                                    let valor_final_oe_longe_eixo = Number.parseFloat(eixo_oe_longe);
+
+                                    //Jogando os valores nos campos certos
+                                    let eixo_od_perto = document.getElementById("vlr_eixo_od_perto");
+                                    let eixo_oe_perto = document.getElementById("vlr_eixo_oe_perto");
+
+
+                                    if (eixo_od_longe != '' || eixo_od_longe > 0) {
+                                        eixo_od_perto.value = '+' + valor_final_od_longe_eixo.toFixed(2).replace('.', ',')
+
+                                    } else {
+                                        eixo_od_perto.value = ''
+                                    }
+                                    if (eixo_oe_longe != '' || eixo_oe_longe > 0) {
+                                        eixo_oe_perto.value = '+' + valor_final_oe_longe_eixo.toFixed(2).replace('.', ',')
+
+                                    } else {
+                                        eixo_oe_perto.value = '';
+
+                                    }
+                                    // let nt = inAdd.value > 0 ? "+" + inAdd.value : inAdd.value;
+                                    // ['valor-esferico_oe_perto', 'valor-esferico_od_perto'].forEach((c) => {
+                                    //     document.getElementById(c).value = nt; 
+                                    // })
+
+                                }
+
+
+
+
                             }
                             $("#in-add").inputmask({
                                 substitutes: {
                                     ".": ","
                                 }
                             });
+
+                            function trataNumero(self) {
+                                let valor_novo = Number.parseFloat(self.value);
+                                if (valor_novo > 0) {
+                                    valor_novo = '+' + valor_novo.toFixed(2).replace('.', ',');
+                                }
+
+                                self.value = valor_novo;
+                            }
+
+                            // function attCilindrico() {
+                            //     let adicao = document.getElementById("in-add").value;
+                            //     valor_novo = Number.parseFloat(adicao);
+
+                            //     if (adicao == '' || valor_novo == 0) {
+                            //         // Pegandos os campos Cilindrico 
+                            //         let cilindrico_od_longe = document.getElementById("valor-cilindrico-od-longe").value;
+                            //         let cilindrico_oe_longe = document.getElementById("vlr_cilindrico_oe_longe").value;
+
+                            //         let valor_final_od_longe = Number.parseFloat(cilindrico_od_longe);
+                            //         let valor_final_oe_longe = Number.parseFloat(cilindrico_oe_longe);
+                            //         //Jogando os valores 
+                            //         let cilindrico_od_perto = document.getElementById("vlr_cilindrico_od_perto");
+                            //         let cilindrinco_oe_perto = document.getElementById("vlr_cilindrico_oe_perto");
+
+
+                            //         if (cilindrico_od_longe != '' || cilindrico_od_longe > 0) {
+                            //             cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace('.', ',')
+
+                            //         } else {
+                            //             cilindrico_od_perto.value = ''
+                            //         }
+                            //         if (cilindrico_oe_longe != '' || cilindrico_oe_longe > 0) {
+                            //             cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace('.', ',')
+
+                            //         } else {
+                            //             cilindrinco_oe_perto.value = '';
+
+                            //         }
+                            //     }
+
+                            // }
+
+                            // function attEixo() {
+                            //     //Pegando os valores do Eixo
+                            //     let adicao = document.getElementById("in-add").value;
+                            //     valor_novo = Number.parseFloat(adicao);
+
+                            //     if (adicao == '' || valor_novo == 0) {
+                            //         let eixo_od_longe = document.getElementById("valor_eixo_od_longe").value
+                            //         let eixo_oe_longe = document.getElementById("vlr_eixo_oe_longe").value
+
+                            //         //Transformando os valores em Float
+                            //         let valor_final_od_longe_eixo = Number.parseFloat(eixo_od_longe);
+                            //         let valor_final_oe_longe_eixo = Number.parseFloat(eixo_oe_longe);
+
+                            //         //Jogando os valores nos campos certos
+                            //         let eixo_od_perto = document.getElementById("vlr_eixo_od_perto");
+                            //         let eixo_oe_perto = document.getElementById("vlr_eixo_oe_perto");
+
+
+                            //         if (eixo_od_longe != '' || eixo_od_longe > 0) {
+                            //             eixo_od_perto.value = '+' + valor_final_od_longe_eixo.toFixed(2).replace('.', ',')
+
+                            //         } else {
+                            //             eixo_od_perto.value = ''
+                            //         }
+                            //         if (eixo_oe_perto != '' || eixo_oe_perto > 0) {
+                            //             eixo_oe_perto.value = '+' + valor_final_oe_longe_eixo.toFixed(2).replace('.', ',')
+
+                            //         } else {
+                            //             eixo_oe_perto.value = '';
+
+                            //         }
+                            //     }
+
+
+                            // }
                         </script>
                     </div>
 
@@ -681,7 +837,7 @@ $pagina = 'ordem_servico';
                     <div class="check-receita-montagem " style="display: flex; flex-direction: column;">
 
                         <div class="title-type">
-                            <label>Local da Montagem:</label>
+                            <label>Local da Montagem: <strong class="text-danger">(*)</strong></label>
                         </div>
 
                         <div class="row">
@@ -721,7 +877,7 @@ $pagina = 'ordem_servico';
                     <div class="check-receita-montagem " style="display: flex; flex-direction: column; margin-left: 25px;">
 
                         <div class="title-type">
-                            <label>Possui Receita:</label>
+                            <label>Possui Receita: <strong class="text-danger">(*)</strong></label>
                         </div>
                         <div class="row">
                             <div class="col-3">
@@ -1031,6 +1187,8 @@ $pagina = 'ordem_servico';
                             <li>Cliente</li>
                             <li>Data e hora de entrega</li>
                             <li>Produtos</li>
+                            <li>Possui receita</li>
+                            <li>Local Montagem</li>
                         </ul>
                         <p>Esse símbolo <span class="text-danger"> (*) </span> significa que esses itens são obrigatório a se preencher!</p>
                     </div>

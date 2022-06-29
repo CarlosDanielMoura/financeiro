@@ -91,33 +91,28 @@ function listarClientes() {
                                                 <i class="bi bi-receipt text-dark"></i>
                                                 Comprovante
                                             </a>
-                                            <!--Editar OS-->
-                                            <a title="Editar ordem de serviço" href="../painel-adm/index.php?pag=editar_os&id=${value.id}" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
+                                            <!--Visualizar OS-->
+                                            <a title="Visualizar ordem de serviço" href="../painel-adm/index.php?pag=editar_os&id=${value.id}" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
                                                 <i class="fa fa fa-edit"></i>
-                                                Editar
+                                                Visualizar OS
                                             </a>
                                             <!--Converter em venda  OS-->
-                                            <a title="Editar ordem de serviço" href="" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
+                                            <a title="Converter em venda a ordem de serviço" href="" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
                                                 <i class="fa fa fa-shopping-cart"></i>
                                                 Vender
-                                            </a>
-                                            <!--Confirmar Entrega-->
-                                            <a title="Confirma entrega da os" href="" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
-                                                <i class="bi bi-patch-check"></i>
-                                                Confrmar OS
                                             </a>
                                         </div>
                                     </div>
                                     <!---Btns de CANCELAR PERDA / CANCELAR -->
                                     <div class="col-4">
                                         <div>
-                                            <!--Tirar comprovante OS-->
-                                            <a   title="Confirmar a perca da OS" href="#" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
-                                                <i class="bi bi-x-octagon"></i>
-                                                Confimar Perda
+                                            <!--Confirmar a perca da OS-->
+                                            <a onclick="excluirOrdemServiço(${value.id})"  data-toggle="modal" data-target="#exampleModal"  title="Cancelar OS" href="#" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
+                                            <i class="bi bi-trash"></i>
+                                                Excluir
                                             </a>
-                                            <!--Editar OS-->
-                                            <a onclick="excluir(${value.id})" data-toggle="modal" data-target="#exampleModal"  title="Cancelar OS" href="#" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
+                                            <!--Cancelar OS-->
+                                            <a   title="Excluir OS" href="#" onclick="excluir(${value.id})" class="btn-comprovante btn ${value.status == 'Cancelada' ? 'd-none' : ''}">
                                                 <i class="bi bi-x-octagon"></i>
                                                 Cancelar
                                             </a>
@@ -141,6 +136,34 @@ $("#form-excluir-os").submit(function (event) {
     var formData = new FormData(this);
     $.ajax({
         url: "listar_os/excluir.php",
+        type: "POST",
+        data: formData,
+
+        success: function (mensagem) {
+            $("#mensagem-excluir").text("");
+            $("#mensagem-excluir").removeClass();
+            if (mensagem.trim() == "Excluído com Sucesso!") {
+                $("#btn-fechar-excluir").click();
+                listarClientes();
+
+            } else {
+                $("#mensagem-excluir").addClass("text-danger");
+                $("#mensagem-excluir").text(mensagem);
+            }
+        },
+
+        cache: false,
+        contentType: false,
+        processData: false,
+    });
+});
+
+
+$("#form-excluir-ordem").submit(function (event) {
+
+    var formData = new FormData(this);
+    $.ajax({
+        url: "listar_os/excluir-ordem.php",
         type: "POST",
         data: formData,
 

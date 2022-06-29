@@ -12,10 +12,12 @@ $subtotal = $_POST['subtotal'];
 $parcelas = $_POST['parcelas'];
 $cliente = $_POST['id-cli'];
 $porcen = $_POST['desc_porcen'];
-$entrada = $_POST['recebido'];
+@$entrada = $_POST['recebido'];
 
 if ($entrada != '') {
-	$valor_entry = $subtotal - $entrada;
+	@$valor_entry = $subtotal - $entrada;
+}else{
+	@$valor_entry = 0;
 }
 
 if ($desconto != '') {
