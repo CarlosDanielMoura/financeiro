@@ -1338,6 +1338,7 @@ $pagina = 'ordem_servico';
                 "profissional_resp": json["func-resp"],
                 "receita_valida": json["data_receita_valida"],
                 "observacao": json["obs_receita"],
+                "adicao": json['in-add'],
                 //Linha 1
                 "esferico_od_longe": json["vlr_esferico_longe_od"],
                 "cilindrico_od_longe": json["vlr_cilindrico_longe_od"],

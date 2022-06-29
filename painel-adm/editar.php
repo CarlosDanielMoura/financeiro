@@ -23,7 +23,7 @@ if($json->info_add->laboratorio == ""){
     $json->info_add->laboratorio = 'Sem laboratório';
 }
 
-print_r ($json->info_add->laboratorio);
+//print_r ($json->receita->adicao);
 ?>
 
 <link rel="stylesheet" href="../css/os.css">
@@ -676,14 +676,9 @@ print_r ($json->info_add->laboratorio);
                     </div>
                     <div class="input-add">
                         <strong><label class="label-in-add" for="in-add" readonly>Adição:</label></strong>
-                        <input onkeyup="addInPerto(this)" id="in-add" name="in-add" autocomplete="off" class="input-sm form-control numeric-field in-adicao" type="text">
+                        <input readonly onkeyup="addInPerto(this)" id="in-add" name="in-add" autocomplete="off" class="input-sm form-control numeric-field in-adicao" type="text" value=" <?php echo $json->receita->adicao ?>">
                         <script>
-                            function addInPerto(inAdd) {
-                                let nt = inAdd.value > 0 ? "+" + inAdd.value : inAdd.value;
-                                ['valor-esferico_oe_perto', 'valor-esferico_od_perto'].forEach((c) => {
-                                    document.getElementById(c).value = nt;
-                                })
-                            }
+                            
                             $("#in-add").inputmask({
                                 substitutes: {
                                     ".": ","
