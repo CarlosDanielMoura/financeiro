@@ -20,6 +20,14 @@ $json = json_decode($res[0]['obj']);
 $dataEntrega = data($json->dadosPrincipal->data_entrega);
 
 
+if($json->produtos->qtde_parcelas == '' || $json->produtos->qtde_parcelas == 0 ){
+    $ocultar = 'd-none';
+}
+
+if($json->produtos->valor_entrada_cliente == '' || $json->produtos->valor_entrada_cliente == 0){
+    $ocultar = 'd-none';
+}
+
 //Função de formatar data
 function data($data)
 {
@@ -35,6 +43,10 @@ function data($data)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Comprovante de Venda</title>
+    <link rel="shortcut icon" href="../img/favicon.ico" />
+    <link rel="shortcut icon" href="../img/logo-150.ico" type="image/x-icon">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -77,11 +89,23 @@ function data($data)
             justify-content: end;
             font-size: 20px;
         }
+
+        .img-cab{
+            max-width: 90%;
+            margin-top: 5px;
+        }
+        img{
+            max-width: 90%;
+            background-size: cover;
+        }
     </style>
 </head>
 
 <body style="background-color: white;">
     <div class="container mt-5">
+        <div class="img-cab">
+            <img src="../img/logo-Os.png" alt="">
+        </div>
         <div class="protocol">
             <p class="title-protocol"> <strong> *** PROTOCOLO *** </strong></p>
         </div>
@@ -99,16 +123,24 @@ function data($data)
         </div>
 
         <div class="row">
-            <div class="col-md-6">
-                <span><strong>Vendedor: </strong></span><span><?php echo $nome_func ?></span>
+            <div class="col-md-4">
+                <span><strong>Cliente: </strong></span><span><?php echo $nome_cliente ?></span>
+            </div>
+            <div class="col-md-4 " >
+                <span class="<?php  echo $ocultar?>"><strong>Total parcelas: </strong></span><span class="<?php  echo $ocultar?>"><?php echo $json->produtos->qtde_parcelas ?></span>
+            </div>
+            <div class="col-md-4 ">
+                <span  class="<?php echo $ocultar ?>"><strong>Entrada cliente: </strong></span><span class="<?php echo $ocultar ?>"> R$ <?php echo number_format($json->produtos->valor_entrada_cliente,2) ?></span>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <span><strong>Cliente: </strong></span><span><?php echo $nome_cliente ?></span>
+                <span><strong>Vendedor: </strong></span><span><?php echo $nome_func ?></span>
             </div>
         </div>
+
+        
         <div class="row mt-3">
             <div style="border: 1px solid black;"></div>
         </div>

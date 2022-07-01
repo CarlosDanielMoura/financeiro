@@ -115,7 +115,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
 
 
 
-    <title><?php $nome_sistema ?></title>
+    <title><?php echo $nome_sistema ?></title>
 </head>
 
 

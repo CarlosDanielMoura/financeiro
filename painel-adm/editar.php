@@ -16,14 +16,19 @@ if($json->produtos->qtde_parcelas == ""){
     $json->produtos->qtde_parcelas = 0;
 }
 
-//print_r ($json->info_add);
+
 
 
 if($json->info_add->laboratorio == ""){
     $json->info_add->laboratorio = 'Sem laboratório';
 }
 
-//print_r ($json->receita->adicao);
+if(@$json->receita->adicao == ''){
+    @$json->receita->adicao = '';
+}
+
+
+
 ?>
 
 <link rel="stylesheet" href="../css/os.css">

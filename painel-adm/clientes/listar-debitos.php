@@ -2,8 +2,6 @@
 require_once("../../conexao.php");
 require_once("campos.php");
 
-echo 'teste';
-
 echo <<<HTML
 <table id="debitos" class="table  table-light table-hover my-4">
 <thead>

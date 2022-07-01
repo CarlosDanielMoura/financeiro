@@ -407,7 +407,7 @@ td.border-blue {
 
 
 .secao-lista-dados {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -436,7 +436,7 @@ td.border-blue {
     font-weight: 600;
     padding: 3px 8px;
     text-shadow: none;
-    width: 85px;
+    width: 95px;
     border-radius: 5px;
 }
 

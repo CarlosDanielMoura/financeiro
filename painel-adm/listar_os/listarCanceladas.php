@@ -9,8 +9,7 @@ require_once("../../conexao.php");
 
 @session_start();
 
-
-$query = $pdo->query("SELECT * from ordem_servico where status = 'Aberto' order by id desc ");
+$query = $pdo->query("SELECT * from ordem_servico where status = 'Cancelada' order by id desc ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res) > 0) {
     http_response_code(200);
