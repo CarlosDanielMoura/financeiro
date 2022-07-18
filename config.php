@@ -27,9 +27,10 @@ $senha = '';
 $banco = 'financeiro';
 
 
+
 //VARIAVEIS GLOBAIS
 
-$nivel_minimo_estoque = 5; // A partir desse valor para baixo será nével baixo do estoque
+$nivel_minimo_estoque = 0; // A partir desse valor para baixo será nével baixo do estoque
 
 //VARIAVEIS PARA CONTAS À RECEBER
 

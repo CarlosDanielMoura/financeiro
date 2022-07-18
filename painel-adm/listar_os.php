@@ -245,7 +245,7 @@ $finalEntrada = $res[0]["SUM(`entrada_cliente`)"];
                         parcelas = 0;
                     }
 
-
+value.valor_total = Number.parseFloat(value.valor_total);
 
                     // console.log(objAtt.dadosPrincipal);
 

@@ -96,7 +96,7 @@ require_once($pagina . "/campos.php");
 								<div class="col-md-3 col-sm-12">
 									<div class="mb-3">
 										<label for="exampleFormControlInput1" class="form-label">Valor Custo</label>
-										<input type="text" class="form-control" name="<?php echo $campo5 ?>" id="<?php echo $campo5 ?>" placeholder="Valor de Compra" required>
+										<input type="text" class="form-control" name="<?php echo $campo5 ?>" id="<?php echo $campo5 ?>" placeholder="Valor de Compra">
 									</div>
 								</div>
 							</div>

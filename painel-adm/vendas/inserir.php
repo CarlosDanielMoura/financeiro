@@ -15,10 +15,12 @@ $porcen = $_POST['desc_porcen'];
 @$entrada = $_POST['recebido'];
 
 if ($entrada != '') {
-	@$valor_entry = $subtotal - $entrada;
+	@$valor_entry = $entrada;
 }else{
 	@$valor_entry = 0;
 }
+
+
 
 if ($desconto != '') {
 	$valor_final_porc = $desconto * 100;
@@ -47,6 +49,10 @@ if ($parcelas < 1) {
 	exit();
 }
 
+if($pagamento == 'Carnê' && $parcelas <= 1 ){
+	echo 'Venda feita no carnê  a parcela tem que ser acima de 1';
+	exit(); 
+} 
 
 $query_con = $pdo->query("SELECT * FROM clientes WHERE id = '$cliente'");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);

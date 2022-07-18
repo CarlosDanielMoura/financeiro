@@ -42,9 +42,13 @@ if ($total_reg > 0 and $id_reg != $id) {
 
 
 if ($id == "") {
-    $query = $pdo->prepare("INSERT INTO $pagina set nome = :campo1, pessoa = :campo2, doc = :campo3, telefone = :campo4, endereco = :campo5, ativo = :campo6, obs = :campo7, data = curDate(), banco = :campo8, agencia = :campo9, conta = :campo10, email = :campo11");
+    $query = $pdo->prepare("INSERT INTO $pagina set nome = :campo1, pessoa = :campo2, doc = :campo3, 
+    telefone = :campo4, endereco = :campo5, ativo = :campo6, obs = :campo7, data = curDate(), 
+    banco = :campo8, agencia = :campo9, conta = :campo10, email = :campo11");
 } else {
-    $query = $pdo->prepare("UPDATE $pagina set nome = :campo1, pessoa = :campo2, doc = :campo3, telefone = :campo4, endereco = :campo5, ativo = :campo6, obs = :campo7, data = curDate(), banco = :campo8, agencia = :campo9, conta = :campo10, email = :campo11 WHERE id = '$id'");
+    $query = $pdo->prepare("UPDATE $pagina set nome = :campo1, pessoa = :campo2, doc = :campo3, 
+    telefone = :campo4, endereco = :campo5, ativo = :campo6, obs = :campo7, data = curDate(), 
+    banco = :campo8, agencia = :campo9, conta = :campo10, email = :campo11 WHERE id = '$id'");
 }
 
 $query->bindValue(":campo1", "$cp1");

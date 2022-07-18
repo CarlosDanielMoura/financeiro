@@ -24,10 +24,10 @@ if($quant == '' || $quant == 0){
 	exit();
 }
 
-if($valor_custo <= 0){
-	echo 'É preciso colocar o valor de compra do produto! Ele não possui valor de custo.';
-	exit();
-}
+// if($valor_custo <= 0){
+// 	echo 'É preciso colocar o valor de compra do produto! Ele não possui valor de custo.';
+// 	exit();
+// }
 //abater prod no estoque
 $novo_estoque = $estoque - $quant;
 $query = $pdo->query("UPDATE produtos set estoque = '$novo_estoque' where id = '$id' ");

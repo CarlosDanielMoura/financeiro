@@ -173,15 +173,18 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Pagamento:</label>
                                 <select class="form-select" aria-label="Default select example" name="pagamento" id="pagamento">
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Boleto">Boleto</option>
-                                    <option value="Cheque">Cheque</option>
-                                    <option value="Conta Corrente">Conta Corrente</option>
-                                    <option value="Conta Poupança">Conta Poupança</option>
-                                    <option value="Carnê">Carnê</option>
-                                    <option value="Depósito">Depósito</option>
-                                    <option value="Transferência">Transferência</option>
-                                    <option value="Pix">Pix</option>
+                                <?php
+                                    $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
+                                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    for ($i = 0; $i < @count($res); $i++) {
+                                        foreach ($res[$i] as $key => $value) {
+                                        }
+                                        $id_item = $res[$i]['id'];
+                                        $nome_item = $res[$i]['nome'];
+                                    ?>
+                                        <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>

@@ -17,6 +17,10 @@ $cp8 = $_POST[$campo8];
 
 $cp10 = $_POST[$campo10];
 
+if($cp5 == ''){
+    $cp5 = 0;
+}
+
 if($cp4 ==''){
     $cp4 = 0;
 }

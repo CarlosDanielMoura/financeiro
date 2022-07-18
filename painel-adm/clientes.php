@@ -485,7 +485,6 @@ function listar() {
         dataType: "html",
 
         success: function(result) {
-            console.log(result);
             $("#listar").html(result);
         }
     });

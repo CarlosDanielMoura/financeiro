@@ -553,15 +553,15 @@ $pagina = 'ordem_servico';
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text">
+                                        <input onchange="trataEixo(this)" onkeyup="addInPerto()" class="input-sm form-control numeric-field text-right" id="valor_eixo_od_longe" autocomplete="off" maxlength="12" name="valor_eixo_od_longe" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text">
+                                        <input onchange="trataAlturaDnp(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_longe" id="vlr_altura_od_longe" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text">
+                                        <input onchange="trataAlturaDnp(this)" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_od_longe" id="vlr_dnp_od_longe" type="text">
                                     </td>
                                 </tr>
                                 <tr class="text-success">
@@ -574,15 +574,15 @@ $pagina = 'ordem_servico';
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" onkeyup="addInPerto()" class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text">
+                                        <input onchange="trataEixo(this)" onkeyup="addInPerto()" class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_longe" name="vlr_eixo_oe_longe" autocomplete="off" maxlength="12" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text">
+                                        <input onchange="trataAlturaDnp(this)" class="input-sm form-control numeric-field text-right" name="vlr_altura_oe_longe" id="vlr_altura_oe_longe" autocomplete="off" maxlength="7" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text">
+                                        <input onchange="trataAlturaDnp(this)" maxlength="7" class="input-sm form-control numeric-field text-right" name="vlr_dnp_oe_longe" id="vlr_dnp_oe_longe" autocomplete="off" type="text">
                                     </td>
                                 </tr>
                                 <tr class="text-danger">
@@ -595,15 +595,15 @@ $pagina = 'ordem_servico';
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text">
+                                        <input onchange="trataEixo(this)" class="input-sm form-control numeric-field text-right" id="vlr_eixo_od_perto" name="vlr_eixo_od_perto" autocomplete="off" maxlength="12" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text">
+                                        <input onchange="trataAlturaDnp(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" name="vlr_altura_od_perto" id="vlr_altura_od_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text">
+                                        <input onchange="trataAlturaDnp(this)" maxlength="7" class="input-sm form-control numeric-field text-right" id="vlr_dnp_od_perto" name="vlr_dnp_od_perto" autocomplete="off" type="text">
                                     </td>
 
 
@@ -614,19 +614,19 @@ $pagina = 'ordem_servico';
                                     </td>
 
                                     <td class="border-black">
-                                        <input  onchange="trataNumero(this)" class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6">
+                                        <input onchange="trataNumero(this)" class="input-sm text-right input-mask-receita-field form-control" id="vlr_cilindrico_oe_perto" autocomplete="off" name="vlr_cilindrico_oe_perto" type="text" maxlength="6">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text">
+                                        <input onchange="trataEixo(this)" class="input-sm form-control numeric-field text-right" id="vlr_eixo_oe_perto" autocomplete="off" maxlength="12" name="vlr_eixo_oe_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text">
+                                        <input onchange="trataAlturaDnp(this)" class="input-sm form-control numeric-field text-right" maxlength="7" autocomplete="off" id="vlr_altura_oe_perto" name="vlr_altura_oe_perto" type="text">
                                     </td>
 
                                     <td class="border-black">
-                                        <input onchange="trataNumero(this)" maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text">
+                                        <input onchange="trataAlturaDnp(this)" maxlength="7" class="input-sm form-control numeric-field text-right" autocomplete="off" name="vlr_dnp_oe_perto" id="vlr_dnp_oe_perto" type="text">
                                     </td>
                                 </tr>
                             </tbody>
@@ -642,18 +642,18 @@ $pagina = 'ordem_servico';
                                 // Valor adição
                                 let adicao = document.getElementById("in-add").value;
                                 valor_adicao = Number.parseFloat(adicao)
-                               
+
 
                                 if (adicao != '') {
                                     //Valor dos campos esfericos
                                     let esf_od = document.getElementById("valor-esferico_od_longe").value;
                                     valor_esf_od = Number.parseFloat(esf_od);
-                                    
+
 
                                     let esf_oe = document.getElementById("vlr_esferico_oe_longe").value;
                                     valor_esf_oe = Number.parseFloat(esf_oe)
 
-                                    
+
 
                                     // Pegando os valores que vão receber
                                     let esferico_perto_od = document.getElementById('valor-esferico_od_perto');
@@ -664,7 +664,7 @@ $pagina = 'ordem_servico';
                                     if (valor_final_perto_od >= 0) {
                                         esferico_perto_od.value = '+' + valor_final_perto_od.toFixed(2).replace('.', ',');
 
-                                    } 
+                                    }
 
                                     let valor_final_perto_oe = (valor_esf_oe + valor_adicao);
                                     if (valor_final_perto_oe >= 0) {
@@ -710,13 +710,13 @@ $pagina = 'ordem_servico';
 
 
                                     if (eixo_od_longe != '' || eixo_od_longe > 0) {
-                                        eixo_od_perto.value = '+' + valor_final_od_longe_eixo.toFixed(2).replace('.', ',')
+                                        eixo_od_perto.value =  valor_final_od_longe_eixo  + '°';
 
                                     } else {
                                         eixo_od_perto.value = ''
                                     }
                                     if (eixo_oe_longe != '' || eixo_oe_longe > 0) {
-                                        eixo_oe_perto.value = '+' + valor_final_oe_longe_eixo.toFixed(2).replace('.', ',')
+                                        eixo_oe_perto.value = valor_final_oe_longe_eixo  + '°';
 
                                     } else {
                                         eixo_oe_perto.value = '';
@@ -743,6 +743,24 @@ $pagina = 'ordem_servico';
                                 let valor_novo = Number.parseFloat(self.value);
                                 if (valor_novo > 0) {
                                     valor_novo = '+' + valor_novo.toFixed(2).replace('.', ',');
+                                }
+
+                                self.value = valor_novo;
+                            }
+
+                            function trataEixo(self) {
+                                let valor_novo = Number.parseFloat(self.value);
+                                if (valor_novo > 0) {
+                                    valor_novo = valor_novo + '°';
+                                }
+
+                                self.value = valor_novo;
+                            }
+
+                            function trataAlturaDnp(self) {
+                                let valor_novo = Number.parseFloat(self.value);
+                                if (valor_novo > 0) {
+                                    valor_novo = valor_novo + 'mm';
                                 }
 
                                 self.value = valor_novo;

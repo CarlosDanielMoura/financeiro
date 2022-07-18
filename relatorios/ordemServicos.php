@@ -17,16 +17,26 @@ $data_entrada = $res[0]['data_criacao'];
 $dataAtt = data($data_entrada);
 
 $json = json_decode($res[0]['obj']);
+
 $dataEntrega = data($json->dadosPrincipal->data_entrega);
 
 
 if($json->produtos->qtde_parcelas == '' || $json->produtos->qtde_parcelas == 0 ){
-    $ocultar = 'd-none';
+    $json->produtos->qtde_parcelas = 0;
 }
 
-if($json->produtos->valor_entrada_cliente == '' || $json->produtos->valor_entrada_cliente == 0){
-    $ocultar = 'd-none';
+if($json->produtos->valor_entrada_cliente == ''){
+    $json->produtos->valor_entrada_cliente = 0;
 }
+
+if($json->produtos->porcen_desconto == ''){
+   $valor_Novo_Desconto =  ' - ' . $json->produtos->porcen_desconto = 0 . '%';
+} 
+
+if($json->produtos->desconto == ''){
+    $json->produtos->desconto = 0;
+}
+
 
 //Função de formatar data
 function data($data)
@@ -102,7 +112,7 @@ function data($data)
 </head>
 
 <body style="background-color: white;">
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div class="img-cab">
             <img src="../img/logo-Os.png" alt="">
         </div>
@@ -118,7 +128,7 @@ function data($data)
                 <span><strong>Dt. Entrada: </strong></span><span><?php echo $dataAtt ?></span>
             </div>
             <div class="col-md-4">
-                <span><strong>Prev. Entrega: </strong></span><span><?php echo $dataEntrega ?> - <?php echo $json->dadosPrincipal->hora_entrega ?></span>
+                <span><strong>Prev. Entrega: </strong></span><span><?php echo $dataEntrega ?></span>
             </div>
         </div>
 
@@ -126,17 +136,15 @@ function data($data)
             <div class="col-md-4">
                 <span><strong>Cliente: </strong></span><span><?php echo $nome_cliente ?></span>
             </div>
-            <div class="col-md-4 " >
-                <span class="<?php  echo $ocultar?>"><strong>Total parcelas: </strong></span><span class="<?php  echo $ocultar?>"><?php echo $json->produtos->qtde_parcelas ?></span>
-            </div>
-            <div class="col-md-4 ">
-                <span  class="<?php echo $ocultar ?>"><strong>Entrada cliente: </strong></span><span class="<?php echo $ocultar ?>"> R$ <?php echo number_format($json->produtos->valor_entrada_cliente,2) ?></span>
-            </div>
+            
         </div>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <span><strong>Vendedor: </strong></span><span><?php echo $nome_func ?></span>
+            </div>
+            <div class="col-md-4">
+               
             </div>
         </div>
 
@@ -175,11 +183,28 @@ function data($data)
                         <td style="text-align: center;"><strong> <?php echo $valorQteTotal ?></strong></td>
                     </tr>
                 </table>
-
-
             </div>
             <div class="protocol-total">
                 <strong><span>Total:</span> <span> R$ <?php echo number_format($valorTotalProds,2)  ?> </span></strong>
+            </div>
+        </div>
+         <div class="protocol mt-5">
+            <p class="title-protocol"> <strong> *** DADOS REFERENTE A PAGAMENTO *** </strong></p>
+        </div>
+        <div class="box-dados mt-4">
+            <div class="row">
+                <div class="col-md-4 " >
+                    <span ><strong>Total parcelas: </strong></span><span class="<?php  echo $ocultar?>"><?php echo $json->produtos->qtde_parcelas ?></span>
+                </div>
+                <div class="col-md-4">
+                    <span ><strong>Entrada cliente: </strong></span><span class="<?php echo $ocultar ?>"> R$ <?php echo number_format($json->produtos->valor_entrada_cliente,2) ?></span>
+                </div>
+                 <div class="col-md-4">
+                    <span ><strong>Desconto: </strong></span><span class="<?php echo $ocultar ?>"> R$ <?php echo number_format($json->produtos->desconto,2) ?>   -  <?php  echo $json->produtos->porcen_desconto ?> </span>
+                </div>
+            </div>
+            <div class="protocol-total mt-3">
+                <strong><span class="text-danger">SubTotal Cliente:</span> <span class="text-danger"> R$ <?php echo number_format( $json->produtos->subTotal_Cliente,2) ?> </span></strong>
             </div>
         </div>
     </div>

@@ -261,13 +261,6 @@ if (@count($res1) > 0) {
                 </tr>
             <?php } ?>
 
-            <?php if ($recebido != 0) { ?>
-                <tr>
-                    <td colspan="2">Troco</td>
-                    <td align="right">R$ <?php echo $troco ?></td>
-                </tr>
-            <?php } ?>
-
             <tr>
                 <th class="ttu" colspan="3" class="cor">
                     <!-- _ _	_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ -->

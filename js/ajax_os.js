@@ -4,17 +4,16 @@ $(document).ready(function () {
   
 
 function listarClientes() {
-    $('#view_clientes').empty();
+$('#view_clientes').empty();
     $.ajax({
         url: `listar_os/ajaxBuscaCliente.php`,
         method: "POST",
         dataType: "json",
         success: function (response) {
-            //console.log(response);
+           
             $.each(response, function (key, value) {
-                //console.log(response);
+              
                 let objAtt = JSON.parse(value.obj)
-
                 // Data de criação da os
                 let dataCriacao = value.data_criacao
                 let dataNova = dataCriacao.split('-').reverse().join('/')
@@ -27,10 +26,10 @@ function listarClientes() {
 
                     parcelas = 0;
                 }
+            
+                value.valor_total = Number.parseFloat(value.valor_total);
+                
 
-
-
-                // console.log(objAtt.dadosPrincipal);
 
                 let html = `  <div class="cards-clientes orange"  id="abertos" >
                                 <div class="row-1">
@@ -44,7 +43,7 @@ function listarClientes() {
                                     </div>
                                     <!--Valor total da OS-->
                                     <div class="col-3" style="display: flex; gap: 40px">
-                                        <div title="Valor total da OS">R$ ${value.valor_total.toFixed(2)} </div>
+                                        <div title="Valor total da OS">R$ ${ value.valor_total.toFixed(2)} </div>
                                         <div title="SubTotal do Cliente"><i class="fa fa-money text-danger"></i> R$ ${objAtt.produtos.subTotal_Cliente}</div>
                                     </div>
                                     <!--Status da Os-->
@@ -162,7 +161,7 @@ function listarConfirmadas() {
                     parcelas = 0;
                 }
 
-
+value.valor_total = Number.parseFloat(value.valor_total);
 
                 // console.log(objAtt.dadosPrincipal);
 
@@ -297,7 +296,7 @@ function listarTodas() {
                 }
 
 
-
+value.valor_total = Number.parseFloat(value.valor_total);
                 // console.log(objAtt.dadosPrincipal);
 
                 let html = `  <div class="cards-clientes orange"  id="abertos" >
@@ -434,6 +433,7 @@ function listarCanceladas(event) {
 
 
                 // console.log(objAtt.dadosPrincipal);
+                value.valor_total = Number.parseFloat(value.valor_total);
 
                 let html = `  <div class="cards-clientes orange " id="canceladas">
                                 <div class="row-1">
