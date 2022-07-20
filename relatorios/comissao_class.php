@@ -2,8 +2,8 @@
 
 require_once('../config.php');
 
-$data_inicial = @$_POST['data-inicial-rel-lucro'];
-$data_final = @$_POST['data-final-rel-lucro'];
+$data_inicial = @$_POST['data-inicial-rel-comissao'];
+$data_final = @$_POST['data-final-rel-comissao'];
 
 //ALIMENTAR OS DADOS NO RELATÓRIO
 $html = file_get_contents($url_sistema . "relatorios/comissao.php?data_inicial=$data_inicial&data_final=$data_final");
@@ -37,6 +37,6 @@ $pdf->render();
 
 //NOMEAR O PDF GERADO
 $pdf->stream(
-    'lucro.pdf',
+    'RelatoriO-Vendas.pdf',
     array("Attachment" => false)
 );

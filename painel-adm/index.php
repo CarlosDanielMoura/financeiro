@@ -539,7 +539,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Relatório de Comissão de Vendas
+                <h5 class="modal-title" id="">Relatório de Comissão de Vendas
                     <span class="mx-4"><small><small><small><b>Período:</b>
                                     <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $dataOntem ?>', '<?php echo $dataOntem ?>')" class="text-dark"> Ontem </a> /
                                     <a class="text-dark" href="#" onclick="mudarDataRel('<?php echo $data_inicial_mes_atual ?>', '<?php echo $data_atual ?>')" class="text-dark"> Mês Atual</a> /
@@ -555,13 +555,13 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Data Inicial </label>
-                                <input type="date" class="form-control form-control-sm" name="data-inicial-rel-lucro" id="data-inicial-rel-lucroP" value="<?php echo date('Y-m-d') ?>">
+                                <input type="date" class="form-control form-control-sm" name="data-inicial-rel-comissao" id="data-inicial-rel-comissao" value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Data Final </label>
-                                <input type="date" class="form-control form-control-sm" name="data-final-rel-lucro" id="data-final-rel-lucroP" value="<?php echo date('Y-m-d') ?>">
+                                <input type="date" class="form-control form-control-sm" name="data-final-rel-comissao" id="data-final-rel-comissao" value="<?php echo date('Y-m-d') ?>">
                             </div>
                         </div>
                     </div>
@@ -640,6 +640,10 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
 
         $("#data-inicial-rel-lucroP").val(data);
         $("#data-final-rel-lucroP").val(data2);
+
+        $("#data-inicial-rel-comissao").val(data);
+        $("#data-final-rel-comissao").val(data2);
+
     }
 
 
