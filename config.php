@@ -12,7 +12,7 @@ $email_adm = 'carlos.daniel.moura99@gmail.com';
 $nome_adm = 'Carlos Daniel';
 
 
-$endereco_site = 'Rua. Arthur Bernades, 521 - Centro, Coromandel - MG CEP 38550-000';
+$endereco_site = 'Rua. Arthur Bernades, 521 - Centro, Coromandel - MG / CEP 38550-000';
 $telefone_fixo = '(34) 9 9336-5163';
 $telefone_whatsapp = '55 (34) 9 9336-5163';
 $telefone_whatsapp_link = '55 (34) 9 9999-9999';

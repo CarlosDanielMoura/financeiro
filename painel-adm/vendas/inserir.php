@@ -54,6 +54,16 @@ if($pagamento == 'Carnê' && $parcelas <= 1 ){
 	exit(); 
 } 
 
+if($pagamento == 'Cartão de Crédito' && $lancamento != 'Cartão de Crédito'){
+	echo 'Pagamento foi feito via cartão de crédito, por favor mudar o TIPO DE ENTRADA para cartão de crédito';
+	exit();
+}
+
+if($pagamento == 'Cartão de Debito' && $lancamento != 'Cartão de Débito'){
+	echo 'Pagamento foi feito via cartão de débito, por favor mudar o TIPO DE ENTRADA para cartão de débito';
+	exit();
+}
+
 $query_con = $pdo->query("SELECT * FROM clientes WHERE id = '$cliente'");
 $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res) > 0) {

@@ -204,7 +204,7 @@ $data_final_mes_ant = date('Y-m-d', strtotime("-1 month", strtotime($data_final_
                             <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRelMov">Movimentações</a></li>
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelLucro">Lucro Vendas (Demonstrativo Comercial)</a></li>
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelLucroPagas">Demonstrativo Comercial (Lucro Vendas Pagas)</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalRelComissao">Comissão de Funcionários</a></li>
+                            <li><a class="dropdown-item  <?php echo $oculta_menu ?>" href="#" data-bs-toggle="modal" data-bs-target="#modalRelComissao">Comissão de Funcionários</a></li>
                             <li><a class="dropdown-item" href="../relatorios/produtos_class.php" target="_blank">Produtos</a></li>
                         </ul>
                     </li>
