@@ -14,16 +14,32 @@ $cp6 = $_POST[$campo6];
 $cp6 = str_replace(',', '.', $cp6);
 $cp7 = "";
 $cp8 = $_POST[$campo8];
-
 $cp10 = $_POST[$campo10];
 
-if($cp5 == ''){
+if(isset($_POST[$campo12])){
+   $cp12 =  'Laboratorio';
+}else{
+    $cp12 =  'Normal';
+}
+
+
+if ($cp4 > 0 && $cp12 == 'Laboratorio') {
+    echo 'Produtos de Laborátorio não pode ter estoque...! Coloque 0 no estoque';
+    exit();
+}
+
+
+
+if ($cp5 == '') {
     $cp5 = 0;
 }
 
-if($cp4 ==''){
+
+if ($cp4 == '') {
     $cp4 = 0;
 }
+
+
 
 $id = @$_POST['id'];
 
@@ -74,15 +90,17 @@ if ($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif') {
 
 if ($id == "") {
     $query = $pdo->prepare("INSERT INTO $pagina set codigo = :campo1, nome = :campo2,
-     descricao = :campo3, valor_compra = :campo5, valor_venda = :campo6,
-      fornecedores = :campo7,  categoria = :campo8, foto = :campo9, ativo = :campo10");
+        descricao = :campo3, estoque = :campo4, valor_compra = :campo5, valor_venda = :campo6,
+        fornecedores = :campo7,  categoria = :campo8, foto = :campo9, ativo = :campo10, 
+        tipoProduto = :campo12 ");
     $query->bindValue(":campo9", "$imagem");
 } else {
 
     if ($imagem == "sem-foto.jpg") {
+
         $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, 
-        descricao = :campo3, valor_compra = :campo5, valor_venda = :campo6, fornecedores = :campo7,  
-        categoria = :campo8, ativo = :campo10 WHERE id = '$id'");
+            descricao = :campo3, estoque = :campo4 ,valor_compra = :campo5, valor_venda = :campo6, fornecedores = :campo7,  
+            categoria = :campo8, ativo = :campo10, tipoProduto = :campo12 WHERE id = '$id'");
     } else {
 
         //BUSCAR A IMAGEM PARA EXCLUIR DA PASTA
@@ -93,9 +111,9 @@ if ($id == "") {
             @unlink('../../img/produtos/' . $imagem_antiga);
         }
 
-        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, descricao = :campo3, 
+        $query = $pdo->prepare("UPDATE $pagina set codigo = :campo1, nome = :campo2, descricao = :campo3, estoque = :campo4,
         valor_compra = :campo5, valor_venda = :campo6, fornecedor = :campo7, categoria = :campo8,
-        foto = :campo9, ativo = :campo10 WHERE id = '$id'");
+        foto = :campo9, ativo = :campo10,  tipoProduto = :campo12 WHERE id = '$id'");
         $query->bindValue(":campo9", "$imagem");
     }
 }
@@ -103,11 +121,13 @@ if ($id == "") {
 $query->bindValue(":campo1", "$cp1");
 $query->bindValue(":campo2", "$cp2");
 $query->bindValue(":campo3", "$cp3");
+$query->bindValue(":campo4", "$cp4");
 $query->bindValue(":campo5", "$cp5");
 $query->bindValue(":campo6", "$cp6");
 $query->bindValue(":campo7", "$cp7");
 $query->bindValue(":campo8", "$cp8");
 $query->bindValue(":campo10", "$cp10");
+$query->bindValue(":campo12", "$cp12");
 $query->execute();
 
 echo 'Salvo com Sucesso!';

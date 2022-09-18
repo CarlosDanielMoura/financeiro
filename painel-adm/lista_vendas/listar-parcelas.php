@@ -4,6 +4,7 @@ require_once("campos.php");
 
 $id = $_POST['id'];
 
+
 $query = $pdo->query("SELECT * from contas_receber where id_venda = '$id' order by id asc ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 

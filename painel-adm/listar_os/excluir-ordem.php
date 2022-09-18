@@ -5,5 +5,7 @@ require_once("../../conexao.php");
 
 $id = @$_POST['id-excluir-ordem'];
 
+
+
 $consulta = $pdo->query("DELETE FROM ordem_servico  WHERE id = '$id'");
 echo 'Excluído com Sucesso!';

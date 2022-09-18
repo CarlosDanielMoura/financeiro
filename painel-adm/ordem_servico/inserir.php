@@ -1,6 +1,9 @@
 <?php
 require_once("../../conexao.php");
 require_once("../verificar.php");
+@session_start();
+$id_usuario = $_SESSION['id_usuario'];
+
 $json = file_get_contents('php://input');
 
 $data = json_decode($json);
@@ -30,7 +33,6 @@ $id_func = $data->dadosPrincipal->func_dados_princ;
 
 
 
-
 if (!is_numeric($valor_total)) {
     http_response_code(400);
     die("valor_total não é numerico");
@@ -41,10 +43,10 @@ if ($valor_total <= 0) {
     http_response_code(400);
     die("valor_total <= 0");
 }
-if (!is_numeric($entrada_cliente)) {
-    http_response_code(400);
-    die("entrada_cliente não é numerico");
-}
+// if (!is_numeric($entrada_cliente)) {
+//     http_response_code(400);
+//     die("entrada_cliente não é numerico");
+// }
 
 // Buscando cliente
 $query1 = $pdo->query("SELECT * from clientes where id = $id ");
@@ -73,6 +75,21 @@ $query->bindValue(":valor_total", "$valor_total");
 $query->bindValue(":entrada_cliente", "$entrada_cliente");
 $query->bindValue(":nome_cliente", "$nome_cliente");
 $query->bindValue(":nome_func", "$nome_func");
+$id_ult_registro = $pdo->lastInsertId();
+
+
+// $query_con = $pdo->query("SELECT * FROM itens_venda WHERE id_venda = 3 and 
+// usuario = '$id_usuario' order by id desc");
+// $res = $query_con->fetchAll(PDO::FETCH_ASSOC);
+// $total_reg = @count($res);
+// if ($total_reg > 0) {
+// 	for ($i = 0; $i < $total_reg; $i++) {
+// 		foreach ($res[$i] as $key => $value) {
+// 		}
+// 		$pdo->query("UPDATE itens_venda set id_venda = '$id_ult_registro' 
+// 		where id_venda = 3 and usuario = '$id_usuario'");
+// 	}
+// }
 
 header('Content-Type: application/json; charset=utf-8');
 if ($query->execute()) {
@@ -90,7 +107,3 @@ if ($query->execute()) {
         "info" => $query->errorInfo()
     ]), 0);
 }
-//print_r($data->dadosPrincipal->observacao_princ, 0);
-
-
-// print_r($data->produtos, 0);

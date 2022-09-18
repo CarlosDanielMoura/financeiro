@@ -572,7 +572,7 @@ if ($frequencia_automatica != 'Não') {
 
                   <div class="col-md-6">
                      <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Local Saída</label>
+                        <label for="exampleFormControlInput1" class="form-label">Tipo de Entrada</label>
                         <select class="form-select" aria-label="Default select example" name="saida-baixar" id="saida-baixar">
                            <option value="Caixa">Caixa (Movimento)</option>
                            <option value="Cartão de Débito">Cartão de Débito</option>
@@ -668,9 +668,7 @@ if ($frequencia_automatica != 'Não') {
             <small>
                <div id="listar-residuos"></div>
             </small>
-
          </div>
-
       </div>
    </div>
 </div>

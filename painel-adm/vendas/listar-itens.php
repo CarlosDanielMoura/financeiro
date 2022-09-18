@@ -84,6 +84,13 @@ echo '<small><div id="mensagem-fec"></div></small>';
 		desconto = desconto.replace(",", ".");
 		acrescimo = acrescimo.replace(",", ".");
 		entrada = entrada.replace(",", ".");
+		if(entrada > 0 && valorTotal > 0){
+			$('.entryType').removeClass('d-none');
+			$('.entryType').addClass('active');
+		}else{
+			$('.entryType').removeClass('active');
+			$('.entryType').addClass('d-none');
+		}
 
 		if (entrada == '') {
 			entrada = 0;

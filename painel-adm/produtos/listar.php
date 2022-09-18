@@ -23,7 +23,7 @@ echo <<<HTML
 <th>{$campo4}</th>	
 <th>Valor Venda</th>
 <th>{$campo8}</th>	
-<th>{$campo9}</th>
+<th>Tipo Produto</th>
 <th>Ações</th>
 </tr>
 </thead>
@@ -48,6 +48,15 @@ for ($i = 0; $i < @count($res); $i++) {
     $cp9 = $res[$i]['foto'];
     $cp10 = $res[$i]['ativo'];
     $cp11 = $res[$i]['lucro'];
+    $cp12 = $res[$i]['tipoProduto'];
+
+    if ($cp12 == 'Laboratorio') {
+        $ocultar = 'hidden';
+        $cp12 = 'laboratório' . ' (Par)';
+    } else {
+        $ocultar = '';
+    }
+
 
     $valor_compra = number_format($cp5, 2, ',', '.');
     $valor_venda = number_format($cp6, 2, ',', '.');
@@ -65,6 +74,7 @@ for ($i = 0; $i < @count($res); $i++) {
     $query2 = $pdo->query("SELECT * from cat_produtos where id = '$cp8'");
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
     $nome_cat = $res2[0]['nome'];
+
 
 
 
@@ -90,16 +100,15 @@ for ($i = 0; $i < @count($res); $i++) {
             <td><i class="bi bi-square-fill $classe"></i> {$cp1}</td>	
 	        <td>{$cp2}</td>	
             <td>{$cp3}</td>	
-	        <td>{$cp4}</td>	
+	        <td><span style="visibility:$ocultar">{$cp4}</span></td>	
 	        <td>R$ {$cp6}</td>	
 	        <td>{$nome_cat}</td>	
-	        <td><img src="../img/{$pagina}/{$cp9}" width="40px"></td>	
+	        <td> {$cp12}</td>	
             <td>
-            <a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}')" title="Editar Registro"><i class="bi bi-pencil-square text-primary"></i></a>
+            <a href="#" onclick="editar('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}' , '{$cp12}', '{$cp4}')" title="Editar Registro"><i class="bi bi-pencil-square text-primary"></i></a>
             <a href="#" onclick="excluir('{$id}' , '{$cp2}')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
             <a href="#" onclick="mudarStatus('{$id}', '{$ativar}')" title="{$ativo}"><i class="bi {$icone} text-secondary"></i></a>
-            <a href="#" class="mx-1" onclick="mostrarDados('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$nome_forn}', '{$nome_cat}', '{$cp9}', '{$cp10}')" title="Ver Dados do Cliente"><i class="bi bi-info-square"></i></a>
-            <a href="#" class="" onclick="comprarProduto('{$id}', '{$cp2}', '{$cp11}')" title="Comprar Produto"><i class="bi bi-cash text-success"></i></a>
+            <a href="#" class="mx-1" onclick="mostrarDados('{$id}', '{$cp1}', '{$cp2}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$nome_forn}', '{$nome_cat}', '{$cp9}', '{$cp10}','{$cp12}')" title="Ver Dados do Cliente"><i class="bi bi-info-square"></i></a>
             </td>
             </tr>
 HTML;
@@ -120,16 +129,19 @@ HTML;
 
     /*Funcão editar Usuário */
 
-    function editar(id, cp1, cp2, cp3, cp5, cp6, cp7, cp8, cp9, cp10) {
+    function editar(id, cp1, cp2, cp3, cp5, cp6, cp7, cp8, cp9, cp10, cp12, cp4) {
         $('#id').val(id);
         $('#<?= $campo1 ?>').val(cp1);
         $('#<?= $campo2 ?>').val(cp2);
         $('#<?= $campo3 ?>').val(cp3);
+        $('#<?= $campo4 ?>').val(cp4);
         $('#<?= $campo5 ?>').val(cp5);
         $('#<?= $campo6 ?>').val(cp6);
         $('#<?= $campo8 ?>').val(cp8);
         $('#target').attr('src', '../img/' + pag + '/' + cp9);
         $('#<?= $campo10 ?>').val(cp10);
+        $('#<?= $campo12 ?>').val(cp12);
+
 
 
         $('#tituloModal').text('Editar Registro');
@@ -145,9 +157,11 @@ HTML;
         $('#<?= $campo1 ?>').val('');
         $('#<?= $campo2 ?>').val('');
         $('#<?= $campo3 ?>').val('');
+        $('#<?= $campo4 ?>').val('');
         $('#<?= $campo5 ?>').val('');
         $('#<?= $campo6 ?>').val('');
         $('#<?= $campo9 ?>').val('');
+        $('#<?= $campo12 ?>').val('');
         $('#target').attr('src', '../img/' + pag + '/sem-foto.jpg');
         $('#quantidade').val('');
         $('#mensagem').text('');
@@ -156,7 +170,7 @@ HTML;
 
 
 
-    function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10) {
+    function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp12) {
 
         $('#campo1').text(cp1);
         $('#campo2').text(cp2);
@@ -168,6 +182,7 @@ HTML;
         $('#campo8').text(cp8);
         $('#imagem_dados').attr('src', '../img/' + pag + '/' + cp9);
         $('#campo10').text(cp10);
+        $('#campo12').text(cp12);
 
 
 
@@ -179,15 +194,15 @@ HTML;
 
 
 
-    function comprarProduto(id, nome, lucro) {
-        $('#id-comprar').val(id);
-        $('#nome-comprar').text(nome);
-        $('#<?= $campo11 ?>').val(lucro);
+    // function comprarProduto(id, nome, lucro) {
+    //     $('#id-comprar').val(id);
+    //     $('#nome-comprar').text(nome);
+    //     $('#<?= $campo11 ?>').val(lucro);
 
-        var myModal = new bootstrap.Modal(document.getElementById('modalComp'), {});
-        myModal.show();
+    //     var myModal = new bootstrap.Modal(document.getElementById('modalComp'), {});
+    //     myModal.show();
 
-        $('#mensagem-comprar').text('');
-        limparCampos();
-    }
+    //     $('#mensagem-comprar').text('');
+    //     limparCampos();
+    // }
 </script>

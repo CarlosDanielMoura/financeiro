@@ -7,6 +7,8 @@ date_default_timezone_set('America/Sao_Paulo');
 $data_hoje = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
 
 
+
+
 $data_inicial = @$_GET['data_inicial'];
 $data_final = @$_GET['data_final'];
 
@@ -21,11 +23,11 @@ if ($data_inicial == $data_final) {
 }
 
 //pegando subtotal
-
 $query = $pdo->query("SELECT  SUM(`subtotal`) from vendas where (data_lanc >= '$data_inicial' 
 and data_lanc <= '$data_final') and (status = 'Concluída' or status = 'Pendente') order by data_lanc asc, id asc ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $totalLiquido = $res[0]["SUM(`subtotal`)"];
+
 
 
 //Fazendo consulta de tipos de pagamentos

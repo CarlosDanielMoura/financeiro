@@ -254,10 +254,10 @@ HTML;
 
 	$('#target').attr('src','../img/contas/'+arquivo);
 
-	var usuario = "<?=$nivel_usu?>";
-	if(usuario != 'Administrador'){
-		document.getElementById("<?=$campo9?>").readOnly = true;
-	}
+	// var usuario = "<?=$nivel_usu?>";
+	// if(usuario != 'Administrador'){
+	// 	document.getElementById("<?=$campo9?>").readOnly = true;
+	// }
 	
 	var plano = cp5.split("-");
 	if(plano.length > 1){

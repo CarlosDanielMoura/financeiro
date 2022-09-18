@@ -1,6 +1,7 @@
 <?php 
 require_once("../../conexao.php");
 require_once("campos.php");
+$id = $_POST['id'];
 
 echo <<<HTML
 <table id="example" class="table table-light table-hover my-4">
@@ -20,7 +21,7 @@ echo <<<HTML
 HTML;
 
 
-$query = $pdo->query("SELECT * from vendas order by id desc ");
+$query = $pdo->query("SELECT * from vendas where cliente = '$id'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 for($i=0; $i < @count($res); $i++){
 	foreach ($res[$i] as $key => $value){} 
@@ -89,9 +90,6 @@ echo <<<HTML
 	<td><a class="mx-1 text-dark" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp5}', '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}', '{$cp13}', '{$cp14}')" title="Ver Dados da Venda">{$cp10}</a></td>		
 	<td>{$nome_cliente}</td>									
 	<td>
-	
-	<a href="#" onclick="excluir('{$id}' , '{$cp1}')" title="Cancelar Venda">	<i class="bi bi-trash text-danger {$ocultar}"></i> </a>
-
 	<a class="mx-1" href="#" onclick="mostrarDados('{$id}', '{$cp1}', '{$nome_usuario}', '{$cp3}', '{$cp4}', '{$cp5}',  '{$cp6}', '{$cp7}', '{$cp8}', '{$cp9}', '{$cp10}', '{$cp11}', '{$nome_cliente}', '{$cp13}', '{$cp14}')" title="Ver Dados da Venda">
 	<i class="bi bi-exclamation-square"></i></a>
 
@@ -120,24 +118,24 @@ $(document).ready(function() {
 
 
 function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp11, cp12,cp13, cp14){
-	$('#campo1').text(cp1);
-	$('#campo2').text(cp2);
-	$('#campo3').text(cp3);
-	$('#campo4').text(cp4);
-	$('#campo5').text(cp5);
-	$('#campo6').text(cp6);
-	$('#campo7').text(cp7);
-	$('#campo8').text(cp8);
-	$('#campo9').text(cp9);
-	$('#campo10').text(cp10);
-	$('#campo11').text(cp11);
-	$('#campo12').text(cp12);
-	$('#campo13').text(cp13);
-	$('#campo14').text(cp14);
-	$('#subtot').text(cp9);
-	$('#id').text(id);
+	$('#campo1-cliente').text(cp1);
+	$('#campo2-cliente').text(cp2);
+	$('#campo3-cliente').text(cp3);
+	$('#campo4-cliente').text(cp4);
+	$('#campo5-cliente').text(cp5);
+	$('#campo6-cliente').text(cp6);
+	$('#campo7-cliente').text(cp7);
+	$('#campo8-cliente').text(cp8);
+	$('#campo9-cliente').text(cp9);
+	$('#campo10-cliente').text(cp10);
+	$('#campo11-cliente').text(cp11);
+	$('#campo12-cliente').text(cp12);
+	$('#campo13-cliente').text(cp13);
+	$('#campo14-cliente').text(cp14);
+	$('#subtot-cliente').text(cp9);
+	$('#id-cliente').text(id);
 	
-	var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {		});
+	var myModal = new bootstrap.Modal(document.getElementById('modalDadosCliente'), {		});
 	myModal.show();
 
 	listarParcelas(id);
@@ -148,13 +146,13 @@ function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp1
 
 function listarParcelas(id){
 	$.ajax({
-        url: pag + "/listar-parcelas.php",
+        url: "lista_vendas/listar-parcelas.php",
         method: 'POST',
         data: {id},
         dataType: "html",
 
         success:function(result){
-            $("#listar-parcelas").html(result);
+            $("#listar-parcelas-cliente").html(result);
         }
     });
 }
@@ -162,19 +160,14 @@ function listarParcelas(id){
 
 function listarProdutos(id){
 	$.ajax({
-        url: pag + "/listar-produtos.php",
+        url:"lista_vendas/listar-produtos.php",
         method: 'POST',
         data: {id},
         dataType: "html",
 
         success:function(result){
-            $("#listar-produtos").html(result);
+            $("#listar-produtos-cliente").html(result);
         }
     });
 }
-
 </script>
-
-
-
-

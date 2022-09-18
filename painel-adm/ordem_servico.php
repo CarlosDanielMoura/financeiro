@@ -34,7 +34,7 @@ $pagina = 'ordem_servico';
 
                         <?php
 
-                        $query = $pdo->query("SELECT * FROM usuarios order by nome asc");
+                        $query = $pdo->query("SELECT * FROM usuarios where nivel != 'Administrador' order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
                         for ($i = 0; $i < @count($res); $i++) {
                             foreach ($res[$i] as $key => $value) {
@@ -85,11 +85,11 @@ $pagina = 'ordem_servico';
                     <label>Data de Entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
                     <input type="date" class="form-control" id="data_entrega" name="data_entrega">
                 </div>
-                <div class="col-3 Input-details-1">
-                    <label>Hora de entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>
-                    <input type="time" class="form-control" id="hora_entrega" name="hora_entrega">
+                <!--<div class="col-3 Input-details-1">-->
+                <!--    <label>Hora de entrega:</label> <span title="Preenchimento obrigatório " class="text-danger">(*)</span>-->
+                <!--    <input type="time" class="form-control" id="hora_entrega" name="hora_entrega">-->
 
-                </div>
+                <!--</div>-->
             </div>
 
             <div class="row">
@@ -138,7 +138,7 @@ $pagina = 'ordem_servico';
                 </div>
 
                 <div class="col-7 Input-details-add">
-                    <a class="" onclick="adicionaProdutoTab()" title="Adicionar Produto">
+                    <a class="" id="btn_add_prod" onclick="adicionaProdutoTab()" title="Adicionar Produto">
                         <i class="bi bi-plus-square-fill text-black "></i>
                     </a>
                 </div>
@@ -222,28 +222,29 @@ $pagina = 'ordem_servico';
                             let liquido = resumo.childNodes[5];
                             let valor_total = totais.childNodes[0].childNodes[5];
                             valor_total.innerText = soma.toFixed(2);
-
                             calLiquido();
                         }
 
                         function adicionaProdutoTab() {
                             const idProd = document.getElementById("user-os").value;
+
                             $.ajax({
                                 url: `<?php echo $pagina; ?>/ajaxBuscaProduto.php?idProd=${idProd}`,
                                 method: "GET",
                                 dataType: "json",
                                 success: function(produto) {
+
                                     //console.log(produto);
                                     let html = `
                                         <td class="b-clara">${produto.codigo} - ${produto.nome}</td>
-                                        <td><input placeholder="1" min="1" max="${produto.estoque}" class="form-control" type="number" onkeyup="calcTotalProdInd(this)" onchange="calcTotalProdInd(this)"></td>
+                                        <td><input placeholder="1" min="1"  class="form-control" type="number" onkeyup="calcTotalProdInd(this);" onchange="calcTotalProdInd(this);" id="qtd_prod"></td>
                                         <td>${produto.valor_venda.replace(".", ",")}</td>
                                         <td>0.00</td>
                                         <td><input onkeyup="calcTotalProdInd2(this)" onchange="calcTotalProdInd2(this)" class="form-control" type="text" value="${produto.valor_venda.replace(".", ",")}"></td>
                                         <td>${produto.valor_venda.replace(".", ",")}</td>
                                         <td><a onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
                                         <td class="d-none">${produto.id}</td>
-                                    `;
+                                    `
                                     const tabela = document.getElementById("tabela-produtos");
                                     tabela.insertRow(-1);
                                     tabela.rows[tabela.rows.length - 1].innerHTML = html;
@@ -274,7 +275,7 @@ $pagina = 'ordem_servico';
                     <div class="row d-flex">
                         <div class="col-4">
                             <label for=""> <b> Entrada do Cliente: R$</b></label>
-                            <input type="number" onchange="calcSubtotal(this)" onkeyup="calcSubtotal(this)" style="text-align: end;" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control">
+                            <input type="text" onchange="calcSubtotal(this);" style="text-align: end;" name="vlr_entrada_cliente" id="vlr_entrada_cliente" class="form-control">
                         </div>
                         <div class="col-4">
                             <label for=""><b> Tipo de Pagamento: </b></label>
@@ -302,7 +303,7 @@ $pagina = 'ordem_servico';
                     <div class="row mt-4">
                         <div class="col-4">
                             <label title="Valor restante que o cliente ainda tem a pagar." for=""> </label>
-                            <h5><b> SubTotal: <b>R$</b></b> <input style="text-align: end;" type="number" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" readonly> </h5>
+                            <h5><b> SubTotal: <b>R$</b></b> <input style="text-align: end;" type="text" class="form-control" name="vlr_subtotal_cli" id="vlr_subtotal_cli" readonly> </h5>
                         </div>
 
                     </div>
@@ -468,8 +469,10 @@ $pagina = 'ordem_servico';
 
             function calcSubtotal(self) {
 
-                let valor_EntradaCli = self.value
+                let valor_EntradaCli = self.value.replace(',', '.');
                 let valor_Final = 0;
+                self.value = valor_EntradaCli;
+
 
                 //Pegando o campo subTotal
                 let valor_liquido = document.getElementById("vlr_liquido")
@@ -478,13 +481,9 @@ $pagina = 'ordem_servico';
                 let campo_subtotal = document.getElementById("vlr_subtotal_cli");
 
 
-
-
                 valor_Final = Number.parseFloat(valor_liquido.innerText) - valor_EntradaCli;
-                campo_subtotal.value = valor_Final.toFixed(2)
-
-
-
+                //console.log(valor_Final)
+                campo_subtotal.value = valor_Final.toFixed(2);
             }
         </script>
 
@@ -644,14 +643,26 @@ $pagina = 'ordem_servico';
                                 valor_adicao = Number.parseFloat(adicao)
 
 
+
+
                                 if (adicao != '') {
                                     //Valor dos campos esfericos
                                     let esf_od = document.getElementById("valor-esferico_od_longe").value;
                                     valor_esf_od = Number.parseFloat(esf_od);
 
 
+
                                     let esf_oe = document.getElementById("vlr_esferico_oe_longe").value;
                                     valor_esf_oe = Number.parseFloat(esf_oe)
+
+
+                                    //Veerificando campos vazios
+
+                                    if (esf_od == '' || esf_oe == '') {
+
+                                        valor_esf_oe = 0;
+                                        valor_esf_od = 0
+                                    }
 
 
 
@@ -661,14 +672,18 @@ $pagina = 'ordem_servico';
 
                                     // Jogando os valores no campo
                                     let valor_final_perto_od = (valor_esf_od + valor_adicao);
-                                    if (valor_final_perto_od >= 0) {
+                                    if (valor_final_perto_od > 0) {
                                         esferico_perto_od.value = '+' + valor_final_perto_od.toFixed(2).replace('.', ',');
 
+                                    } else {
+                                        esferico_perto_od.value = valor_final_perto_od.toFixed(2).replace('.', ',');
                                     }
 
                                     let valor_final_perto_oe = (valor_esf_oe + valor_adicao);
-                                    if (valor_final_perto_oe >= 0) {
+                                    if (valor_final_perto_oe > 0) {
                                         esferico_perto_oe.value = '+' + valor_final_perto_oe.toFixed(2).replace('.', ',');
+                                    } else {
+                                        esferico_perto_oe.value = valor_final_perto_oe.toFixed(2).replace('.', ',');
                                     }
                                     // Pegandos os campos Cilindrico 
                                     let cilindrico_od_longe = document.getElementById("valor-cilindrico-od-longe").value;
@@ -681,19 +696,31 @@ $pagina = 'ordem_servico';
                                     let cilindrinco_oe_perto = document.getElementById("vlr_cilindrico_oe_perto");
 
 
+
+
                                     if (cilindrico_od_longe != '' || cilindrico_od_longe > 0) {
-                                        cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace('.', ',')
+                                        if (cilindrico_od_longe > 0) {
+                                            cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace('.', ',')
+                                        } else {
+                                            cilindrico_od_perto.value = valor_final_od_longe.toFixed(2).replace('.', ',')
+                                        }
+
 
                                     } else {
                                         cilindrico_od_perto.value = ''
                                     }
+
+
+
+
                                     if (cilindrico_oe_longe != '' || cilindrico_oe_longe > 0) {
-                                        cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace('.', ',')
-
-                                    } else {
-                                        cilindrinco_oe_perto.value = '';
-
+                                        if (cilindrico_oe_longe > 0) {
+                                            cilindrinco_oe_perto.value = '+' + valor_final_oe_longe;
+                                        } else {
+                                            cilindrinco_oe_perto.value = valor_final_oe_longe;
+                                        }
                                     }
+
 
                                     //Pegando os valores do Eixo
 
@@ -710,13 +737,14 @@ $pagina = 'ordem_servico';
 
 
                                     if (eixo_od_longe != '' || eixo_od_longe > 0) {
-                                        eixo_od_perto.value =  valor_final_od_longe_eixo  + '°';
+                                        eixo_od_perto.value = valor_final_od_longe_eixo + '°';
 
                                     } else {
                                         eixo_od_perto.value = ''
                                     }
+
                                     if (eixo_oe_longe != '' || eixo_oe_longe > 0) {
-                                        eixo_oe_perto.value = valor_final_oe_longe_eixo  + '°';
+                                        eixo_oe_perto.value = valor_final_oe_longe_eixo + '°';
 
                                     } else {
                                         eixo_oe_perto.value = '';
@@ -739,17 +767,27 @@ $pagina = 'ordem_servico';
                                 }
                             });
 
+
                             function trataNumero(self) {
-                                let valor_novo = Number.parseFloat(self.value);
+                                let valor_novo = self.value.replace(',', '.')
                                 if (valor_novo > 0) {
-                                    valor_novo = '+' + valor_novo.toFixed(2).replace('.', ',');
+                                    valor_novo = '+' + valor_novo
+                                } else {
+                                    valor_novo = valor_novo
                                 }
 
                                 self.value = valor_novo;
                             }
 
-                            function trataEixo(self) {
+                            function trataNumeroEntrada(self) {
                                 let valor_novo = Number.parseFloat(self.value);
+                                valor_novo = valor_novo.replace(',', '.');
+                                self.value = valor_novo;
+                            }
+
+
+                            function trataEixo(self) {
+                                let valor_novo = self.value.replace(',', '.')
                                 if (valor_novo > 0) {
                                     valor_novo = valor_novo + '°';
                                 }
@@ -758,82 +796,13 @@ $pagina = 'ordem_servico';
                             }
 
                             function trataAlturaDnp(self) {
-                                let valor_novo = Number.parseFloat(self.value);
+                                let valor_novo = self.value.replace(',', '.')
                                 if (valor_novo > 0) {
                                     valor_novo = valor_novo + 'mm';
                                 }
 
                                 self.value = valor_novo;
                             }
-
-                            // function attCilindrico() {
-                            //     let adicao = document.getElementById("in-add").value;
-                            //     valor_novo = Number.parseFloat(adicao);
-
-                            //     if (adicao == '' || valor_novo == 0) {
-                            //         // Pegandos os campos Cilindrico 
-                            //         let cilindrico_od_longe = document.getElementById("valor-cilindrico-od-longe").value;
-                            //         let cilindrico_oe_longe = document.getElementById("vlr_cilindrico_oe_longe").value;
-
-                            //         let valor_final_od_longe = Number.parseFloat(cilindrico_od_longe);
-                            //         let valor_final_oe_longe = Number.parseFloat(cilindrico_oe_longe);
-                            //         //Jogando os valores 
-                            //         let cilindrico_od_perto = document.getElementById("vlr_cilindrico_od_perto");
-                            //         let cilindrinco_oe_perto = document.getElementById("vlr_cilindrico_oe_perto");
-
-
-                            //         if (cilindrico_od_longe != '' || cilindrico_od_longe > 0) {
-                            //             cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace('.', ',')
-
-                            //         } else {
-                            //             cilindrico_od_perto.value = ''
-                            //         }
-                            //         if (cilindrico_oe_longe != '' || cilindrico_oe_longe > 0) {
-                            //             cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace('.', ',')
-
-                            //         } else {
-                            //             cilindrinco_oe_perto.value = '';
-
-                            //         }
-                            //     }
-
-                            // }
-
-                            // function attEixo() {
-                            //     //Pegando os valores do Eixo
-                            //     let adicao = document.getElementById("in-add").value;
-                            //     valor_novo = Number.parseFloat(adicao);
-
-                            //     if (adicao == '' || valor_novo == 0) {
-                            //         let eixo_od_longe = document.getElementById("valor_eixo_od_longe").value
-                            //         let eixo_oe_longe = document.getElementById("vlr_eixo_oe_longe").value
-
-                            //         //Transformando os valores em Float
-                            //         let valor_final_od_longe_eixo = Number.parseFloat(eixo_od_longe);
-                            //         let valor_final_oe_longe_eixo = Number.parseFloat(eixo_oe_longe);
-
-                            //         //Jogando os valores nos campos certos
-                            //         let eixo_od_perto = document.getElementById("vlr_eixo_od_perto");
-                            //         let eixo_oe_perto = document.getElementById("vlr_eixo_oe_perto");
-
-
-                            //         if (eixo_od_longe != '' || eixo_od_longe > 0) {
-                            //             eixo_od_perto.value = '+' + valor_final_od_longe_eixo.toFixed(2).replace('.', ',')
-
-                            //         } else {
-                            //             eixo_od_perto.value = ''
-                            //         }
-                            //         if (eixo_oe_perto != '' || eixo_oe_perto > 0) {
-                            //             eixo_oe_perto.value = '+' + valor_final_oe_longe_eixo.toFixed(2).replace('.', ',')
-
-                            //         } else {
-                            //             eixo_oe_perto.value = '';
-
-                            //         }
-                            //     }
-
-
-                            // }
                         </script>
                     </div>
 
@@ -1203,7 +1172,7 @@ $pagina = 'ordem_servico';
                         <ul>
                             <li> Funcioanário</li>
                             <li>Cliente</li>
-                            <li>Data e hora de entrega</li>
+                            <li>Data de entrega</li>
                             <li>Produtos</li>
                             <li>Possui receita</li>
                             <li>Local Montagem</li>
@@ -1226,9 +1195,6 @@ $pagina = 'ordem_servico';
 
 <script>
     $(document).ready(function() {
-
-
-
         $('#cli-os-dados-princ').select2({
             placeholder: 'Selecione um Cliente',
 
@@ -1245,6 +1211,16 @@ $pagina = 'ordem_servico';
         });
     })
 
+    function buscaIdProd(id) {
+        $.ajax({
+            url: `ordem_servico/addProdUni.php?idProd=${id}`,
+            type: "GET",
+            dataType: "json",
+            success: function(mensagem) {
+                console.log(mensagem);
+            },
+        });
+    }
 
     function inserir() {
 
@@ -1283,14 +1259,6 @@ $pagina = 'ordem_servico';
         var dataEntregue;
         dataEntregue = document.getElementById("data_entrega").value;
         if ((dataEntregue == "") || (dataEntregue == null)) {
-            console.log('data vazia');
-            return false;
-        };
-
-        var dataEntregueHora;
-        dataEntregueHora = document.getElementById("hora_entrega").value;
-        if ((dataEntregueHora == "") || (dataEntregueHora == null)) {
-            console.log('Hora vazia');
             return false;
         };
 
@@ -1331,7 +1299,6 @@ $pagina = 'ordem_servico';
 
             "dadosPrincipal": {
                 "data_entrega": json["data_entrega"],
-                "hora_entrega": json['hora_entrega'],
                 "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone,
                 "observacao_princ": json["obs-dados-princ"],
                 "cli_dados_princ": json["cli-os-dados-princ"],
@@ -1400,7 +1367,7 @@ $pagina = 'ordem_servico';
                     "arm_tipo": json["tipo_armacao"],
                     "arm_aro": json["in-aro-arm"],
                     "arm_ponte": json["in-ponte-arm"],
-                    "arm_aro_ponte": json["in-aro-ponto-arm"], // Não está pegando o valor....
+                    "arm_aro_ponte": json["in-aro-ponto-arm"],
                     "arm_maior_diagonal": json["maior_diagonal"],
                     "arm_altura_vertical": json["altura_vertical"],
                     "arm_distancia_pupilar": json["distancia_pupilar"],

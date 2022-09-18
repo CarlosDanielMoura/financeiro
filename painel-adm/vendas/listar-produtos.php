@@ -10,7 +10,7 @@ echo <<<HTML
 <th style="width:35%">Nome</th>
 <th style="text-align:center; width:20%">Valor</th>
 <th style="text-align:center">Estoque</th>
-<th style="text-align:center">Imagem</th>
+<th style="text-align:center: width:10%">Tip. Produto</th>
 <th style="text-align:center">Quantidade</th>
 <th style="text-align:center">ADD</th>
 </tr>
@@ -35,7 +35,15 @@ for($i=0; $i < @count($res); $i++){
 		$cp7 = $res[$i]['categoria'];
 		$cp8 = $res[$i]['foto'];
 		$cp9 = $res[$i]['ativo'];
-		
+		$cp12 = $res[$i]['tipoProduto'];
+
+		if($cp12 == 'Laboratorio'){
+			$ocultar = 'hidden';
+			$cp12 = 'laboratório' .' (Par)';
+		}else{
+			$ocultar = '';
+		}
+
 		
 		$query2 = $pdo->query("SELECT * FROM cat_produtos where id = '$cp7'");
 		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -49,8 +57,8 @@ echo <<<HTML
 	<td style="width:40%">{$codigo}</td>
 	<td style="width:40%">{$res[$i]['nome']}</td>
 	<td style="text-align:center; width:20%">R$ {$cp5}</td>
-	<td style="text-align:center">{$res[$i]['estoque']}</td>
-	<td style="text-align:center"><img src="../img/produtos/{$res[$i]['foto']}" width="25"></td>
+	<td style="text-align:center;"  ><span style="visibility: $ocultar ">{$res[$i]['estoque']}</span></td>
+	<td style="text-align:center" >{$cp12}</td>
 	<td style="text-align:center">
 	<input class="form-control form-control-sm" value="1" type="number" id="qtd-{$id_reg}" >
 	</td>

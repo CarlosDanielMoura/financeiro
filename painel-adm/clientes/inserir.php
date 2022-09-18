@@ -20,15 +20,15 @@ if ($cp9 == "" && $cp10 == "") {
 
 $id = @$_POST['id'];
 
-//VALIDAR Email
-$query = $pdo->query("SELECT * from $pagina where email = '$cp11'");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$total_reg = @count($res);
-$id_reg = @$res[0]['id'];
-if ($total_reg > 0 and $id_reg != $id) {
-    echo 'Este registro já está cadastrado!!';
-    exit();
-}
+// //VALIDAR Email
+// $query = $pdo->query("SELECT * from $pagina where email = '$cp11'");
+// $res = $query->fetchAll(PDO::FETCH_ASSOC);
+// $total_reg = @count($res);
+// $id_reg = @$res[0]['id'];
+// if ($total_reg > 0 and $id_reg != $id) {
+//     echo 'Este registro já está cadastrado!!';
+//     exit();
+// }
 
 //VALIDAR Documento
 $query = $pdo->query("SELECT * from $pagina where doc = '$cp3'");

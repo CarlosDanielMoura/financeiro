@@ -303,7 +303,7 @@ if(@$json->receita->adicao == ''){
                         <?php
                         require_once("../conexao.php");
                         foreach ($json->produtos->produtos_selecionados as $key => $prod) {
-                            $query = $pdo->prepare("SELECT * from produtos where ativo = 'Sim' and estoque > 0 and id = :idProd ");
+                            $query = $pdo->prepare("SELECT * from produtos where ativo = 'Sim' and id = :idProd ");
                             $query->bindValue(":idProd", $prod->id);
                             $query->execute();
                             $res = $query->fetchAll(PDO::FETCH_ASSOC);

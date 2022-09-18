@@ -227,7 +227,7 @@ if (@count($res1) > 0) {
 
             <tr>
                 <td colspan="2">Total</td>
-                <td align="right">R$ <?php echo $sub_tot ?></td>
+                <td align="right">R$ <?php echo @$sub_tot ?></td>
             </tr>
 
             <?php if ($cp7 != 0) { ?>

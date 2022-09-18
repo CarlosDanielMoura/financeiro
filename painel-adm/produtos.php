@@ -27,16 +27,6 @@ require_once($pagina . "/campos.php");
 	<a href="#" onclick="inserir()" class="buttonNivel btn sm" type="button">Novo Produto</a>
 </div>
 
-<div class="row iconesSquare">
-	<div class="col-md-3 mb-3">
-		<i class="bi bi-square-fill text-success"> <strong> <small> Produto com estoque em dia.</small> </strong> </i>
-	</div>
-
-	<div class="col-md-3">
-		<i class="bi bi-square-fill text-danger"> <strong> <small> Produto com estoque baixo.</small></strong></i>
-	</div>
-</div>
-
 
 
 <small>
@@ -133,6 +123,14 @@ require_once($pagina . "/campos.php");
 
 										</select>
 									</div>
+
+									<div class="col-md-12 col-sm-12">
+										<div class="mb-3">
+											<label for="">Quantidade </label>
+											<input type="text" class="form-control" name="<?php echo $campo4 ?>" id="<?php echo $campo4 ?>">
+										</div>
+
+									</div>
 								</div>
 
 
@@ -145,6 +143,17 @@ require_once($pagina . "/campos.php");
 
 										</select>
 									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 col-sm-12 d-flex justify-content-center">
+									<input class="form-check-input" type="checkbox" value="Laboratorio" id="<?php echo $campo12 ?>" name="<?php echo $campo12 ?>">&nbsp;
+									<strong>
+										<label class="form-check-label" for="flexCheckDefault">
+											Deseja adicionar produto como Laboratório?
+										</label>
+									</strong>
 								</div>
 
 							</div>
@@ -247,7 +256,7 @@ require_once($pagina . "/campos.php");
 
 						<!--NOME-->
 						<div class="col-md-6 col-sm-12">
-							<span class="mx-4"><b><?php echo $campo2 ?>:</b> <span id="campo2"></span></span>
+							<span class=""><b><?php echo $campo2 ?>:</b> <span id="campo2"></span></span>
 						</div>
 
 						<hr class="mt-2">
@@ -278,20 +287,29 @@ require_once($pagina . "/campos.php");
 							<!-- FORNECEDORES-->
 							<span><b><?php echo $campo5 ?>: </b><span id="campo5"></span></span>
 						</div>
-
+						<hr class="mt-2">
 					</div>
-
-
-
-					<hr class="mt-2">
+					
 					<div align="center">
 						<strong>
 							<p>Imagem do produto:</p>
 						</strong>
 						<img src="" id="imagem_dados" alt="Sem foto" width="70%">
+						<hr class="mt-2">
 					</div>
-					<hr>
-					<span class="mx-3"><b><?php echo $campo3 ?>: </b><span id="campo3"></span></span>
+					
+					<div class="row">
+						<div class="col-12 col-sm-12">
+							<span class=""><b><?php echo $campo3 ?>: </b><span id="campo3"></span></span>
+						</div>
+						<hr class="mt-2">
+						<div class="col-12 col-sm-12">
+							<span class=""><b>Tipo do Produto:</b> <span id="campo12"></span></span>
+						</div>
+					</div>
+
+
+
 
 				</small>
 
@@ -318,14 +336,14 @@ require_once($pagina . "/campos.php");
 						<div class="col-md-6">
 							<div class="mb-3">
 								<label for="exampleFormControlInput1" class="form-label">Quantidade</label>
-								<input type="number" class="form-control" name="quantidade" id="quantidade" placeholder="Quantidade à comprar" required>
+								<input type="number" class="form-control" name="quantidade" id="quantidade" placeholder="Quantidade à comprar">
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="mb-3">
 								<label for="exampleFormControlInput1" class="form-label">Valor Compra</label>
-								<input type="text" class="form-control" name="<?php echo $campo5 ?>" id="<?php echo $campo5 ?>" placeholder="Valor da Compra" required>
+								<input type="text" class="form-control" name="<?php echo $campo5 ?>" id="<?php echo $campo5 ?>" placeholder="Valor da Compra">
 							</div>
 						</div>
 
@@ -368,7 +386,12 @@ require_once($pagina . "/campos.php");
 							Alterar o Valor do Produto conforme o Lucro?
 						</label>
 					</div>
-
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="true" id="contEstoque" name="contEstoque">
+						<label class="form-check-label" for="flexCheckDefault">
+							Deseja não contar no estoque ?
+						</label>
+					</div>
 
 					<small>
 						<div id="mensagem-comprar" align="center"></div>

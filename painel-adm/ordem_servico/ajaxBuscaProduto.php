@@ -13,7 +13,7 @@ if (!isset($_GET) || empty($_GET) || $_SERVER['REQUEST_METHOD'] != 'GET') {
     die();
 }
 $idProd = @$_GET['idProd'];
-$query = $pdo->prepare("SELECT * from produtos where ativo = 'Sim' and estoque > 0 and id = :idProd ");
+$query = $pdo->prepare("SELECT * from produtos where ativo = 'Sim' and estoque >= 0 and id = :idProd ");
 $query->bindValue(":idProd", $idProd);
 $query->execute();
 $res = $query->fetchAll(PDO::FETCH_ASSOC);

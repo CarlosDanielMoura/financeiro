@@ -13,8 +13,23 @@ $cp7 = @$_POST[$campo7];
 $cp11 = @$_POST[$campo11];
 
 $alterar = @$_POST['alterar'];
+$contEstoque = @$_POST['contEstoque'];
 
-$total_compra = $cp5 * $quantidade;//Valor da quantidade do produtos
+
+if($contEstoque == 'true' && $cp5 =='' && ($quantidade == '' || $quantidade == 0 )){
+    $quantidade == '';
+    $total_compra = 0;
+}
+
+if($cp5 > 0 || $cp5 != ''){
+    $total_compra = $cp5;
+}
+if($cp5!='' && !$contEstoque =='true'){
+    $total_compra = $cp5 * $quantidade;
+}
+
+
+//Valor da quantidade do produtos
 
 if($cp11 == ''){
     $cp11 = 0;
@@ -39,7 +54,10 @@ if ($cp11 != "" and $alterar == 'true') {
     $novo_vlr_venda = $valor_venda;
 }
 
-$total_estoque = $estoque + $quantidade;
+if(!$contEstoque =='true'){
+    $total_estoque = $estoque + $quantidade;
+}
+
 
 $query = $pdo->prepare("UPDATE  $pagina  SET estoque = :estoque , valor_compra = :valor_compra , 
 fornecedores = :fornecedores, valor_venda = :valor_venda, lucro = :lucro WHERE id = '$id'");
@@ -58,12 +76,17 @@ $nome_forn = $res_con[0]['nome'];
 
 //LANÇAR NAS CONTA A PAGAR
 
-$query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',
-plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
-valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
-status = 'Pendente', arquivo = 'sem-foto.jpg', quantidade = '$quantidade'");
+if(!$contEstoque == 'true'){
+    
+    $query = $pdo->prepare("INSERT INTO contas_pagar SET descricao = 'Fornecedor - $nome_forn',
+    plano_conta = 'Compra de Produtos - Empresa', data_emissao = curDate(), vencimento = curDate(), 
+    valor = :valor_compra, frequencia = 'Uma Vez', documento = 'Boleto', usuario_lanc = '$id_usuario',
+    status = 'Pendente', arquivo = 'sem-foto.jpg', quantidade = '$quantidade'");
+    
+    $query->bindValue(":valor_compra", "$total_compra");
+    $query->execute();
+}
 
-$query->bindValue(":valor_compra", "$total_compra");
-$query->execute();
+
 
 echo 'Comprado com Sucesso!';

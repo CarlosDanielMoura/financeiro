@@ -191,6 +191,20 @@ require_once($pagina . "/campos.php");
                         <span class="mx-4"><b>Acréscimo:</b> R$ <span id="campo8"></span></span>
                     </div>
                 </div>
+                <hr style="margin: 10px;">
+                <div class="row">
+                    <!--Lançamento-->
+                    <div class="col-md-4">
+                        <span class="mx-5"><b>Entrada do cliente:</b> <span id="campo14"></span></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!--Pagamento-->
+                        <span class="mx-4"><b>Tipo de entrada:</b> <span id="campo13"></span>
+                    </div>
+
+
+                </div>
             </div>
 
         </div>

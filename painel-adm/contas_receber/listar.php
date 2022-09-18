@@ -325,7 +325,6 @@ function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp1
 
 
 function mostrarResiduos(id){
-
 	 $.ajax({
         url: pag + "/listar-residuos.php",
         method: 'POST',
@@ -348,13 +347,9 @@ function mostrarResiduos(id){
 function baixar(id, descricao, valor, saida, dias){
 	
     $('#id-baixar').val(id);
-
-    
-
     $('#descricao-baixar').text(descricao);
     $('#valor-baixar').val(valor);
     $('#saida-baixar').val(saida);
-
     $('#valor-desconto').val('0');
     
 

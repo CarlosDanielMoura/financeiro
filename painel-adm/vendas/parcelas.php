@@ -10,41 +10,48 @@ $valor = $_POST['valor'];
 //$valor = str_replace(',', '.', $valor);
 $data = $_POST['data'];
 $parcelas = $_POST['parcelas'];
+$forma_pagamento = $_POST['tipoPagamento'];
+
 
 if($data == ''){
 	$data = date('Y-m-d');
 }
 
-
-
-if($parcelas > 1){
-	$novo_valor = $valor / $parcelas;
-
-	for($i=1; $i <= $parcelas; $i++){
-
-		$resto_conta = $valor - $novo_valor * $parcelas;
-		if($i == $parcelas){
-			$novo_valor = $novo_valor + $resto_conta;
+if($forma_pagamento == 'Carnê'){
+	if($parcelas > 1){
+		$novo_valor = $valor / $parcelas;
+	
+		for($i=1; $i <= $parcelas; $i++){
+	
+			$resto_conta = $valor - $novo_valor * $parcelas;
+			if($i == $parcelas){
+				$novo_valor = $novo_valor + $resto_conta;
+			}
+			
+			$query = $pdo->prepare("INSERT INTO contas_receber set 
+			descricao = :descricao, data_emissao = curDate(), vencimento = :data, 
+			frequencia = 'Uma Vez',  valor = :valor, usuario_lanc = '$id_usuario', 
+			status = 'Pendente', id_venda = '-1', arquivo = 'sem-foto.jpg'");
+	
+			$query->bindValue(":valor", "$novo_valor");
+			$query->bindValue(":descricao", "Parcela ".$i);
+			$query->bindValue(":data", "$data");
+			$query->execute();
+	
+			$data = date('Y/m/d', strtotime("+1 month",strtotime($data)));
 		}
+	}else{
 		
-		$query = $pdo->prepare("INSERT INTO contas_receber set 
-		descricao = :descricao, data_emissao = curDate(), vencimento = :data, 
-		frequencia = 'Uma Vez',  valor = :valor, usuario_lanc = '$id_usuario', 
-		status = 'Pendente', id_venda = '-1', arquivo = 'sem-foto.jpg'");
-
-		$query->bindValue(":valor", "$novo_valor");
-		$query->bindValue(":descricao", "Parcela ".$i);
-		$query->bindValue(":data", "$data");
-		$query->execute();
-
-		$data = date('Y/m/d', strtotime("+1 month",strtotime($data)));
 	}
+
+	echo 'Inserido com Sucesso!';
+	
 }
 
 
 
 
 
-echo 'Inserido com Sucesso!';
+
 
 ?>

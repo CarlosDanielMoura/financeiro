@@ -26,7 +26,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
             <div class="row d-flex justify-content-center">
                 <div class="col-md-4 col-sm-12">
                     <div class='order py-2'>
-                        <p class="background">LISTA DE ITENS : CLIENTE <span id="nome-cliente-label"></span></p>
+                        <p class="background">LISTA DE ITENS : <span id="nome-cliente-label"></span></p>
                         <span id="listar-itens">
                         </span>
                     </div>
@@ -37,7 +37,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         <div class="col-md-5 col-sm-12">
                             <div class="mb-3">
                                 <select class="form-select sel2" aria-label="Default select example" name="id-cliente" id="id-cliente" style="width:100%;" onchange="selecionarCliente()">
-                                    <option value="">Venda Rápida</option>
+
                                     <?php
                                     $query = $pdo->query("SELECT * FROM clientes where ativo = 'Sim' order by nome asc");
                                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -73,16 +73,6 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
 <!-- MODAL FECHAMENTO DE VENDA -->
 <div class="modal fade" id="modalVenda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -111,22 +101,44 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                             <input type="text" class="form-control" name="desc_porcen" id="desc_porcen" placeholder="Desconto em %" readonly>
                         </div>
 
+
                     </div>
 
-                    <div class="row d-flex justify-content-evenly">
+                    <div class="row d-flex justify-content-evenly mt-3">
                         <div class="col-md-3">
                             <label for="exampleFormControlInput1" class="form-label">SubTotal:</label>
                             <input type="text" class="form-control" name="subtotal" id="subtotal" placeholder="SubTotal" readonly>
                         </div>
 
                         <div class="col-md-3">
-                            <label for="exampleFormControlInput1" class="form-label">Parcelas:</label>
+                        <label for="exampleFormControlInput1" class="form-label " id="paymentLabelNormal">Parcelas:</label>
                             <input type="number" class="form-control" onkeyup="criarParcelas()" onchange="criarParcelas()" name="parcelas" id="parcelas" value="1">
+                            <label for="exampleFormControlInput1" class="form-label d-none" id="paymentLabel">Parcelas Cartão:</label>
+                            <input type="number" class="form-control  d-none"  name="paymentCart" id="paymentCart" value="1">
                         </div>
 
                         <div class="col-md-3">
                             <label for="exampleFormControlInput1" class="form-label">Entrada Cliente:</label>
                             <input type="text" onkeyup="totalizarVenda()" class="form-control" name="recebido" id="recebido" placeholder="Entrada Cliente">
+                        </div>
+
+                        <div class="col-md-3 d-none entryType">
+                            <label for="exampleFormControlInput1" class="form-label">Tipo de Entrada:</label>
+                            <select class="form-select" aria-label="Default select example" name="tipo_entrada" id="tipo_entrada" placeholder="Tipo de entrada cliente">
+                                <option value="Sem Entrada" selected></option>
+                                <?php
+                                $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
+                                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                                for ($i = 0; $i < @count($res); $i++) {
+                                    foreach ($res[$i] as $key => $value) {
+                                    }
+                                    $id_item = $res[$i]['id'];
+                                    $nome_item = $res[$i]['nome'];
+                                ?>
+                                    <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
+
+                                <?php } ?>
+                            </select>
                         </div>
                     </div>
 
@@ -146,7 +158,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         <div class="col-md-4 col-sm-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tipo Entrada:</label>
-                                <select class="form-select" aria-label="Default select example" name="lancamento" id="lancamento">
+                                <select class="form-select" aria-label="Default select example" name="lancamento" id="lancamento" > 
                                     <option value="Caixa">Caixa (Movimento)</option>
                                     <option value="Cartão de Débito">Cartão de Débito</option>
                                     <option value="Cartão de Crédito">Cartão de Crédito</option>
@@ -172,8 +184,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                         <div class="col-md-4 col-sm-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Pagamento:</label>
-                                <select class="form-select" aria-label="Default select example" name="pagamento" id="pagamento">
-                                <?php
+                                <select class="form-select" aria-label="Default select example" name="pagamento" id="pagamento" onclick="changeTypeParc(this);">
+                                    <?php
                                     $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
                                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
                                     for ($i = 0; $i < @count($res); $i++) {
@@ -236,15 +248,38 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
     });
 
+    function changeTypeParc(self){
+        let typePayment = self.value;
+        if(typePayment == 'Cartão de Crédito'){
+            //Removendo o Input de criar Parcelas // 
+            $('#paymentLabelNormal').addClass('d-none');
+            $('#parcelas').addClass('d-none');
+
+            //Colocando Input de parcelas Cartão
+            $('#paymentLabel').addClass('active');
+            $('#paymentCart').addClass('active');
+            $('#paymentLabel').removeClass('d-none');
+            $('#paymentCart').removeClass('d-none');
+            $('#listar-parc').empty();
+        }else{
+            //Colocando o Input de criar Parcelas // 
+            $('#paymentLabelNormal').removeClass('d-none');
+            $('#parcelas').removeClass('d-none');
+
+            //Colocando Input criar parcelas //
+            $('#paymentLabel').addClass('d-none');
+            $('#paymentCart').addClass('d-none');
+
+        }
+    }
+
     //Selecionar o cliente para jogar o ID no input para verificar
     function selecionarCliente() {
         $('#id-cli').val($('#id-cliente').val());
-
     }
 
 
     function listarProdutos() {
-
         var pag = "<?= $pagina ?>";
         $.ajax({
             url: pag + "/listar-produtos.php",
@@ -273,7 +308,6 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     }
 
     function excluirItem(id) {
-
         event.preventDefault();
         $.ajax({
             url: "vendas/excluir-item.php",
@@ -296,7 +330,6 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     $('#mensagem-itens').text(mensagem)
                 }
             },
-
         });
     }
 
@@ -304,25 +337,19 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function ModalFecharVenda() {
         $('#mensagem-fec').text('');
         $('#mensagem-fec').removeClass();
-
-        listarParcelas();
         var myModal = new bootstrap.Modal(document.getElementById('modalVenda'), {});
         myModal.show();
 
     }
 
-
-
-
-
     //FUNÇÃO DE CRIAR PARCELAS
     function criarParcelas() {
-
         valor = $('#subtotal').val();
         porcen = $('#desc_porcen').val();
         parcelas = $('#parcelas').val();
         entrada = $('#recebido').val();
         data = $('#data').val();
+        tipoPagamento = $('#pagamento').val();
 
         $.ajax({
             url: pag + "/parcelas.php",
@@ -332,7 +359,8 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                 parcelas,
                 data,
                 porcen,
-                entrada
+                entrada,
+                tipoPagamento
             },
             dataType: "text",
 
@@ -364,7 +392,6 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
 
                 }
             },
-
         });
     }
 
@@ -377,10 +404,9 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     function limparCampos() {
         listarItens();
         $('#id-cliente').val('').change();
-        $('#nome-cliente-label').text('Venda Rápida');
+        $('#nome-cliente-label').text('');
         $('#mensagem').text('');
     }
-
 
     function listarParcelas() {
         $('#mensagem-prod').text('');
@@ -401,7 +427,6 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     $("#form-venda").submit(function() {
         event.preventDefault();
         var formData = new FormData(this);
-
         $.ajax({
             url: pag + "/inserir.php",
             type: 'POST',
@@ -421,13 +446,10 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                     $('#mensagem-prod').text(mensagem)
                 }
             },
-
             cache: false,
             contentType: false,
             processData: false,
-
         });
-
     });
 
 

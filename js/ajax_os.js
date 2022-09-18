@@ -28,8 +28,6 @@ $('#view_clientes').empty();
                 }
             
                 value.valor_total = Number.parseFloat(value.valor_total);
-                
-
 
                 let html = `  <div class="cards-clientes orange"  id="abertos" >
                                 <div class="row-1">
@@ -66,7 +64,7 @@ $('#view_clientes').empty();
                                         <div   class=" ${parcelas == 0 ? "d-none" : ""}" title="Total de parcelas"><i class="bi bi-hourglass-split"></i></i> ${parcelas}</div>
                                     </div>
                                     <div class="col-3">
-                                       
+                                        <div title="Tipo de Pagamento"><i class="bi bi-wallet2"></i> ${objAtt.produtos.tipo_pagamento}</div>
                                     </div>
                                     
                                 </div>
@@ -79,11 +77,11 @@ $('#view_clientes').empty();
                                     </div>
                                     <!-- Data de Entrega -->
                                     <div class="col-3">
-                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega} - ${objAtt.dadosPrincipal.hora_entrega} </div>
+                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega}</div>
                                     </div>
                                     
                                     <div class="col-3" style="display: flex; gap: 49px">
-                                       
+                                        
                                     </div>
                                     
                                 </div>
@@ -161,11 +159,11 @@ function listarConfirmadas() {
                     parcelas = 0;
                 }
 
-value.valor_total = Number.parseFloat(value.valor_total);
+                value.valor_total = Number.parseFloat(value.valor_total);
 
                 // console.log(objAtt.dadosPrincipal);
 
-                let html = `  <div class="cards-clientes orange"  id="abertos" >
+                let html = `  <div class="cards-clientes orange" >
                                 <div class="row-1">
                                     <!--Nome-->
                                     <div  class="col-3">
@@ -200,7 +198,7 @@ value.valor_total = Number.parseFloat(value.valor_total);
                                         <div   class=" ${parcelas == 0 ? "d-none" : ""}" title="Total de parcelas"><i class="bi bi-hourglass-split"></i></i> ${parcelas}</div>
                                     </div>
                                     <div class="col-3">
-                                       
+                                        <div title="Tipo de Pagamento"><i class="bi bi-wallet2"></i> ${objAtt.produtos.tipo_pagamento}</div>
                                     </div>
                                     
                                 </div>
@@ -213,7 +211,7 @@ value.valor_total = Number.parseFloat(value.valor_total);
                                     </div>
                                     <!-- Data de Entrega -->
                                     <div class="col-3">
-                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega} - ${objAtt.dadosPrincipal.hora_entrega} </div>
+                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega}</div>
                                     </div>
                                     
                                     <div class="col-3" style="display: flex; gap: 49px">
@@ -334,7 +332,7 @@ value.valor_total = Number.parseFloat(value.valor_total);
                                         <div   class=" ${parcelas == 0 ? "d-none" : ""}" title="Total de parcelas"><i class="bi bi-hourglass-split"></i></i> ${parcelas}</div>
                                     </div>
                                     <div class="col-3">
-                                       
+                                     <div title="Tipo de Pagamento"><i class="bi bi-wallet2"></i> ${objAtt.produtos.tipo_pagamento}</div>
                                     </div>
                                     
                                 </div>
@@ -347,7 +345,7 @@ value.valor_total = Number.parseFloat(value.valor_total);
                                     </div>
                                     <!-- Data de Entrega -->
                                     <div class="col-3">
-                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega} - ${objAtt.dadosPrincipal.hora_entrega} </div>
+                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega}</div>
                                     </div>
                                     
                                     <div class="col-3" style="display: flex; gap: 49px">
@@ -470,7 +468,7 @@ function listarCanceladas(event) {
                                         <div   class=" ${parcelas == 0 ? "d-none" : ""}" title="Total de parcelas"><i class="bi bi-hourglass-split"></i></i> ${parcelas}</div>
                                     </div>
                                     <div class="col-3">
-                                       
+                                        <div title="Tipo de Pagamento"><i class="bi bi-wallet2"></i> ${objAtt.produtos.tipo_pagamento}</div>
                                     </div>
                                     
                                 </div>
@@ -483,7 +481,7 @@ function listarCanceladas(event) {
                                     </div>
                                     <!-- Data de Entrega -->
                                     <div class="col-3">
-                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega} - ${objAtt.dadosPrincipal.hora_entrega} </div>
+                                        <div title="Previsão de entrega"> <i class="fa fa-clock-o"></i> ${dataEntrega}</div>
                                     </div>
                                     
                                     <div class="col-3" style="display: flex; gap: 49px">
@@ -609,33 +607,6 @@ $("#form-excluir-ordem").submit(function (event) {
             $("#mensagem-excluir").text("");
             $("#mensagem-excluir").removeClass();
             if (mensagem.trim() == "Excluído com Sucesso!") {
-                $("#btn-fechar-excluir").click();
-                listarClientes();
-
-            } else {
-                $("#mensagem-excluir").addClass("text-danger");
-                $("#mensagem-excluir").text(mensagem);
-            }
-        },
-
-        cache: false,
-        contentType: false,
-        processData: false,
-    });
-});
-
-$("#form-confirmar-os").submit(function (event) {
-
-    var formData = new FormData(this);
-    $.ajax({
-        url: "listar_os/confirmaOs.php",
-        type: "POST",
-        data: formData,
-
-        success: function (mensagem) {
-            $("#mensagem-excluir").text("");
-            $("#mensagem-excluir").removeClass();
-            if (mensagem.trim() == "Confirmado com Sucesso!") {
                 $("#btn-fechar-excluir").click();
                 listarClientes();
 
