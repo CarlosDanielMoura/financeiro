@@ -18,8 +18,7 @@ $type_entry_client = $_POST['type_entry_client'];
 
 $qtd_parcelasCart = $_POST['payment_cart_os'];
 
-
-
+$desconto_viaOs = $_POST['desconto_cliente'];
 
 
 
@@ -48,7 +47,6 @@ if ($forma_pagamento == 'Cartão de Debito' && $entry_pagment != 'Cartão de Dé
 if ($forma_pagamento  == 'Cartão de Crédito' or $forma_pagamento == 'Cartão de Debito') {
     $status = 'Concluída';
     $parcelaFinal = $qtd_parcelasCart;
-  
 } else {
     $parcelaFinal = $parcelas;
     $status = 'Pendente';
@@ -67,7 +65,7 @@ if ($client_entry_valor == '') {
     $client_entry_valor = 0;
 }
 
-if($parcelas == ''){
+if ($parcelas == '') {
     $parcelaFinal = 1;
 }
 
@@ -115,6 +113,7 @@ if ($total_reg > 0) {
 }
 
 
+
 $query = $pdo->prepare("INSERT INTO vendas set valor = '$total_venda', usuario = '$id_usuario',
 pagamento = :pagamento, lancamento = :lancamento, data_lanc = '$DateAndTime', data_pgto = :data,
 desconto = :desconto, subtotal = :subtotal, parcelas = :parcelas, 
@@ -125,7 +124,7 @@ status = '$status', cliente = :cliente, recebido = '$client_entry_valor',tipoEnt
 $query->bindValue(":pagamento", "$forma_pagamento");
 $query->bindValue(":lancamento", "$entry_pagment");
 $query->bindValue(":data", "$data_pag");
-$query->bindValue(":desconto", "$desconto_os");
+$query->bindValue(":desconto", "$desconto_viaOs");
 $query->bindValue(":subtotal", "$valor_final_venda");
 $query->bindValue(":parcelas", "$parcelaFinal");
 $query->bindValue(":cliente", "$id_clienteOs");
@@ -133,6 +132,23 @@ $query->bindValue(":tipoEntrada", "$type_entry_client");
 $query->execute();
 $id_ult_registro = $pdo->lastInsertId();
 
+
+$description_os = 'Entrada via Os ' . $nome_cli;
+
+$query2 = $pdo->query("SELECT * FROM caixa WHERE status = 'Aberto'");
+$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+if (@count($res2) > 0) {
+    $caixa_aberto = $res2[0]['id'];
+} else {
+    $caixa_aberto = 0;
+}
+
+if (($client_entry_valor > 0 && $type_entry_client != 'Sem Entrada')) {
+    $pdo->query("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Venda', 
+    descricao = '$description_os', valor = '$client_entry_valor ', usuario = '$id_usuario', data = '$DateAndTime',
+    lancamento = 'Caixa', plano_conta = 'Venda', documento = '$type_entry_client', 
+    caixa_periodo = '$caixa_aberto', id_mov = '$id_ult_registro'");
+}
 
 $description_account = 'Venda Via OS - ' . $nome_cli;
 

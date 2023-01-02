@@ -265,7 +265,29 @@ $pagina = 'ordem_servico';
                             <td style="width: 8%;">Ações</td>
                             <td class="d-none">id</td>
                         </tr>
+                        <?php
+                        require_once("../conexao.php");
+                        foreach ($json->produtos->produtos_selecionados as $key => $prod) {
+                            $query = $pdo->prepare("SELECT * from produtos where ativo = 'Sim' and id = :idProd ");
+                            $query->bindValue(":idProd", $prod->id);
+                            $query->execute();
+                            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                            $produto = $res[0];
 
+                        ?>
+                            <tr clas="prods">
+                                <td class="b-clara"><?php echo $produto["codigo"] ?> - <?php echo $produto["nome"] ?></td>
+                                <td><input placeholder="1" min="1" max="<?php echo $produto["estoque"] ?>" class="form-control" type="number" onkeyup="calcTotalProdInd(this)" onchange="calcTotalProdInd(this)"></td>
+                                <td><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
+                                <td>0.00</td>
+                                <td><input onkeyup="calcTotalProdInd2(this)" onchange="calcTotalProdInd2(this)" class="form-control" type="text" value="<?php echo str_replace(',', '.', $produto["valor_venda"]) ?>"></td>
+                                <td class="valor_venda"><?php echo str_replace(',', '.', $produto["valor_venda"]) ?></td>
+                                <td><a class="" onclick="removeLinhaTabelaProd(this)"><i class="bi bi-trash text-danger"></i></a></td>
+                                <td class="d-none"><?php echo $produto["id"] ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </table>
                 </div>
             </div>
@@ -640,10 +662,7 @@ $pagina = 'ordem_servico';
 
                                 // Valor adição
                                 let adicao = document.getElementById("in-add").value;
-                                valor_adicao = Number.parseFloat(adicao)
-
-
-
+                                valor_adicao = parseFloat(adicao)
 
                                 if (adicao != '') {
                                     //Valor dos campos esfericos
@@ -715,9 +734,9 @@ $pagina = 'ordem_servico';
 
                                     if (cilindrico_oe_longe != '' || cilindrico_oe_longe > 0) {
                                         if (cilindrico_oe_longe > 0) {
-                                            cilindrinco_oe_perto.value = '+' + valor_final_oe_longe;
+                                            cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace('.', ',');
                                         } else {
-                                            cilindrinco_oe_perto.value = valor_final_oe_longe;
+                                            cilindrinco_oe_perto.value = valor_final_oe_longe.toFixed(2).replace('.', ',');
                                         }
                                     }
 
@@ -763,7 +782,7 @@ $pagina = 'ordem_servico';
                             }
                             $("#in-add").inputmask({
                                 substitutes: {
-                                    ".": ","
+                                    ",": "."
                                 }
                             });
 
@@ -777,6 +796,7 @@ $pagina = 'ordem_servico';
                                 }
 
                                 self.value = valor_novo;
+                                console.log(valor_novo)
                             }
 
                             function trataNumeroEntrada(self) {

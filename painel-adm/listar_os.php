@@ -379,6 +379,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                                         <input type="number" class="form-control  d-none" style="width:80px;text-align: center;"   name="payment_cart_os" id="payment_cart_os" value="1">
                                     </div>
                                     <hr>
+                                    
                                     <div class="col-md-4">
                                     <label for="exampleFormControlInput1" class="form-label">Data (<a title="Lançar Venda para 30 Dias" href="#" onclick="mudarData('<?php echo $data30 ?>')" class="text-dark">30 Dias</a> /
                                         <a title="Lançar Venda para 60 Dias" href="#" onclick="mudarData('<?php echo $data60 ?>')" class="text-dark">60 Dias</a> /
@@ -388,8 +389,9 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Entrada Cliente: </label>
-                                        <input  class="form-control"  onchange="calcValorEntry(this)" style="width:150px;text-align: center;" type="text" id="entrada_payment" name="entrada_payment" >
+                                        <input  class="form-control"  onchange="calcValorEntry()" style="width:150px;text-align: center;" type="text" id="entrada_payment" name="entrada_payment" >
                                     </div>
+
                                     <div class="col-md-4">
                                         <label class="form-label">Tipo Entrada: </label>
                                         <select style="width:200px;text-align:center;" class="form-select" aria-label="Default select example" name="type_entry_client" id="type_entry_client">
@@ -404,12 +406,15 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                                                 $nome_item = $res[$i]['nome'];
                                             ?>
                                                 <option value="<?php echo $nome_item ?>"><?php echo $nome_item ?></option>
-
                                             <?php } ?>
                                         </select>
                                     </div>
                                 </div>
 
+                                <div class="col-md-2">
+                                        <label class="form-label">Desconto Cliente: </label>
+                                        <input  class="form-control" onchange="calcValorEntry()" style="width:130px;text-align: center;" type="text" id="desconto_cliente" name="desconto_cliente" >
+                                    </div>
 
                                 <hr>
                                 <div class="row">
@@ -643,20 +648,45 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
     }
 
 
-    function calcValorEntry(self) {
-        let vlr_entrada = self.value.replace(',', '.'); // Pegando o valor da entrada do cliente           
+    function calcValorEntry() {
+        let vlr_entrada = document.getElementById('entrada_payment').value.replace(',', '.'); // Pegando o valor da entrada do cliente           
         let valor_Final = 0;
-        let vlr_total_cliente = document.getElementById('valor_payment_liquido');
+        let vlr_total_cliente = document.getElementById('valor_payment');
+        let vlr_desconto = document.getElementById('desconto_cliente').value.replace(',', '.')
+        let campo_total = document.getElementById('valor_payment');
 
+        vlr_total_cliente = document.getElementById('valor_payment_liquido');
         if (vlr_entrada >= 0 && vlr_entrada < vlr_total_cliente) {
             valor_Final = vlr_total_cliente.value - vlr_entrada;
         }
+        if (vlr_desconto >= 0 && vlr_desconto < vlr_total_cliente) {
+            valor_Final = valor_Final - vlr_desconto;
+        }
+        if(vlr_entrada == ''){
+            campo_total.value = vlr_total_cliente.value;
+        }
 
-        let campo_total = document.getElementById('valor_payment');
+        if(vlr_desconto == ''){
+            campo_total.value = vlr_total_cliente.value;
+            vlr_total_cliente.value = vlr_total_cliente.value;
+        }
+        
         campo_total.value = valor_Final.toFixed(2);
-
-
     }
+
+    // function calcValorDesconto(self){
+    //     let vlr_desconto = self.value.replace(',', '.'); // Pegando o valor da entrada do cliente
+    //     let valor_final = 0
+    //     let vlr_total_cliente = document.getElementById('valor_payment_liquido');
+    //     if (vlr_desconto >= 0 && vlr_desconto < vlr_total_cliente) {
+    //         valor_Final = vlr_total_cliente.value - vlr_desconto;
+
+    //     }
+    //     let campo_total = document.getElementById('valor_payment');
+    //     campo_total.value = valor_Final.toFixed(2);
+
+        
+    // }
 
 
     function verificarFormaPagamento(self) {

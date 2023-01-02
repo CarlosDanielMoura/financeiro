@@ -1,11 +1,12 @@
-<?php
+<?php  
+require_once("../../conexao.php");
+require_once("../verificar.php");
+
 header('Content-Type: application/json; charset=utf-8');
 require_once("../../conexao.php");
 require_once("../verificar.php");
 @session_start();
 $id_usuario = $_SESSION['id_usuario'];
-
-
 
 $json = file_get_contents('php://input');
 
@@ -31,7 +32,7 @@ $entrada_cliente = $data->produtos->valor_entrada_cliente;
 $id = $data->dadosPrincipal->cli_dados_princ;
 $id_func = $data->dadosPrincipal->func_dados_princ;
 $tipo_pagamento = $data->produtos->tipo_pagamento;
-
+$id_os = $data->dadosPrincipal->id_ordem_servico;
 
 
 if (!is_numeric($valor_total)) {
@@ -69,8 +70,8 @@ if (@count($res1) > 0) {
 
 
 //Inserindo no Banco 
-$query = $pdo->prepare("INSERT INTO ordem_servico set obj = :obj, data_criacao = curDate(), 
-valor_total = :valor_total, entrada_cliente = :entrada_cliente, nome_cliente = :nome_cliente, status = 'Aberto', nome_func = :nome_func");
+$query = $pdo->prepare("UPDATE  ordem_servico set obj = :obj, data_criacao = curDate(), 
+valor_total = :valor_total, entrada_cliente = :entrada_cliente, nome_cliente = :nome_cliente, status = 'Aberto', nome_func = :nome_func WHERE id = '$id_os'");
 $query->bindValue(":obj", "$obj");
 $query->bindValue(":valor_total", "$valor_total");
 $query->bindValue(":entrada_cliente", "$entrada_cliente");
@@ -129,3 +130,4 @@ if ($query->execute()) {
         "info" => $query->errorInfo()
     ]), 0);
 }
+?>

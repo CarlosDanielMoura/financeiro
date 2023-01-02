@@ -130,6 +130,8 @@ if (@count($res2) > 0) {
 
 
 
+
+
 $query = $pdo->prepare("INSERT INTO vendas set valor = '$total_venda', usuario = '$id_usuario',
 pagamento = :pagamento, lancamento = :lancamento, data_lanc = '$DateAndTime', data_pgto = :data,
 desconto = :desconto, acrescimo = :acrescimo, subtotal = :subtotal, parcelas = :parcelas, 
@@ -149,6 +151,17 @@ $query->bindValue(":cliente", "$cliente");
 $query->bindValue(":tipoEntrada", "$tipoEntrada");
 $query->execute();
 $id_ult_registro = $pdo->lastInsertId();
+
+
+$descricao_entrada = 'Entrada '.$nome_cli; 
+
+if($entrada > 0 && $tipoEntrada != ' '){
+    $pdo->query("INSERT INTO movimentacoes set tipo = 'Entrada', movimento = 'Venda', 
+    descricao = '$descricao_entrada', valor = '$entrada ', usuario = '$id_usuario', data = '$DateAndTime',
+    lancamento = 'Caixa', plano_conta = 'Venda', documento = '$tipoEntrada', 
+    caixa_periodo = '$caixa_aberto', id_mov = '$id_ult_registro'");   
+}
+
 
 $descricao_conta = 'Venda - ' . $nome_cli;
 if ($status == 'Concluída') {

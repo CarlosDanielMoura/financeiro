@@ -135,6 +135,7 @@ function mostrarDados(id, cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9, cp10, cp1
 	$('#campo13').text(cp13);
 	$('#campo14').text(cp14);
 	$('#subtot').text(cp9);
+	$('#valor_subTotal').text(cp9)
 	$('#id').text(id);
 	
 	var myModal = new bootstrap.Modal(document.getElementById('modalDados'), {		});

@@ -166,12 +166,10 @@ require_once($pagina . "/campos.php");
 
                     <div class="col-md-4">
                         <!--Parcelas-->
-                        <span class="mx-4"><b>Parcelas:</b> <span id="campo10"></span></span>
+                        <span class="mx-4"><b>Valor:</b> <span id="valor_subTotal"></span></span>
                     </div>
 
                 </div>
-
-
 
                 <hr style="margin:10px;">
                 <!--LINHA 8-->
@@ -202,7 +200,10 @@ require_once($pagina . "/campos.php");
                         <!--Pagamento-->
                         <span class="mx-4"><b>Tipo de entrada:</b> <span id="campo13"></span>
                     </div>
-
+                    <div class="col-md-4">
+                        <!--Parcelas-->
+                        <span class="mx-4"><b>Parcelas:</b> <span id="campo10"></span></span>
+                    </div>
 
                 </div>
             </div>

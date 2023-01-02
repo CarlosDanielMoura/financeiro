@@ -105,7 +105,7 @@ if(@count($res)>0){
 		$cp8 = $res[$i]['plano_conta'];
 		$cp9 = $res[$i]['documento'];
 
-
+		
 
 		$total_saldo_periodo = 0;
 		$total_saldo_periodoF = 0;
