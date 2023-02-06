@@ -670,17 +670,17 @@ $pagina = 'ordem_servico';
                                     // Jogando os valores no campo
                                     let valor_final_perto_od = (valor_esf_od + valor_adicao);
                                     if (valor_final_perto_od > 0) {
-                                        esferico_perto_od.value = '+' + valor_final_perto_od.toFixed(2).replace('.', ',');
+                                        esferico_perto_od.value = '+' + valor_final_perto_od.toFixed(2).replace(',', '.');;
 
                                     } else {
-                                        esferico_perto_od.value = valor_final_perto_od.toFixed(2).replace('.', ',');
+                                        esferico_perto_od.value = valor_final_perto_od.toFixed(2).replace(',', '.');;
                                     }
 
                                     let valor_final_perto_oe = (valor_esf_oe + valor_adicao);
                                     if (valor_final_perto_oe > 0) {
-                                        esferico_perto_oe.value = '+' + valor_final_perto_oe.toFixed(2).replace('.', ',');
+                                        esferico_perto_oe.value = '+' + valor_final_perto_oe.toFixed(2).replace(',', '.');;
                                     } else {
-                                        esferico_perto_oe.value = valor_final_perto_oe.toFixed(2).replace('.', ',');
+                                        esferico_perto_oe.value = valor_final_perto_oe.toFixed(2).replace(',', '.');;
                                     }
                                     // Pegandos os campos Cilindrico 
                                     let cilindrico_od_longe = document.getElementById("valor-cilindrico-od-longe").value;
@@ -697,9 +697,9 @@ $pagina = 'ordem_servico';
 
                                     if (cilindrico_od_longe != '' || cilindrico_od_longe > 0) {
                                         if (cilindrico_od_longe > 0) {
-                                            cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace('.', ',')
+                                            cilindrico_od_perto.value = '+' + valor_final_od_longe.toFixed(2).replace(',', '.');
                                         } else {
-                                            cilindrico_od_perto.value = valor_final_od_longe.toFixed(2).replace('.', ',')
+                                            cilindrico_od_perto.value = valor_final_od_longe.toFixed(2).replace(',', '.');
                                         }
 
 
@@ -712,9 +712,9 @@ $pagina = 'ordem_servico';
 
                                     if (cilindrico_oe_longe != '' || cilindrico_oe_longe > 0) {
                                         if (cilindrico_oe_longe > 0) {
-                                            cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace('.', ',');
+                                            cilindrinco_oe_perto.value = '+' + valor_final_oe_longe.toFixed(2).replace(',', '.');
                                         } else {
-                                            cilindrinco_oe_perto.value = valor_final_oe_longe.toFixed(2).replace('.', ',');
+                                            cilindrinco_oe_perto.value = valor_final_oe_longe.toFixed(2).replace(',', '.');
                                         }
                                     }
 
@@ -764,6 +764,7 @@ $pagina = 'ordem_servico';
                                 }
                             });
 
+                            
 
                             function trataNumero(self) {
                                 let valor_novo = self.value.replace(',', '.')

@@ -166,7 +166,7 @@ require_once($pagina . "/campos.php");
 
                     <div class="col-md-4">
                         <!--Parcelas-->
-                        <span class="mx-4"><b>Valor:</b> <span id="valor_subTotal"></span></span>
+                        <span class="mx-4"><b>SubTotal Cliente:</b> <span id="valor_subTotal"></span></span>
                     </div>
 
                 </div>
@@ -176,7 +176,7 @@ require_once($pagina . "/campos.php");
                 <div class="row">
                     <div class="col-md-4">
                         <!--Valor-->
-                        <span class="mx-5"><b>Valor:</b> R$ <span id="campo1"></span></span>
+                        <span class="mx-5"><b>Valor Total:</b> R$ <span id="campo1"></span></span>
                     </div>
 
                     <div class="col-md-4">

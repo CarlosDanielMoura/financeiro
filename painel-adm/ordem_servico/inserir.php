@@ -8,7 +8,6 @@ $id_usuario = $_SESSION['id_usuario'];
 $json = file_get_contents('php://input');
 
 $data = json_decode($json);
-print_r($data)
 
 
 //Verificações

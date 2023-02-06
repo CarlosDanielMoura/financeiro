@@ -331,7 +331,7 @@ $data90 = date('Y-m-d', strtotime("+3 month", strtotime($data_atual)));
                                         <select style="text-align:center;" class="form-select" aria-label="Default select example" name="form_payment" id="form_payment" placeholder="Forma de Pagamento" onclick="changeTypeParc(this)" onchange="verificarFormaPagamento(this);">
                                         
                                            <?php
-                                            $query = $pdo->query("SELECT * FROM formas_pgtos order by nome asc");
+                                            $query = $pdo->query("SELECT * FROM formas_pgtos");
                                             $res = $query->fetchAll(PDO::FETCH_ASSOC);
                                             for ($i = 0; $i < @count($res); $i++) {
                                                 foreach ($res[$i] as $key => $value) {
