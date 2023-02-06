@@ -1,0 +1,41 @@
+.format {
+  justify-content: center;
+}
+
+#nome-cliente-rec {
+  width: 100%;
+  text-align: center;
+}
+
+.tamOrigId {
+  width: 100%;
+  text-align: center;
+}
+
+.addtamIdModi {
+  width: 52px;
+}
+
+a{
+  text-decoration: none;
+}
+
+/*CARDS DA HOME*/
+
+.card-tam-edit{
+  height: 125px;
+  justify-content: center;
+  display: flex;
+}
+
+.container-fluid{
+  max-width: 1400px;
+}
+
+.link-rapido{
+  color:black;
+}
+
+.link-rapido:hover{
+  color: red;
+}

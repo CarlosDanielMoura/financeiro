@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo&display=swap');
+
+body{
+  font-family: 'Arvo', serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+input{
+    margin-bottom: 15px;
+}
+
+.nav-bar-background{
+    background-color: #0d214f;
+    box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
+    -webkit-box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
+    -moz-box-shadow: 2px 8px 15px -1px rgba(0,0,0,0.93);
+    margin-bottom: 20px;
+}
+.nav-link-a > .nav-item >  .nav-link{
+    text-decoration: none;
+    color: white;
+    font-family: 'Coustard', serif;
+    font-size: 15px;
+}
+
+.nav-link-a > .nav-item >  .nav-link:hover{
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    border:1px solid white;
+}
+
+
+.card-tam-edit:hover{
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, 
+     rgba(0, 0, 0, 0.09) 0px 4px 2px,
+     rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 
+     rgba(0, 0, 0, 0.09) 0px 32px 16px;
+     
+     border-left: 3px solid #0d214f;
+}
+
+
+.card-tam-ret:hover{
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, 
+     rgba(0, 0, 0, 0.09) 0px 4px 2px,
+     rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 
+     rgba(0, 0, 0, 0.09) 0px 32px 16px;
+     
+     border-left: 3px solid #0d214f;
+}
+
+
+
+#divImg{
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+
+
+
